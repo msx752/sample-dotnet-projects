@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netCoreAPITest", "netCoreAPITest\netCoreAPITest.csproj", "{1B171E92-3BB8-4772-96DC-447D548BBA5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netCoreAPITest.Data", "netCoreAPITest.Data\netCoreAPITest.Data.csproj", "{AF4849BF-8684-49B8-912C-D248E5028923}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B171E92-3BB8-4772-96DC-447D548BBA5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B171E92-3BB8-4772-96DC-447D548BBA5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B171E92-3BB8-4772-96DC-447D548BBA5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B171E92-3BB8-4772-96DC-447D548BBA5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF4849BF-8684-49B8-912C-D248E5028923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF4849BF-8684-49B8-912C-D248E5028923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF4849BF-8684-49B8-912C-D248E5028923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF4849BF-8684-49B8-912C-D248E5028923}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61E965D0-D06B-49C1-881D-780568C9C080}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  myaspnetcoreapi:
+    image: mustafasalih/aspnetcore31:api1
+    build:
+     context: .
+     dockerfile: netCoreAPITest/Dockerfile
+    ports: 
+      - "5001:5001"
+      - "5000:5000"

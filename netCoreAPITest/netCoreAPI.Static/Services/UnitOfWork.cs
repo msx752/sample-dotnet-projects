@@ -108,7 +108,10 @@ namespace netCoreAPI.Static.Services
             if (!this._disposed)
             {
                 if (disposing)
+                {
                     Context?.Dispose();
+                    _repositories?.Clear();
+                }
                 this._disposed = true;
             }
         }

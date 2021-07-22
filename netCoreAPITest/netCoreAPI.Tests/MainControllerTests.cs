@@ -23,8 +23,8 @@ namespace CustomImageProvider.Tests
         {
             jsonSerializerSettings = new JsonSerializerSettings()
             {
-                Formatting = Newtonsoft.Json.Formatting.Indented,
-                TypeNameHandling = Newtonsoft.Json.TypeNameHandling.None,
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.None,
             };
             _factory = factory;
             // Arrange

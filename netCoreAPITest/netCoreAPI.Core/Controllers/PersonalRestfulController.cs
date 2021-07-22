@@ -1,15 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using netCoreAPI.Core.Controllers.Base;
+using netCoreAPI.Model.Dtos;
+using netCoreAPI.Model.Models;
 using netCoreAPI.Model.Tables;
-using netCoreAPI.Model.ViewModels;
 using netCoreAPI.Static.Services;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace netCoreAPI.Core.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class PersonalRestfulController : MainController
     {
         public PersonalRestfulController(IMyRepository myRepository, IMapper mapper)
@@ -17,7 +19,11 @@ namespace netCoreAPI.Core.Controllers
         {
         }
 
-        // DELETE: api/PersonalRestful/5
+        /// <summary>
+        ///  DELETE: api/PersonalRestful/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -26,34 +32,51 @@ namespace netCoreAPI.Core.Controllers
                 return NotFound();
             //auto saveChanges triggered
             MyRepo.PersonalRepo.Delete(personal);
-            return JsonResponse<PersonalViewModel>(personal);
+            return JsonResponse<PersonalModel>(personal);
         }
 
-        // GET: api/PersonalRestful/5
+        /// <summary>
+        ///  GET: api/PersonalRestful/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var personal = MyRepo.Db<Personal>().GetById(id);
             if (personal == null)
                 return NotFound();
-            return JsonResponse<PersonalViewModel>(personal);
+            return JsonResponse<PersonalDto>(personal);
         }
 
-        // GET: api/PersonalRestful
+        /// <summary>
+        ///  GET: api/PersonalRestful
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {
-            return JsonResponse<List<PersonalViewModel>>(MyRepo.PersonalRepo.GetAll());
+            return JsonResponse<List<PersonalDto>>(MyRepo.PersonalRepo.GetAll());
         }
 
-        // POST: api/PersonalRestful
+        /// <summary>
+        ///  POST: api/PersonalRestful
+        /// </summary>
+        /// <param name="personalViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
-        public IActionResult Post(PersonalViewModel personalViewModel)
+        public IActionResult Post(PersonalModel personalViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.SelectMany(v => v.Errors));
-            Personal personal = Mapper.Map<Personal>(personalViewModel);
-            personal = MyRepo.PersonalRepo.Add(personal);//auto saveChanges triggered
+            var personalEntity = new Personal()
+            {
+                Age = personalViewModel.Age,
+                Name = personalViewModel.Name,
+                NationalId = personalViewModel.NationalId,
+                Surname = personalViewModel.Surname
+            };
+            var personal = MyRepo.PersonalRepo.Add(personalEntity);//auto saveChanges triggered
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
@@ -61,20 +84,33 @@ namespace netCoreAPI.Core.Controllers
             return Get(personal.Id);
         }
 
-        // PUT: api/PersonalRestful/5
+        /// <summary>
+        ///  PUT: api/PersonalRestful/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="personalViewModel"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public IActionResult Put(int id, PersonalViewModel personalViewModel)
+        public IActionResult Put(int id, PersonalModel personalViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.SelectMany(v => v.Errors));
-            else if (id != personalViewModel.Id)
+            var personalEntityDb = MyRepo.Db<Personal>().GetById(id);
+            if (personalEntityDb == null)
                 return BadRequest();
-            Personal personal = Mapper.Map<Personal>(personalViewModel);
+            var personalEntity = new Personal()
+            {
+                Id = id,
+                Age = personalViewModel.Age,
+                Name = personalViewModel.Name,
+                NationalId = personalViewModel.NationalId,
+                Surname = personalViewModel.Surname
+            };
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
              */
-            MyRepo.PersonalRepo.Update(personal);//auto saveChanges triggered
+            MyRepo.PersonalRepo.Update(personalEntity);//auto saveChanges triggered
             return NoContent();
         }
     }

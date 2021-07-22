@@ -11,6 +11,7 @@ namespace netCoreAPI.Core.ApplicationService
         IEFRepository<TEntity> Db<TEntity>() where TEntity : class;
 
         void Dispose();
+
         int RawQuery(string sql, params object[] parameters);
 
         List<T> RawQuery<T>(string rawSql, params SqlParameter[] parameters);

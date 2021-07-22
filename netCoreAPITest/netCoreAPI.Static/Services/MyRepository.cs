@@ -5,7 +5,7 @@ using System;
 
 namespace netCoreAPI.Static.Services
 {
-    public class MyRepository : IMyRepository, IDisposable
+    public partial class MyRepository : IMyRepository, IDisposable
     {
         private readonly IUnitOfWork _uow;
 

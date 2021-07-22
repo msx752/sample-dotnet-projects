@@ -1,6 +1,6 @@
 ﻿using CustomImageProvider.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
-using netCoreAPI.Model.ViewModels;
+using netCoreAPI.Model.Dtos;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<List<PersonalViewModel>>(response);
+            var data = await DeserializeObjAsync<List<PersonalDto>>(response);
             Assert.NotNull(data);
         }
 
@@ -30,7 +30,7 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.DeleteAsync(url);
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalViewModel>(response);
+            var data = await DeserializeObjAsync<PersonalDto>(response);
             Assert.Equal(0, data.Id);
         }
 
@@ -40,7 +40,7 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalViewModel>(response);
+            var data = await DeserializeObjAsync<PersonalDto>(response);
             Assert.NotEqual(0, data.Id);
         }
 
@@ -50,7 +50,7 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalViewModel>(response);
+            var data = await DeserializeObjAsync<PersonalDto>(response);
             Assert.NotEqual(0, data.Id);
         }
 
@@ -60,7 +60,7 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalViewModel>(response);
+            var data = await DeserializeObjAsync<PersonalDto>(response);
             Assert.NotEqual(0, data.Id);
         }
 
@@ -70,7 +70,7 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<List<PersonalViewModel>>(response);
+            var data = await DeserializeObjAsync<List<PersonalDto>>(response);
             Assert.NotNull(data);
         }
     }

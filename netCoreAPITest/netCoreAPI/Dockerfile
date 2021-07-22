@@ -1,10 +1,11 @@
-#docker run -d -it --restart unless-stopped --net=host -p 5501:5501 -p 5500:5500 dockername/repository:tag
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic AS base
-WORKDIR /app
-EXPOSE 5501
-EXPOSE 5500
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["netCoreAPI/netCoreAPI.csproj", "netCoreAPI/"]
 COPY ["netCoreAPI.Model/netCoreAPI.Model.csproj", "netCoreAPI.Model/"]

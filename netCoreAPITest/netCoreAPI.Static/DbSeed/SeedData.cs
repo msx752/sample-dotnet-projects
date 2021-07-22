@@ -30,10 +30,10 @@ namespace netCoreAPI.Static.DbSeed
             var p2 = new Personal()
             {
                 Id = 2,
-                Name = "Üsame Fetullah",
-                Surname = "AVCI",
-                Age = 25,
-                NationalId = "2222222222"
+                Name = "Mehmet",
+                Surname = "SAVCI",
+                Age = 21,
+                NationalId = "333333333333"
             };
             if (unitOfWork.Db<Personal>().GetById(p2.Id) == null)
                 unitOfWork.Db<Personal>().Add(p2);

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using netCoreAPI.Static.Services;
 
-namespace netCoreAPI.Core.Controllers
+namespace netCoreAPI.Core.Controllers.Base
 {
     public abstract class MainController : ControllerBase
     {

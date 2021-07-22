@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace netCoreAPI.Model.ViewModels
+namespace netCoreAPI.Model.Models
 {
-    public class PersonalViewModel
+    public class PersonalModel
     {
         [Required]
         public byte Age { get; set; }
-
-        public int Id { get; set; }
 
         //attributes for model validation while doing post/delete etc...
         [Required]

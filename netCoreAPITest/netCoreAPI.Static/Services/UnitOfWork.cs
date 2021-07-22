@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace netCoreAPI.Static.Services
 {
-    public class UnitOfWork : IUnitOfWork, IDisposable
+    public partial class UnitOfWork : IUnitOfWork, IDisposable
     {
         private bool _disposed;
         private Dictionary<Type, object> _repositories;
@@ -50,6 +50,7 @@ namespace netCoreAPI.Static.Services
         {
             return Context.Database.ExecuteSqlRaw(sql, parameters);
         }
+
         /// <summary>
         /// long way external sql query extension, prevents parameter type issues
         /// </summary>

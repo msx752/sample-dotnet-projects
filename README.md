@@ -1,1 +1,1 @@
-# basic-netcore-31-api
+# basic-netcore-api

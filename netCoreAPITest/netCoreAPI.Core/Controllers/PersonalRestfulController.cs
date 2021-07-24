@@ -65,17 +65,13 @@ namespace netCoreAPI.Core.Controllers
         /// <param name="personalViewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Post(PersonalModel personalViewModel)
+        public IActionResult Post([FromBody] PersonalModel personalViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.SelectMany(v => v.Errors));
-            var personalEntity = new Personal()
-            {
-                Age = personalViewModel.Age,
-                Name = personalViewModel.Name,
-                NationalId = personalViewModel.NationalId,
-                Surname = personalViewModel.Surname
-            };
+
+            var personalEntity = Mapper.Map<Personal>(personalViewModel);
+
             var personal = MyRepo.PersonalRepo.Add(personalEntity);//auto saveChanges triggered
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -91,21 +87,16 @@ namespace netCoreAPI.Core.Controllers
         /// <param name="personalViewModel"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public IActionResult Put(int id, PersonalModel personalViewModel)
+        public IActionResult Put(int id, [FromBody] PersonalModel personalViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.SelectMany(v => v.Errors));
             var personalEntityDb = MyRepo.Db<Personal>().GetById(id);
             if (personalEntityDb == null)
                 return BadRequest();
-            var personalEntity = new Personal()
-            {
-                Id = id,
-                Age = personalViewModel.Age,
-                Name = personalViewModel.Name,
-                NationalId = personalViewModel.NationalId,
-                Surname = personalViewModel.Surname
-            };
+
+            var personalEntity = Mapper.Map<Personal>(personalViewModel);
+
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.

@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using netCoreAPI.Core.ApplicationService;
 using netCoreAPI.Data.Migrations;
 using netCoreAPI.Model.Dtos;
+using netCoreAPI.Model.Models;
 using netCoreAPI.Model.Tables;
 using netCoreAPI.OperationFilters;
 using netCoreAPI.Static.AppSettings;
@@ -61,7 +62,7 @@ namespace netCoreAPI
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Personal, PersonalDto>();
-                cfg.CreateMap<PersonalDto, Personal>();//lookout cfg.CreateMap<PersonalModel, Personal>();
+                cfg.CreateMap<PersonalModel, Personal>();
             });
             services.AddSingleton<IMapper>(mapperConfiguration.CreateMapper());
             services.Configure<ApplicationSettings>(Configuration);

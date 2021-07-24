@@ -58,7 +58,7 @@ namespace netCoreAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //models are binded by auto mapper
+            //models have been binded by auto mapper
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Personal, PersonalDto>();

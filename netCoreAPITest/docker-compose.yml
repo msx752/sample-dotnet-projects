@@ -7,5 +7,5 @@ services:
      context: .
      dockerfile: netCoreAPITest/Dockerfile
     ports: 
-      - "5001:5001"
-      - "5000:5000"
+      - "5501:443"
+      - "5500:80"

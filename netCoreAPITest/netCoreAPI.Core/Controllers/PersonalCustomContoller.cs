@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using netCoreAPI.Core.Controllers.Base;
 using netCoreAPI.Model.Dtos;
+using netCoreAPI.Model.ResponseModels;
 using netCoreAPI.Model.Tables;
 using netCoreAPI.Static.Services;
 using System.Collections.Generic;
@@ -24,9 +25,9 @@ namespace netCoreAPI.Core.Controllers
         /// <returns>List PersonalDto</returns>
         [HttpGet]
         [Route("All")]
-        public IActionResult All()
+        public ActionResult<BaseResponseModel<PersonalDto>> All()
         {
-            return JsonResponse<List<PersonalDto>>(MyRepo.Db<Personal>().All().ToList());
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<List<PersonalDto>>(MyRepo.Db<Personal>().All().ToList()));
         }
 
         /// <summary>
@@ -35,15 +36,16 @@ namespace netCoreAPI.Core.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
-        public IActionResult DeletePersonal(int id)
+        public ActionResult<BaseResponseModel<PersonalDto>> DeletePersonal(int id)
         {
             var personal = MyRepo.Db<Personal>().GetById(id);
             if (personal == null)
                 return NotFound();
+
             MyRepo.Db<Personal>().Delete(personal);
             //manually saveChanges triggered
             MyRepo.Commit();
-            return JsonResponse<PersonalDto>(personal);
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -53,12 +55,13 @@ namespace netCoreAPI.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("id/{id:int}")]
-        public IActionResult GetById([FromRoute] int id)
+        public ActionResult<BaseResponseModel<PersonalDto>> GetById([FromRoute] int id)
         {
             var personal = MyRepo.Db<Personal>().GetById(id);
             if (personal == null)
                 return NotFound();
-            return JsonResponse<PersonalDto>(personal);
+
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -68,13 +71,14 @@ namespace netCoreAPI.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("Name/{name:length(3,50)}")]
-        public IActionResult GetByName([FromRoute] string name)
+        public ActionResult<BaseResponseModel<PersonalDto>> GetByName([FromRoute] string name)
         {
             var personal = MyRepo.Db<Personal>()
                 .FirstOrDefault(f => f.Name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
             if (personal == null)
-                return NotFound("error msg");
-            return JsonResponse<PersonalDto>(personal);
+                return NotFound();
+
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -84,13 +88,15 @@ namespace netCoreAPI.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("Surname/{sname:length(3,50)}")]
-        public IActionResult GetBySurname([FromRoute] string sname)
+        public ActionResult<BaseResponseModel<PersonalDto>> GetBySurname([FromRoute] string sname)
         {
             var personal = MyRepo.Db<Personal>()
                 .FirstOrDefault(f => f.Surname.Equals(sname, System.StringComparison.InvariantCultureIgnoreCase));
+
             if (personal == null)
                 return NotFound();
-            return JsonResponse<PersonalDto>(personal);
+
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -98,8 +104,8 @@ namespace netCoreAPI.Core.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("[action]")]
-        public IActionResult Search()
+        [Route("Search")]
+        public ActionResult<BaseResponseModel<PersonalDto>> Search()
         {
             if (!Request.Query.ContainsKey("q"))
                 return BadRequest();
@@ -109,7 +115,8 @@ namespace netCoreAPI.Core.Controllers
                 .ToList();
             if (personals.Count == 0)
                 return NotFound();
-            return JsonResponse<List<PersonalDto>>(personals);
+
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<List<PersonalDto>>(personals));
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using netCoreAPI.Core.Controllers.Base;
 using netCoreAPI.Model.Dtos;
 using netCoreAPI.Model.Models;
+using netCoreAPI.Model.ResponseModels;
 using netCoreAPI.Model.Tables;
 using netCoreAPI.Static.Services;
 using System.Collections.Generic;
@@ -25,14 +26,15 @@ namespace netCoreAPI.Core.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult<BaseResponseModel<PersonalDto>> Delete(int id)
         {
             var personal = MyRepo.Db<Personal>().GetById(id);
             if (personal == null)
                 return NotFound();
+
             //auto saveChanges triggered
             MyRepo.PersonalRepo.Delete(personal);
-            return JsonResponse<PersonalModel>(personal);
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -41,12 +43,13 @@ namespace netCoreAPI.Core.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<BaseResponseModel<PersonalDto>> Get(int id)
         {
             var personal = MyRepo.Db<Personal>().GetById(id);
             if (personal == null)
                 return NotFound();
-            return JsonResponse<PersonalDto>(personal);
+
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -54,9 +57,9 @@ namespace netCoreAPI.Core.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<BaseResponseModel<PersonalDto>> Get()
         {
-            return JsonResponse<List<PersonalDto>>(MyRepo.PersonalRepo.GetAll());
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<List<PersonalDto>>(MyRepo.PersonalRepo.GetAll()));
         }
 
         /// <summary>
@@ -65,10 +68,10 @@ namespace netCoreAPI.Core.Controllers
         /// <param name="personalViewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Post([FromBody] PersonalModel personalViewModel)
+        public ActionResult<BaseResponseModel<PersonalDto>> Post([FromBody] PersonalModel personalViewModel)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState.Values.SelectMany(v => v.Errors));
+                return new BadRequestResponseModel<PersonalDto>(ModelState.Values.SelectMany(v => v.Errors));
 
             var personalEntity = Mapper.Map<Personal>(personalViewModel);
 
@@ -87,13 +90,14 @@ namespace netCoreAPI.Core.Controllers
         /// <param name="personalViewModel"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] PersonalModel personalViewModel)
+        public ActionResult<BaseResponseModel<PersonalDto>> Put(int id, [FromBody] PersonalModel personalViewModel)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState.Values.SelectMany(v => v.Errors));
+                return new BadRequestResponseModel<PersonalDto>(ModelState.Values.SelectMany(v => v.Errors));
             var personalEntityDb = MyRepo.Db<Personal>().GetById(id);
+
             if (personalEntityDb == null)
-                return BadRequest();
+                return new BadRequestResponseModel<PersonalDto>("entity not found");
 
             var personalEntity = Mapper.Map<Personal>(personalViewModel);
 

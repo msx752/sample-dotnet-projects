@@ -1,6 +1,7 @@
 ﻿using CustomImageProvider.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
 using netCoreAPI.Model.Dtos;
+using netCoreAPI.Model.ResponseModels;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<List<PersonalDto>>(response);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
             Assert.NotNull(data);
         }
 

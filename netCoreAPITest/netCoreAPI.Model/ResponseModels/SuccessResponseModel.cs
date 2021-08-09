@@ -5,7 +5,7 @@ namespace netCoreAPI.Model.ResponseModels
 {
     public class SuccessResponseModel<T> : BaseResponseModel<T> where T : class
     {
-        public SuccessResponseModel() : base()
+        public SuccessResponseModel() : base(null, HttpStatusCode.OK)
         {
         }
 

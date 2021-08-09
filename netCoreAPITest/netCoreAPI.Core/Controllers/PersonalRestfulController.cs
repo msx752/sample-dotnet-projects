@@ -30,7 +30,7 @@ namespace netCoreAPI.Core.Controllers
         {
             var personal = MyRepo.Db<Personal>().GetById(id);
             if (personal == null)
-                return NotFound();
+                return new NotFoundResponseModel<PersonalDto>();
 
             //auto saveChanges triggered
             MyRepo.PersonalRepo.Delete(personal);
@@ -47,7 +47,7 @@ namespace netCoreAPI.Core.Controllers
         {
             var personal = MyRepo.Db<Personal>().GetById(id);
             if (personal == null)
-                return NotFound();
+                return new NotFoundResponseModel<PersonalDto>();
 
             return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
@@ -106,7 +106,7 @@ namespace netCoreAPI.Core.Controllers
              more details see https://aka.ms/RazorPagesCRUD.
              */
             MyRepo.PersonalRepo.Update(personalEntity);//auto saveChanges triggered
-            return NoContent();
+            return new SuccessResponseModel<PersonalDto>();
         }
     }
 }

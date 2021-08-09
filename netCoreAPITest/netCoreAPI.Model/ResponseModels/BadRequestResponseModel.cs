@@ -6,7 +6,7 @@ namespace netCoreAPI.Model.ResponseModels
 {
     public class BadRequestResponseModel<T> : BaseResponseModel<T> where T : class
     {
-        public BadRequestResponseModel() : base()
+        public BadRequestResponseModel() : base(null, HttpStatusCode.BadRequest)
         {
         }
 

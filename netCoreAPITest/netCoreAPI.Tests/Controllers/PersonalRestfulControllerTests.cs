@@ -87,7 +87,7 @@ namespace netCoreAPI.Tests.Controllers
                 Surname = obj.Result.First().Surname
             };
             var response = await client.PutAsync(url.Replace("@number", obj.Result.First().Id.ToString()), new StringContent(JsonConvert.SerializeObject(objRequest, jsonSerializerSettings), Encoding.UTF8, "application/json"));
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
 }

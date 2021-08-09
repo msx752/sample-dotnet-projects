@@ -29,8 +29,9 @@ namespace netCoreAPI.Tests.Controllers
         public async Task DeleteById_NotFound(string url)
         {
             var response = await client.DeleteAsync(url);
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.Equal(HttpStatusCode.NotFound, data.StatusCode);
             Assert.Empty(data.Result);
         }
 

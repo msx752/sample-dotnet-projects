@@ -40,7 +40,7 @@ namespace netCoreAPI.Core.Controllers
         {
             var personal = MyRepo.Db<Personal>().GetById(id);
             if (personal == null)
-                return NotFound();
+                return new NotFoundResponseModel<PersonalDto>();
 
             MyRepo.Db<Personal>().Delete(personal);
             //manually saveChanges triggered
@@ -59,7 +59,7 @@ namespace netCoreAPI.Core.Controllers
         {
             var personal = MyRepo.Db<Personal>().GetById(id);
             if (personal == null)
-                return NotFound();
+                return new NotFoundResponseModel<PersonalDto>();
 
             return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
@@ -76,7 +76,7 @@ namespace netCoreAPI.Core.Controllers
             var personal = MyRepo.Db<Personal>()
                 .FirstOrDefault(f => f.Name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
             if (personal == null)
-                return NotFound();
+                return new NotFoundResponseModel<PersonalDto>();
 
             return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
@@ -94,7 +94,7 @@ namespace netCoreAPI.Core.Controllers
                 .FirstOrDefault(f => f.Surname.Equals(sname, System.StringComparison.InvariantCultureIgnoreCase));
 
             if (personal == null)
-                return NotFound();
+                return new NotFoundResponseModel<PersonalDto>();
 
             return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
@@ -108,13 +108,14 @@ namespace netCoreAPI.Core.Controllers
         public ActionResult<BaseResponseModel<PersonalDto>> Search()
         {
             if (!Request.Query.ContainsKey("q"))
-                return BadRequest();
+                return new BadRequestResponseModel<PersonalDto>();
+
             var personals = MyRepo.Db<Personal>()
                 .Where(f => f.Name.IndexOf(Request.Query["q"], System.StringComparison.InvariantCultureIgnoreCase) > -1 ||
                             f.Surname.IndexOf(Request.Query["q"], System.StringComparison.InvariantCultureIgnoreCase) > -1)
                 .ToList();
             if (personals.Count == 0)
-                return NotFound();
+                return new NotFoundResponseModel<PersonalDto>();
 
             return new SuccessResponseModel<PersonalDto>(Mapper.Map<List<PersonalDto>>(personals));
         }

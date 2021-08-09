@@ -5,7 +5,7 @@ namespace netCoreAPI.Model.ResponseModels
 {
     public class InternalErrorResponseModel<T> : BaseResponseModel<T> where T : class
     {
-        public InternalErrorResponseModel() : base()
+        public InternalErrorResponseModel() : base(null, HttpStatusCode.InternalServerError)
         {
         }
 

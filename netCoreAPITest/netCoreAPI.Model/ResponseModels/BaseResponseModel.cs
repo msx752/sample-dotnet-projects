@@ -30,8 +30,8 @@ namespace netCoreAPI.Model.ResponseModels
             Result.AddRange(multipleModels);
         }
 
-        public string UserFriendlyMessage { get; private set; }
-        public HttpStatusCode StatusCode { get; private set; }
+        public string UserFriendlyMessage { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
         public List<T> Result { get; private set; }
     }
 }

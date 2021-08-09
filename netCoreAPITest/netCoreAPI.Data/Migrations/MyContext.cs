@@ -7,10 +7,12 @@ namespace netCoreAPI.Data.Migrations
     {
         public MyContext() : base()
         {
+            SetChangesTrackerMode();
         }
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
+            SetChangesTrackerMode();
         }
 
         public DbSet<Personal> Personals { get; set; }
@@ -38,6 +40,14 @@ namespace netCoreAPI.Data.Migrations
             /************************************************************************************/
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        /// <summary>
+        /// this behave must be observe before usage of the relational entity updates
+        /// </summary>
+        private void SetChangesTrackerMode()
+        {
+            this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
         }
     }
 }

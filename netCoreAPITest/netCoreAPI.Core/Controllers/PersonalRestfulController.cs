@@ -80,7 +80,7 @@ namespace netCoreAPI.Core.Controllers
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
             */
-            return Get(personal.Id);
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>

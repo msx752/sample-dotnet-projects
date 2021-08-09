@@ -83,7 +83,7 @@ namespace netCoreAPI
                          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                      };
                  });
-            services.AddDbContext<MyContext>(opt => opt.UseInMemoryDatabase(databaseName: "NetCoreApiDatabase"), ServiceLifetime.Transient);//not sql-server, not mysql but IN-MEMORY DATABASE (NO DATABASE MIGRATION AND UPDATE-DATABASE)
+            services.AddDbContext<MyContext>(opt => opt.UseInMemoryDatabase(databaseName: "NetCoreApiDatabase"), ServiceLifetime.Transient, ServiceLifetime.Transient);//not sql-server, not mysql but IN-MEMORY DATABASE (NO DATABASE MIGRATION AND UPDATE-DATABASE)
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IMyRepository, MyRepository>();
             services.AddSwaggerGen((sgo) =>

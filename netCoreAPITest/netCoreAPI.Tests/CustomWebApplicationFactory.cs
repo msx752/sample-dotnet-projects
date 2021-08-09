@@ -16,15 +16,6 @@ namespace CustomImageProvider.Tests
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
         }
 
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            builder.ConfigureServices(services =>
-            {
-                // Build the service provider.
-                var sp = services.BuildServiceProvider();
-            });
-        }
-
         protected override IHostBuilder CreateHostBuilder()
         {
             return Host.CreateDefaultBuilder(new string[0]).ConfigureWebHostDefaults((wb) =>

@@ -1,9 +1,9 @@
 ﻿using CustomImageProvider.Tests;
-using Microsoft.AspNetCore.Mvc.Testing;
 using netCoreAPI.Model.Dtos;
 using netCoreAPI.Model.Models;
+using netCoreAPI.Model.ResponseModels;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -14,21 +14,23 @@ namespace netCoreAPI.Tests.Controllers
 {
     public class PersonalRestfulControllerTests : MainControllerTests
     {
-        public PersonalRestfulControllerTests(WebApplicationFactory<Startup> factory) : base(factory)
+        public PersonalRestfulControllerTests(CustomWebApplicationFactory<Startup> factory) : base(factory)
         {
         }
 
         [Theory]
         [InlineData("api/PersonalRestful/@number")]
-        public async Task<PersonalDto> Delete(string url)
+        public async Task<BaseResponseModel<PersonalDto>> Delete(string url)
         {
             var obj = await Post("api/PersonalRestful");
-            var response = await client.DeleteAsync(url.Replace("@number", obj.Id.ToString()));
+            Assert.NotEmpty(obj.Result);
+            Assert.Single(obj.Result);
+            var response = await client.DeleteAsync(url.Replace("@number", obj.Result.First().Id.ToString()));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalDto>(response);
-            Assert.Equal(obj.Name, data.Name);
-            Assert.Equal(obj.Surname, data.Surname);
-            Assert.Equal(obj.Id, data.Id);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.Equal(obj.Result.First().Name, data.Result.First().Name);
+            Assert.Equal(obj.Result.First().Surname, data.Result.First().Surname);
+            Assert.Equal(obj.Result.First().Id, data.Result.First().Id);
             return data;
         }
 
@@ -38,7 +40,7 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            List<PersonalDto> data = await DeserializeObjAsync<List<PersonalDto>>(response);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
         }
 
         [Theory]
@@ -47,13 +49,14 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalDto>(response);
-            Assert.Equal(1, data.Id);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.NotEmpty(data.Result);
+            Assert.Equal(1, data.Result.First().Id);
         }
 
         [Theory]
         [InlineData("api/PersonalRestful")]
-        public async Task<PersonalDto> Post(string url)
+        public async Task<BaseResponseModel<PersonalDto>> Post(string url)
         {
             PersonalModel obj = new PersonalModel()
             {
@@ -64,9 +67,9 @@ namespace netCoreAPI.Tests.Controllers
             };
             var response = await client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(obj, jsonSerializerSettings), Encoding.UTF8, "application/json"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalDto>(response);
-            Assert.Equal(obj.Name, data.Name);
-            Assert.Equal(obj.Surname, data.Surname);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.Equal(obj.Name, data.Result.First().Name);
+            Assert.Equal(obj.Surname, data.Result.First().Surname);
             return data;
         }
 
@@ -74,10 +77,16 @@ namespace netCoreAPI.Tests.Controllers
         [InlineData("api/PersonalRestful/@number")]
         public async Task Put(string url)
         {
-            PersonalDto obj = await Post("api/PersonalRestful");
-            obj.NationalId = "9999999999";
-            obj.Age = 25;
-            var response = await client.PutAsync(url.Replace("@number", obj.Id.ToString()), new StringContent(JsonConvert.SerializeObject(obj, jsonSerializerSettings), Encoding.UTF8, "application/json"));
+            BaseResponseModel<PersonalDto> obj = await Post("api/PersonalRestful");
+
+            PersonalModel objRequest = new PersonalModel()
+            {
+                Age = 25,
+                Name = obj.Result.First().Name,
+                NationalId = "9999999999",
+                Surname = obj.Result.First().Surname
+            };
+            var response = await client.PutAsync(url.Replace("@number", obj.Result.First().Id.ToString()), new StringContent(JsonConvert.SerializeObject(objRequest, jsonSerializerSettings), Encoding.UTF8, "application/json"));
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
     }

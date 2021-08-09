@@ -100,7 +100,7 @@ namespace netCoreAPI.Core.Controllers
                 return new BadRequestResponseModel<PersonalDto>("entity not found");
 
             var personalEntity = Mapper.Map<Personal>(personalViewModel);
-
+            personalEntity.Id = id;
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.

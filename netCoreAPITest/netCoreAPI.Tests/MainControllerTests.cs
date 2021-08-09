@@ -9,9 +9,9 @@ using Xunit;
 
 namespace CustomImageProvider.Tests
 {
-    public class MainControllerTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class MainControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        internal readonly WebApplicationFactory<Startup> _factory;
+        internal readonly CustomWebApplicationFactory<Startup> _factory;
 
         internal readonly HttpClient client = null;
 
@@ -19,7 +19,7 @@ namespace CustomImageProvider.Tests
         /// <seealso cref="namespace:netCoreAPI.Startup.ConfigureServices().AddNewtonsoftJson(settings)"/>
         internal readonly JsonSerializerSettings jsonSerializerSettings;
 
-        public MainControllerTests(WebApplicationFactory<Startup> factory)
+        public MainControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
             jsonSerializerSettings = new JsonSerializerSettings()
             {

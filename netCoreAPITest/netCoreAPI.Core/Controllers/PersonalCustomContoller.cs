@@ -12,9 +12,9 @@ namespace netCoreAPI.Core.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PersonalCustomContoller : MainController
+    public class PersonalCustomController : MainController
     {
-        public PersonalCustomContoller(IMyRepository myRepository, IMapper mapper)
+        public PersonalCustomController(IMyRepository myRepository, IMapper mapper)
             : base(myRepository, mapper)
         {
         }

@@ -1,8 +1,7 @@
 ﻿using CustomImageProvider.Tests;
-using Microsoft.AspNetCore.Mvc.Testing;
 using netCoreAPI.Model.Dtos;
 using netCoreAPI.Model.ResponseModels;
-using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
@@ -11,7 +10,7 @@ namespace netCoreAPI.Tests.Controllers
 {
     public class PersonalCustomControllerTests : MainControllerTests
     {
-        public PersonalCustomControllerTests(WebApplicationFactory<Startup> factory) : base(factory)
+        public PersonalCustomControllerTests(CustomWebApplicationFactory<Startup> factory) : base(factory)
         {
         }
 
@@ -31,8 +30,8 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.DeleteAsync(url);
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalDto>(response);
-            Assert.Equal(0, data.Id);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.Empty(data.Result);
         }
 
         [Theory]
@@ -41,8 +40,9 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalDto>(response);
-            Assert.NotEqual(0, data.Id);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.NotEmpty(data.Result);
+            Assert.NotEqual(0, data.Result.First().Id);
         }
 
         [Theory]
@@ -51,18 +51,20 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalDto>(response);
-            Assert.NotEqual(0, data.Id);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.NotEmpty(data.Result);
+            Assert.NotEqual(0, data.Result.First().Id);
         }
 
         [Theory]
-        [InlineData("api/PersonalCustom/Surname/AVCI")]
+        [InlineData("api/PersonalCustom/Surname/SAVCI")]
         public async Task GetBySurname(string url)
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<PersonalDto>(response);
-            Assert.NotEqual(0, data.Id);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.NotEmpty(data.Result);
+            Assert.NotEqual(0, data.Result.First().Id);
         }
 
         [Theory]
@@ -71,8 +73,8 @@ namespace netCoreAPI.Tests.Controllers
         {
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var data = await DeserializeObjAsync<List<PersonalDto>>(response);
-            Assert.NotNull(data);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.NotEmpty(data.Result);
         }
     }
 }

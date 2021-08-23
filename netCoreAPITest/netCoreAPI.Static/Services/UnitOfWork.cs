@@ -26,7 +26,7 @@ namespace netCoreAPI.Static.Services
         /// MAGIC
         /// </summary>
         /// <returns></returns>
-        public int Commit()
+        public int SaveChanges()
         {
             return Context.SaveChanges();
         }

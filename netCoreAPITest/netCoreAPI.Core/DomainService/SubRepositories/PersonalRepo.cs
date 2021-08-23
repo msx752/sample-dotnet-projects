@@ -17,21 +17,18 @@ namespace netCoreAPI.Core.DomainService.SubRepositories
         public Personal Add(Personal data)//different way set to db
         {
             var entity = _uow.Db<Personal>().Add(data);
-            _uow.Commit();
             return entity.Entity;
         }
 
         public Personal Delete(Personal data)//different way set to db
         {
             var entity = _uow.Db<Personal>().Delete(data);
-            _uow.Commit();
             return entity.Entity;
         }
 
         public Personal Update(Personal data)//different way set to db
         {
             var entity = _uow.Db<Personal>().Update(data);
-            _uow.Commit();
             return entity.Entity;
         }
 

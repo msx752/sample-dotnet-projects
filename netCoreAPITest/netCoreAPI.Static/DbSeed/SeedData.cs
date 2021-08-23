@@ -39,7 +39,7 @@ namespace netCoreAPI.Static.DbSeed
                 unitOfWork.Db<Personal>().Add(p2);
 
             //triggers saveChanges for the updating Database
-            unitOfWork.Commit();
+            unitOfWork.SaveChanges();
 
             //database has been updated
             if (unitOfWork.Db<Personal>().GetById(p2.Id) != null)

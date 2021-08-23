@@ -7,7 +7,7 @@ namespace netCoreAPI.Static.Services
     {
         PersonalRepo PersonalRepo { get; }
 
-        int Commit();
+        int SaveChanges();
 
         IEFRepository<TEntity> Db<TEntity>() where TEntity : class;
 

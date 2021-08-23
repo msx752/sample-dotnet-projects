@@ -27,9 +27,9 @@ namespace netCoreAPI.Static.Services
             }
         }
 
-        public int Commit()
+        public int SaveChanges()
         {
-            return _uow.Commit();
+            return _uow.SaveChanges();
         }
 
         public IEFRepository<TEntity> Db<TEntity>() where TEntity : class

@@ -6,7 +6,7 @@ namespace netCoreAPI.Core.ApplicationService
 {
     public interface IUnitOfWork
     {
-        int Commit();
+        int SaveChanges();
 
         IEFRepository<TEntity> Db<TEntity>() where TEntity : class;
 

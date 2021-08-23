@@ -43,8 +43,8 @@ namespace netCoreAPI.Core.Controllers
                 return new NotFoundResponseModel<PersonalDto>();
 
             MyRepo.Db<Personal>().Delete(personal);
-            //manually saveChanges triggered
-            MyRepo.Commit();
+            MyRepo.SaveChanges();
+
             return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
 

@@ -32,8 +32,8 @@ namespace netCoreAPI.Core.Controllers
             if (personal == null)
                 return new NotFoundResponseModel<PersonalDto>();
 
-            //auto saveChanges triggered
             MyRepo.PersonalRepo.Delete(personal);
+            MyRepo.SaveChanges();
             return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
 
@@ -75,7 +75,8 @@ namespace netCoreAPI.Core.Controllers
 
             var personalEntity = Mapper.Map<Personal>(personalViewModel);
 
-            var personal = MyRepo.PersonalRepo.Add(personalEntity);//auto saveChanges triggered
+            var personal = MyRepo.PersonalRepo.Add(personalEntity);
+            MyRepo.SaveChanges();
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
@@ -105,7 +106,8 @@ namespace netCoreAPI.Core.Controllers
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
              */
-            MyRepo.PersonalRepo.Update(personalEntity);//auto saveChanges triggered
+            MyRepo.PersonalRepo.Update(personalEntity);
+            MyRepo.SaveChanges();
             return new SuccessResponseModel<PersonalDto>();
         }
     }

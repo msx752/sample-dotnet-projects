@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace netCoreAPI.Model.Tables
+namespace netCoreAPI.Model.Entities
 {
     [Table("Personals")]
     public class Personal

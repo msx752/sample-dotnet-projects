@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using netCoreAPI.Core.Controllers.Base;
 using netCoreAPI.Model.Dtos;
+using netCoreAPI.Model.Entities;
 using netCoreAPI.Model.ResponseModels;
-using netCoreAPI.Model.Tables;
 using netCoreAPI.Static.Services;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using netCoreAPI.Core.ApplicationService;
-using netCoreAPI.Model.Tables;
+using netCoreAPI.Model.Entities;
 using System.Collections.Generic;
 using System.Linq;
 

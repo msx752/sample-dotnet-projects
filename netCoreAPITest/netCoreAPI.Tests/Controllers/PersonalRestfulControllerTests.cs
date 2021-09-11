@@ -47,6 +47,7 @@ namespace netCoreAPI.Tests.Controllers
         [InlineData("api/PersonalRestful/1")]
         public async Task GetById(string url)
         {
+            await Task.Delay(50);//requires database synchronized due to the parallel test tasks
             var response = await client.GetAsync(url);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);

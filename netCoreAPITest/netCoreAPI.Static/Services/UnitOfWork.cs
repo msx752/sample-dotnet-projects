@@ -88,9 +88,9 @@ namespace netCoreAPI.Static.Services
                     while (r.Read())
                     {
                         T t = Activator.CreateInstance<T>();
+                        Type type = t.GetType();
                         for (int inc = 0; inc < r.FieldCount; inc++)
                         {
-                            Type type = t.GetType();
                             string pname = r.GetName(inc);
                             PropertyInfo prop = type.GetProperty(pname);
                             prop.SetValue(t, r.GetValue(inc), null);

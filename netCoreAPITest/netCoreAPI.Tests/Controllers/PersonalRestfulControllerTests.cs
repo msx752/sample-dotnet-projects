@@ -90,5 +90,48 @@ namespace netCoreAPI.Tests.Controllers
             var response = await client.PutAsync(url.Replace("@number", obj.Result.First().Id.ToString()), new StringContent(JsonConvert.SerializeObject(objRequest, jsonSerializerSettings), Encoding.UTF8, "application/json"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
+
+        [Theory]
+        [InlineData("api/PersonalRestful/Name/Mehmet")]
+        public async Task GetByName(string url)
+        {
+            var response = await client.GetAsync(url);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.NotEmpty(data.Result);
+            Assert.NotEqual(0, data.Result.First().Id);
+        }
+
+        [Theory]
+        [InlineData("api/PersonalRestful/Surname/SAVCI")]
+        public async Task GetBySurname(string url)
+        {
+            var response = await client.GetAsync(url);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.NotEmpty(data.Result);
+            Assert.NotEqual(0, data.Result.First().Id);
+        }
+
+        [Theory]
+        [InlineData("api/PersonalRestful/Search?q=sa")]
+        public async Task Search(string url)
+        {
+            var response = await client.GetAsync(url);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.NotEmpty(data.Result);
+        }
+
+        [Theory]
+        [InlineData("api/PersonalRestful/1000000")]
+        public async Task DeleteById_NotFound(string url)
+        {
+            var response = await client.DeleteAsync(url);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            Assert.Equal(HttpStatusCode.NotFound, data.StatusCode);
+            Assert.Empty(data.Result);
+        }
     }
 }

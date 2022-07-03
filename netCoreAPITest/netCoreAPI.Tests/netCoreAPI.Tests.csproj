@@ -22,10 +22,6 @@
   </Target>
 
   <ItemGroup>
-    <ProjectReference Include="..\netCoreAPI.Core\netCoreAPI.Core.csproj" />
-    <ProjectReference Include="..\netCoreAPI.Data\netCoreAPI.Data.csproj" />
-    <ProjectReference Include="..\netCoreAPI.Model\netCoreAPI.Model.csproj" />
-    <ProjectReference Include="..\netCoreAPI.Static\netCoreAPI.Static.csproj" />
     <ProjectReference Include="..\netCoreAPI\netCoreAPI.csproj" />
   </ItemGroup>
 

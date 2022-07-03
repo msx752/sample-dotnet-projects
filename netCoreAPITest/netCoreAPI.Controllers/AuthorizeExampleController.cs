@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using netCoreAPI.Core.Controllers.Base;
+using netCoreAPI.Controllers.Base;
 using netCoreAPI.Static.Services;
 
-namespace netCoreAPI.Core.Controllers
+namespace netCoreAPI.Controllers
 {
     [ApiController]
     [Authorize]

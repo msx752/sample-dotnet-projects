@@ -5,7 +5,7 @@ using netCoreAPI.Static.Services;
 using System.Collections.Generic;
 using System.Net;
 
-namespace netCoreAPI.Core.Controllers.Base
+namespace netCoreAPI.Controllers.Base
 {
     public abstract class MainController : ControllerBase
     {

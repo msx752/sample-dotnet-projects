@@ -15,7 +15,7 @@ namespace netCoreAPI.Core.Controllers
     [Route("api/[controller]")]
     public class PersonalRestfulController : MainController
     {
-        public PersonalRestfulController(IMyRepository myRepository, IMapper mapper)
+        public PersonalRestfulController(ISharedRepository myRepository, IMapper mapper)
             : base(myRepository, mapper)
         {
         }
@@ -32,7 +32,7 @@ namespace netCoreAPI.Core.Controllers
             if (personal == null)
                 return new NotFoundResponseModel<PersonalDto>();
 
-            MyRepo.PersonalRepo.Delete(personal);
+            personal = MyRepo.Db<Personal>().Delete(personal).Entity;
             MyRepo.SaveChanges();
             return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
         }
@@ -59,7 +59,7 @@ namespace netCoreAPI.Core.Controllers
         [HttpGet]
         public ActionResult<BaseResponseModel<PersonalDto>> Get()
         {
-            return new SuccessResponseModel<PersonalDto>(Mapper.Map<List<PersonalDto>>(MyRepo.PersonalRepo.GetAll()));
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<List<PersonalDto>>(MyRepo.Db<Personal>().All().ToList()));
         }
 
         /// <summary>
@@ -75,13 +75,13 @@ namespace netCoreAPI.Core.Controllers
 
             var personalEntity = Mapper.Map<Personal>(personalViewModel);
 
-            var personal = MyRepo.PersonalRepo.Add(personalEntity);
+            var personal = MyRepo.Db<Personal>().Add(personalEntity);
             MyRepo.SaveChanges();
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
             */
-            return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal));
+            return new SuccessResponseModel<PersonalDto>(Mapper.Map<PersonalDto>(personal.Entity));
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace netCoreAPI.Core.Controllers
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
              */
-            MyRepo.PersonalRepo.Update(personalEntity);
+            personalEntity = MyRepo.Db<Personal>().Update(personalEntity).Entity;
             MyRepo.SaveChanges();
             return new SuccessResponseModel<PersonalDto>();
         }

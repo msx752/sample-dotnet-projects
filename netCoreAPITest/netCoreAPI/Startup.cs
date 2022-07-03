@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -52,19 +53,13 @@ namespace netCoreAPI
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             //we dont need to call 'IMyRepository' in here to update database because 'IUnitOfWork' does my lightweight works
-            MyContextSeed.SeedData(isp.GetRequiredService<IUnitOfWork>());
+            MyContextSeed.SeedData(isp.GetRequiredService<ISharedConnection>());
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //models have been binded by auto mapper
-            var mapperConfiguration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Personal, PersonalDto>();
-                cfg.CreateMap<PersonalModel, Personal>();
-            });
-            services.AddSingleton<IMapper>(mapperConfiguration.CreateMapper());
+            services.AddEntityMapper();
             services.Configure<ApplicationSettings>(Configuration);
             services.AddHttpContextAccessor();
             services.AddAuthentication((ao) => ao.DefaultChallengeScheme = ao.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)
@@ -83,9 +78,9 @@ namespace netCoreAPI
                          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                      };
                  });
-            services.AddDbContext<MyContext>(opt => opt.UseInMemoryDatabase(databaseName: "NetCoreApiDatabase").EnableSensitiveDataLogging(), ServiceLifetime.Transient);//not sql-server, not mysql but IN-MEMORY DATABASE (NO DATABASE MIGRATION AND UPDATE-DATABASE)
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IMyRepository, MyRepository>();
+            services.AddDbContext<MyContext>(opt => opt.UseInMemoryDatabase(databaseName: "NetCoreApiDatabase").EnableSensitiveDataLogging());//not sql-server, not mysql but IN-MEMORY DATABASE (NO DATABASE MIGRATION AND UPDATE-DATABASE)
+            services.AddScoped<ISharedConnection, SharedConnection>();
+            services.AddScoped<ISharedRepository, SharedRepository>();
             services.AddSwaggerGen((sgo) =>
             {
                 sgo.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

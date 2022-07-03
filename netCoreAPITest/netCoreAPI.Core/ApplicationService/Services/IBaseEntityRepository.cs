@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace netCoreAPI.Core.ApplicationService.Services
 {
-    public interface IEFRepository<T> : IDisposable where T : class
+    public interface IBaseEntityRepository<T> : IDisposable where T : class
     {
         T Search(params object[] keyValues);
 

@@ -8,7 +8,7 @@ namespace netCoreAPI.Static.DbSeed
     {
         private static bool initiated = false;
 
-        public static void SeedData(IUnitOfWork unitOfWork)
+        public static void SeedData(ISharedConnection unitOfWork)
         {
             if (initiated)
                 return;

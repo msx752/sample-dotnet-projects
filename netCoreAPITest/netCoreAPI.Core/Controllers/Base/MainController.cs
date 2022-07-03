@@ -11,13 +11,13 @@ namespace netCoreAPI.Core.Controllers.Base
     {
         private readonly IMapper _mapper;
 
-        internal MainController(IMyRepository myRepository, IMapper mapper)
+        internal MainController(ISharedRepository myRepository, IMapper mapper)
         {
             MyRepo = myRepository;
             _mapper = mapper;
         }
 
         internal IMapper Mapper => _mapper;
-        internal IMyRepository MyRepo { get; }
+        internal ISharedRepository MyRepo { get; }
     }
 }

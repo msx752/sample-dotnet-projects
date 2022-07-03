@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace netCoreAPI.Core.ApplicationService
 {
-    public interface IUnitOfWork
+    public interface ISharedConnection
     {
         int SaveChanges();
 
-        IEFRepository<TEntity> Db<TEntity>() where TEntity : class;
+        IBaseEntityRepository<TEntity> Db<TEntity>() where TEntity : class;
 
         void Dispose();
 

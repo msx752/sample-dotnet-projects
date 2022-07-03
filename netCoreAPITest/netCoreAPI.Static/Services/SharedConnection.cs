@@ -4,40 +4,27 @@ using netCoreAPI.Core.ApplicationService;
 using netCoreAPI.Core.ApplicationService.Services;
 using netCoreAPI.Data.Migrations;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace netCoreAPI.Static.Services
 {
-    public partial class UnitOfWork : IUnitOfWork, IDisposable
+    public partial class SharedConnection : ISharedConnection, IDisposable
     {
+        private readonly MyContext _context;
         private bool _disposed;
-        private Dictionary<Type, object> _repositories;
+        private readonly ConcurrentDictionary<Type, object> _repositories;
 
-        public UnitOfWork(MyContext context)
+        public SharedConnection(MyContext context)
         {
-            _repositories = new Dictionary<Type, object>(30);
-            Context = context;
+            _repositories = new ConcurrentDictionary<Type, object>();
+            _context = context;
         }
 
-        public MyContext Context { get; }
-
-        /// <summary>
-        /// MAGIC
-        /// </summary>
-        /// <returns></returns>
-        public int SaveChanges()
+        public IBaseEntityRepository<TEntity> Db<TEntity>() where TEntity : class
         {
-            return Context.SaveChanges();
-        }
-
-        public IEFRepository<TEntity> Db<TEntity>() where TEntity : class
-        {
-            if (_repositories.ContainsKey(typeof(TEntity)))
-                return _repositories[typeof(TEntity)] as IEFRepository<TEntity>;
-            var repository = new EFRepository<TEntity>(Context);
-            _repositories.Add(typeof(TEntity), repository);
-            return repository;
+            return _repositories.GetOrAdd(typeof(TEntity), new BaseEntityRepository<TEntity>(_context)) as IBaseEntityRepository<TEntity>;
         }
 
         public void Dispose()
@@ -48,7 +35,7 @@ namespace netCoreAPI.Static.Services
 
         public int RawQuery(string sql, params object[] parameters)
         {
-            return Context.Database.ExecuteSqlRaw(sql, parameters);
+            return _context.Database.ExecuteSqlRaw(sql, parameters);
         }
 
         /// <summary>
@@ -60,7 +47,7 @@ namespace netCoreAPI.Static.Services
         /// <returns></returns>
         public List<T> RawQuery<T>(string rawSql, params SqlParameter[] parameters)
         {
-            var conn = this.Context.Database.GetDbConnection();
+            var conn = this._context.Database.GetDbConnection();
             List<T> res = new List<T>();
             using (var command = conn.CreateCommand())
             {
@@ -104,13 +91,22 @@ namespace netCoreAPI.Static.Services
             return res;
         }
 
+        /// <summary>
+        /// MAGIC
+        /// </summary>
+        /// <returns></returns>
+        public int SaveChanges()
+        {
+            return _context.SaveChanges();
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!this._disposed)
             {
                 if (disposing)
                 {
-                    Context?.Dispose();
+                    _context?.Dispose();
                     _repositories?.Clear();
                 }
                 this._disposed = true;

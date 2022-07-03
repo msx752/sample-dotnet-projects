@@ -1,30 +1,18 @@
 ﻿using netCoreAPI.Core.ApplicationService;
 using netCoreAPI.Core.ApplicationService.Services;
-using netCoreAPI.Core.DomainService.SubRepositories;
 using System;
 
 namespace netCoreAPI.Static.Services
 {
-    public partial class MyRepository : IMyRepository, IDisposable
+    public partial class SharedRepository : ISharedRepository, IDisposable
     {
-        private readonly IUnitOfWork _uow;
+        private readonly ISharedConnection _uow;
 
         private bool _disposed;
-        private PersonalRepo _personalRepo;
 
-        public MyRepository(IUnitOfWork uow)
+        public SharedRepository(ISharedConnection uow)
         {
             _uow = uow;
-        }
-
-        public PersonalRepo PersonalRepo
-        {
-            get
-            {
-                if (_personalRepo == null)
-                    _personalRepo = new PersonalRepo(_uow);
-                return _personalRepo;
-            }
         }
 
         public int SaveChanges()
@@ -32,7 +20,7 @@ namespace netCoreAPI.Static.Services
             return _uow.SaveChanges();
         }
 
-        public IEFRepository<TEntity> Db<TEntity>() where TEntity : class
+        public IBaseEntityRepository<TEntity> Db<TEntity>() where TEntity : class
         {
             return _uow.Db<TEntity>();
         }
@@ -50,7 +38,6 @@ namespace netCoreAPI.Static.Services
                 if (disposing)
                 {
                     _uow?.Dispose();
-                    _personalRepo = null;
                 }
                 this._disposed = true;
             }

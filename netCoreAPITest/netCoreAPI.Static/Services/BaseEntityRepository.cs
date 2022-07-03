@@ -10,12 +10,12 @@ using System.Linq.Expressions;
 
 namespace netCoreAPI.Static.Services
 {
-    public class EFRepository<T> : IEFRepository<T> where T : class
+    public class BaseEntityRepository<T> : IBaseEntityRepository<T> where T : class
     {
         private readonly MyContext _context;
         private readonly DbSet<T> _dbset;
 
-        public EFRepository(MyContext context)
+        public BaseEntityRepository(MyContext context)
         {
             _context = context;
             _dbset = context.Set<T>();

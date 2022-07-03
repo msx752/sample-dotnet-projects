@@ -12,7 +12,7 @@ namespace netCoreAPI.Core.ApplicationService
 
         void Dispose();
 
-        int RawQuery(string sql, params object[] parameters);
+        int RawQuery(string sql, params SqlParameter[] parameters);
 
         List<T> RawQuery<T>(string rawSql, params SqlParameter[] parameters);
     }

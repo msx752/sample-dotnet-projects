@@ -13,8 +13,8 @@ namespace netCoreAPI.Static.Services
     public partial class SharedConnection : ISharedConnection, IDisposable
     {
         private readonly MyContext _context;
-        private bool _disposed;
         private readonly ConcurrentDictionary<Type, object> _repositories;
+        private bool _disposed;
 
         public SharedConnection(MyContext context)
         {
@@ -33,9 +33,12 @@ namespace netCoreAPI.Static.Services
             GC.SuppressFinalize(this);
         }
 
-        public int RawQuery(string sql, params object[] parameters)
+        public int RawQuery(string sql, params SqlParameter[] parameters)
         {
-            return _context.Database.ExecuteSqlRaw(sql, parameters);
+            return DbExtensions._IsolatedDbConnetion<int>(_context.Database.GetConnectionString(), sql, parameters, (command) =>
+            {
+                return command.ExecuteNonQuery();
+            });
         }
 
         /// <summary>
@@ -45,31 +48,11 @@ namespace netCoreAPI.Static.Services
         /// <param name="rawSql"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public List<T> RawQuery<T>(string rawSql, params SqlParameter[] parameters)
+        public List<T> RawQuery<T>(string sql, params SqlParameter[] parameters)
         {
-            var conn = this._context.Database.GetDbConnection();
-            List<T> res = new List<T>();
-            using (var command = conn.CreateCommand())
+            return DbExtensions._IsolatedDbConnetion<List<T>>(_context.Database.GetConnectionString(), sql, parameters, (command) =>
             {
-                command.CommandText = rawSql;
-                command.Parameters.Clear();
-                if (parameters != null)
-                {
-                    foreach (var item in parameters)
-                    {
-                        var p = command.CreateParameter();
-                        p.ParameterName = item.ParameterName;
-                        p.Value = item.Value;
-                        p.DbType = item.DbType;
-                        command.Parameters.Add(p);
-                    }
-                }
-                var wasOpen = false;
-                if (conn.State == System.Data.ConnectionState.Closed)
-                {
-                    conn.Open();
-                    wasOpen = true;
-                }
+                List<T> res = new List<T>();
                 using (var r = command.ExecuteReader())
                 {
                     while (r.Read())
@@ -85,10 +68,9 @@ namespace netCoreAPI.Static.Services
                         res.Add(t);
                     }
                 }
-                if (wasOpen)
-                    conn.Close();
-            }
-            return res;
+
+                return res;
+            });
         }
 
         /// <summary>

@@ -154,16 +154,15 @@ namespace netCoreAPI.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("Search")]
-        public ActionResult<BaseResponseModel<PersonalDto>> Search()
+        public ActionResult<BaseResponseModel<PersonalDto>> Search([FromQuery] string q)
         {
-            if (!Request.Query.ContainsKey("q"))
+            if (string.IsNullOrEmpty(q))
                 return new BadRequestResponseModel<PersonalDto>();
 
             var personals = MyRepo.Db<Personal>()
-                .Where(f => f.Name.IndexOf(Request.Query["q"], System.StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                            f.Surname.IndexOf(Request.Query["q"], System.StringComparison.InvariantCultureIgnoreCase) > -1)
-                .ToList();
-            if (personals.Count == 0)
+                .Where(f => f.Name.IndexOf(q, System.StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                            f.Surname.IndexOf(q, System.StringComparison.InvariantCultureIgnoreCase) > -1);
+            if (personals.Count() == 0)
                 return new NotFoundResponseModel<PersonalDto>();
 
             return new SuccessResponseModel<PersonalDto>(Mapper.Map<List<PersonalDto>>(personals));

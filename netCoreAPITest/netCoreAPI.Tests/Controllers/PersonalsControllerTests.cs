@@ -3,6 +3,7 @@ using netCoreAPI.Model.Dtos;
 using netCoreAPI.Model.Models;
 using netCoreAPI.Model.ResponseModels;
 using Newtonsoft.Json;
+using Shouldly;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -22,16 +23,17 @@ namespace netCoreAPI.Tests.Controllers
         public async Task<BaseResponseModel<PersonalDto>> Delete()
         {
             var obj = await Post();
-            Assert.NotEmpty(obj.Result);
-            Assert.Single(obj.Result);
+            obj.Result.ShouldNotBeEmpty();
+            obj.Result.Count.ShouldBeEquivalentTo(1);
 
             var response = await client.DeleteAsync($"api/Personals/{obj.Result.First().Id}");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
-            Assert.Equal(obj.Result.First().Name, data.Result.First().Name);
-            Assert.Equal(obj.Result.First().Surname, data.Result.First().Surname);
-            Assert.Equal(obj.Result.First().Id, data.Result.First().Id);
+            data.Result.First().Name.ShouldBe(obj.Result.First().Name);
+            data.Result.First().Surname.ShouldBe(obj.Result.First().Surname);
+            data.Result.First().Id.ShouldBe(obj.Result.First().Id);
+
             return data;
         }
 
@@ -40,18 +42,20 @@ namespace netCoreAPI.Tests.Controllers
         public async Task DeleteById_NotFound(int personalId)
         {
             var response = await client.DeleteAsync($"api/Personals/{personalId}");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
-            Assert.Equal(HttpStatusCode.NotFound, data.StatusCode);
-            Assert.Empty(data.Result);
+            data.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+
+            data.Result.ShouldBeEmpty();
         }
 
         [Fact]
         public async Task GetAll()
         {
             var response = await client.GetAsync("api/Personals");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
             var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
         }
 
@@ -60,10 +64,11 @@ namespace netCoreAPI.Tests.Controllers
         public async Task GetById(int personalId)
         {
             var response = await client.GetAsync($"api/Personals/{personalId}");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
             var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
-            Assert.NotEmpty(data.Result);
-            Assert.Equal(1, data.Result.First().Id);
+            data.Result.ShouldNotBeEmpty();
+            data.Result.First().Id.ShouldBe(1);
         }
 
         [Theory]
@@ -72,11 +77,11 @@ namespace netCoreAPI.Tests.Controllers
         public async Task GetByName(string personalName)
         {
             var response = await client.GetAsync($"api/Personals/Name/{personalName}");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
-            Assert.NotEmpty(data.Result);
-            Assert.NotEqual(0, data.Result.First().Id);
+            data.Result.ShouldNotBeEmpty();
+            data.Result.First().Id.ShouldNotBe(0);
         }
 
         [Theory]
@@ -85,11 +90,11 @@ namespace netCoreAPI.Tests.Controllers
         public async Task GetBySurname(string personalSurname)
         {
             var response = await client.GetAsync($"api/Personals/Surname/{personalSurname}");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
-            Assert.NotEmpty(data.Result);
-            Assert.NotEqual(0, data.Result.First().Id);
+            data.Result.ShouldNotBeEmpty();
+            data.Result.First().Id.ShouldNotBe(0);
         }
 
         [Fact]
@@ -103,11 +108,12 @@ namespace netCoreAPI.Tests.Controllers
                 Surname = "testSurname"
             };
             var response = await client.PostAsync("api/Personals", new StringContent(JsonConvert.SerializeObject(obj, jsonSerializerSettings), Encoding.UTF8, "application/json"));
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
-            Assert.Equal(obj.Name, data.Result.First().Name);
-            Assert.Equal(obj.Surname, data.Result.First().Surname);
+            data.Result.First().Name.ShouldBe(obj.Name);
+            data.Result.First().Surname.ShouldBe(obj.Surname);
+
             return data;
         }
 
@@ -124,7 +130,7 @@ namespace netCoreAPI.Tests.Controllers
                 Surname = obj.Result.First().Surname
             };
             var response = await client.PutAsync($"api/Personals/{obj.Result.First().Id}", new StringContent(JsonConvert.SerializeObject(objRequest, jsonSerializerSettings), Encoding.UTF8, "application/json"));
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
 
         [Theory]
@@ -132,10 +138,10 @@ namespace netCoreAPI.Tests.Controllers
         public async Task Search(string queryString)
         {
             var response = await client.GetAsync($"api/Personals/Search?q={queryString}");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
-            Assert.NotEmpty(data.Result);
+            data.Result.ShouldNotBeEmpty();
         }
     }
 }

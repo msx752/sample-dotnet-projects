@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
 using netCoreAPI.Core.ApplicationService.Services;
 using netCoreAPI.Data.Migrations;
@@ -21,9 +20,9 @@ namespace netCoreAPI.Static.Services
             _dbset = context.Set<T>();
         }
 
-        public EntityEntry<T> Add(T entity)
+        public T Add(T entity)
         {
-            return _dbset.Add(entity);
+            return _dbset.Add(entity).Entity;
         }
 
         public void Add(params T[] entities)
@@ -41,11 +40,11 @@ namespace netCoreAPI.Static.Services
             return _dbset.AsQueryable<T>();
         }
 
-        public EntityEntry<T> Delete(T entity)
+        public T Delete(T entity)
         {
             var entry = _context.Entry(entity);
             entry.State = EntityState.Deleted;
-            return entry;
+            return entry.Entity;
         }
 
         public void Delete(params T[] entities)
@@ -127,12 +126,12 @@ namespace netCoreAPI.Static.Services
              */
         }
 
-        public EntityEntry<T> Update(T entity)
+        public T Update(T entity)
         {
             var entry = _context.Entry(entity);
             _dbset.Attach(entity);
             entry.State = EntityState.Modified;
-            return entry;
+            return entry.Entity;
         }
 
         public void Update(params T[] entities)

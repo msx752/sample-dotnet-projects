@@ -13,9 +13,9 @@ namespace netCoreAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PersonalRestfulController : MainController
+    public class PersonalsController : MainController
     {
-        public PersonalRestfulController(ISharedRepository myRepository, IMapper mapper)
+        public PersonalsController(ISharedRepository myRepository, IMapper mapper)
             : base(myRepository, mapper)
         {
         }

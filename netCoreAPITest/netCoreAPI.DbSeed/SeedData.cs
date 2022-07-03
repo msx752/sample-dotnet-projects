@@ -19,8 +19,8 @@ namespace netCoreAPI.Static.DbSeed
             var p1 = new Personal()
             {
                 Id = 1,
-                Name = "Mustafa Salih",
-                Surname = "ASLIM",
+                Name = "Ahmet",
+                Surname = "FILAN",
                 Age = 29,
                 NationalId = "11111111111"
             };

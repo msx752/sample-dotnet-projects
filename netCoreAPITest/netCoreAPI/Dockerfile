@@ -8,7 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["netCoreAPI/netCoreAPI.csproj", "netCoreAPI/"]
-COPY ["netCoreAPI.Model/netCoreAPI.Model.csproj", "netCoreAPI.Model/"]
+COPY ["netCoreAPI.Model/netCoreAPI.Models.csproj", "netCoreAPI.Model/"]
 COPY ["netCoreAPI.Data/netCoreAPI.Data.csproj", "netCoreAPI.Data/"]
 COPY ["netCoreAPI.Static/netCoreAPI.Static.csproj", "netCoreAPI.Static/"]
 COPY ["netCoreAPI.Core/netCoreAPI.Core.csproj", "netCoreAPI.Core/"]

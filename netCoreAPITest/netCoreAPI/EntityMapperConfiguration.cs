@@ -2,9 +2,9 @@
 using AutoMapper.Configuration;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
-using netCoreAPI.Model.Dtos;
-using netCoreAPI.Model.Entities;
-using netCoreAPI.Model.Models;
+using netCoreAPI.Models.Dtos;
+using netCoreAPI.Models.Entities;
+using netCoreAPI.Models.Requests;
 using System;
 
 namespace netCoreAPI

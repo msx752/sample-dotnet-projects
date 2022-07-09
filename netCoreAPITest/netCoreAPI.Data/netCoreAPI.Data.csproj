@@ -10,6 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\netCoreAPI.Model\netCoreAPI.Model.csproj" />
+    <ProjectReference Include="..\netCoreAPI.Models\netCoreAPI.Models.csproj" />
   </ItemGroup>
 </Project>

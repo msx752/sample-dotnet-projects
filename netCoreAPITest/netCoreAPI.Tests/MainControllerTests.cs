@@ -31,13 +31,14 @@ namespace CustomImageProvider.Tests
             client = _factory.CreateClient();
         }
 
-        internal async Task<T> DeserializeObjAsync<T>(HttpResponseMessage response) where T : class
+        internal T ConvertResponse<T>(HttpResponseMessage response)
+            where T : class
         {
-            using (var sr = new StreamReader(await response.Content.ReadAsStreamAsync()))
+            using (var sr = new StreamReader(response.Content.ReadAsStreamAsync().ConfigureAwait(false).GetAwaiter().GetResult()))
             {
                 try
                 {
-                    var resp = await sr.ReadToEndAsync();
+                    var resp = sr.ReadToEndAsync().ConfigureAwait(false).GetAwaiter().GetResult();
                     var data = JsonConvert.DeserializeObject<T>(resp, jsonSerializerSettings);
                     return data;
                 }

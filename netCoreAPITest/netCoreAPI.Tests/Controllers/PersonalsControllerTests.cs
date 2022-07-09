@@ -1,7 +1,7 @@
 ﻿using CustomImageProvider.Tests;
-using netCoreAPI.Model.Dtos;
-using netCoreAPI.Model.Models;
-using netCoreAPI.Model.ResponseModels;
+using netCoreAPI.Models.Dtos;
+using netCoreAPI.Models.Requests;
+using netCoreAPI.Models.Responses;
 using Newtonsoft.Json;
 using Shouldly;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace netCoreAPI.Tests.Controllers
         }
 
         [Fact]
-        public async Task<BaseResponseModel<PersonalDto>> Delete()
+        public async Task<ResponseModel<PersonalDto>> Delete()
         {
             var obj = await Post();
             obj.Result.ShouldNotBeEmpty();
@@ -29,7 +29,7 @@ namespace netCoreAPI.Tests.Controllers
             var response = await client.DeleteAsync($"api/Personals/{obj.Result.First().Id}");
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
             data.Result.First().Name.ShouldBe(obj.Result.First().Name);
             data.Result.First().Surname.ShouldBe(obj.Result.First().Surname);
             data.Result.First().Id.ShouldBe(obj.Result.First().Id);
@@ -42,12 +42,11 @@ namespace netCoreAPI.Tests.Controllers
         public async Task DeleteById_NotFound(int personalId)
         {
             var response = await client.DeleteAsync($"api/Personals/{personalId}");
-            response.StatusCode.ShouldBe(HttpStatusCode.OK);
+            response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
 
-            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
-            data.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+            var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.Result.ShouldBeEmpty();
+            data.ShouldBeNull();
         }
 
         [Fact]
@@ -56,7 +55,7 @@ namespace netCoreAPI.Tests.Controllers
             var response = await client.GetAsync("api/Personals");
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
         }
 
         [Theory]
@@ -66,7 +65,7 @@ namespace netCoreAPI.Tests.Controllers
             var response = await client.GetAsync($"api/Personals/{personalId}");
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
             data.Result.ShouldNotBeEmpty();
             data.Result.First().Id.ShouldBe(1);
         }
@@ -79,7 +78,7 @@ namespace netCoreAPI.Tests.Controllers
             var response = await client.GetAsync($"api/Personals/Name/{personalName}");
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
             data.Result.ShouldNotBeEmpty();
             data.Result.First().Id.ShouldNotBe(0);
         }
@@ -92,13 +91,13 @@ namespace netCoreAPI.Tests.Controllers
             var response = await client.GetAsync($"api/Personals/Surname/{personalSurname}");
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
             data.Result.ShouldNotBeEmpty();
             data.Result.First().Id.ShouldNotBe(0);
         }
 
         [Fact]
-        public async Task<BaseResponseModel<PersonalDto>> Post()
+        public async Task<ResponseModel<PersonalDto>> Post()
         {
             PersonalModel obj = new PersonalModel()
             {
@@ -107,10 +106,12 @@ namespace netCoreAPI.Tests.Controllers
                 NationalId = null,
                 Surname = "testSurname"
             };
-            var response = await client.PostAsync("api/Personals", new StringContent(JsonConvert.SerializeObject(obj, jsonSerializerSettings), Encoding.UTF8, "application/json"));
+            var response = await client.PostAsync("api/Personals",
+                new StringContent(JsonConvert.SerializeObject(obj, jsonSerializerSettings), Encoding.UTF8, "application/json"));
+
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
             data.Result.First().Name.ShouldBe(obj.Name);
             data.Result.First().Surname.ShouldBe(obj.Surname);
 
@@ -120,7 +121,7 @@ namespace netCoreAPI.Tests.Controllers
         [Fact]
         public async Task Put()
         {
-            BaseResponseModel<PersonalDto> obj = await Post();
+            ResponseModel<PersonalDto> obj = await Post();
 
             PersonalModel objRequest = new PersonalModel()
             {
@@ -129,7 +130,9 @@ namespace netCoreAPI.Tests.Controllers
                 NationalId = "9999999999",
                 Surname = obj.Result.First().Surname
             };
-            var response = await client.PutAsync($"api/Personals/{obj.Result.First().Id}", new StringContent(JsonConvert.SerializeObject(objRequest, jsonSerializerSettings), Encoding.UTF8, "application/json"));
+            var response = await client.PutAsync($"api/Personals/{obj.Result.First().Id}",
+                new StringContent(JsonConvert.SerializeObject(objRequest, jsonSerializerSettings), Encoding.UTF8, "application/json"));
+
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
 
@@ -140,7 +143,7 @@ namespace netCoreAPI.Tests.Controllers
             var response = await client.GetAsync($"api/Personals/Search?q={queryString}");
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-            var data = await DeserializeObjAsync<BaseResponseModel<PersonalDto>>(response);
+            var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
             data.Result.ShouldNotBeEmpty();
         }
     }

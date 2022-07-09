@@ -1,4 +1,4 @@
-﻿namespace netCoreAPI.Model.Dtos
+﻿namespace netCoreAPI.Models.Dtos
 {
     public class PersonalDto
     {

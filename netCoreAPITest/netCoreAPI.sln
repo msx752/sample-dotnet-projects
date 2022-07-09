@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.Tests", "netCore
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.Core", "netCoreAPI.Core\netCoreAPI.Core.csproj", "{34CD98A7-CB48-49D0-8880-A8DF38A97314}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.Model", "netCoreAPI.Model\netCoreAPI.Model.csproj", "{8515F960-D1FA-459A-A41E-F7CC98F1ADC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.Models", "netCoreAPI.Models\netCoreAPI.Models.csproj", "{8515F960-D1FA-459A-A41E-F7CC98F1ADC1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.Static", "netCoreAPI.Static\netCoreAPI.Static.csproj", "{BBA475E0-0FEF-4A68-A361-6D0A15EAFD2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netCoreAPI.Controllers", "netCoreAPI.Controllers\netCoreAPI.Controllers.csproj", "{A5894062-054A-4F3C-9363-E6468EDD678C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.Controllers", "netCoreAPI.Controllers\netCoreAPI.Controllers.csproj", "{A5894062-054A-4F3C-9363-E6468EDD678C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netCoreAPI.DbSeed", "netCoreAPI.DbSeed\netCoreAPI.DbSeed.csproj", "{EB08FD9F-32B7-4D61-9A9A-A3409052EAB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.DbSeed", "netCoreAPI.DbSeed\netCoreAPI.DbSeed.csproj", "{EB08FD9F-32B7-4D61-9A9A-A3409052EAB7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0B559085-73E8-489E-8C38-6260539B8495}"
 EndProject

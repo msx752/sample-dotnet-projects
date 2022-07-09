@@ -48,7 +48,6 @@
     <ProjectReference Include="..\netCoreAPI.Controllers\netCoreAPI.Controllers.csproj" />
     <ProjectReference Include="..\netCoreAPI.Data\netCoreAPI.Data.csproj" />
     <ProjectReference Include="..\netCoreAPI.DbSeed\netCoreAPI.DbSeed.csproj" />
-    <ProjectReference Include="..\netCoreAPI.Model\netCoreAPI.Model.csproj" />
     <ProjectReference Include="..\netCoreAPI.Static\netCoreAPI.Static.csproj" />
   </ItemGroup>
 </Project>

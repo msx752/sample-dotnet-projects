@@ -9,12 +9,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\netCoreAPI.Data\netCoreAPI.Data.csproj" />
-    <ProjectReference Include="..\netCoreAPI.Model\netCoreAPI.Model.csproj" />
+    <ProjectReference Include="..\netCoreAPI.Models\netCoreAPI.Models.csproj" />
   </ItemGroup>
 </Project>

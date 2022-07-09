@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using netCoreAPI.Model.Entities;
+using netCoreAPI.Models.Entities;
 
 namespace netCoreAPI.Data.Migrations
 {

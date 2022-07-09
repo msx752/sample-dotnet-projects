@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using netCoreAPI.Model.ResponseModels;
 using netCoreAPI.Static.Services;
-using System.Collections.Generic;
-using System.Net;
 
 namespace netCoreAPI.Controllers.Base
 {

@@ -22,6 +22,7 @@ namespace netCoreAPI.Core.Results.Abstracts
         }
 
         public List<string> Errors { get; set; }
+        public string RequestId { get; set; }
     }
 
     public sealed class ResponseModel<T>

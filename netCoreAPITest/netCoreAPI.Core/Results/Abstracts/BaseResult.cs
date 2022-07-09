@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using netCoreAPI.Models.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace netCoreAPI.Core.Results.Abstracts
     public abstract partial class BaseResult : JsonResult
     {
         public BaseResult(int statusCode)
-            : base(null)
+            : base(new ResponseModel())
 
         {
             StatusCode = statusCode;
@@ -79,12 +80,10 @@ namespace netCoreAPI.Core.Results.Abstracts
 
             httpContext.Response.StatusCode = StatusCode.Value;
 
-            if (Value != null)
-            {
-                var executor = services.GetRequiredService<IActionResultExecutor<JsonResult>>();
-                return executor.ExecuteAsync(context, this);
-            }
-            return Task.CompletedTask;
+            ((IResponseModel)Value).RequestId = System.Diagnostics.Activity.Current?.RootId;
+
+            var executor = services.GetRequiredService<IActionResultExecutor<JsonResult>>();
+            return executor.ExecuteAsync(context, this);
         }
 
         private static partial class Log

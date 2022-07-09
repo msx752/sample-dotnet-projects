@@ -4,6 +4,7 @@ namespace netCoreAPI.Models.Interfaces
 {
     public interface IResponseModel
     {
+        string RequestId { get; set; }
         List<string> Errors { get; set; }
     }
 

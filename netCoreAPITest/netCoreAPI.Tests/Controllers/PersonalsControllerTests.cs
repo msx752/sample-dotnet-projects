@@ -31,6 +31,7 @@ namespace netCoreAPI.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
+            data.RequestId.ShouldNotBeNull();
             data.Errors.ShouldBeNull();
             data.Result.ShouldNotBeNull();
             data.Result.First().Name.ShouldBe(obj.Result.First().Name);
@@ -49,7 +50,9 @@ namespace netCoreAPI.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.ShouldBeNull();
+            data.RequestId.ShouldNotBeNull();
+            data.Result.ShouldBeNull();
+            data.Errors.ShouldBeNull();
         }
 
         [Fact]
@@ -60,6 +63,7 @@ namespace netCoreAPI.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
+            data.RequestId.ShouldNotBeNull();
             data.Errors.ShouldBeNull();
             data.Result.ShouldNotBeNull();
             data.Result.Count.ShouldBeGreaterThan(0);
@@ -73,6 +77,8 @@ namespace netCoreAPI.Tests.Controllers
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
+
+            data.RequestId.ShouldNotBeNull();
             data.Result.ShouldNotBeEmpty();
             data.Result.First().Id.ShouldBe(1);
         }
@@ -86,6 +92,8 @@ namespace netCoreAPI.Tests.Controllers
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
+
+            data.RequestId.ShouldNotBeNull();
             data.Result.ShouldNotBeEmpty();
             data.Result.First().Id.ShouldNotBe(0);
         }
@@ -99,6 +107,8 @@ namespace netCoreAPI.Tests.Controllers
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
+
+            data.RequestId.ShouldNotBeNull();
             data.Result.ShouldNotBeEmpty();
             data.Result.First().Id.ShouldNotBe(0);
         }
@@ -120,6 +130,8 @@ namespace netCoreAPI.Tests.Controllers
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
+
+            data.RequestId.ShouldNotBeNull();
             data.Result.First().Name.ShouldBe(obj.Name);
             data.Result.First().Surname.ShouldBe(obj.Surname);
 
@@ -143,6 +155,10 @@ namespace netCoreAPI.Tests.Controllers
                 new StringContent(JsonConvert.SerializeObject(objRequest, jsonSerializerSettings), Encoding.UTF8, "application/json"));
 
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+            var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
+
+            data.RequestId.ShouldNotBeNull();
         }
 
         [Theory]
@@ -153,6 +169,8 @@ namespace netCoreAPI.Tests.Controllers
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
+
+            data.RequestId.ShouldNotBeNull();
             data.Result.ShouldNotBeEmpty();
         }
     }

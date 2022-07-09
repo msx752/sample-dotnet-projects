@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  myaspnetcoreapi:
-    image: mustafasalih/aspnetcore31:api1
+  mynet6api:
+    image: mustafasalih/net6:api1
     build:
      context: .
      dockerfile: netCoreAPITest/Dockerfile

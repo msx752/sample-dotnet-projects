@@ -118,7 +118,7 @@ namespace netCoreAPI.Controllers
         #region Custom Endpoints
 
         /// <summary>
-        /// GET api/PersonalCustom/Name/Mustafa Salih
+        /// GET api/Personals/Name/CUSTOMER_NAME
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -135,7 +135,7 @@ namespace netCoreAPI.Controllers
         }
 
         /// <summary>
-        /// GET api/PersonalCustom/Surname/SAVCI
+        /// GET api/Personals/Surname/CUSTOMER_SURNAME
         /// </summary>
         /// <param name="sname"></param>
         /// <returns></returns>
@@ -153,7 +153,7 @@ namespace netCoreAPI.Controllers
         }
 
         /// <summary>
-        /// GET api/PersonalCustom/Search?q=sa
+        /// GET api/Personals/Search?q=sa
         /// </summary>
         /// <returns></returns>
         [HttpGet]

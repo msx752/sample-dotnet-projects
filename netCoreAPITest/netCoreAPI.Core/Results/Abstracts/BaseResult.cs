@@ -80,7 +80,7 @@ namespace netCoreAPI.Core.Results.Abstracts
 
             httpContext.Response.StatusCode = StatusCode.Value;
 
-            ((IResponseModel)Value).RequestId = System.Diagnostics.Activity.Current?.RootId;
+            ((IResponseModel)Value).RId = System.Diagnostics.Activity.Current?.RootId;
 
             var executor = services.GetRequiredService<IActionResultExecutor<JsonResult>>();
             return executor.ExecuteAsync(context, this);

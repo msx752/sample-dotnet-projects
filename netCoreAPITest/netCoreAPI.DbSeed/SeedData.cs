@@ -16,7 +16,7 @@ namespace netCoreAPI.Static.DbSeed
             /*
                 we have in-memory database so we have to call always
              */
-            var p1 = new Personal()
+            var p1 = new PersonalEntity()
             {
                 Id = 1,
                 Name = "Ahmet",
@@ -24,10 +24,10 @@ namespace netCoreAPI.Static.DbSeed
                 Age = 29,
                 NationalId = "11111111111"
             };
-            if (unitOfWork.Db<Personal>().GetById(p1.Id) == null)
-                unitOfWork.Db<Personal>().Add(p1);
+            if (unitOfWork.Db<PersonalEntity>().GetById(p1.Id) == null)
+                unitOfWork.Db<PersonalEntity>().Add(p1);
 
-            var p2 = new Personal()
+            var p2 = new PersonalEntity()
             {
                 Id = 2,
                 Name = "Mehmet",
@@ -35,14 +35,14 @@ namespace netCoreAPI.Static.DbSeed
                 Age = 21,
                 NationalId = "333333333333"
             };
-            if (unitOfWork.Db<Personal>().GetById(p2.Id) == null)
-                unitOfWork.Db<Personal>().Add(p2);
+            if (unitOfWork.Db<PersonalEntity>().GetById(p2.Id) == null)
+                unitOfWork.Db<PersonalEntity>().Add(p2);
 
             //triggers saveChanges for the updating Database
             unitOfWork.SaveChanges();
 
             //database has been updated
-            if (unitOfWork.Db<Personal>().GetById(p2.Id) != null)
+            if (unitOfWork.Db<PersonalEntity>().GetById(p2.Id) != null)
                 Console.WriteLine("this user is already in Database");
         }
     }

@@ -2,15 +2,15 @@
 
 namespace netCoreAPI.Models.Interfaces
 {
-    public interface IBaseResponseModel
+    public interface IResponseModel
     {
         List<string> Errors { get; set; }
     }
 
-    public interface IBaseResponseModel<T>
+    public interface IResponseModel<T>
+        : IResponseModel
         where T : class
     {
         public List<T> Result { get; set; }
-        List<string> Errors { get; set; }
     }
 }

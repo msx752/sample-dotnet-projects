@@ -15,7 +15,7 @@ namespace netCoreAPI.Data.Migrations
             SetChangesTrackerMode();
         }
 
-        public DbSet<Personal> Personals { get; set; }
+        public DbSet<PersonalEntity> Personals { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,10 +33,10 @@ namespace netCoreAPI.Data.Migrations
              * (ENTITY FRAMEWORK FLUENT API)
              *
              * */
-            modelBuilder.Entity<Personal>().HasKey(x => x.Id);
-            modelBuilder.Entity<Personal>().Property(x => x.Age).IsRequired();
-            modelBuilder.Entity<Personal>().Property(x => x.Name).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Personal>().Property(x => x.Surname).IsRequired().HasMaxLength(50);
+            modelBuilder.Entity<PersonalEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<PersonalEntity>().Property(x => x.Age).IsRequired();
+            modelBuilder.Entity<PersonalEntity>().Property(x => x.Name).IsRequired().HasMaxLength(50);
+            modelBuilder.Entity<PersonalEntity>().Property(x => x.Surname).IsRequired().HasMaxLength(50);
             /************************************************************************************/
 
             base.OnModelCreating(modelBuilder);

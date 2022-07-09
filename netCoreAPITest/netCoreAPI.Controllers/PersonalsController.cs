@@ -28,12 +28,14 @@ namespace netCoreAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var personal = MyRepo.Db<Personal>().GetById(id);
+            var personal = MyRepo.Db<PersonalEntity>().GetById(id);
+
             if (personal == null)
                 return new NotFoundResponse();
 
-            personal = MyRepo.Db<Personal>().Delete(personal);
+            personal = MyRepo.Db<PersonalEntity>().Delete(personal);
             MyRepo.SaveChanges();
+
             return new OkResponse(Mapper.Map<PersonalDto>(personal));
         }
 
@@ -45,7 +47,8 @@ namespace netCoreAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            var personal = MyRepo.Db<Personal>().GetById(id);
+            var personal = MyRepo.Db<PersonalEntity>().GetById(id);
+
             if (personal == null)
                 return new NotFoundResponse();
 
@@ -59,7 +62,7 @@ namespace netCoreAPI.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyRepo.Db<Personal>().All().ToList()));
+            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyRepo.Db<PersonalEntity>().All().ToList()));
         }
 
         /// <summary>
@@ -68,14 +71,14 @@ namespace netCoreAPI.Controllers
         /// <param name="personalViewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Post([FromBody] PersonalModel personalViewModel)
+        public ActionResult Post([FromBody] PersonalRequest personalViewModel)
         {
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var personalEntity = Mapper.Map<Personal>(personalViewModel);
+            var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
 
-            var personal = MyRepo.Db<Personal>().Add(personalEntity);
+            var personal = MyRepo.Db<PersonalEntity>().Add(personalEntity);
             MyRepo.SaveChanges();
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -91,24 +94,25 @@ namespace netCoreAPI.Controllers
         /// <param name="personalViewModel"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] PersonalModel personalViewModel)
+        public ActionResult Put(int id, [FromBody] PersonalRequest personalViewModel)
         {
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var personalEntityDb = MyRepo.Db<Personal>().GetById(id);
+            var personalEntityDb = MyRepo.Db<PersonalEntity>().GetById(id);
 
             if (personalEntityDb == null)
                 return new BadRequestResponse("entity not found");
 
-            var personalEntity = Mapper.Map<Personal>(personalViewModel);
+            var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
             personalEntity.Id = id;
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
              */
-            personalEntity = MyRepo.Db<Personal>().Update(personalEntity);
+            personalEntity = MyRepo.Db<PersonalEntity>().Update(personalEntity);
             MyRepo.SaveChanges();
+
             return new OkResponse();
         }
 
@@ -123,7 +127,7 @@ namespace netCoreAPI.Controllers
         [Route("Name/{name:length(3,50)}")]
         public ActionResult GetByName([FromRoute] string name)
         {
-            var personal = MyRepo.Db<Personal>()
+            var personal = MyRepo.Db<PersonalEntity>()
                 .FirstOrDefault(f => f.Name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
             if (personal == null)
                 return new NotFoundResponse();
@@ -140,7 +144,7 @@ namespace netCoreAPI.Controllers
         [Route("Surname/{sname:length(3,50)}")]
         public ActionResult GetBySurname([FromRoute] string sname)
         {
-            var personal = MyRepo.Db<Personal>()
+            var personal = MyRepo.Db<PersonalEntity>()
                 .FirstOrDefault(f => f.Surname.Equals(sname, System.StringComparison.InvariantCultureIgnoreCase));
 
             if (personal == null)
@@ -160,7 +164,7 @@ namespace netCoreAPI.Controllers
             if (string.IsNullOrEmpty(q))
                 return new BadRequestResponse();
 
-            var personals = MyRepo.Db<Personal>()
+            var personals = MyRepo.Db<PersonalEntity>()
                 .Where(f => f.Name.IndexOf(q, System.StringComparison.InvariantCultureIgnoreCase) > -1 ||
                             f.Surname.IndexOf(q, System.StringComparison.InvariantCultureIgnoreCase) > -1);
             if (personals.Count() == 0)

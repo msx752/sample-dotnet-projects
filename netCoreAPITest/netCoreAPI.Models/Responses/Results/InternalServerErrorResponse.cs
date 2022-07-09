@@ -3,7 +3,7 @@ using netCoreAPI.Models.Responses;
 
 namespace netCoreAPI.Models.Responses.Results
 {
-    public class InternalServerErrorResponse
+    public sealed class InternalServerErrorResponse
         : BaseResult
     {
         public InternalServerErrorResponse()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace netCoreAPI.Models.Responses.Results
 {
-    public class OkResponse
+    public sealed class OkResponse
         : BaseResult
     {
         public OkResponse()

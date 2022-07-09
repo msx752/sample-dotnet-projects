@@ -11,7 +11,8 @@ namespace netCoreAPI.Controllers
     [Route("api/[controller]")]
     public class AuthorizeExampleController : MainController
     {
-        public AuthorizeExampleController(ISharedRepository myRepository, IMapper mapper) : base(myRepository, mapper)
+        public AuthorizeExampleController(ISharedRepository myRepository, IMapper mapper)
+            : base(myRepository, mapper)
         {
         }
 

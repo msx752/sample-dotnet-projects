@@ -3,8 +3,30 @@ using System.Collections.Generic;
 
 namespace netCoreAPI.Models.Responses
 {
+    public abstract class BaseResponseModel
+    {
+        public BaseResponseModel()
+        {
+        }
+
+        public BaseResponseModel(IEnumerable<string> messages)
+        {
+            Errors = new();
+            Errors.AddRange(messages);
+        }
+
+        public BaseResponseModel(string message)
+        {
+            Errors = new();
+            Errors.Add(message);
+        }
+
+        public List<string> Errors { get; set; }
+    }
+
     public sealed class ResponseModel<T>
-        : IBaseResponseModel<T>
+            : BaseResponseModel
+        , IResponseModel<T>
         where T : class
     {
         public ResponseModel()
@@ -24,42 +46,35 @@ namespace netCoreAPI.Models.Responses
         }
 
         public ResponseModel(IEnumerable<string> messages)
+            : base(messages)
         {
-            Errors = new();
-            Errors.AddRange(messages);
         }
 
         public ResponseModel(string message)
+            : base(message)
         {
-            Errors = new();
-            Errors.Add(message);
         }
 
-        public List<string> Errors { get; set; }
         public List<T> Result { get; set; }
     }
 
     public sealed class ResponseModel
-        : IBaseResponseModel
+        : BaseResponseModel
+        , IResponseModel
     {
         public ResponseModel()
+            : base()
         {
         }
 
         public ResponseModel(IEnumerable<string> messages)
-            : base()
+            : base(messages)
         {
-            Errors = new();
-            Errors.AddRange(messages);
         }
 
         public ResponseModel(string message)
-            : base()
+            : base(message)
         {
-            Errors = new();
-            Errors.Add(message);
         }
-
-        public List<string> Errors { get; set; }
     }
 }

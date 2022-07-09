@@ -1,18 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace netCoreAPI.Models.Entities
+namespace netCoreAPI.Models.Requests
 {
-    [Table("Personals")]
-    public class Personal
+    public class PersonalRequest
     {
         [Required]
         public byte Age { get; set; }
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
+        //attributes for model validation while doing post/delete etc...
         [Required]
         [StringLength(50)]
         public string Name { get; set; }

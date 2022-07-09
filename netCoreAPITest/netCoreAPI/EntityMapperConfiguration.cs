@@ -16,8 +16,8 @@ namespace netCoreAPI
             //models have been binded by auto mapper
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Personal, PersonalDto>();
-                cfg.CreateMap<PersonalModel, Personal>();
+                cfg.CreateMap<PersonalEntity, PersonalDto>();
+                cfg.CreateMap<PersonalRequest, PersonalEntity>();
             });
             services.AddSingleton<IMapper>(mapperConfiguration.CreateMapper());
 

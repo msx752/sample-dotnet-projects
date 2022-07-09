@@ -2,7 +2,7 @@
 
 namespace netCoreAPI.Models.Responses.Results
 {
-    public class NotFoundResponse
+    public sealed class NotFoundResponse
         : BaseResult
     {
         public NotFoundResponse()

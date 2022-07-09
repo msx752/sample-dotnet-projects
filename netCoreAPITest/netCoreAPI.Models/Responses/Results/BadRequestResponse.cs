@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace netCoreAPI.Models.Responses.Results
 {
-    public class BadRequestResponse
+    public sealed class BadRequestResponse
         : BaseResult
     {
         public BadRequestResponse() : base(StatusCodes.Status400BadRequest)

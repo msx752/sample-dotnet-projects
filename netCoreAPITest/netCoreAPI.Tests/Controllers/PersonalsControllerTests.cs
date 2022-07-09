@@ -1,5 +1,6 @@
 ﻿using CustomImageProvider.Tests;
 using netCoreAPI.Models.Dtos;
+using netCoreAPI.Models.Interfaces;
 using netCoreAPI.Models.Requests;
 using netCoreAPI.Models.Responses;
 using Newtonsoft.Json;
@@ -30,6 +31,9 @@ namespace netCoreAPI.Tests.Controllers
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
+
+            data.Errors.ShouldBeNull();
+            data.Result.ShouldNotBeNull();
             data.Result.First().Name.ShouldBe(obj.Result.First().Name);
             data.Result.First().Surname.ShouldBe(obj.Result.First().Surname);
             data.Result.First().Id.ShouldBe(obj.Result.First().Id);
@@ -56,6 +60,10 @@ namespace netCoreAPI.Tests.Controllers
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
+
+            data.Errors.ShouldBeNull();
+            data.Result.ShouldNotBeNull();
+            data.Result.Count.ShouldBeGreaterThan(0);
         }
 
         [Theory]
@@ -99,13 +107,14 @@ namespace netCoreAPI.Tests.Controllers
         [Fact]
         public async Task<ResponseModel<PersonalDto>> Post()
         {
-            PersonalModel obj = new PersonalModel()
+            PersonalRequest obj = new PersonalRequest()
             {
                 Age = 30,
                 Name = "testName",
                 NationalId = null,
                 Surname = "testSurname"
             };
+
             var response = await client.PostAsync("api/Personals",
                 new StringContent(JsonConvert.SerializeObject(obj, jsonSerializerSettings), Encoding.UTF8, "application/json"));
 
@@ -123,13 +132,14 @@ namespace netCoreAPI.Tests.Controllers
         {
             ResponseModel<PersonalDto> obj = await Post();
 
-            PersonalModel objRequest = new PersonalModel()
+            PersonalRequest objRequest = new PersonalRequest()
             {
                 Age = 25,
                 Name = obj.Result.First().Name,
                 NationalId = "9999999999",
                 Surname = obj.Result.First().Surname
             };
+
             var response = await client.PutAsync($"api/Personals/{obj.Result.First().Id}",
                 new StringContent(JsonConvert.SerializeObject(objRequest, jsonSerializerSettings), Encoding.UTF8, "application/json"));
 

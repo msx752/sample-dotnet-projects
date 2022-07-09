@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace netCoreAPI.Models.Responses
+namespace netCoreAPI.Core.Results.Abstracts
 {
     public abstract partial class BaseResult : JsonResult
     {

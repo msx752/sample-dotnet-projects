@@ -1,7 +1,7 @@
 ﻿using netCoreAPI.Models.Interfaces;
 using System.Collections.Generic;
 
-namespace netCoreAPI.Models.Responses
+namespace netCoreAPI.Core.Results.Abstracts
 {
     public abstract class BaseResponseModel
     {

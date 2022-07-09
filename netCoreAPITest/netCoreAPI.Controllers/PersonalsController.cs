@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using netCoreAPI.Controllers.Base;
+using netCoreAPI.Controllers.Requests;
+using netCoreAPI.Core.Results;
 using netCoreAPI.Models.Dtos;
 using netCoreAPI.Models.Entities;
-using netCoreAPI.Models.Requests;
-using netCoreAPI.Models.Responses.Results;
 using netCoreAPI.Static.Services;
 using System.Collections.Generic;
 using System.Linq;

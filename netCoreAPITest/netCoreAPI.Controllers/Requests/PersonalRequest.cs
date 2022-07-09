@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace netCoreAPI.Models.Requests
+namespace netCoreAPI.Controllers.Requests
 {
     public class PersonalRequest
     {

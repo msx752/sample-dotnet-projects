@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using netCoreAPI.Core.Results.Abstracts;
 using System.Collections.Generic;
 
-namespace netCoreAPI.Models.Responses.Results
+namespace netCoreAPI.Core.Results
 {
     public sealed class OkResponse
         : BaseResult

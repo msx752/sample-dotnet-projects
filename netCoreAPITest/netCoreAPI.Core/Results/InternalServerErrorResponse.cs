@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using netCoreAPI.Models.Responses;
+using netCoreAPI.Core.Results.Abstracts;
 
-namespace netCoreAPI.Models.Responses.Results
+namespace netCoreAPI.Core.Results
 {
     public sealed class InternalServerErrorResponse
         : BaseResult

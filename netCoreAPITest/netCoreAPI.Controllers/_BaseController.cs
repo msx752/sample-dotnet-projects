@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using netCoreAPI.Static.Services;
 
-namespace netCoreAPI.Controllers.Base
+namespace netCoreAPI.Controllers
 {
-    public abstract class MainController : ControllerBase
+    public abstract class _BaseController : ControllerBase
     {
         private readonly IMapper _mapper;
 
-        internal MainController(ISharedRepository myRepository, IMapper mapper)
+        internal _BaseController(ISharedRepository myRepository, IMapper mapper)
         {
             MyRepo = myRepository;
             _mapper = mapper;

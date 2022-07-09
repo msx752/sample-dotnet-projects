@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using netCoreAPI.Controllers.Base;
 using netCoreAPI.Controllers.Requests;
 using netCoreAPI.Core.Results;
 using netCoreAPI.Models.Dtos;
@@ -13,7 +12,7 @@ namespace netCoreAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PersonalsController : MainController
+    public class PersonalsController : _BaseController
     {
         public PersonalsController(ISharedRepository myRepository, IMapper mapper)
             : base(myRepository, mapper)

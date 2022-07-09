@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using netCoreAPI.Controllers.Base;
 using netCoreAPI.Static.Services;
 
 namespace netCoreAPI.Controllers
@@ -9,7 +8,7 @@ namespace netCoreAPI.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class AuthorizeExampleController : MainController
+    public class AuthorizeExampleController : _BaseController
     {
         public AuthorizeExampleController(ISharedRepository myRepository, IMapper mapper)
             : base(myRepository, mapper)

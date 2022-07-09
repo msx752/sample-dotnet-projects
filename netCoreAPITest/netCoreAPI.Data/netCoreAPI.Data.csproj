@@ -8,8 +8,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.6" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\netCoreAPI.Models\netCoreAPI.Models.csproj" />
-  </ItemGroup>
 </Project>

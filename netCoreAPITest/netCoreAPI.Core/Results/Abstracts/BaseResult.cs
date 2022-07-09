@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using netCoreAPI.Models.Interfaces;
+using netCoreAPI.Core.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

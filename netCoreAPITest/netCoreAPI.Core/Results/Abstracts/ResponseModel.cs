@@ -1,4 +1,4 @@
-﻿using netCoreAPI.Models.Interfaces;
+﻿using netCoreAPI.Core.Interfaces;
 using System.Collections.Generic;
 
 namespace netCoreAPI.Core.Results.Abstracts

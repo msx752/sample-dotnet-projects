@@ -1,5 +1,5 @@
 ﻿using netCoreAPI.Core.ApplicationService;
-using netCoreAPI.Models.Entities;
+using netCoreAPI.Data.Entities;
 using System;
 
 namespace netCoreAPI.Static.DbSeed

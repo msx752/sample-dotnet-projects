@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using netCoreAPI.Controllers.Dtos;
 using netCoreAPI.Controllers.Requests;
 using netCoreAPI.Core.Results;
-using netCoreAPI.Models.Dtos;
-using netCoreAPI.Models.Entities;
+using netCoreAPI.Data.Entities;
 using netCoreAPI.Static.Services;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace netCoreAPI.Models.Interfaces
+namespace netCoreAPI.Core.Interfaces
 {
     public interface IResponseModel
     {

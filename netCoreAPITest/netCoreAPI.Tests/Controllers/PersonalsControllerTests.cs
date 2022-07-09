@@ -1,7 +1,7 @@
 ﻿using CustomImageProvider.Tests;
+using netCoreAPI.Controllers.Dtos;
 using netCoreAPI.Controllers.Requests;
 using netCoreAPI.Core.Results.Abstracts;
-using netCoreAPI.Models.Dtos;
 using Newtonsoft.Json;
 using Shouldly;
 using System.Linq;

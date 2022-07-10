@@ -49,7 +49,10 @@ namespace netCoreAPI
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             //we dont need to call 'IMyRepository' in here to update database because 'IUnitOfWork' does my lightweight works
-            MyContextSeed.SeedData(isp.GetRequiredService<ISharedConnection>());
+            using (var scope = isp.CreateScope())
+            {
+                MyContextSeed.SeedData(scope.ServiceProvider.GetRequiredService<ISharedConnection>());
+            }
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -59,21 +62,21 @@ namespace netCoreAPI
             services.Configure<ApplicationSettings>(Configuration);
             services.AddHttpContextAccessor();
             services.AddAuthentication((ao) => ao.DefaultChallengeScheme = ao.DefaultAuthenticateScheme = ao.DefaultScheme = JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, (options) =>
-                 {
-                     options.RequireHttpsMetadata = false;
-                     options.TokenValidationParameters = new TokenValidationParameters()
-                     {
-                         ValidateIssuer = true,
-                         ValidateAudience = true,
-                         ValidateIssuerSigningKey = true,
-                         RequireExpirationTime = true,
-                         ClockSkew = TimeSpan.Zero,
-                         ValidAudience = Configuration["JWT:ValidAudience"],
-                         ValidIssuer = Configuration["JWT:ValidIssuer"],
-                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
-                     };
-                 });
+                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, (options) =>
+                        {
+                            options.RequireHttpsMetadata = false;
+                            options.TokenValidationParameters = new TokenValidationParameters()
+                            {
+                                ValidateIssuer = true,
+                                ValidateAudience = true,
+                                ValidateIssuerSigningKey = true,
+                                RequireExpirationTime = true,
+                                ClockSkew = TimeSpan.Zero,
+                                ValidAudience = Configuration["JWT:ValidAudience"],
+                                ValidIssuer = Configuration["JWT:ValidIssuer"],
+                                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                            };
+                        });
             services.AddDbContext<MyContext>(opt => opt.UseInMemoryDatabase(databaseName: "NetCoreApiDatabase").EnableSensitiveDataLogging());//not sql-server, not mysql but IN-MEMORY DATABASE (NO DATABASE MIGRATION AND UPDATE-DATABASE)
             services.AddScoped<ISharedConnection, SharedConnection>();
             services.AddScoped<ISharedRepository, SharedRepository>();

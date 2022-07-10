@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using Samp.Core.Extensions;
 
 namespace Samp.Core.Results.Abstracts
 {
@@ -81,19 +82,9 @@ namespace Samp.Core.Results.Abstracts
 
             httpContext.Response.StatusCode = StatusCode.Value;
 
-            #region Request Tracking Id
+            JsonResultExtensions.SetRequestTrackingId((IResponseModel)Value);
 
-            ((IResponseModel)Value).RId = System.Diagnostics.Activity.Current?.RootId;
-
-            #endregion Request Tracking Id
-
-            #region Measurement of The Response Time
-
-            var requestStartDateTime = DateTime.Parse(httpContext.Items[Constants.RequestStartTime].ToString());
-            var elapsedResponseTime = DateTime.UtcNow - requestStartDateTime;
-            ((IResponseModel)Value).ElapsedSeconds = elapsedResponseTime.TotalSeconds.ToString("##0.0##", CultureInfo.InvariantCulture);
-
-            #endregion Measurement of The Response Time
+            JsonResultExtensions.SetMeasuredResponsTime((IResponseModel)Value, context.HttpContext);
 
             var executor = services.GetRequiredService<IActionResultExecutor<JsonResult>>();
             return executor.ExecuteAsync(context, this);

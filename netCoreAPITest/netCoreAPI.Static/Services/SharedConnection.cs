@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using netCoreAPI.Core.Interfaces.Repositories;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
-using netCoreAPI.Data.Migrations;
+using netCoreAPI.Database.Migrations;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

@@ -5,7 +5,7 @@ using netCoreAPI.Controllers.Dtos;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using netCoreAPI.Core.Models.Base;
 using netCoreAPI.Core.Results;
-using netCoreAPI.Data.Entities;
+using netCoreAPI.Database.Entities;
 using System.Collections.Generic;
 using System.Linq;
 

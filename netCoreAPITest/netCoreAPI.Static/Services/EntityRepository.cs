@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using netCoreAPI.Core.Interfaces.Repositories;
-using netCoreAPI.Data.Migrations;
+using netCoreAPI.Database.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

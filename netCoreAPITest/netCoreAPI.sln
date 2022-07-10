@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI", "netCoreAPI\netCoreAPI.csproj", "{1B171E92-3BB8-4772-96DC-447D548BBA5A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.Data", "netCoreAPI.Data\netCoreAPI.Data.csproj", "{AF4849BF-8684-49B8-912C-D248E5028923}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.Database", "netCoreAPI.Database\netCoreAPI.Database.csproj", "{AF4849BF-8684-49B8-912C-D248E5028923}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.Tests", "netCoreAPI.Tests\netCoreAPI.Tests.csproj", "{46D9EBA8-2E4C-4B2E-BF40-B6F0EE203407}"
 EndProject

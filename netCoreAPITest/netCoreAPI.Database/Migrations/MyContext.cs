@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using netCoreAPI.Data.Entities;
+using netCoreAPI.Database.Entities;
 
-namespace netCoreAPI.Data.Migrations
+namespace netCoreAPI.Database.Migrations
 {
     public class MyContext : DbContext
     {
@@ -47,7 +47,7 @@ namespace netCoreAPI.Data.Migrations
         /// </summary>
         private void SetChangesTrackerMode()
         {
-            this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
         }
     }
 }

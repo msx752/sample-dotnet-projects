@@ -1,9 +1,8 @@
 ﻿using netCoreAPI.Core.Data;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
-using netCoreAPI.Data.Entities;
-using System;
+using netCoreAPI.Database.Entities;
 
-namespace netCoreAPI.Data
+namespace netCoreAPI.Database
 {
     public class MyContextSeed : ContextSeed
     {

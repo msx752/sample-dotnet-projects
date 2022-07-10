@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using netCoreAPI.Core.Extensions;
 using netCoreAPI.Core.Interfaces;
-using netCoreAPI.Data;
-using netCoreAPI.Data.Migrations;
+using netCoreAPI.Database;
+using netCoreAPI.Database.Migrations;
 using netCoreAPI.Static.Services;
 using System;
 

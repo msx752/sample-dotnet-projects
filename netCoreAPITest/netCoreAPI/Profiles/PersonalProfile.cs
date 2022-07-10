@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using netCoreAPI.Controllers.Dtos;
 using netCoreAPI.Controllers.Requests;
-using netCoreAPI.Data.Entities;
+using netCoreAPI.Database.Entities;
 
 namespace netCoreAPI.Profiles
 {

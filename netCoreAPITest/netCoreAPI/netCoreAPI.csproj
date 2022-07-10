@@ -44,7 +44,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\netCoreAPI.Controllers\netCoreAPI.Controllers.csproj" />
-    <ProjectReference Include="..\netCoreAPI.Data\netCoreAPI.Data.csproj" />
     <ProjectReference Include="..\netCoreAPI.Static\netCoreAPI.Static.csproj" />
   </ItemGroup>
 </Project>

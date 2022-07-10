@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using netCoreAPI.Core.Model.Base;
 using netCoreAPI.Data.Entities;
 
 namespace netCoreAPI.Data.Migrations
 {
-    public partial class MyContext : DbContext
+    public class MyContext : DbContext
     {
         public MyContext() : base()
         {

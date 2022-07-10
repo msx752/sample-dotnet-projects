@@ -29,18 +29,14 @@ namespace Samp.API.Personal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGlobalStartupServices<netCoreAPISettings>(
-                Configuration
-                , typeof(SharedConnection<MyContext>)
-                , typeof(SharedRepository<MyContext>)
-                , typeof(MyContextSeed<MyContext>)
+            services.AddGlobalStartupServices<netCoreAPISettings>(Configuration
+                , new[] { typeof(MyContext) }
+                , new[] { typeof(MyContextSeed) }
                 );
 
             //not sql-server, not mysql but IN-MEMORY DATABASE (NO DATABASE MIGRATION AND UPDATE-DATABASE)
             services.AddDbContext<MyContext>(opt =>
                 opt.UseInMemoryDatabase(databaseName: "NetCoreApiDatabase").EnableSensitiveDataLogging());
-
-            services.AddDbContextSeed(typeof(MyContextSeed<MyContext>));
         }
     }
 }

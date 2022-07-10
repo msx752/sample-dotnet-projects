@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using netCoreAPI.Core.AppSettings;
 using Samp.Core.Interfaces;
 using Samp.Core.Interfaces.Repositories.Shared;
+using Samp.Core.RepositoryServices;
 using System;
 
 namespace Samp.Core.Extensions
@@ -42,7 +44,7 @@ namespace Samp.Core.Extensions
         /// <param name="configuration"></param>
         /// <param name="addScopedServices"></param>
         /// <returns></returns>
-        public static IServiceCollection AddGlobalStartupServices<TApplicationSettings>(this IServiceCollection services, IConfiguration configuration, params Type[] addScopedServices)
+        public static IServiceCollection AddGlobalStartupServices<TApplicationSettings>(this IServiceCollection services, IConfiguration configuration, Type[] dbcontexts, Type[] dbcontextseeds)
             where TApplicationSettings : ApplicationSettings
         {
             services.Configure<TApplicationSettings>(configuration);
@@ -52,37 +54,39 @@ namespace Samp.Core.Extensions
             services.AddSwagger();
             services.AddControllers().AddNewtonsoftJson();
 
-            foreach (var item in addScopedServices)
+            if (dbcontexts != null)
             {
-                if (typeof(IContextSeed).IsAssignableFrom(item))
+                foreach (var item in dbcontexts)
                 {
-                    services.AddDbContextSeed(item);
+                    if (typeof(DbContext).IsAssignableFrom(item))
+                    {
+                        var genericSharedConnection = typeof(SharedRepository<>)
+                            .MakeGenericType(item);
+
+                        var iGenericSharedConnection = typeof(ISharedRepository<>)
+                            .MakeGenericType(item);
+
+                        services.AddScoped(iGenericSharedConnection, genericSharedConnection);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException($"invalid service type detected, expected:{nameof(ISharedRepository)}, found:{item}");
+                    }
                 }
-                else if (typeof(ISharedConnection).IsAssignableFrom(item))
+            }
+
+            if (dbcontextseeds != null)
+            {
+                foreach (var item in dbcontextseeds)
                 {
-                    var iGenericSharedConnection = typeof(ISharedConnection<>)
-                        .MakeGenericType(item.GenericTypeArguments[0]);
-
-                    services.AddScoped(iGenericSharedConnection, item);
-                }
-                else if (typeof(ISharedRepository).IsAssignableFrom(item))
-                {
-                    var iGenericSharedRepository = typeof(ISharedRepository<>)
-                        .MakeGenericType(item.GenericTypeArguments[0]);
-
-                    services.AddScoped(iGenericSharedRepository, item);
-                }
-                else
-                {
-                    throw new NotSupportedException($"this service is not supported by Core library. ({item})");
-                    //var implementedInterfaceType = ((System.Reflection.TypeInfo)item).ImplementedInterfaces.FirstOrDefault();
-
-                    //if (implementedInterfaceType == null)
-                    //{
-                    //    throw new Exception($"Invalid implementationType found for the '{item}'");
-                    //}
-
-                    //services.AddScoped(implementedInterfaceType, item);
+                    if (typeof(IContextSeed).IsAssignableFrom(item))
+                    {
+                        services.AddDbContextSeed(item);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException($"invalid service type detected, expected:{nameof(IContextSeed)}, found:{item}");
+                    }
                 }
             }
 

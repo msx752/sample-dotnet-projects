@@ -7,7 +7,7 @@ namespace Samp.Core.Interfaces
         : IContextSeed
         where TDbContext : DbContext
     {
-        ISharedConnection<TDbContext> Connection { get; }
+        ISharedRepository<TDbContext> Repository { get; }
     }
 
     public interface IContextSeed

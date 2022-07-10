@@ -6,15 +6,15 @@ using System.Collections.Concurrent;
 
 namespace Samp.Core.RepositoryServices
 {
-    public sealed class SharedConnection<TDbContext>
-        : ISharedConnection<TDbContext>
+    public sealed class SharedRepository<TDbContext>
+        : ISharedRepository<TDbContext>
         where TDbContext : DbContext
     {
         private readonly TDbContext _context;
         private readonly ConcurrentDictionary<Type, object> _repositories;
         private bool _disposed;
 
-        public SharedConnection(TDbContext context)
+        public SharedRepository(TDbContext context)
         {
             _repositories = new ConcurrentDictionary<Type, object>();
             _context = context;

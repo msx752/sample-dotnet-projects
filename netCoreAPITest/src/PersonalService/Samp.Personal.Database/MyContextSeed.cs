@@ -2,14 +2,14 @@
 using Samp.Core.Database;
 using Samp.Core.Interfaces.Repositories.Shared;
 using Samp.Database.Personal.Entities;
+using Samp.Database.Personal.Migrations;
 
 namespace Samp.Database.Personal
 {
-    public class MyContextSeed<TDbContext>
-        : ContextSeed<TDbContext>
-        where TDbContext : DbContext
+    public class MyContextSeed
+        : ContextSeed<MyContext>
     {
-        public MyContextSeed(ISharedConnection<TDbContext> connection)
+        public MyContextSeed(ISharedRepository<MyContext> connection)
             : base(connection)
         {
         }
@@ -24,8 +24,8 @@ namespace Samp.Database.Personal
                 Age = 29,
                 NationalId = "11111111111"
             };
-            if (Connection.Db<PersonalEntity>().GetById(p1.Id) == null)
-                Connection.Db<PersonalEntity>().Add(p1);
+            if (Repository.Db<PersonalEntity>().GetById(p1.Id) == null)
+                Repository.Db<PersonalEntity>().Add(p1);
 
             var p2 = new PersonalEntity()
             {
@@ -35,10 +35,10 @@ namespace Samp.Database.Personal
                 Age = 21,
                 NationalId = "333333333333"
             };
-            if (Connection.Db<PersonalEntity>().GetById(p2.Id) == null)
-                Connection.Db<PersonalEntity>().Add(p2);
+            if (Repository.Db<PersonalEntity>().GetById(p2.Id) == null)
+                Repository.Db<PersonalEntity>().Add(p2);
 
-            Connection.SaveChanges();
+            Repository.SaveChanges();
         }
     }
 }

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\netCoreAPI.Core\netCoreAPI.Core.csproj" />
+    <ProjectReference Include="..\netCoreAPI.Data\netCoreAPI.Data.csproj" />
   </ItemGroup>
 
 </Project>

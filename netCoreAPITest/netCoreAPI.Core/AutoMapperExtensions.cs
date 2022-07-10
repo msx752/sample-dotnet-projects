@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Reflection;
 
 namespace netCoreAPI.Core
@@ -13,7 +14,7 @@ namespace netCoreAPI.Core
         /// <returns></returns>
         public static IServiceCollection AddEntityMapper(this IServiceCollection services)
         {
-            var config = new MapperConfiguration(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
+            var config = new MapperConfiguration(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
 
             services.AddSingleton(config.CreateMapper());
 

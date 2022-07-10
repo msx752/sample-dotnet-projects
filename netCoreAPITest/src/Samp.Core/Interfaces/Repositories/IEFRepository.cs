@@ -6,12 +6,12 @@ using System.Linq.Expressions;
 
 namespace Samp.Core.Interfaces.Repositories
 {
-    public interface IEntityRepository : IDisposable
+    public interface IEFRepository : IDisposable
     {
     }
 
-    public interface IEntityRepository<T>
-        : IEntityRepository
+    public interface IEFRepository<T>
+        : IEFRepository
         where T : class
     {
         T Add(T entity);

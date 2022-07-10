@@ -7,7 +7,7 @@ namespace Samp.Core.Interfaces.Repositories.Shared
         : ISharedRepository
         where TDbContext : DbContext
     {
-        IEntityRepository<TEntity> Db<TEntity>() where TEntity : class;
+        IEFRepository<TEntity> Db<TEntity>() where TEntity : class;
     }
 
     public interface ISharedRepository : IDisposable

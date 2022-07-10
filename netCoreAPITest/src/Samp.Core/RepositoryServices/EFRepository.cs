@@ -8,15 +8,15 @@ using System.Linq.Expressions;
 
 namespace Samp.Core.RepositoryServices
 {
-    public sealed class EntityRepository<T, TDbContext>
-        : IEntityRepository<T>
+    internal sealed class EFRepository<T, TDbContext>
+        : IEFRepository<T>
         where T : class
         where TDbContext : DbContext
     {
         private readonly TDbContext _context;
         private readonly DbSet<T> _dbset;
 
-        public EntityRepository(TDbContext context)
+        public EFRepository(TDbContext context)
         {
             _context = context;
             _dbset = _context.Set<T>();

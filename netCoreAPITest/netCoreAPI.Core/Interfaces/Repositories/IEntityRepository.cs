@@ -6,7 +6,14 @@ using System.Linq.Expressions;
 
 namespace netCoreAPI.Core.Interfaces.Repositories
 {
-    public interface IEntityRepository<T> : IDisposable where T : class
+    public interface IEntityRepository
+    {
+    }
+
+    public interface IEntityRepository<T>
+        : IEntityRepository
+        , IDisposable
+        where T : class
     {
         T Search(params object[] keyValues);
 

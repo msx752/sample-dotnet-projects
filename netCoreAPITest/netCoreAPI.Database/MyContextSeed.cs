@@ -1,12 +1,15 @@
-﻿using netCoreAPI.Core.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using netCoreAPI.Core.Data;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using netCoreAPI.Database.Entities;
 
 namespace netCoreAPI.Database
 {
-    public class MyContextSeed : ContextSeed
+    public class MyContextSeed<TDbContext>
+        : ContextSeed<TDbContext>
+        where TDbContext : DbContext
     {
-        public MyContextSeed(ISharedConnection connection)
+        public MyContextSeed(ISharedConnection<TDbContext> connection)
             : base(connection)
         {
         }

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using netCoreAPI.Core.Interfaces.Repositories;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
-using netCoreAPI.Database.Migrations;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,13 +9,16 @@ using System.Reflection;
 
 namespace netCoreAPI.Static.Services
 {
-    public partial class SharedConnection : ISharedConnection, IDisposable
+    public sealed class SharedConnection<TDbContext>
+        : ISharedConnection<TDbContext>
+        , IDisposable
+        where TDbContext : DbContext
     {
-        private readonly MyContext _context;
+        private readonly TDbContext _context;
         private readonly ConcurrentDictionary<Type, object> _repositories;
         private bool _disposed;
 
-        public SharedConnection(MyContext context)
+        public SharedConnection(TDbContext context)
         {
             _repositories = new ConcurrentDictionary<Type, object>();
             _context = context;
@@ -24,7 +26,7 @@ namespace netCoreAPI.Static.Services
 
         public IEntityRepository<TEntity> Db<TEntity>() where TEntity : class
         {
-            return _repositories.GetOrAdd(typeof(TEntity), new EntityRepository<TEntity>(_context)) as IEntityRepository<TEntity>;
+            return _repositories.GetOrAdd(typeof(TEntity), new EntityRepository<TEntity, TDbContext>(_context)) as IEntityRepository<TEntity>;
         }
 
         public void Dispose()
@@ -82,7 +84,7 @@ namespace netCoreAPI.Static.Services
             return _context.SaveChanges();
         }
 
-        protected virtual void Dispose(bool disposing)
+        internal void Dispose(bool disposing)
         {
             if (!this._disposed)
             {

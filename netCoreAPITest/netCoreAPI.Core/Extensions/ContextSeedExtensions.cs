@@ -26,6 +26,7 @@ namespace netCoreAPI.Core.Extensions
                 {
                     throw new Exception($"{item.FullName} must implement {typeof(ContextSeed).FullName}");
                 }
+
                 services.AddScoped(typeof(IContextSeed), item);
             }
 

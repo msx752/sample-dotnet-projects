@@ -1,39 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using netCoreAPI.Core.Extensions;
 using netCoreAPI.Core.Models.Base;
 using netCoreAPI.OperationFilters;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace netCoreAPI.Core.Extensions
 {
     public static class SwaggerExtensions
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
-        {
-            var asm = Assembly.GetCallingAssembly();
-            app.UseSwagger(c => c.SerializeAsV2 = false);
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", asm.FullName.Split(',')[0]);
-            });
-
-            return app;
-        }
-
         /// <summary>
         ///
         /// </summary>
@@ -71,6 +48,23 @@ namespace netCoreAPI.Core.Extensions
                 sgo.IncludeXmlComments(xmlFilePath);
             });
             return services;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
+        {
+            var asm = Assembly.GetCallingAssembly();
+            app.UseSwagger(c => c.SerializeAsV2 = false);
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", asm.FullName.Split(',')[0]);
+            });
+
+            return app;
         }
     }
 }

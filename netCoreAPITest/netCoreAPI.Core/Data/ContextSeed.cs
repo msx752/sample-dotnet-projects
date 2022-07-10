@@ -1,22 +1,24 @@
-﻿using netCoreAPI.Core.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using netCoreAPI.Core.Interfaces;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
 
 namespace netCoreAPI.Core.Data
 {
-    public abstract class ContextSeed : IContextSeed
+    public abstract class ContextSeed<TDbContext>
+        : ContextSeed
+        , IContextSeed<TDbContext>
+        where TDbContext : DbContext
     {
         private bool initiated = false;
 
-        public ContextSeed(ISharedConnection connection)
+        public ContextSeed(ISharedConnection<TDbContext> connection)
         {
             Connection = connection;
         }
 
-        public ISharedConnection Connection { get; }
+        public ISharedConnection<TDbContext> Connection { get; }
 
-        public abstract void CommitSeed();
-
-        public void Execute()
+        public override sealed void Execute()
         {
             if (initiated)
                 return;
@@ -25,5 +27,12 @@ namespace netCoreAPI.Core.Data
 
             CommitSeed();
         }
+    }
+
+    public abstract class ContextSeed : IContextSeed
+    {
+        public abstract void CommitSeed();
+
+        public abstract void Execute();
     }
 }

@@ -1,23 +1,22 @@
-﻿using netCoreAPI.Core.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using netCoreAPI.Core.Interfaces.Repositories;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using System;
 
 namespace netCoreAPI.Static.Services
 {
-    public partial class SharedRepository : ISharedRepository, IDisposable
+    public sealed class SharedRepository<TDbContext>
+        : ISharedRepository
+        , IDisposable
+        where TDbContext : DbContext
     {
-        private readonly ISharedConnection _uow;
+        private readonly ISharedConnection<TDbContext> _uow;
 
         private bool _disposed;
 
-        public SharedRepository(ISharedConnection uow)
+        public SharedRepository(ISharedConnection<TDbContext> uow)
         {
             _uow = uow;
-        }
-
-        public int SaveChanges()
-        {
-            return _uow.SaveChanges();
         }
 
         public IEntityRepository<TEntity> Db<TEntity>() where TEntity : class
@@ -31,7 +30,12 @@ namespace netCoreAPI.Static.Services
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        public int SaveChanges()
+        {
+            return _uow.SaveChanges();
+        }
+
+        internal void Dispose(bool disposing)
         {
             if (!this._disposed)
             {

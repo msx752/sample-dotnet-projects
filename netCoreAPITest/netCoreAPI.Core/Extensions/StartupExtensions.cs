@@ -59,9 +59,12 @@ namespace netCoreAPI.Core.Extensions
                 {
                     services.AddDbContextSeed(item);
                 }
-                else if (typeof(ISharedConnection).IsAssignableFrom(item))
+                else if (typeof(ISharedConnection<>).IsAssignableFrom(item))
                 {
-                    services.AddScoped(typeof(ISharedConnection), item);
+                    var iGenericSharedConnection = typeof(ISharedConnection<>)
+                        .MakeGenericType(item.GenericTypeArguments[0]);
+
+                    services.AddScoped(iGenericSharedConnection, item);
                 }
                 else if (typeof(ISharedRepository).IsAssignableFrom(item))
                 {
@@ -72,7 +75,9 @@ namespace netCoreAPI.Core.Extensions
                     var implementedInterfaceType = ((System.Reflection.TypeInfo)item).ImplementedInterfaces.FirstOrDefault();
 
                     if (implementedInterfaceType == null)
-                        continue;
+                    {
+                        throw new Exception($"Invalid implementationType found for the '{item}'");
+                    }
 
                     services.AddScoped(implementedInterfaceType, item);
                 }

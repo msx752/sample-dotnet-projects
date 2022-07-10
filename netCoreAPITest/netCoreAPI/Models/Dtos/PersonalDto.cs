@@ -1,4 +1,4 @@
-﻿namespace netCoreAPI.Controllers.Dtos
+﻿namespace Dtnt.API.Personals.Models.Dtos
 {
     public class PersonalDto
     {

@@ -1,7 +1,7 @@
 ﻿using CustomImageProvider.Tests;
-using netCoreAPI.Controllers.Dtos;
-using netCoreAPI.Controllers.Requests;
+using Dtnt.API.Personals.Models.Dtos;
 using netCoreAPI.Core.Results.Abstracts;
+using netCoreAPI.Static.Requests;
 using Newtonsoft.Json;
 using Shouldly;
 using System.Linq;
@@ -116,7 +116,7 @@ namespace netCoreAPI.Tests.Controllers
         [Fact]
         public async Task<ResponseModel<PersonalDto>> Post()
         {
-            PersonalRequest obj = new PersonalRequest()
+            PersonalModel obj = new PersonalModel()
             {
                 Age = 30,
                 Name = "testName",
@@ -143,7 +143,7 @@ namespace netCoreAPI.Tests.Controllers
         {
             ResponseModel<PersonalDto> obj = await Post();
 
-            PersonalRequest objRequest = new PersonalRequest()
+            PersonalModel objRequest = new PersonalModel()
             {
                 Age = 25,
                 Name = obj.Result.First().Name,

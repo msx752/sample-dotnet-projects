@@ -5,6 +5,7 @@
     <StartupObject>netCoreAPI.Program</StartupObject>
     <UserSecretsId>f00398ff-dd8a-4a3c-8ddc-80d7fed9f9d8</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\netCoreAPI.Controllers\netCoreAPI.Controllers.csproj" />
+    <ProjectReference Include="..\netCoreAPI.Core\Samp.Core.csproj" />
     <ProjectReference Include="..\netCoreAPI.Static\netCoreAPI.Static.csproj" />
   </ItemGroup>
 </Project>

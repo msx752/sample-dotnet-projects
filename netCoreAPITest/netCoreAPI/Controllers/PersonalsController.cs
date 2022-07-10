@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
+using Dtnt.API.Personals.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using netCoreAPI.Controllers.Dtos;
-using netCoreAPI.Controllers.Requests;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using netCoreAPI.Core.Models.Base;
 using netCoreAPI.Core.Results;
 using netCoreAPI.Database.Entities;
+using netCoreAPI.Static.Requests;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace netCoreAPI.Controllers.Base
+namespace Dtnt.API.Personals.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -71,7 +71,7 @@ namespace netCoreAPI.Controllers.Base
         /// <param name="personalViewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Post([FromBody] PersonalRequest personalViewModel)
+        public ActionResult Post([FromBody] PersonalModel personalViewModel)
         {
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
@@ -94,7 +94,7 @@ namespace netCoreAPI.Controllers.Base
         /// <param name="personalViewModel"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] PersonalRequest personalViewModel)
+        public ActionResult Put(int id, [FromBody] PersonalModel personalViewModel)
         {
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));

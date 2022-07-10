@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using netCoreAPI.Controllers.Dtos;
-using netCoreAPI.Controllers.Requests;
+using Dtnt.API.Personals.Models.Dtos;
 using netCoreAPI.Database.Entities;
+using netCoreAPI.Static.Requests;
 
 namespace netCoreAPI.Profiles
 {
@@ -10,7 +10,7 @@ namespace netCoreAPI.Profiles
         public PersonalProfile()
         {
             CreateMap<PersonalEntity, PersonalDto>();
-            CreateMap<PersonalRequest, PersonalEntity>();
+            CreateMap<PersonalModel, PersonalEntity>();
         }
     }
 }

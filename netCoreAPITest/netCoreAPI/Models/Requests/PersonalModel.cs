@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace netCoreAPI.Controllers.Requests
+namespace netCoreAPI.Static.Requests
 {
-    public class PersonalRequest
+    public class PersonalModel
     {
         [Required]
         public byte Age { get; set; }

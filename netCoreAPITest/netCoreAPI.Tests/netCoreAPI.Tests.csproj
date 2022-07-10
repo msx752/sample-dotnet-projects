@@ -22,7 +22,7 @@
   </Target>
 
   <ItemGroup>
-    <ProjectReference Include="..\netCoreAPI\netCoreAPI.csproj" />
+    <ProjectReference Include="..\netCoreAPI\Samp.API.Personals.csproj" />
   </ItemGroup>
 
   <ItemGroup>

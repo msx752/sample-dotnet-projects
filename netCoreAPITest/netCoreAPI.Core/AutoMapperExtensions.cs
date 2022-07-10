@@ -18,14 +18,12 @@ namespace netCoreAPI.Core
             {
                 var assemblies = AppDomain.CurrentDomain.GetAssemblies()
                     .Where(f =>
-                        !(
-                            f.FullName.StartsWith("Microsoft.")
-                            || f.FullName.StartsWith("System.")
-                            || f.FullName.StartsWith("xunit.")
-                            || f.FullName.StartsWith("System,")
-                            || f.FullName.StartsWith("AutoMapper,")
-                        )
-                        && !f.IsDynamic
+                        !f.IsDynamic
+                        && !f.FullName.StartsWith("Microsoft.")
+                        && !f.FullName.StartsWith("System.")
+                        && !f.FullName.StartsWith("xunit.")
+                        && !f.FullName.StartsWith("System,")
+                        && !f.FullName.StartsWith("AutoMapper,")
                         && f.DefinedTypes.Any(x => x.IsAssignableTo(typeof(AutoMapper.Profile)))
                      );
                 cfg.AddMaps(assemblies);

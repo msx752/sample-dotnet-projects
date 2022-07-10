@@ -84,7 +84,7 @@ namespace netCoreAPI.Tests.Controllers
         }
 
         [Theory]
-        [InlineData("Mehmet")]
+        [InlineData("Fuat")]
         [InlineData("Ahmet")]
         public async Task GetByName(string personalName)
         {
@@ -99,7 +99,7 @@ namespace netCoreAPI.Tests.Controllers
         }
 
         [Theory]
-        [InlineData("SAVCI")]
+        [InlineData("MUAT")]
         [InlineData("FILAN")]
         public async Task GetBySurname(string personalSurname)
         {
@@ -162,7 +162,7 @@ namespace netCoreAPI.Tests.Controllers
         }
 
         [Theory]
-        [InlineData("sa")]
+        [InlineData("a")]
         public async Task Search(string queryString)
         {
             var response = await client.GetAsync($"api/Personals/Search?q={queryString}");

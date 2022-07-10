@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace netCoreAPI.Core
@@ -14,7 +14,22 @@ namespace netCoreAPI.Core
         /// <returns></returns>
         public static IServiceCollection AddEntityMapper(this IServiceCollection services)
         {
-            var config = new MapperConfiguration(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                    .Where(f =>
+                        !(
+                            f.FullName.StartsWith("Microsoft.")
+                            || f.FullName.StartsWith("System.")
+                            || f.FullName.StartsWith("xunit.")
+                            || f.FullName.StartsWith("System,")
+                            || f.FullName.StartsWith("AutoMapper,")
+                        )
+                        && !f.IsDynamic
+                        && f.DefinedTypes.Any(x => x.IsAssignableTo(typeof(AutoMapper.Profile)))
+                     );
+                cfg.AddMaps(assemblies);
+            });
 
             services.AddSingleton(config.CreateMapper());
 

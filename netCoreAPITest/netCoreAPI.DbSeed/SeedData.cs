@@ -4,7 +4,7 @@ using System;
 
 namespace netCoreAPI.Static.DbSeed
 {
-    public static class MyContextSeed
+    public static class MyContextSeed2
     {
         private static bool initiated = false;
 

@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using netCoreAPI.Controllers;
 using netCoreAPI.Core;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
+using netCoreAPI.Data;
 using netCoreAPI.Data.Migrations;
 using netCoreAPI.OperationFilters;
 using netCoreAPI.Static.AppSettings;
@@ -36,6 +37,8 @@ namespace netCoreAPI
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
+            app.UseContextSeed();
+
             app.UseHttpsRedirection();
             app.UseRouting();
 
@@ -49,12 +52,6 @@ namespace netCoreAPI
             });
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
-
-            //Seed Data
-            using (var scope = isp.CreateScope())
-            {
-                MyContextSeed.SeedData(scope.ServiceProvider.GetRequiredService<ISharedConnection>());
-            }
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -107,6 +104,7 @@ namespace netCoreAPI
                         o.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
                         o.SerializerSettings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.None;
                     });
+            services.AddContextSeed(typeof(MyContextSeed));
         }
     }
 }

@@ -1,7 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 
 namespace netCoreAPI.Core.Interfaces.Repositories.Shared
 {

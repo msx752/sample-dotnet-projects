@@ -8,7 +8,14 @@ namespace netCoreAPI.Core
 {
     public static class ContextSeedExtensions
     {
-        public static IServiceCollection AddContextSeed(this IServiceCollection services, params Type[] contextSeeds)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="contextSeeds"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static IServiceCollection AddDbContextSeed(this IServiceCollection services, params Type[] contextSeeds)
         {
             if (contextSeeds.Length == 0)
                 return services;
@@ -25,6 +32,11 @@ namespace netCoreAPI.Core
             return services;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="application"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseContextSeed(this IApplicationBuilder application)
         {
             using (var scope = application.ApplicationServices.CreateScope())

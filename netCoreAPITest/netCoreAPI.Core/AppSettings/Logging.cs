@@ -1,4 +1,4 @@
-﻿namespace netCoreAPI.Static.AppSettings
+﻿namespace netCoreAPI.Core.AppSettings
 {
     public class Logging
     {

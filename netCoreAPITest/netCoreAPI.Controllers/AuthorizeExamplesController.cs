@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using netCoreAPI.Controllers.Dtos;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
+using netCoreAPI.Core.Models.Base;
 using netCoreAPI.Core.Results;
 using netCoreAPI.Data.Entities;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace netCoreAPI.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class AuthorizeExamplesController : _BaseController
+    public class AuthorizeExamplesController : BaseController
     {
         public AuthorizeExamplesController(ISharedRepository myRepository, IMapper mapper)
             : base(myRepository, mapper)

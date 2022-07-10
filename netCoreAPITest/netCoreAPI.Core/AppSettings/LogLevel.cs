@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace netCoreAPI.Static.AppSettings
+namespace netCoreAPI.Core.AppSettings
 {
     public class LogLevel
     {

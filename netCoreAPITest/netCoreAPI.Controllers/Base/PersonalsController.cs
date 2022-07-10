@@ -9,7 +9,7 @@ using netCoreAPI.Data.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace netCoreAPI.Controllers
+namespace netCoreAPI.Controllers.Base
 {
     [ApiController]
     [Route("api/[controller]")]

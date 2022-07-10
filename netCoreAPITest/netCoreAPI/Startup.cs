@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using netCoreAPI.Core;
+using netCoreAPI.Core.Extensions;
 using netCoreAPI.Core.Interfaces;
 using netCoreAPI.Data;
 using netCoreAPI.Data.Migrations;

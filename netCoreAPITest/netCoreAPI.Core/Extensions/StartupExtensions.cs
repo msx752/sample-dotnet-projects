@@ -9,7 +9,7 @@ using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using System;
 using System.Linq;
 
-namespace netCoreAPI.Core
+namespace netCoreAPI.Core.Extensions
 {
     public static class StartupExtensions
     {

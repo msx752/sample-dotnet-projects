@@ -4,7 +4,7 @@ using netCoreAPI.Core.Data;
 using netCoreAPI.Core.Interfaces;
 using System;
 
-namespace netCoreAPI.Core
+namespace netCoreAPI.Core.Extensions
 {
     public static class ContextSeedExtensions
     {

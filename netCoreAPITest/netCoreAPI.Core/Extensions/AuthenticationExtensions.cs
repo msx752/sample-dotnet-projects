@@ -6,7 +6,7 @@ using netCoreAPI.Core.AppSettings;
 using System;
 using System.Text;
 
-namespace netCoreAPI.Core
+namespace netCoreAPI.Core.Extensions
 {
     public static class AuthenticationExtensions
     {

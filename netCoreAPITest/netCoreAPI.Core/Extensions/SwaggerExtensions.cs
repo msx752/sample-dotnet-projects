@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using netCoreAPI.Core.Extensions;
 using netCoreAPI.Core.Models.Base;
 using netCoreAPI.OperationFilters;
 using System;
@@ -12,7 +13,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace netCoreAPI.Core
+namespace netCoreAPI.Core.Extensions
 {
     public static class SwaggerExtensions
     {

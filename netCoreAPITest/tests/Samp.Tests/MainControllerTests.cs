@@ -33,11 +33,11 @@ namespace Samp.Tests
         internal T ConvertResponse<T>(HttpResponseMessage response)
             where T : class
         {
-            using (var sr = new StreamReader(response.Content.ReadAsStreamAsync().ConfigureAwait(false).GetAwaiter().GetResult()))
+            using (var sr = new StreamReader(response.Content.ReadAsStream()))
             {
                 try
                 {
-                    var resp = sr.ReadToEndAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+                    var resp = sr.ReadToEnd();
                     var data = JsonConvert.DeserializeObject<T>(resp, jsonSerializerSettings);
                     return data;
                 }

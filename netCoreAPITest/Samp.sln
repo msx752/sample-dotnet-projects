@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.API.Personal", "netCoreAPI\Samp.API.Personal.csproj", "{1B171E92-3BB8-4772-96DC-447D548BBA5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Personal.API", "src\PersonalService\Samp.Personal.API\Samp.Personal.API.csproj", "{1B171E92-3BB8-4772-96DC-447D548BBA5A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Database.Personal", "netCoreAPI.Database\Samp.Database.Personal.csproj", "{AF4849BF-8684-49B8-912C-D248E5028923}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Personal.Database", "src\PersonalService\Samp.Personal.Database\Samp.Personal.Database.csproj", "{AF4849BF-8684-49B8-912C-D248E5028923}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netCoreAPI.Tests", "netCoreAPI.Tests\netCoreAPI.Tests.csproj", "{46D9EBA8-2E4C-4B2E-BF40-B6F0EE203407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Tests", "tests\Samp.Tests\Samp.Tests.csproj", "{46D9EBA8-2E4C-4B2E-BF40-B6F0EE203407}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Core", "netCoreAPI.Core\Samp.Core.csproj", "{34CD98A7-CB48-49D0-8880-A8DF38A97314}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Core", "src\Samp.Core\Samp.Core.csproj", "{34CD98A7-CB48-49D0-8880-A8DF38A97314}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0B559085-73E8-489E-8C38-6260539B8495}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0B559085-73E8-489E-8C38-6260539B8495}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{21B8AFBE-101E-4658-982F-DECEACDB1423}"
 EndProject

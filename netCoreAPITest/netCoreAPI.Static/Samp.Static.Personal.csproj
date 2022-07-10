@@ -6,6 +6,6 @@
 	
 
   <ItemGroup>
-    <ProjectReference Include="..\netCoreAPI.Database\Samp.API.Personals.Database.csproj" />
+    <ProjectReference Include="..\netCoreAPI.Database\Samp.Database.Personal.csproj" />
   </ItemGroup>
 </Project>

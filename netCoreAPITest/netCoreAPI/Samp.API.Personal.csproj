@@ -45,6 +45,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\netCoreAPI.Core\Samp.Core.csproj" />
-    <ProjectReference Include="..\netCoreAPI.Static\netCoreAPI.Static.csproj" />
+    <ProjectReference Include="..\netCoreAPI.Static\Samp.Static.Personal.csproj" />
   </ItemGroup>
 </Project>

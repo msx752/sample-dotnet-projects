@@ -2,8 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Samp.Core.Extensions;
+using Samp.Core.Filters;
 using Samp.Core.Model.Base;
-using Samp.Core.OperationFilters;
 using System;
 using System.Linq;
 using System.Reflection;

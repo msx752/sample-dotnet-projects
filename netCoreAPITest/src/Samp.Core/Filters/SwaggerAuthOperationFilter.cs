@@ -4,7 +4,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Samp.Core.OperationFilters
+namespace Samp.Core.Filters
 {
     public class SwaggerAuthOperationFilter : IOperationFilter
     {

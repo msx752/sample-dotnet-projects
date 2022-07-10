@@ -6,6 +6,7 @@ using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using netCoreAPI.Core.Models.Base;
 using netCoreAPI.Core.Results;
 using netCoreAPI.Database.Entities;
+using netCoreAPI.Database.Migrations;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,10 +17,13 @@ namespace Dtnt.API.Personals.Controllers
     [Route("api/[controller]")]
     public class AuthorizeExamplesController : BaseController
     {
-        public AuthorizeExamplesController(ISharedRepository myRepository, IMapper mapper)
-            : base(myRepository, mapper)
+        public AuthorizeExamplesController(ISharedRepository<MyContext> sharedRepository, IMapper mapper)
+            : base(mapper)
         {
+            MyContext = sharedRepository;
         }
+
+        public ISharedRepository<MyContext> MyContext { get; set; }
 
         /// <summary>
         /// require authorization
@@ -35,7 +39,7 @@ namespace Dtnt.API.Personals.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyRepo.Db<PersonalEntity>().All().ToList()));
+            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyContext.Db<PersonalEntity>().All().ToList()));
         }
     }
 }

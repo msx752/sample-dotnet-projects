@@ -1,16 +1,13 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using netCoreAPI.Core.Interfaces.Repositories;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
-namespace Samp.Database.Personal.Services
+namespace Samp.Core.RepositoryServices
 {
     public sealed class SharedConnection<TDbContext>
         : ISharedConnection<TDbContext>
-        , IDisposable
         where TDbContext : DbContext
     {
         private readonly TDbContext _context;

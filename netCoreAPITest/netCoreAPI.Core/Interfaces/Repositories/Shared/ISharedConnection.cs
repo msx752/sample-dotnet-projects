@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace netCoreAPI.Core.Interfaces.Repositories.Shared
@@ -9,12 +10,11 @@ namespace netCoreAPI.Core.Interfaces.Repositories.Shared
         where TDbContext : DbContext
     {
         IEntityRepository<TEntity> Db<TEntity>() where TEntity : class;
-    }
-
-    public interface ISharedConnection
-    {
-        void Dispose();
 
         int SaveChanges();
+    }
+
+    public interface ISharedConnection : IDisposable
+    {
     }
 }

@@ -3,11 +3,10 @@ using netCoreAPI.Core.Interfaces.Repositories;
 using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using System;
 
-namespace Samp.Database.Personal.Services
+namespace Samp.Core.RepositoryServices
 {
     public sealed class SharedRepository<TDbContext>
-        : ISharedRepository
-        , IDisposable
+        : ISharedRepository<TDbContext>
         where TDbContext : DbContext
     {
         private readonly ISharedConnection<TDbContext> _uow;

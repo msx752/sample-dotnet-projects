@@ -59,7 +59,7 @@ namespace netCoreAPI.Core.Extensions
                 {
                     services.AddDbContextSeed(item);
                 }
-                else if (typeof(ISharedConnection<>).IsAssignableFrom(item))
+                else if (typeof(ISharedConnection).IsAssignableFrom(item))
                 {
                     var iGenericSharedConnection = typeof(ISharedConnection<>)
                         .MakeGenericType(item.GenericTypeArguments[0]);
@@ -68,18 +68,22 @@ namespace netCoreAPI.Core.Extensions
                 }
                 else if (typeof(ISharedRepository).IsAssignableFrom(item))
                 {
-                    services.AddScoped(typeof(ISharedRepository), item);
+                    var iGenericSharedRepository = typeof(ISharedRepository<>)
+                        .MakeGenericType(item.GenericTypeArguments[0]);
+
+                    services.AddScoped(iGenericSharedRepository, item);
                 }
                 else
                 {
-                    var implementedInterfaceType = ((System.Reflection.TypeInfo)item).ImplementedInterfaces.FirstOrDefault();
+                    throw new NotSupportedException($"this service is not supported by Core library. ({item})");
+                    //var implementedInterfaceType = ((System.Reflection.TypeInfo)item).ImplementedInterfaces.FirstOrDefault();
 
-                    if (implementedInterfaceType == null)
-                    {
-                        throw new Exception($"Invalid implementationType found for the '{item}'");
-                    }
+                    //if (implementedInterfaceType == null)
+                    //{
+                    //    throw new Exception($"Invalid implementationType found for the '{item}'");
+                    //}
 
-                    services.AddScoped(implementedInterfaceType, item);
+                    //services.AddScoped(implementedInterfaceType, item);
                 }
             }
 

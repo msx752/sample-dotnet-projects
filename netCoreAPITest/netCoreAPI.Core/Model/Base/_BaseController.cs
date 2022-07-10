@@ -8,13 +8,11 @@ namespace netCoreAPI.Core.Models.Base
     {
         private readonly IMapper _mapper;
 
-        protected BaseController(ISharedRepository myRepository, IMapper mapper)
+        protected BaseController(IMapper mapper)
         {
-            MyRepo = myRepository;
             _mapper = mapper;
         }
 
         protected IMapper Mapper => _mapper;
-        protected ISharedRepository MyRepo { get; }
     }
 }

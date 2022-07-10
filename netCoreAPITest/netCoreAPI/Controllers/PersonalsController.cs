@@ -5,6 +5,7 @@ using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using netCoreAPI.Core.Models.Base;
 using netCoreAPI.Core.Results;
 using netCoreAPI.Database.Entities;
+using netCoreAPI.Database.Migrations;
 using netCoreAPI.Static.Requests;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,13 @@ namespace Dtnt.API.Personals.Controllers
     [Route("api/[controller]")]
     public class PersonalsController : BaseController
     {
-        public PersonalsController(ISharedRepository myRepository, IMapper mapper)
-            : base(myRepository, mapper)
+        public PersonalsController(ISharedRepository<MyContext> sharedRepository, IMapper mapper)
+            : base(mapper)
         {
+            MyContext = sharedRepository;
         }
+
+        public ISharedRepository<MyContext> MyContext { get; set; }
 
         /// <summary>
         ///  DELETE: api/Personals/5
@@ -28,13 +32,13 @@ namespace Dtnt.API.Personals.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var personal = MyRepo.Db<PersonalEntity>().GetById(id);
+            var personal = MyContext.Db<PersonalEntity>().GetById(id);
 
             if (personal == null)
                 return new NotFoundResponse();
 
-            personal = MyRepo.Db<PersonalEntity>().Delete(personal);
-            MyRepo.SaveChanges();
+            personal = MyContext.Db<PersonalEntity>().Delete(personal);
+            MyContext.SaveChanges();
 
             return new OkResponse(Mapper.Map<PersonalDto>(personal));
         }
@@ -47,7 +51,7 @@ namespace Dtnt.API.Personals.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            var personal = MyRepo.Db<PersonalEntity>().GetById(id);
+            var personal = MyContext.Db<PersonalEntity>().GetById(id);
 
             if (personal == null)
                 return new NotFoundResponse();
@@ -62,7 +66,7 @@ namespace Dtnt.API.Personals.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyRepo.Db<PersonalEntity>().All().ToList()));
+            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyContext.Db<PersonalEntity>().All().ToList()));
         }
 
         /// <summary>
@@ -78,8 +82,8 @@ namespace Dtnt.API.Personals.Controllers
 
             var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
 
-            var personal = MyRepo.Db<PersonalEntity>().Add(personalEntity);
-            MyRepo.SaveChanges();
+            var personal = MyContext.Db<PersonalEntity>().Add(personalEntity);
+            MyContext.SaveChanges();
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
@@ -99,7 +103,7 @@ namespace Dtnt.API.Personals.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var personalEntityDb = MyRepo.Db<PersonalEntity>().GetById(id);
+            var personalEntityDb = MyContext.Db<PersonalEntity>().GetById(id);
 
             if (personalEntityDb == null)
                 return new BadRequestResponse("entity not found");
@@ -110,8 +114,8 @@ namespace Dtnt.API.Personals.Controllers
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
              */
-            personalEntity = MyRepo.Db<PersonalEntity>().Update(personalEntity);
-            MyRepo.SaveChanges();
+            personalEntity = MyContext.Db<PersonalEntity>().Update(personalEntity);
+            MyContext.SaveChanges();
 
             return new OkResponse();
         }
@@ -127,7 +131,7 @@ namespace Dtnt.API.Personals.Controllers
         [Route("Name/{name:length(3,50)}")]
         public ActionResult GetByName([FromRoute] string name)
         {
-            var personal = MyRepo.Db<PersonalEntity>()
+            var personal = MyContext.Db<PersonalEntity>()
                 .FirstOrDefault(f => f.Name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
             if (personal == null)
                 return new NotFoundResponse();
@@ -144,7 +148,7 @@ namespace Dtnt.API.Personals.Controllers
         [Route("Surname/{sname:length(3,50)}")]
         public ActionResult GetBySurname([FromRoute] string sname)
         {
-            var personal = MyRepo.Db<PersonalEntity>()
+            var personal = MyContext.Db<PersonalEntity>()
                 .FirstOrDefault(f => f.Surname.Equals(sname, System.StringComparison.InvariantCultureIgnoreCase));
 
             if (personal == null)
@@ -164,7 +168,7 @@ namespace Dtnt.API.Personals.Controllers
             if (string.IsNullOrEmpty(q))
                 return new BadRequestResponse();
 
-            var personals = MyRepo.Db<PersonalEntity>()
+            var personals = MyContext.Db<PersonalEntity>()
                 .Where(f => f.Name.IndexOf(q, System.StringComparison.InvariantCultureIgnoreCase) > -1 ||
                             f.Surname.IndexOf(q, System.StringComparison.InvariantCultureIgnoreCase) > -1);
             if (personals.Count() == 0)

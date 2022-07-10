@@ -33,6 +33,7 @@ namespace netCoreAPI.Database.Migrations
              * (ENTITY FRAMEWORK FLUENT API)
              *
              * */
+            modelBuilder.Entity<PersonalEntity>().ToTable("Personals");
             modelBuilder.Entity<PersonalEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<PersonalEntity>().Property(x => x.Age).IsRequired();
             modelBuilder.Entity<PersonalEntity>().Property(x => x.Name).IsRequired().HasMaxLength(50);

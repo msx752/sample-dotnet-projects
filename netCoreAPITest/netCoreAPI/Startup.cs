@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using netCoreAPI.Core.Extensions;
 using netCoreAPI.Database;
 using netCoreAPI.Database.Migrations;
-using Samp.Database.Personal.Services;
+using Samp.Core.RepositoryServices;
 using System;
 
 namespace netCoreAPI

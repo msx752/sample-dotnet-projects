@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Samp.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Samp.Core.Results.Abstracts
@@ -80,7 +81,19 @@ namespace Samp.Core.Results.Abstracts
 
             httpContext.Response.StatusCode = StatusCode.Value;
 
+            #region Request Tracking Id
+
             ((IResponseModel)Value).RId = System.Diagnostics.Activity.Current?.RootId;
+
+            #endregion Request Tracking Id
+
+            #region Measurement of The Response Time
+
+            var requestStartDateTime = DateTime.Parse(httpContext.Items[Constants.RequestStartTime].ToString());
+            var elapsedResponseTime = DateTime.UtcNow - requestStartDateTime;
+            ((IResponseModel)Value).ElapsedSeconds = elapsedResponseTime.TotalSeconds.ToString("##0.0##", CultureInfo.InvariantCulture);
+
+            #endregion Measurement of The Response Time
 
             var executor = services.GetRequiredService<IActionResultExecutor<JsonResult>>();
             return executor.ExecuteAsync(context, this);

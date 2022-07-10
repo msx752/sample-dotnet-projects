@@ -23,6 +23,7 @@ namespace Samp.Core.Results.Abstracts
 
         public List<string> Errors { get; set; }
         public string RId { get; set; }
+        public string ElapsedSeconds { get; set; }
     }
 
     public sealed class ResponseModel<T>

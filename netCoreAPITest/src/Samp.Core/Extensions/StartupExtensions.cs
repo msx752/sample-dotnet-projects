@@ -25,6 +25,7 @@ namespace Samp.Core.Extensions
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
+            app.UseElapsedTimeMeasurement();
             app.UseContextSeed();
             app.UseHttpsRedirection();
             app.UseRouting();

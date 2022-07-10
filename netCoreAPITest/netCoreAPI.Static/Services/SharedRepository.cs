@@ -1,5 +1,5 @@
-﻿using netCoreAPI.Core.ApplicationService;
-using netCoreAPI.Core.ApplicationService.Services;
+﻿using netCoreAPI.Core.Interfaces.Repositories;
+using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using System;
 
 namespace netCoreAPI.Static.Services
@@ -20,7 +20,7 @@ namespace netCoreAPI.Static.Services
             return _uow.SaveChanges();
         }
 
-        public IBaseEntityRepository<TEntity> Db<TEntity>() where TEntity : class
+        public IEntityRepository<TEntity> Db<TEntity>() where TEntity : class
         {
             return _uow.Db<TEntity>();
         }

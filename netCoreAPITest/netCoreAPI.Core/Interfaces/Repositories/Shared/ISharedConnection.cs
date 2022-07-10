@@ -1,14 +1,14 @@
 ﻿using Microsoft.Data.SqlClient;
-using netCoreAPI.Core.ApplicationService.Services;
+using netCoreAPI.Core.Interfaces.Repositories;
 using System.Collections.Generic;
 
-namespace netCoreAPI.Core.ApplicationService
+namespace netCoreAPI.Core.Interfaces.Repositories.Shared
 {
     public interface ISharedConnection
     {
         int SaveChanges();
 
-        IBaseEntityRepository<TEntity> Db<TEntity>() where TEntity : class;
+        IEntityRepository<TEntity> Db<TEntity>() where TEntity : class;
 
         void Dispose();
 

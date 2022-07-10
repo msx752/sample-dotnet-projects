@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using netCoreAPI.Core.ApplicationService.Services;
+using netCoreAPI.Core.Interfaces.Repositories;
 using netCoreAPI.Data.Migrations;
 using System;
 using System.Collections.Generic;
@@ -9,12 +9,12 @@ using System.Linq.Expressions;
 
 namespace netCoreAPI.Static.Services
 {
-    public class BaseEntityRepository<T> : IBaseEntityRepository<T> where T : class
+    public sealed class EntityRepository<T> : IEntityRepository<T> where T : class
     {
         private readonly MyContext _context;
         private readonly DbSet<T> _dbset;
 
-        public BaseEntityRepository(MyContext context)
+        public EntityRepository(MyContext context)
         {
             _context = context;
             _dbset = context.Set<T>();

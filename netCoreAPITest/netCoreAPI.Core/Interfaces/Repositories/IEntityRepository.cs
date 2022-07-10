@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace netCoreAPI.Core.ApplicationService.Services
+namespace netCoreAPI.Core.Interfaces.Repositories
 {
-    public interface IBaseEntityRepository<T> : IDisposable where T : class
+    public interface IEntityRepository<T> : IDisposable where T : class
     {
         T Search(params object[] keyValues);
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using netCoreAPI.Static.Services;
+using netCoreAPI.Core.Interfaces.Repositories.Shared;
 
 namespace netCoreAPI.Controllers
 {

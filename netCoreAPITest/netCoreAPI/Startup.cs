@@ -8,7 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using netCoreAPI.Controllers;
-using netCoreAPI.Core.ApplicationService;
+using netCoreAPI.Core;
+using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using netCoreAPI.Data.Migrations;
 using netCoreAPI.OperationFilters;
 using netCoreAPI.Static.AppSettings;
@@ -36,9 +37,9 @@ namespace netCoreAPI
                 app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
-            app.UseAuthentication();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwagger(c => c.SerializeAsV2 = false);
@@ -48,7 +49,8 @@ namespace netCoreAPI
             });
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
-            //we dont need to call 'IMyRepository' in here to update database because 'IUnitOfWork' does my lightweight works
+
+            //Seed Data
             using (var scope = isp.CreateScope())
             {
                 MyContextSeed.SeedData(scope.ServiceProvider.GetRequiredService<ISharedConnection>());
@@ -61,7 +63,7 @@ namespace netCoreAPI
             services.AddEntityMapper();
             services.Configure<ApplicationSettings>(Configuration);
             services.AddHttpContextAccessor();
-            services.AddAuthentication((ao) => ao.DefaultChallengeScheme = ao.DefaultAuthenticateScheme = ao.DefaultScheme = JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication((ao) => ao.DefaultChallengeScheme = ao.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, (options) =>
                         {
                             options.RequireHttpsMetadata = false;

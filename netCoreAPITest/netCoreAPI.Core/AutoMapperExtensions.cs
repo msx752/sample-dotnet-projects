@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace netCoreAPI
+namespace netCoreAPI.Core
 {
     public static class AutoMapperExtensions
     {
@@ -15,7 +15,7 @@ namespace netCoreAPI
         {
             var config = new MapperConfiguration(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
 
-            services.AddSingleton<IMapper>(config.CreateMapper());
+            services.AddSingleton(config.CreateMapper());
 
             return services;
         }

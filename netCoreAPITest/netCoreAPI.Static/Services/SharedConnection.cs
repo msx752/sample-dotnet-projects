@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using netCoreAPI.Core.ApplicationService;
-using netCoreAPI.Core.ApplicationService.Services;
+using netCoreAPI.Core.Interfaces.Repositories;
+using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using netCoreAPI.Data.Migrations;
 using System;
 using System.Collections.Concurrent;
@@ -22,9 +22,9 @@ namespace netCoreAPI.Static.Services
             _context = context;
         }
 
-        public IBaseEntityRepository<TEntity> Db<TEntity>() where TEntity : class
+        public IEntityRepository<TEntity> Db<TEntity>() where TEntity : class
         {
-            return _repositories.GetOrAdd(typeof(TEntity), new BaseEntityRepository<TEntity>(_context)) as IBaseEntityRepository<TEntity>;
+            return _repositories.GetOrAdd(typeof(TEntity), new EntityRepository<TEntity>(_context)) as IEntityRepository<TEntity>;
         }
 
         public void Dispose()

@@ -1,4 +1,4 @@
-﻿using netCoreAPI.Core.ApplicationService;
+﻿using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using netCoreAPI.Data.Entities;
 using System;
 

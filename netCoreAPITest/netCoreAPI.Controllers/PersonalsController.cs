@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using netCoreAPI.Controllers.Dtos;
 using netCoreAPI.Controllers.Requests;
+using netCoreAPI.Core.Interfaces.Repositories.Shared;
 using netCoreAPI.Core.Results;
 using netCoreAPI.Data.Entities;
-using netCoreAPI.Static.Services;
 using System.Collections.Generic;
 using System.Linq;
 

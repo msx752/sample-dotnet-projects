@@ -1,16 +1,21 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using netCoreAPI.Controllers.Dtos;
+using netCoreAPI.Core.Results;
+using netCoreAPI.Data.Entities;
 using netCoreAPI.Static.Services;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace netCoreAPI.Controllers
 {
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class AuthorizeExampleController : _BaseController
+    public class AuthorizeExamplesController : _BaseController
     {
-        public AuthorizeExampleController(ISharedRepository myRepository, IMapper mapper)
+        public AuthorizeExamplesController(ISharedRepository myRepository, IMapper mapper)
             : base(myRepository, mapper)
         {
         }
@@ -24,6 +29,12 @@ namespace netCoreAPI.Controllers
         public IActionResult Delete(int id)
         {
             return Ok();
+        }
+
+        [HttpGet]
+        public ActionResult Get()
+        {
+            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyRepo.Db<PersonalEntity>().All().ToList()));
         }
     }
 }

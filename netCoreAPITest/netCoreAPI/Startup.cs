@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using netCoreAPI.Controllers;
 using netCoreAPI.Core.ApplicationService;
 using netCoreAPI.Data.Migrations;
 using netCoreAPI.OperationFilters;
@@ -35,9 +36,9 @@ namespace netCoreAPI
                 app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwagger(c => c.SerializeAsV2 = false);
@@ -57,7 +58,7 @@ namespace netCoreAPI
             services.AddEntityMapper();
             services.Configure<ApplicationSettings>(Configuration);
             services.AddHttpContextAccessor();
-            services.AddAuthentication((ao) => ao.DefaultChallengeScheme = ao.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication((ao) => ao.DefaultChallengeScheme = ao.DefaultAuthenticateScheme = ao.DefaultScheme = JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, (options) =>
                  {
                      options.RequireHttpsMetadata = false;
@@ -89,8 +90,7 @@ namespace netCoreAPI
                 });
                 sgo.OperationFilter<SwaggerAuthOperationFilter>();
 
-                string assemblyNameOfThecontrollers = "netCoreAPI.Core";
-                var xmlFile = $"{assemblyNameOfThecontrollers}.xml";
+                var xmlFile = $"{typeof(_BaseController).Namespace}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 sgo.IncludeXmlComments(xmlPath);
             });

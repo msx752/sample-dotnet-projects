@@ -20,9 +20,10 @@ namespace Samp.Core.RepositoryServices
             _context = context;
         }
 
-        public IEntityRepository<TEntity> Db<TEntity>() where TEntity : class
+        public IEntityRepository<TEntity> Db<TEntity>()
+            where TEntity : class
         {
-            return _repositories.GetOrAdd(typeof(TEntity), new EntityRepository<TEntity, TDbContext>(_context)) as IEntityRepository<TEntity>;
+            return (IEntityRepository<TEntity>)_repositories.GetOrAdd(typeof(TEntity), new EntityRepository<TEntity, TDbContext>(_context));
         }
 
         public void Dispose()

@@ -16,9 +16,9 @@ namespace Samp.Core.RepositoryServices
         private readonly TDbContext _context;
         private readonly DbSet<T> _dbset;
 
-        public EntityRepository(object context)
+        public EntityRepository(TDbContext context)
         {
-            _context = (TDbContext)context;
+            _context = context;
             _dbset = _context.Set<T>();
         }
 

@@ -7,22 +7,19 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["netCoreAPI/netCoreAPI.csproj", "netCoreAPI/"]
-COPY ["netCoreAPI.Data/netCoreAPI.Data.csproj", "netCoreAPI.Data/"]
-COPY ["netCoreAPI.Static/netCoreAPI.Static.csproj", "netCoreAPI.Static/"]
-COPY ["netCoreAPI.Core/netCoreAPI.Core.csproj", "netCoreAPI.Core/"]
-COPY ["netCoreAPI.Controllers/netCoreAPI.Controllers.csproj", "netCoreAPI.Controllers/"]
-COPY ["netCoreAPI.DbSeed/netCoreAPI.DbSeed.csproj", "netCoreAPI.DbSeed/"]
-RUN dotnet restore "netCoreAPI/netCoreAPI.csproj"
+COPY ["src/PersonalService/Samp.Personal.API/Samp.Personal.API.csproj", "src/PersonalService/Samp.Personal.API/"]
+COPY ["src/PersonalService/Samp.Personal.Database/Samp.Personal.Database.csproj", "src/PersonalService/Samp.Personal.Database/"]
+COPY ["src/Samp.Core/Samp.Core.csproj", "src/Samp.Core/"]
+RUN dotnet restore "src/PersonalService/Samp.Personal.API/Samp.Personal.API.csproj"
 COPY . .
-WORKDIR "/src/netCoreAPI"
-RUN dotnet build "netCoreAPI.csproj" -c Release -o /app/build
+WORKDIR "/src/src/PersonalService/Samp.Personal.API"
+RUN dotnet build "Samp.Personal.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "netCoreAPI.csproj" -c Release -o /app/publish
+RUN dotnet publish "Samp.Personal.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 #RUN echo "Europe/London" > /etc/timezone
-ENTRYPOINT ["dotnet", "netCoreAPI.dll"]
+ENTRYPOINT ["dotnet", "Samp.Personal.API.dll"]

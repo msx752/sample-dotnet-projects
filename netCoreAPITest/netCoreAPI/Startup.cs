@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using netCoreAPI.Core.Extensions;
-using netCoreAPI.Core.Interfaces;
 using netCoreAPI.Database;
 using netCoreAPI.Database.Migrations;
-using netCoreAPI.Static.Services;
+using Samp.Database.Personal.Services;
 using System;
 
 namespace netCoreAPI

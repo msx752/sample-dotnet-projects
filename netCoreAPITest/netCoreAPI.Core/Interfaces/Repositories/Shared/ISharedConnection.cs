@@ -9,15 +9,11 @@ namespace netCoreAPI.Core.Interfaces.Repositories.Shared
         where TDbContext : DbContext
     {
         IEntityRepository<TEntity> Db<TEntity>() where TEntity : class;
-
-        List<T> RawQuery<T>(string rawSql, params SqlParameter[] parameters);
     }
 
     public interface ISharedConnection
     {
         void Dispose();
-
-        int RawQuery(string sql, params SqlParameter[] parameters);
 
         int SaveChanges();
     }

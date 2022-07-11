@@ -33,6 +33,7 @@ namespace Samp.Core.Extensions
             app.UseAuthorization();
             app.UseSwagger();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             return app;
         }
@@ -54,6 +55,7 @@ namespace Samp.Core.Extensions
             services.AddJWTAuthentication(configuration);
             services.AddSwagger();
             services.AddControllers().AddNewtonsoftJson();
+            services.AddCors();
 
             return services;
         }

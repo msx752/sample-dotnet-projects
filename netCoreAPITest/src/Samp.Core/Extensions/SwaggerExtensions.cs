@@ -44,9 +44,12 @@ namespace Samp.Core.Extensions
                 });
                 sgo.OperationFilter<SwaggerAuthOperationFilter>();
 
-                var xmlFilePath = $"{assemblies.First().Location}.xml";
-                xmlFilePath = xmlFilePath.Replace(".dll.xml", ".xml", StringComparison.InvariantCultureIgnoreCase);
-                sgo.IncludeXmlComments(xmlFilePath);
+                if (assemblies.Count() > 0)
+                {
+                    var xmlFilePath = $"{assemblies.First().Location}.xml";
+                    xmlFilePath = xmlFilePath.Replace(".dll.xml", ".xml", StringComparison.InvariantCultureIgnoreCase);
+                    sgo.IncludeXmlComments(xmlFilePath);
+                }
             });
             return services;
         }

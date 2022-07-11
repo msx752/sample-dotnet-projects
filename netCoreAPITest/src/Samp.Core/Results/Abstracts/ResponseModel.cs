@@ -11,12 +11,14 @@ namespace Samp.Core.Results.Abstracts
         }
 
         public BaseResponseModel(IEnumerable<string> messages)
+            : this()
         {
             Errors = new();
             Errors.AddRange(messages);
         }
 
         public BaseResponseModel(string message)
+            : this()
         {
             Errors = new();
             Errors.Add(message);

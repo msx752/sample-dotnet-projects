@@ -7,7 +7,7 @@ namespace Samp.Core.Results.Abstracts
     {
         public BaseResponseModel()
         {
-            Reports = new();
+            Stats = new();
         }
 
         public BaseResponseModel(IEnumerable<string> messages)
@@ -23,10 +23,10 @@ namespace Samp.Core.Results.Abstracts
         }
 
         public List<string> Errors { get; set; }
-        public ResponseReportModel Reports { get; set; }
+        public ResponseStatModel Stats { get; set; }
     }
 
-    public class ResponseReportModel
+    public class ResponseStatModel
     {
         public string RId { get; set; }
         public string ElapsedMilliseconds { get; set; }

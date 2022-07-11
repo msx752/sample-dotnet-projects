@@ -6,7 +6,7 @@ namespace Samp.Core.Interfaces
     public interface IResponseModel
     {
         List<string> Errors { get; set; }
-        ResponseReportModel Reports { get; set; }
+        ResponseStatModel Stats { get; set; }
     }
 
     public interface IResponseModel<T>

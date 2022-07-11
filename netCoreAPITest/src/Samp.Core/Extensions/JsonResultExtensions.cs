@@ -16,7 +16,7 @@ namespace Samp.Core.Extensions
         /// <param name="body"></param>
         public static void SetRequestTrackingId(this IResponseModel body)
         {
-            body.Reports.RId = System.Diagnostics.Activity.Current?.RootId;
+            body.Stats.RId = System.Diagnostics.Activity.Current?.RootId;
         }
 
         #endregion Request Tracking Id
@@ -32,7 +32,7 @@ namespace Samp.Core.Extensions
         {
             var requestStartDateTime = DateTime.Parse(context.Items[Constants.RequestStartTime].ToString());
             var elapsedResponseTime = DateTime.UtcNow - requestStartDateTime;
-            body.Reports.ElapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
+            body.Stats.ElapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
         }
 
         #endregion Measurement of The Response Time

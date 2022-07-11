@@ -20,10 +20,22 @@ namespace Samp.Core.RepositoryServices
             _context = context;
         }
 
-        public IEFRepository<TEntity> Db<TEntity>()
-            where TEntity : class
+        /// <summary>
+        /// MAGIC
+        /// </summary>
+        /// <returns></returns>
+        public int Commit()
         {
-            return (IEFRepository<TEntity>)_repositories.GetOrAdd(typeof(TEntity), new EFRepository<TEntity, TDbContext>(_context));
+            return _context.SaveChanges();
+        }
+
+        public IEFRepository<TEntity> Table<TEntity>()
+                    where TEntity : class
+        {
+            var lazy = _repositories
+                .GetOrAdd(typeof(TEntity), new Lazy<EFRepository<TEntity, TDbContext>>(() => new EFRepository<TEntity, TDbContext>(_context)));
+
+            return ((Lazy<EFRepository<TEntity, TDbContext>>)lazy).Value;
         }
 
         public void Dispose()
@@ -35,15 +47,6 @@ namespace Samp.Core.RepositoryServices
         public int RawQuery(string sql, params object[] parameters)
         {
             return _context.Database.ExecuteSqlRaw(sql, parameters);
-        }
-
-        /// <summary>
-        /// MAGIC
-        /// </summary>
-        /// <returns></returns>
-        public int SaveChanges()
-        {
-            return _context.SaveChanges();
         }
 
         internal void Dispose(bool disposing)

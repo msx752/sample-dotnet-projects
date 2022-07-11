@@ -32,13 +32,13 @@ namespace Samp.API.Personal.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var personal = MyContext.Db<PersonalEntity>().GetById(id);
+            var personal = MyContext.Table<PersonalEntity>().GetById(id);
 
             if (personal == null)
                 return new NotFoundResponse();
 
-            personal = MyContext.Db<PersonalEntity>().Delete(personal);
-            MyContext.SaveChanges();
+            personal = MyContext.Table<PersonalEntity>().Delete(personal);
+            MyContext.Commit();
 
             return new OkResponse(Mapper.Map<PersonalDto>(personal));
         }
@@ -51,7 +51,7 @@ namespace Samp.API.Personal.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            var personal = MyContext.Db<PersonalEntity>().GetById(id);
+            var personal = MyContext.Table<PersonalEntity>().GetById(id);
 
             if (personal == null)
                 return new NotFoundResponse();
@@ -66,7 +66,7 @@ namespace Samp.API.Personal.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyContext.Db<PersonalEntity>().All().ToList()));
+            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyContext.Table<PersonalEntity>().All().ToList()));
         }
 
         /// <summary>
@@ -82,8 +82,8 @@ namespace Samp.API.Personal.Controllers
 
             var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
 
-            var personal = MyContext.Db<PersonalEntity>().Add(personalEntity);
-            MyContext.SaveChanges();
+            var personal = MyContext.Table<PersonalEntity>().Add(personalEntity);
+            MyContext.Commit();
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
@@ -103,7 +103,7 @@ namespace Samp.API.Personal.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var personalEntityDb = MyContext.Db<PersonalEntity>().GetById(id);
+            var personalEntityDb = MyContext.Table<PersonalEntity>().GetById(id);
 
             if (personalEntityDb == null)
                 return new BadRequestResponse("entity not found");
@@ -114,8 +114,8 @@ namespace Samp.API.Personal.Controllers
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
              */
-            personalEntity = MyContext.Db<PersonalEntity>().Update(personalEntity);
-            MyContext.SaveChanges();
+            personalEntity = MyContext.Table<PersonalEntity>().Update(personalEntity);
+            MyContext.Commit();
 
             return new OkResponse();
         }
@@ -131,7 +131,7 @@ namespace Samp.API.Personal.Controllers
         [Route("Name/{name:length(3,50)}")]
         public ActionResult GetByName([FromRoute] string name)
         {
-            var personal = MyContext.Db<PersonalEntity>()
+            var personal = MyContext.Table<PersonalEntity>()
                 .FirstOrDefault(f => f.Name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
             if (personal == null)
                 return new NotFoundResponse();
@@ -148,7 +148,7 @@ namespace Samp.API.Personal.Controllers
         [Route("Surname/{sname:length(3,50)}")]
         public ActionResult GetBySurname([FromRoute] string sname)
         {
-            var personal = MyContext.Db<PersonalEntity>()
+            var personal = MyContext.Table<PersonalEntity>()
                 .FirstOrDefault(f => f.Surname.Equals(sname, System.StringComparison.InvariantCultureIgnoreCase));
 
             if (personal == null)
@@ -168,7 +168,7 @@ namespace Samp.API.Personal.Controllers
             if (string.IsNullOrEmpty(q))
                 return new BadRequestResponse();
 
-            var personals = MyContext.Db<PersonalEntity>()
+            var personals = MyContext.Table<PersonalEntity>()
                 .Where(f => f.Name.IndexOf(q, System.StringComparison.InvariantCultureIgnoreCase) > -1 ||
                             f.Surname.IndexOf(q, System.StringComparison.InvariantCultureIgnoreCase) > -1);
             if (personals.Count() == 0)

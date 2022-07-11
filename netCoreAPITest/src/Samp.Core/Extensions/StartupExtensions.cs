@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -45,8 +44,8 @@ namespace Samp.Core.Extensions
         /// <param name="configuration"></param>
         /// <param name="addScopedServices"></param>
         /// <returns></returns>
-        public static IServiceCollection AddGlobalStartupServices<TApplicationSettings>(this IServiceCollection services, IConfiguration configuration, Type[] dbcontexts, Type[] dbcontextseeds)
-            where TApplicationSettings : ApplicationSettings
+        public static IServiceCollection AddGlobalStartupServices<TApplicationSettings>(this IServiceCollection services, IConfiguration configuration, params IDbContextParameter[] dbContextParameters)
+        where TApplicationSettings : ApplicationSettings
         {
             services.Configure<TApplicationSettings>(configuration);
             services.AddEntityMapper();
@@ -55,40 +54,30 @@ namespace Samp.Core.Extensions
             services.AddSwagger();
             services.AddControllers().AddNewtonsoftJson();
 
-            if (dbcontexts != null)
+            foreach (var dbContextParameter in dbContextParameters)
             {
-                foreach (var item in dbcontexts)
-                {
-                    if (typeof(DbContext).IsAssignableFrom(item))
-                    {
-                        var genericSharedConnection = typeof(SharedRepository<>)
-                            .MakeGenericType(item);
+                ArgumentNullException.ThrowIfNull(dbContextParameter.DbContext, nameof(dbContextParameter.DbContext));
 
-                        var iGenericSharedConnection = typeof(ISharedRepository<>)
-                            .MakeGenericType(item);
+                #region DbContext Initializer
 
-                        services.AddScoped(iGenericSharedConnection, genericSharedConnection);
-                    }
-                    else
-                    {
-                        throw new NotSupportedException($"invalid service type detected, expected:{nameof(ISharedRepository)}, found:{item}");
-                    }
-                }
-            }
+                services.AddCustomDbContext(dbContextParameter.DbContext, dbContextParameter.ActionDbContextOptionsBuilder);
 
-            if (dbcontextseeds != null)
-            {
-                foreach (var item in dbcontextseeds)
-                {
-                    if (typeof(IContextSeed).IsAssignableFrom(item))
-                    {
-                        services.AddDbContextSeed(item);
-                    }
-                    else
-                    {
-                        throw new NotSupportedException($"invalid service type detected, expected:{nameof(IContextSeed)}, found:{item}");
-                    }
-                }
+                #endregion DbContext Initializer
+
+                #region DbContext Repository Initializer
+
+                var genericSharedRepository = typeof(SharedRepository<>).MakeGenericType(dbContextParameter.DbContext);
+                var iGenericSharedRepository = typeof(ISharedRepository<>).MakeGenericType(dbContextParameter.DbContext);
+
+                services.AddScoped(iGenericSharedRepository, genericSharedRepository);
+
+                #endregion DbContext Repository Initializer
+
+                #region DbContext Seed Initializer
+
+                services.AddDbContextSeed(dbContextParameter.ContextSeed);
+
+                #endregion DbContext Seed Initializer
             }
 
             return services;

@@ -7,11 +7,11 @@ namespace Samp.Core.Interfaces.Repositories.Shared
         : ISharedRepository
         where TDbContext : DbContext
     {
-        IEFRepository<TEntity> Db<TEntity>() where TEntity : class;
+        IEFRepository<TEntity> Table<TEntity>() where TEntity : class;
     }
 
     public interface ISharedRepository : IDisposable
     {
-        int SaveChanges();
+        int Commit();
     }
 }

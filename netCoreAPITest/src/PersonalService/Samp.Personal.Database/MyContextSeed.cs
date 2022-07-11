@@ -24,8 +24,8 @@ namespace Samp.Database.Personal
                 Age = 29,
                 NationalId = "11111111111"
             };
-            if (Repository.Db<PersonalEntity>().GetById(p1.Id) == null)
-                Repository.Db<PersonalEntity>().Add(p1);
+            if (Repository.Table<PersonalEntity>().GetById(p1.Id) == null)
+                Repository.Table<PersonalEntity>().Add(p1);
 
             var p2 = new PersonalEntity()
             {
@@ -35,10 +35,10 @@ namespace Samp.Database.Personal
                 Age = 21,
                 NationalId = "333333333333"
             };
-            if (Repository.Db<PersonalEntity>().GetById(p2.Id) == null)
-                Repository.Db<PersonalEntity>().Add(p2);
+            if (Repository.Table<PersonalEntity>().GetById(p2.Id) == null)
+                Repository.Table<PersonalEntity>().Add(p2);
 
-            Repository.SaveChanges();
+            Repository.Commit();
         }
     }
 }

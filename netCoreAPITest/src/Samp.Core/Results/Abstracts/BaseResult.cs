@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Samp.Core.Extensions;
 using Samp.Core.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Threading.Tasks;
-using Samp.Core.Extensions;
 
 namespace Samp.Core.Results.Abstracts
 {
@@ -68,10 +67,7 @@ namespace Samp.Core.Results.Abstracts
 
         public override Task ExecuteResultAsync(ActionContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            ArgumentNullException.ThrowIfNull(context, nameof(context));
 
             var httpContext = context.HttpContext;
             var services = httpContext.RequestServices;

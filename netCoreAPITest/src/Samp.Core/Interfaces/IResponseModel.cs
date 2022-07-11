@@ -4,7 +4,7 @@ namespace Samp.Core.Interfaces
 {
     public interface IResponseModel
     {
-        public string ElapsedSeconds { get; set; }
+        public string ElapsedMilliseconds { get; set; }
         string RId { get; set; }
         List<string> Errors { get; set; }
     }

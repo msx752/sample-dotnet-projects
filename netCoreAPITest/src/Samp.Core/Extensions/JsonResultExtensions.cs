@@ -32,7 +32,7 @@ namespace Samp.Core.Extensions
         {
             var requestStartDateTime = DateTime.Parse(context.Items[Constants.RequestStartTime].ToString());
             var elapsedResponseTime = DateTime.UtcNow - requestStartDateTime;
-            body.ElapsedSeconds = elapsedResponseTime.TotalSeconds.ToString("##0.0##", CultureInfo.InvariantCulture);
+            body.ElapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
         }
 
         #endregion Measurement of The Response Time

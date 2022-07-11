@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Samp.Core.Results.Abstracts;
+using System.Collections.Generic;
 
 namespace Samp.Core.Interfaces
 {
     public interface IResponseModel
     {
-        public string ElapsedMilliseconds { get; set; }
-        string RId { get; set; }
         List<string> Errors { get; set; }
+        ResponseReportModel Reports { get; set; }
     }
 
     public interface IResponseModel<T>

@@ -33,7 +33,7 @@ namespace Samp.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.RId.ShouldNotBeNull();
+            data.Reports.RId.ShouldNotBeNull();
             data.Errors.ShouldBeNull();
             data.Result.ShouldNotBeNull();
             data.Result.First().Name.ShouldBe(obj.Result.First().Name);
@@ -52,7 +52,7 @@ namespace Samp.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.RId.ShouldNotBeNull();
+            data.Reports.RId.ShouldNotBeNull();
             data.Result.ShouldBeNull();
             data.Errors.ShouldBeNull();
         }
@@ -65,7 +65,7 @@ namespace Samp.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.RId.ShouldNotBeNull();
+            data.Reports.RId.ShouldNotBeNull();
             data.Errors.ShouldBeNull();
             data.Result.ShouldNotBeNull();
             data.Result.Count.ShouldBeGreaterThan(0);
@@ -80,7 +80,7 @@ namespace Samp.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.RId.ShouldNotBeNull();
+            data.Reports.RId.ShouldNotBeNull();
             data.Result.ShouldNotBeEmpty();
             data.Result.First().Id.ShouldBe(1);
         }
@@ -95,7 +95,7 @@ namespace Samp.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.RId.ShouldNotBeNull();
+            data.Reports.RId.ShouldNotBeNull();
             data.Result.ShouldNotBeEmpty();
             data.Result.First().Id.ShouldNotBe(0);
         }
@@ -110,7 +110,7 @@ namespace Samp.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.RId.ShouldNotBeNull();
+            data.Reports.RId.ShouldNotBeNull();
             data.Result.ShouldNotBeEmpty();
             data.Result.First().Id.ShouldNotBe(0);
         }
@@ -133,7 +133,7 @@ namespace Samp.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.RId.ShouldNotBeNull();
+            data.Reports.RId.ShouldNotBeNull();
             data.Result.First().Name.ShouldBe(obj.Name);
             data.Result.First().Surname.ShouldBe(obj.Surname);
 
@@ -160,7 +160,7 @@ namespace Samp.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.RId.ShouldNotBeNull();
+            data.Reports.RId.ShouldNotBeNull();
         }
 
         [Theory]
@@ -172,7 +172,7 @@ namespace Samp.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
-            data.RId.ShouldNotBeNull();
+            data.Reports.RId.ShouldNotBeNull();
             data.Result.ShouldNotBeEmpty();
         }
     }

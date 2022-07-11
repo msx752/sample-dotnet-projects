@@ -1,16 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Samp.Core.Database;
 using Samp.Database.Personal.Entities;
 
 namespace Samp.Database.Personal.Migrations
 {
-    public class MyContext : DbContext
+    public class MyContext : SampBaseContext
     {
         public MyContext() : base()
         {
             SetChangesTrackerMode();
         }
 
-        public MyContext(DbContextOptions<MyContext> options) : base(options)
+        public MyContext(DbContextOptions<MyContext> options)
+            : base(options)
         {
             SetChangesTrackerMode();
         }
@@ -46,7 +48,7 @@ namespace Samp.Database.Personal.Migrations
         /// <summary>
         /// this behave must be observe before usage of the relational entity updates
         /// </summary>
-        private void SetChangesTrackerMode()
+        protected override void SetChangesTrackerMode()
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
         }

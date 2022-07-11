@@ -32,9 +32,9 @@ namespace Samp.API.Personal
             var dbContext1 = new DbContextParameter<MyContext, MyContextSeed>((provider, opt) =>
                     opt.UseInMemoryDatabase(databaseName: "NetCoreApiDatabase").EnableSensitiveDataLogging());
 
-            services.AddGlobalStartupServices<netCoreAPISettings>(Configuration
-                , dbContext1
-             );
+            services.AddCustomDbContext(dbContext1);
+
+            services.AddGlobalStartupServices<netCoreAPISettings>(Configuration);
         }
     }
 }

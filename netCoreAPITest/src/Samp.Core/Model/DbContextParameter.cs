@@ -5,25 +5,29 @@ using System;
 namespace Samp.Core.Model
 {
     public class DbContextParameter<TMyContext, TContextSeed>
-        : IDbContextParameter
+        : DbContextParameter<TMyContext>
         where TMyContext : DbContext
         where TContextSeed : IContextSeed
     {
-        public DbContextParameter(Action<IServiceProvider, DbContextOptionsBuilder> actionDbContextOptionsBuilder)
-            : this()
-        {
-            if (actionDbContextOptionsBuilder != null)
-            {
-                ActionDbContextOptionsBuilder = actionDbContextOptionsBuilder;
-            }
-        }
-
-        public DbContextParameter()
+        public DbContextParameter(Action<IServiceProvider, DbContextOptionsBuilder> actionDbContextOptionsBuilder = null)
+            : base(actionDbContextOptionsBuilder)
         {
         }
 
+        public override Type ContextSeedType { get => typeof(TContextSeed); }
+    }
+
+    public class DbContextParameter<TMyContext>
+        : IDbContextParameter
+        where TMyContext : DbContext
+    {
+        public DbContextParameter(Action<IServiceProvider, DbContextOptionsBuilder> actionDbContextOptionsBuilder = null)
+        {
+            ActionDbContextOptionsBuilder = actionDbContextOptionsBuilder;
+        }
+
+        public virtual Type ContextSeedType { get; }
         public Action<IServiceProvider, DbContextOptionsBuilder> ActionDbContextOptionsBuilder { get; }
-        public Type ContextSeed { get => typeof(TContextSeed); }
-        public Type DbContext { get => typeof(TMyContext); }
+        public Type DbContextType { get => typeof(TMyContext); }
     }
 }

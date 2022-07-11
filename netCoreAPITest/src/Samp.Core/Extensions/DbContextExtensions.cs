@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Samp.Core.Interfaces;
+using Samp.Core.Interfaces.Repositories.Shared;
+using Samp.Core.RepositoryServices;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -20,6 +23,39 @@ namespace Samp.Core.Extensions
                         && mi.GetGenericArguments().Length == 1);
 
         public static IServiceCollection AddCustomDbContext(
+            this IServiceCollection services
+            , params IDbContextParameter[] scopedDbContextParameters)
+        {
+            foreach (var dbContextParameter in scopedDbContextParameters)
+            {
+                ArgumentNullException.ThrowIfNull(dbContextParameter.DbContextType, nameof(dbContextParameter.DbContextType));
+
+                #region DbContext Initializer
+
+                AddDbContext(services, dbContextParameter.DbContextType, dbContextParameter.ActionDbContextOptionsBuilder);
+
+                #endregion DbContext Initializer
+
+                #region DbContext Repository Initializer
+
+                var genericSharedRepository = typeof(SharedRepository<>).MakeGenericType(dbContextParameter.DbContextType);
+                var iGenericSharedRepository = typeof(ISharedRepository<>).MakeGenericType(dbContextParameter.DbContextType);
+
+                services.AddScoped(iGenericSharedRepository, genericSharedRepository);
+
+                #endregion DbContext Repository Initializer
+
+                #region DbContext Seed Initializer
+
+                services.AddDbContextSeed(dbContextParameter.ContextSeedType);
+
+                #endregion DbContext Seed Initializer
+            }
+
+            return services;
+        }
+
+        private static IServiceCollection AddDbContext(
             this IServiceCollection serviceCollection,
             Type contextType,
             Action<IServiceProvider, DbContextOptionsBuilder> optionsAction,

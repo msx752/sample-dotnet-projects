@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -44,7 +45,7 @@ namespace Samp.Core.Extensions
         /// <param name="configuration"></param>
         /// <param name="addScopedServices"></param>
         /// <returns></returns>
-        public static IServiceCollection AddGlobalStartupServices<TApplicationSettings>(this IServiceCollection services, IConfiguration configuration, params IDbContextParameter[] dbContextParameters)
+        public static IServiceCollection AddGlobalStartupServices<TApplicationSettings>(this IServiceCollection services, IConfiguration configuration)
         where TApplicationSettings : ApplicationSettings
         {
             services.Configure<TApplicationSettings>(configuration);
@@ -53,32 +54,6 @@ namespace Samp.Core.Extensions
             services.AddJWTAuthentication(configuration);
             services.AddSwagger();
             services.AddControllers().AddNewtonsoftJson();
-
-            foreach (var dbContextParameter in dbContextParameters)
-            {
-                ArgumentNullException.ThrowIfNull(dbContextParameter.DbContext, nameof(dbContextParameter.DbContext));
-
-                #region DbContext Initializer
-
-                services.AddCustomDbContext(dbContextParameter.DbContext, dbContextParameter.ActionDbContextOptionsBuilder);
-
-                #endregion DbContext Initializer
-
-                #region DbContext Repository Initializer
-
-                var genericSharedRepository = typeof(SharedRepository<>).MakeGenericType(dbContextParameter.DbContext);
-                var iGenericSharedRepository = typeof(ISharedRepository<>).MakeGenericType(dbContextParameter.DbContext);
-
-                services.AddScoped(iGenericSharedRepository, genericSharedRepository);
-
-                #endregion DbContext Repository Initializer
-
-                #region DbContext Seed Initializer
-
-                services.AddDbContextSeed(dbContextParameter.ContextSeed);
-
-                #endregion DbContext Seed Initializer
-            }
 
             return services;
         }

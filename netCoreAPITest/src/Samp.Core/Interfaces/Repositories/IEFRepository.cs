@@ -30,9 +30,9 @@ namespace Samp.Core.Interfaces.Repositories
 
         T FirstOrDefault(Expression<Func<T, bool>> predicate, bool includesInAvtives = false);
 
-        T GetById(object id);
+        T GetById(object id, bool includesInActives = false);
 
-        T Search(params object[] keyValues);
+        T Search(bool includesInActives = false, params object[] keyValues);
 
         T Single(Expression<Func<T, T>> selector, Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true, bool includesInActives = false);
 

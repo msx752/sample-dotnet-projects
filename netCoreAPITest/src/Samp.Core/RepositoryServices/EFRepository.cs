@@ -89,14 +89,24 @@ namespace Samp.Core.RepositoryServices
             return All(includesInActives).FirstOrDefault(predicate);
         }
 
-        public T GetById(object id)
+        public T GetById(object id, bool includesInActives = false)
         {
-            return _dbset.Find(id);
+            var entity = _dbset.Find(id);
+
+            if (entity == null || !entity.IsActive)
+                return null;
+
+            return entity;
         }
 
-        public T Search(params object[] keyValues)
+        public T Search(bool includesInActives = false, params object[] keyValues)
         {
-            return _dbset.Find(keyValues);
+            var entity = _dbset.Find(keyValues);
+
+            if (entity == null || !entity.IsActive)
+                return null;
+
+            return entity;
         }
 
         /// <summary>

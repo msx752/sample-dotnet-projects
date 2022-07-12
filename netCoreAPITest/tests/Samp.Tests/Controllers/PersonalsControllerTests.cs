@@ -4,6 +4,7 @@ using Samp.API.Personal;
 using Samp.API.Personal.Models.Dtos;
 using Samp.API.Personal.Models.Requests;
 using Samp.Core.Results.Abstracts;
+using Samp.Identity.API;
 using Samp.Tests;
 using Shouldly;
 using System.Linq;
@@ -15,9 +16,9 @@ using Xunit;
 
 namespace Samp.Tests.Controllers
 {
-    public class PersonalsControllerTests : MainControllerTests
+    public class PersonalsControllerTests : MainControllerTests<API.Personal.Startup>
     {
-        public PersonalsControllerTests(CustomWebApplicationFactory<Startup> factory) : base(factory)
+        public PersonalsControllerTests(CustomWebApplicationFactory<API.Personal.Startup> factory) : base(factory)
         {
         }
 

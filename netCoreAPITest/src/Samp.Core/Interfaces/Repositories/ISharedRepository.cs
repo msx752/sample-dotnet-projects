@@ -13,6 +13,6 @@ namespace Samp.Core.Interfaces.Repositories
 
     public interface ISharedRepository : IDisposable
     {
-        int Commit(string userId);
+        int Commit(Guid userId);
     }
 }

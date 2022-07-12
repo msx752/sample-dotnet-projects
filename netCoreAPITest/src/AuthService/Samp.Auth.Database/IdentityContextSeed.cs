@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Samp.Auth.Database
 {
-    public class IdentityContextSeed : ContextSeed<SampIdentityContext>
+    public class IdentityContextSeed : ContextSeed<IdentityDbContext>
     {
-        public IdentityContextSeed(ISharedRepository<SampIdentityContext> connection)
+        public IdentityContextSeed(ISharedRepository<IdentityDbContext> connection)
             : base(connection)
         {
         }
@@ -27,7 +27,7 @@ namespace Samp.Auth.Database
 
             Repository.Table<UserEntity>().Add(user1);
 
-            Repository.Commit(Guid.Empty.ToString());
+            Repository.Commit(Guid.NewGuid());
         }
     }
 }

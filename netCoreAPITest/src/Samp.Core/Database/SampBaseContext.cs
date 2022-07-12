@@ -40,7 +40,7 @@ namespace Samp.Core.Database
             base.OnModelCreating(modelBuilder);
         }
 
-        public int SaveChanges(string userId)
+        public int SaveChanges(Guid userId)
         {
             OnBeforeSaveChanges(userId);
             return base.SaveChanges();
@@ -51,7 +51,7 @@ namespace Samp.Core.Database
             throw new NotSupportedException();
         }
 
-        public int SaveChanges(string userId, bool acceptAllChangesOnSuccess)
+        public int SaveChanges(Guid userId, bool acceptAllChangesOnSuccess)
         {
             OnBeforeSaveChanges(userId);
             return base.SaveChanges(acceptAllChangesOnSuccess);
@@ -62,7 +62,7 @@ namespace Samp.Core.Database
             throw new NotSupportedException();
         }
 
-        public Task<int> SaveChangesAsync(string userId, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public Task<int> SaveChangesAsync(Guid userId, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             OnBeforeSaveChanges(userId);
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -73,7 +73,7 @@ namespace Samp.Core.Database
             throw new NotSupportedException();
         }
 
-        public Task<int> SaveChangesAsync(string userId, CancellationToken cancellationToken = default)
+        public Task<int> SaveChangesAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             OnBeforeSaveChanges(userId);
             return base.SaveChangesAsync(cancellationToken);
@@ -84,7 +84,7 @@ namespace Samp.Core.Database
             throw new NotSupportedException();
         }
 
-        private void OnBeforeSaveChanges(string userId)
+        private void OnBeforeSaveChanges(Guid userId)
         {
             ChangeTracker.DetectChanges();
 

@@ -22,6 +22,7 @@
   </Target>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AuthService\Samp.Auth.API\Samp.Identity.API.csproj" />
     <ProjectReference Include="..\..\src\PersonalService\Samp.Personal.API\Samp.Personal.API.csproj" />
   </ItemGroup>
 

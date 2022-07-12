@@ -16,12 +16,12 @@ namespace Samp.Auth.API.Controllers
     [Route("api/[controller]")]
     public class IdentityController : BaseController
     {
-        private readonly ISharedRepository<SampIdentityContext> repository;
+        private readonly ISharedRepository<IdentityDbContext> repository;
         private readonly ITokenHelper tokenHelper;
 
         public IdentityController(
             IMapper mapper
-            , ISharedRepository<SampIdentityContext> repository
+            , ISharedRepository<IdentityDbContext> repository
             , ITokenHelper tokenHelper)
             : base(mapper)
         {

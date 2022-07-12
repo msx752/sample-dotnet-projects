@@ -1,6 +1,5 @@
 ﻿using CustomImageProvider.Tests;
 using Newtonsoft.Json;
-using Samp.API.Personal;
 using System;
 using System.IO;
 using System.Net.Http;
@@ -8,9 +7,10 @@ using Xunit;
 
 namespace Samp.Tests
 {
-    public class MainControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class MainControllerTests<TStartup> : IClassFixture<CustomWebApplicationFactory<TStartup>>
+        where TStartup : class
     {
-        internal readonly CustomWebApplicationFactory<Startup> _factory;
+        internal readonly CustomWebApplicationFactory<TStartup> _factory;
 
         internal readonly HttpClient client = null;
 
@@ -18,7 +18,7 @@ namespace Samp.Tests
         /// <seealso cref="namespace:netCoreAPI.Startup.ConfigureServices().AddNewtonsoftJson(settings)"/>
         internal readonly JsonSerializerSettings jsonSerializerSettings;
 
-        public MainControllerTests(CustomWebApplicationFactory<Startup> factory)
+        public MainControllerTests(CustomWebApplicationFactory<TStartup> factory)
         {
             jsonSerializerSettings = new JsonSerializerSettings()
             {

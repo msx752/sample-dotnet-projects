@@ -1,22 +1,17 @@
-using Microsoft.EntityFrameworkCore;
-using Samp.Auth.Database;
-using Samp.Core.Extensions;
-using Samp.Core.Model;
-using Samp.Identity.API.Helpers;
-using Samp.Identity.Core.Migrations;
+namespace Samp.Identity.API
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddGlobalStartupServices<IdentityApplicationSettings>(builder.Configuration);
-
-var IdentityContext = new DbContextParameter<SampIdentityContext, IdentityContextSeed>((provider, opt) =>
-        opt.UseInMemoryDatabase(databaseName: "SampIdentitiyContext").EnableSensitiveDataLogging());
-
-builder.Services.AddCustomDbContext(IdentityContext);
-builder.Services.AddScoped<ITokenHelper, TokenHelper>();
-
-var app = builder.Build();
-
-app.UseGlobalStartupConfigures(app.Environment);
-
-app.Run();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
+}

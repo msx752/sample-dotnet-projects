@@ -4,9 +4,9 @@ using Samp.Identity.Database.Entities;
 
 namespace Samp.Identity.Core.Migrations
 {
-    public class SampIdentityContext : SampBaseContext
+    public class IdentityDbContext : SampBaseContext
     {
-        public SampIdentityContext(DbContextOptions<SampIdentityContext> options)
+        public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
             : base(options)
         {
         }

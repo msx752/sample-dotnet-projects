@@ -25,7 +25,7 @@ namespace Samp.Core.RepositoryServices
         /// MAGIC
         /// </summary>
         /// <returns></returns>
-        public int Commit(string userId)
+        public int Commit(Guid userId)
         {
             return _context.SaveChanges(userId);
         }

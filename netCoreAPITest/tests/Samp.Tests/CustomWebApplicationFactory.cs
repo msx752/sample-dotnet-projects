@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Hosting;
-using Samp.API.Personal;
 using System;
 
 namespace CustomImageProvider.Tests
@@ -19,7 +18,7 @@ namespace CustomImageProvider.Tests
         {
             return Host.CreateDefaultBuilder(new string[0]).ConfigureWebHostDefaults((wb) =>
             {
-                wb.UseStartup<Startup>();
+                wb.UseStartup<TStartup>();
             });
         }
     }

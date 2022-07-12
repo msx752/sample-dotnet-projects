@@ -25,12 +25,7 @@ namespace Samp.Tests.DbContexts
             CustomWebApplicationFactory<Samp.Identity.API.Startup> _factory = new CustomWebApplicationFactory<Identity.API.Startup>();
             _factory.CreateClient();
 
-            //## Scope: DELETE Seed's AuditLogs
-            Dictionary<string, int> auditlogs = new()
-            {
-                {nameof(UserEntity),0 },
-                {nameof(RefreshTokenEntity),0 }
-            };
+            //## Service Scope: DELETE Seed's AuditLogs
             Guid userId_HttpRequestSession0 = Guid.NewGuid();
             using (var scope0 = _factory.Services.CreateScope())
             {
@@ -41,7 +36,13 @@ namespace Samp.Tests.DbContexts
                 repo_scope0.Commit(userId_HttpRequestSession0);
             }
 
-            //## Scope: ADD
+            Dictionary<string, int> auditlogCounter = new()
+            {
+                {nameof(UserEntity),0 },
+                {nameof(RefreshTokenEntity),0 }
+            };
+
+            //## Service Scope: ADD
             //
             Guid userId_HttpRequestSession1 = Guid.NewGuid();
             UserEntity user_scope1 = new() { Username = Guid.NewGuid().ToString(), Password = "test1234" };
@@ -53,20 +54,20 @@ namespace Samp.Tests.DbContexts
                     .GetRequiredService<ISharedRepository<IdentityDbContext>>();
                 repo_scope1.Table<UserEntity>().Add(user_scope1);                                               //Add UserEntity
                 repo_scope1.Commit(userId_HttpRequestSession1);                                                 //Commit UserEntity
-                auditlogs[nameof(UserEntity)] += 1;
+                auditlogCounter[nameof(UserEntity)] += 1;
                 user_scope1.ShouldNotBeNull();
                 user_scope1.CreatedBy.ShouldBe(userId_HttpRequestSession1);
 
                 refreshToken_scope1.UserId = user_scope1.Id;
                 user_scope1.RefreshTokens.Add(refreshToken_scope1);                                             //Add RefreshTokenEntity
                 repo_scope1.Commit(userId_HttpRequestSession1);                                                 //Commit UserEntity
-                auditlogs[nameof(RefreshTokenEntity)] += 1;
+                auditlogCounter[nameof(RefreshTokenEntity)] += 1;
                 refreshToken_scope1.ShouldNotBeNull();
                 refreshToken_scope1.CreatedBy.ShouldBe(userId_HttpRequestSession1);
                 refreshToken_scope1.UserId.ShouldBe(user_scope1.Id);
             }
 
-            //## Scope: UPDATE
+            //## Service Scope: UPDATE
             //
             Guid userId_HttpRequestSession2 = Guid.NewGuid();
             UserEntity user_scope2 = null;
@@ -81,7 +82,7 @@ namespace Samp.Tests.DbContexts
 
                 user_scope2.Password = "4321test";                                                              //Update UserEntity
                 repo_scope2.Commit(userId_HttpRequestSession2);                                                 //Commit UserEntity
-                auditlogs[nameof(UserEntity)] += 1;
+                auditlogCounter[nameof(UserEntity)] += 1;
                 user_scope2.Password.ShouldNotBe(user_scope1.Password);
                 user_scope2.CreatedAt.ShouldBe(user_scope1.CreatedAt);
                 user_scope2.CreatedBy.ShouldBe(userId_HttpRequestSession1);
@@ -99,13 +100,13 @@ namespace Samp.Tests.DbContexts
 
                 refreshToken_scope2.RefreshToken = Guid.NewGuid().ToString();                                   //Update RefreshTokenEntity
                 repo_scope2.Commit(userId_HttpRequestSession2);                                                 //Commit RefreshTokenEntity
-                auditlogs[nameof(RefreshTokenEntity)] += 1;
+                auditlogCounter[nameof(RefreshTokenEntity)] += 1;
                 refreshToken_scope2.UpdatedBy.ShouldNotBeNull();
                 refreshToken_scope2.UpdatedBy.ShouldBe(userId_HttpRequestSession2);
                 refreshToken_scope2.RefreshToken.ShouldNotBe(refreshToken_scope1.RefreshToken);
             }
 
-            //## Scope: DELETE
+            //## Service Scope: DELETE
             //
             Guid userId_HttpRequestSession3 = Guid.NewGuid();
             UserEntity user_scope3 = null;
@@ -120,7 +121,7 @@ namespace Samp.Tests.DbContexts
 
                 repo_scope3.Table<UserEntity>().Delete(user_scope3);                                            //Delete UserEntity
                 repo_scope3.Commit(userId_HttpRequestSession3);                                                 //Commit UserEntity
-                auditlogs[nameof(UserEntity)] += 1;
+                auditlogCounter[nameof(UserEntity)] += 1;
                 user_scope3.IsActive.ShouldBeFalse();
                 user_scope3.UpdatedBy.ShouldNotBe(user_scope2.UpdatedBy);
                 user_scope3.UpdatedAt.ShouldNotBe(user_scope2.UpdatedAt);
@@ -140,14 +141,14 @@ namespace Samp.Tests.DbContexts
 
                 repo_scope4.Table<RefreshTokenEntity>().Delete(refreshToken_scope4);                            //Delete UserEntity
                 repo_scope4.Commit(userId_HttpRequestSession4);                                                 //Commit UserEntity
-                auditlogs[nameof(RefreshTokenEntity)] += 1;
+                auditlogCounter[nameof(RefreshTokenEntity)] += 1;
                 refreshToken_scope4.IsActive.ShouldBeFalse();
                 refreshToken_scope4.UpdatedBy.ShouldNotBe(refreshToken_scope2.UpdatedBy);
                 refreshToken_scope4.UpdatedAt.ShouldNotBe(refreshToken_scope2.UpdatedAt);
                 refreshToken_scope4.UpdatedBy.ShouldBe(userId_HttpRequestSession4);
             }
 
-            //## Scope: AUDIT LOGS
+            //## Service Scope: AUDIT LOGS
             //
             IEnumerable<AuditEntity> auditLogs_scope5;
             using (var scope5 = _factory.Services.CreateScope())
@@ -158,10 +159,10 @@ namespace Samp.Tests.DbContexts
             }
 
             //## VALIDATION OF THE AUDIT LOGS
-            var totalAuditCount = auditlogs.Select(f => f.Value).Sum();
+            var totalAuditCount = auditlogCounter.Select(f => f.Value).Sum();
             auditLogs_scope5.Count().ShouldBe(totalAuditCount);
             var enumerator = auditLogs_scope5.GetEnumerator();
-            enumerator.MoveNext();
+            enumerator.MoveNext(); //SERVICE SCOPE 1
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession1.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(UserEntity).Replace("Entity", "s"));
             enumerator.Current.IsActive.ShouldBeTrue();
@@ -179,7 +180,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.CreatedAt }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.CreatedBy }));
 
-            enumerator.MoveNext();
+            enumerator.MoveNext(); //SERVICE SCOPE 1
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession1.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(RefreshTokenEntity).Replace("Entity", "s"));
             enumerator.Current.IsActive.ShouldBeTrue();
@@ -195,7 +196,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.CreatedAt }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.CreatedBy }));
 
-            enumerator.MoveNext();
+            enumerator.MoveNext(); //SERVICE SCOPE 2
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession2.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(UserEntity).Replace("Entity", "s"));
             enumerator.Current.IsActive.ShouldBeTrue();
@@ -210,7 +211,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope2.Password }));
             enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope1.Password }));
 
-            enumerator.MoveNext();
+            enumerator.MoveNext(); //SERVICE SCOPE 2
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession2.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(RefreshTokenEntity).Replace("Entity", "s"));
             enumerator.Current.IsActive.ShouldBeTrue();
@@ -225,7 +226,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope2.RefreshToken }));
             enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.RefreshToken }));
 
-            enumerator.MoveNext();
+            enumerator.MoveNext(); //SERVICE SCOPE 3
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession3.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(UserEntity).Replace("Entity", "s"));
             enumerator.Current.IsActive.ShouldBeTrue();
@@ -243,7 +244,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope2.IsActive }));
             enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope2.UpdatedBy }));
 
-            enumerator.MoveNext();
+            enumerator.MoveNext(); //SERVICE SCOPE 4
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession4.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(RefreshTokenEntity).Replace("Entity", "s"));
             enumerator.Current.IsActive.ShouldBeTrue();

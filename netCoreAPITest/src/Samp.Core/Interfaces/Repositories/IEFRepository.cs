@@ -20,7 +20,7 @@ namespace Samp.Core.Interfaces.Repositories
 
         void Add(IEnumerable<T> entities);
 
-        IQueryable<T> All();
+        IQueryable<T> All(bool includesInActives = false);
 
         T Delete(T entity);
 
@@ -28,13 +28,13 @@ namespace Samp.Core.Interfaces.Repositories
 
         void Delete(IEnumerable<T> entities);
 
-        T FirstOrDefault(Expression<Func<T, bool>> predicate);
+        T FirstOrDefault(Expression<Func<T, bool>> predicate, bool includesInAvtives = false);
 
         T GetById(object id);
 
         T Search(params object[] keyValues);
 
-        T Single(Expression<Func<T, T>> selector, Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true);
+        T Single(Expression<Func<T, T>> selector, Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true, bool includesInActives = false);
 
         T Update(T entity);
 
@@ -42,6 +42,6 @@ namespace Samp.Core.Interfaces.Repositories
 
         void Update(IEnumerable<T> entities);
 
-        IEnumerable<T> Where(Expression<Func<T, bool>> predicate);
+        IEnumerable<T> Where(Expression<Func<T, bool>> predicate, bool includesInActives = false);
     }
 }

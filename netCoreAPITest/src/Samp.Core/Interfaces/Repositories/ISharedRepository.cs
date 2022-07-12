@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Samp.Core.Entities;
 using System;
 
 namespace Samp.Core.Interfaces.Repositories
@@ -7,7 +8,7 @@ namespace Samp.Core.Interfaces.Repositories
         : ISharedRepository
         where TDbContext : DbContext
     {
-        IEFRepository<TEntity> Table<TEntity>() where TEntity : class;
+        IEFRepository<TEntity> Table<TEntity>() where TEntity : BaseEntity;
     }
 
     public interface ISharedRepository : IDisposable

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Samp.Core.Database;
+using Samp.Core.Entities;
 using Samp.Core.Interfaces.Repositories;
 using System;
 using System.Collections.Concurrent;
@@ -30,7 +31,7 @@ namespace Samp.Core.RepositoryServices
         }
 
         public IEFRepository<TEntity> Table<TEntity>()
-                    where TEntity : class
+                    where TEntity : BaseEntity
         {
             var lazy = _repositories
                 .GetOrAdd(typeof(TEntity), new Lazy<EFRepository<TEntity, TDbContext>>(() => new EFRepository<TEntity, TDbContext>(_context)));

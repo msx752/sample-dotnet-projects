@@ -34,10 +34,10 @@ namespace Samp.API.Personal.Controllers
         {
             var personal = MyContext.Table<PersonalEntity>().GetById(id);
 
-            if (personal == null)
+            if (personal == null || !personal.IsActive)
                 return new NotFoundResponse();
 
-            personal = MyContext.Table<PersonalEntity>().Delete(personal);
+            MyContext.Table<PersonalEntity>().Delete(personal);
             MyContext.Commit(null);
 
             return new OkResponse(Mapper.Map<PersonalDto>(personal));
@@ -53,7 +53,7 @@ namespace Samp.API.Personal.Controllers
         {
             var personal = MyContext.Table<PersonalEntity>().GetById(id);
 
-            if (personal == null)
+            if (personal == null || !personal.IsActive)
                 return new NotFoundResponse();
 
             return new OkResponse(Mapper.Map<PersonalDto>(personal));
@@ -105,7 +105,7 @@ namespace Samp.API.Personal.Controllers
 
             var personalEntityDb = MyContext.Table<PersonalEntity>().GetById(id);
 
-            if (personalEntityDb == null)
+            if (personalEntityDb == null || !personalEntityDb.IsActive)
                 return new BadRequestResponse("entity not found");
 
             var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
@@ -133,7 +133,7 @@ namespace Samp.API.Personal.Controllers
         {
             var personal = MyContext.Table<PersonalEntity>()
                 .FirstOrDefault(f => f.Name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
-            if (personal == null)
+            if (personal == null || !personal.IsActive)
                 return new NotFoundResponse();
 
             return new OkResponse(Mapper.Map<PersonalDto>(personal));
@@ -151,7 +151,7 @@ namespace Samp.API.Personal.Controllers
             var personal = MyContext.Table<PersonalEntity>()
                 .FirstOrDefault(f => f.Surname.Equals(sname, System.StringComparison.InvariantCultureIgnoreCase));
 
-            if (personal == null)
+            if (personal == null || !personal.IsActive)
                 return new NotFoundResponse();
 
             return new OkResponse(Mapper.Map<PersonalDto>(personal));

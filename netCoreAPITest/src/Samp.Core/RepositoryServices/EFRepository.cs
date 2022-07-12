@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Samp.Core.Database;
+using Samp.Core.Entities;
 using Samp.Core.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Samp.Core.RepositoryServices
 {
     internal sealed class EFRepository<T, TDbContext>
         : IEFRepository<T>
-        where T : class
+        where T : BaseEntity
         where TDbContext : SampBaseContext
     {
         private readonly TDbContext _context;
@@ -25,11 +26,18 @@ namespace Samp.Core.RepositoryServices
 
         public T Add(T entity)
         {
+            entity.IsActive = true;
+            entity.CreatedAt = DateTimeOffset.UtcNow;
             return _dbset.Add(entity).Entity;
         }
 
         public void Add(params T[] entities)
         {
+            foreach (var entity in entities)
+            {
+                entity.IsActive = true;
+                entity.CreatedAt = DateTimeOffset.UtcNow;
+            }
             _dbset.AddRange(entities);
         }
 
@@ -38,16 +46,21 @@ namespace Samp.Core.RepositoryServices
             _dbset.AddRange(entities);
         }
 
-        public IQueryable<T> All()
+        public IQueryable<T> All(bool includesInActives = false)
         {
-            return _dbset.AsQueryable<T>();
+            var query = _dbset
+                .AsQueryable<T>()
+                .Where(f => f.IsActive == !includesInActives);
+            return query;
         }
 
         public T Delete(T entity)
         {
-            var entry = _context.Entry(entity);
-            entry.State = EntityState.Deleted;
-            return entry.Entity;
+            entity.IsActive = false;
+            return Update(entity);
+            //var entry = _context.Entry(entity);
+            //entry.State = EntityState.Deleted;
+            //return entry.Entity;
         }
 
         public void Delete(params T[] entities)
@@ -71,9 +84,9 @@ namespace Samp.Core.RepositoryServices
             _context?.Dispose();
         }
 
-        public T FirstOrDefault(Expression<Func<T, bool>> predicate)
+        public T FirstOrDefault(Expression<Func<T, bool>> predicate, bool includesInActives = false)
         {
-            return All().FirstOrDefault(predicate);
+            return All(includesInActives).FirstOrDefault(predicate);
         }
 
         public T GetById(object id)
@@ -101,9 +114,10 @@ namespace Samp.Core.RepositoryServices
                                     Expression<Func<T, bool>> predicate = null,
                                     Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                                     Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
-                                    bool disableTracking = true)
+                                    bool disableTracking = true,
+                                    bool includesInActives = false)
         {
-            IQueryable<T> query = _dbset.AsQueryable<T>();
+            IQueryable<T> query = All(includesInActives);
             if (disableTracking)
                 query = query.AsNoTracking();
 
@@ -133,6 +147,7 @@ namespace Samp.Core.RepositoryServices
         {
             var entry = _context.Entry(entity);
             //_dbset.Attach(entity);
+            entity.UpdatedAt = DateTimeOffset.UtcNow;
             entry.State = EntityState.Modified;
             return entry.Entity;
         }
@@ -153,9 +168,9 @@ namespace Samp.Core.RepositoryServices
             }
         }
 
-        public IEnumerable<T> Where(Expression<Func<T, bool>> predicate)
+        public IEnumerable<T> Where(Expression<Func<T, bool>> predicate, bool includesInActives = false)
         {
-            return All().Where(predicate).AsEnumerable();
+            return All(includesInActives).Where(predicate).AsEnumerable();
         }
     }
 }

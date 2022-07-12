@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Samp.Core.Entities
 {
     [Table("Audits")]
-    public class AuditEntity
+    public class AuditEntity : BaseEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

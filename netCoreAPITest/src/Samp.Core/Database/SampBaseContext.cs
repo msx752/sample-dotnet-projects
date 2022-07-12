@@ -88,37 +88,35 @@ namespace Samp.Core.Database
         {
             ChangeTracker.DetectChanges();
 
-            foreach (var changedEntry in ChangeTracker.Entries())
-            {
-                switch (changedEntry.State)
-                {
-                    case EntityState.Added:
-                        ((BaseEntity)changedEntry.Entity).IsActive = true;
-                        ((BaseEntity)changedEntry.Entity).CreatedAt = DateTimeOffset.UtcNow;
-                        ((BaseEntity)changedEntry.Entity).CreatedBy = userId;
-                        break;
-
-                    case EntityState.Deleted:
-                        ((BaseEntity)changedEntry.Entity).IsActive = false;
-                        ((BaseEntity)changedEntry.Entity).UpdatedAt = DateTimeOffset.UtcNow;
-                        ((BaseEntity)changedEntry.Entity).UpdatedBy = userId;
-                        changedEntry.State = EntityState.Modified; //SampDbContext doesn't support hard-delete, so we change state to modified to update the record.
-                        break;
-
-                    case EntityState.Modified:
-                        ((BaseEntity)changedEntry.Entity).UpdatedAt = DateTimeOffset.UtcNow;
-                        ((BaseEntity)changedEntry.Entity).UpdatedBy = userId;
-                        break;
-                }
-            }
-
-            if (!IsUseAudit)
-                return;
-
             var auditEntries = new List<AuditEntry>();
             foreach (var entry in ChangeTracker.Entries())
             {
                 if (entry.Entity is AuditEntity || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
+                    continue;
+
+                var baseEntity = (BaseEntity)entry.Entity;
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        baseEntity.IsActive = true;
+                        baseEntity.CreatedAt = DateTimeOffset.UtcNow;
+                        baseEntity.CreatedBy = userId;
+                        break;
+
+                    case EntityState.Deleted:
+                        baseEntity.IsActive = false;
+                        baseEntity.UpdatedAt = DateTimeOffset.UtcNow;
+                        baseEntity.UpdatedBy = userId;
+                        entry.State = EntityState.Modified; //SampDbContext doesn't support hard-delete, so we change state to modified to update the record.
+                        break;
+
+                    case EntityState.Modified:
+                        baseEntity.UpdatedAt = DateTimeOffset.UtcNow;
+                        baseEntity.UpdatedBy = userId;
+                        break;
+                }
+
+                if (!IsUseAudit)
                     continue;
 
                 var auditEntry = new AuditEntry(entry);
@@ -135,7 +133,7 @@ namespace Samp.Core.Database
                         throw new NotSupportedException($"only soft-delete allowed on {nameof(SampBaseContext)}");
 
                     case EntityState.Modified:
-                        if (((BaseEntity)entry.Entity).IsActive)
+                        if (baseEntity.IsActive)
                         {
                             auditEntry.AuditType = Enums.AuditType.Update;
                         }

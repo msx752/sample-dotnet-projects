@@ -7,6 +7,7 @@ using Samp.Core.Model.Base;
 using Samp.Core.Results;
 using Samp.Database.Personal.Entities;
 using Samp.Database.Personal.Migrations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,7 +39,7 @@ namespace Samp.API.Personal.Controllers
                 return new NotFoundResponse();
 
             MyContext.Table<PersonalEntity>().Delete(personal);
-            MyContext.Commit(null);
+            MyContext.Commit(Guid.NewGuid().ToString());
 
             return new OkResponse(Mapper.Map<PersonalDto>(personal));
         }
@@ -83,7 +84,7 @@ namespace Samp.API.Personal.Controllers
             var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
 
             var personal = MyContext.Table<PersonalEntity>().Add(personalEntity);
-            MyContext.Commit(null);
+            MyContext.Commit(Guid.NewGuid().ToString());
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
@@ -115,7 +116,7 @@ namespace Samp.API.Personal.Controllers
              more details see https://aka.ms/RazorPagesCRUD.
              */
             personalEntity = MyContext.Table<PersonalEntity>().Update(personalEntity);
-            MyContext.Commit(null);
+            MyContext.Commit(Guid.NewGuid().ToString());
 
             return new OkResponse();
         }

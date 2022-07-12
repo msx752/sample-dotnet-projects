@@ -26,18 +26,11 @@ namespace Samp.Core.RepositoryServices
 
         public T Add(T entity)
         {
-            entity.IsActive = true;
-            entity.CreatedAt = DateTimeOffset.UtcNow;
             return _dbset.Add(entity).Entity;
         }
 
         public void Add(params T[] entities)
         {
-            foreach (var entity in entities)
-            {
-                entity.IsActive = true;
-                entity.CreatedAt = DateTimeOffset.UtcNow;
-            }
             _dbset.AddRange(entities);
         }
 
@@ -56,11 +49,9 @@ namespace Samp.Core.RepositoryServices
 
         public T Delete(T entity)
         {
-            entity.IsActive = false;
-            return Update(entity);
-            //var entry = _context.Entry(entity);
-            //entry.State = EntityState.Deleted;
-            //return entry.Entity;
+            var entry = _context.Entry(entity);
+            entry.State = EntityState.Deleted;
+            return entry.Entity;
         }
 
         public void Delete(params T[] entities)
@@ -157,7 +148,6 @@ namespace Samp.Core.RepositoryServices
         {
             var entry = _context.Entry(entity);
             //_dbset.Attach(entity);
-            entity.UpdatedAt = DateTimeOffset.UtcNow;
             entry.State = EntityState.Modified;
             return entry.Entity;
         }

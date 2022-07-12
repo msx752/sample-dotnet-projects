@@ -122,7 +122,7 @@ namespace Samp.Tests.Controllers
             {
                 Age = 30,
                 Name = "testName",
-                NationalId = null,
+                NationalId = "123456789",
                 Surname = "testSurname"
             };
 

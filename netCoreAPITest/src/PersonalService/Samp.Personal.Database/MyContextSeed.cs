@@ -39,7 +39,7 @@ namespace Samp.Database.Personal
             if (Repository.Table<PersonalEntity>().GetById(p2.Id) == null)
                 Repository.Table<PersonalEntity>().Add(p2);
 
-            Repository.Commit(Guid.Empty.ToString());
+            Repository.Commit(Guid.NewGuid().ToString());
         }
     }
 }

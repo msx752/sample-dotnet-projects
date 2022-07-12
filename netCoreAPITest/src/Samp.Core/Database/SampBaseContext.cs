@@ -86,10 +86,35 @@ namespace Samp.Core.Database
 
         private void OnBeforeSaveChanges(string userId)
         {
+            ChangeTracker.DetectChanges();
+
+            foreach (var changedEntry in ChangeTracker.Entries())
+            {
+                switch (changedEntry.State)
+                {
+                    case EntityState.Added:
+                        ((BaseEntity)changedEntry.Entity).IsActive = true;
+                        ((BaseEntity)changedEntry.Entity).CreatedAt = DateTimeOffset.UtcNow;
+                        ((BaseEntity)changedEntry.Entity).CreatedBy = userId;
+                        break;
+
+                    case EntityState.Deleted:
+                        ((BaseEntity)changedEntry.Entity).IsActive = false;
+                        ((BaseEntity)changedEntry.Entity).UpdatedAt = DateTimeOffset.UtcNow;
+                        ((BaseEntity)changedEntry.Entity).UpdatedBy = userId;
+                        changedEntry.State = EntityState.Modified; //SampDbContext doesn't support hard-delete, so we change state to modified to update the record.
+                        break;
+
+                    case EntityState.Modified:
+                        ((BaseEntity)changedEntry.Entity).UpdatedAt = DateTimeOffset.UtcNow;
+                        ((BaseEntity)changedEntry.Entity).UpdatedBy = userId;
+                        break;
+                }
+            }
+
             if (!IsUseAudit)
                 return;
 
-            ChangeTracker.DetectChanges();
             var auditEntries = new List<AuditEntry>();
             foreach (var entry in ChangeTracker.Entries())
             {
@@ -99,6 +124,28 @@ namespace Samp.Core.Database
                 var auditEntry = new AuditEntry(entry);
                 auditEntry.TableName = entry.Entity.GetType().Name.Replace("Entity", "s");
                 auditEntry.UserId = userId;
+
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        auditEntry.AuditType = Enums.AuditType.Create;
+                        break;
+
+                    case EntityState.Deleted:
+                        throw new NotSupportedException($"only soft-delete allowed on {nameof(SampBaseContext)}");
+
+                    case EntityState.Modified:
+                        if (((BaseEntity)entry.Entity).IsActive)
+                        {
+                            auditEntry.AuditType = Enums.AuditType.Update;
+                        }
+                        else
+                        {
+                            auditEntry.AuditType = Enums.AuditType.Delete;
+                        }
+                        break;
+                }
+
                 auditEntries.Add(auditEntry);
                 foreach (var property in entry.Properties)
                 {
@@ -112,20 +159,17 @@ namespace Samp.Core.Database
                     switch (entry.State)
                     {
                         case EntityState.Added:
-                            auditEntry.AuditType = Enums.AuditType.Create;
                             auditEntry.NewValues[propertyName] = property.CurrentValue;
                             break;
 
-                        case EntityState.Deleted:
-                            auditEntry.AuditType = Enums.AuditType.Delete;
-                            auditEntry.OldValues[propertyName] = property.OriginalValue;
-                            break;
+                        //case EntityState.Deleted:
+                        //    auditEntry.OldValues[propertyName] = property.OriginalValue;
+                        //    break;
 
                         case EntityState.Modified:
-                            if (property.IsModified)
+                            if (property.IsModified && property.CurrentValue?.ToString() != property.OriginalValue?.ToString())
                             {
                                 auditEntry.ChangedColumns.Add(propertyName);
-                                auditEntry.AuditType = Enums.AuditType.Update;
                                 auditEntry.OldValues[propertyName] = property.OriginalValue;
                                 auditEntry.NewValues[propertyName] = property.CurrentValue;
                             }

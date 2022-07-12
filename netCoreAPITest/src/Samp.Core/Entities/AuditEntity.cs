@@ -24,9 +24,6 @@ namespace Samp.Core.Entities
         [Required]
         public string TableName { get; set; }
 
-        [Required]
-        public DateTimeOffset Timestamp { get; set; }
-
         public string OldValues { get; set; }
         public string NewValues { get; set; }
         public string AffectedColumns { get; set; }

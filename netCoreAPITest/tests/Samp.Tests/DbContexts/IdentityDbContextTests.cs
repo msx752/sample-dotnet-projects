@@ -1,11 +1,14 @@
 ﻿using CustomImageProvider.Tests;
 using Microsoft.Extensions.DependencyInjection;
+using Samp.Core.Entities;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Identity.API;
 using Samp.Identity.Core.Migrations;
 using Samp.Identity.Database.Entities;
 using Shouldly;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Samp.Tests.DbContexts
@@ -22,13 +25,13 @@ namespace Samp.Tests.DbContexts
             //## Scope: ADD
             //
             Guid userId_HttpRequestSession1 = Guid.NewGuid();
-            ISharedRepository<IdentityDbContext> repo_scope1;
             UserEntity user_scope1 = new() { Username = Guid.NewGuid().ToString(), Password = "test1234" };
             RefreshTokenEntity refreshToken_scope1 = new RefreshTokenEntity() { RefreshToken = Guid.NewGuid().ToString() };
 
             using (var scope1 = _factory.Services.CreateScope())
             {
-                repo_scope1 = scope1.ServiceProvider.GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                var repo_scope1 = scope1.ServiceProvider
+                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
                 repo_scope1.Table<UserEntity>().Add(user_scope1);                                               //Add UserEntity
                 repo_scope1.Commit(userId_HttpRequestSession1);                                                 //Commit UserEntity
                 user_scope1.ShouldNotBeNull();
@@ -45,12 +48,12 @@ namespace Samp.Tests.DbContexts
             //## Scope: UPDATE
             //
             Guid userId_HttpRequestSession2 = Guid.NewGuid();
-            ISharedRepository<IdentityDbContext> repo_scope2;
             UserEntity user_scope2 = null;
             RefreshTokenEntity refreshToken_scope2 = null;
             using (var scope2 = _factory.Services.CreateScope())
             {
-                repo_scope2 = scope2.ServiceProvider.GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                var repo_scope2 = scope2.ServiceProvider
+                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
                 user_scope2 = repo_scope2.Table<UserEntity>().GetById(user_scope1.Id);                          //Select UserEntity
                 user_scope2.ShouldNotBeNull();
                 user_scope2.Id.ShouldBe(user_scope1.Id);
@@ -82,11 +85,11 @@ namespace Samp.Tests.DbContexts
             //## Scope: DELETE
             //
             Guid userId_HttpRequestSession3 = Guid.NewGuid();
-            ISharedRepository<IdentityDbContext> repo_scope3;
             UserEntity user_scope3 = null;
             using (var scope3 = _factory.Services.CreateScope())
             {
-                repo_scope3 = scope3.ServiceProvider.GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                var repo_scope3 = scope3.ServiceProvider
+                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
                 user_scope3 = repo_scope3.Table<UserEntity>().GetById(user_scope2.Id);                          //Select UserEntity
                 user_scope3.IsActive.ShouldBeTrue();
                 user_scope3.UpdatedBy.ShouldBe(user_scope3.UpdatedBy);
@@ -97,7 +100,40 @@ namespace Samp.Tests.DbContexts
                 user_scope3.IsActive.ShouldBeFalse();
                 user_scope3.UpdatedBy.ShouldNotBe(user_scope2.UpdatedBy);
                 user_scope3.UpdatedAt.ShouldNotBe(user_scope2.UpdatedAt);
+                user_scope3.UpdatedBy.ShouldBe(userId_HttpRequestSession3);
             }
+
+            Guid userId_HttpRequestSession4 = Guid.NewGuid();
+            RefreshTokenEntity refreshToken_scope4 = null;
+            using (var scope4 = _factory.Services.CreateScope())
+            {
+                var repo_scope4 = scope4.ServiceProvider
+                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                refreshToken_scope4 = repo_scope4.Table<RefreshTokenEntity>().GetById(refreshToken_scope2.Id);  //Select UserEntity
+                refreshToken_scope4.IsActive.ShouldBeTrue();
+                refreshToken_scope4.UpdatedBy.ShouldBe(refreshToken_scope2.UpdatedBy);
+                refreshToken_scope4.UpdatedAt.ShouldBe(refreshToken_scope2.UpdatedAt);
+
+                repo_scope4.Table<RefreshTokenEntity>().Delete(refreshToken_scope4);                            //Delete UserEntity
+                repo_scope4.Commit(userId_HttpRequestSession4);                                                 //Commit UserEntity
+                refreshToken_scope4.IsActive.ShouldBeFalse();
+                refreshToken_scope4.UpdatedBy.ShouldNotBe(refreshToken_scope2.UpdatedBy);
+                refreshToken_scope4.UpdatedAt.ShouldNotBe(refreshToken_scope2.UpdatedAt);
+                refreshToken_scope4.UpdatedBy.ShouldBe(userId_HttpRequestSession4);
+            }
+
+            //## Scope: AUDIT LOGS
+            //
+            List<AuditEntity> auditLogs_scope5;
+            using (var scope5 = _factory.Services.CreateScope())
+            {
+                var repo_scope5 = scope5.ServiceProvider
+                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                auditLogs_scope5 = repo_scope5.Table<AuditEntity>().All().OrderBy(f => f.CreatedAt).ToList();
+            }
+
+            //## VALIDATION OF THE AUDIT LOGS
+            //validate it
         }
     }
 }

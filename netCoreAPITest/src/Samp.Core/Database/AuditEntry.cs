@@ -27,11 +27,14 @@ namespace Samp.Core.Database
 
         public AuditEntity ToAudit()
         {
+            var dtnow = DateTimeOffset.UtcNow;
             var audit = new AuditEntity();
+            audit.IsActive = true;
+            audit.CreatedBy = UserId;
+            audit.CreatedAt = dtnow;
             audit.Identifier = $"{UserId}+{System.Diagnostics.Activity.Current?.RootId}";
             audit.Type = AuditType;
             audit.TableName = TableName;
-            audit.Timestamp = DateTimeOffset.UtcNow;
             audit.PrimaryKey = JsonConvert.SerializeObject(KeyValues);
             audit.OldValues = OldValues.Count == 0 ? null : JsonConvert.SerializeObject(OldValues);
             audit.NewValues = NewValues.Count == 0 ? null : JsonConvert.SerializeObject(NewValues);

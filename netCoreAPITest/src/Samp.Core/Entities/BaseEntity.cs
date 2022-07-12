@@ -1,5 +1,6 @@
 ﻿using Samp.Core.Interfaces;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Samp.Core.Entities
 {
@@ -9,9 +10,15 @@ namespace Samp.Core.Entities
         {
         }
 
+        [Required]
         public bool IsActive { get; set; }
+
+        [Required]
         public DateTimeOffset CreatedAt { get; set; }
+
+        [Required]
         public Guid? CreatedBy { get; set; }
+
         public DateTimeOffset? UpdatedAt { get; set; }
         public Guid? UpdatedBy { get; set; }
     }

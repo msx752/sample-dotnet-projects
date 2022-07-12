@@ -5,7 +5,10 @@ using Samp.Core.AppSettings;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Identity.Core.Migrations;
 using Samp.Identity.Database.Entities;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -14,18 +17,15 @@ namespace Samp.Identity.API.Helpers
     public class TokenHelper : ITokenHelper
     {
         private readonly ISharedRepository<IdentityDbContext> repository;
-        private readonly TokenValidationParameters tokenValidationParameters;
         private readonly JWT jwt;
 
         public TokenHelper(
             IOptions<IdentityApplicationSettings> appSettings
-            , ISharedRepository<IdentityDbContext> repository
-            , TokenValidationParameters tokenValidationParameters)
+            , ISharedRepository<IdentityDbContext> repository)
         {
             this.repository = repository;
 
             jwt = appSettings.Value.JWT;
-            this.tokenValidationParameters = tokenValidationParameters;
         }
 
         public TokenDto Authenticate(UserEntity user, IEnumerable<Claim> claims = null)
@@ -52,10 +52,9 @@ namespace Samp.Identity.API.Helpers
 
         public string GenerateRefreshToken(out DateTime expiresAt)
         {
-            var symmetricSecurityKeyRefreshToken = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.RefreshTokenSecret));
+            var symmetricSecurityKeyRefreshToken = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwt.RefreshTokenSecret));
             var signingCredentialsRefreshToken = new SigningCredentials(symmetricSecurityKeyRefreshToken, SecurityAlgorithms.HmacSha256);
-            JwtSecurityToken securityToken = GenerateJwtSecurityToken(signingCredentialsRefreshToken, jwt.RefreshTokenExpiresIn, out expiresAt, null);
-            return new JwtSecurityTokenHandler().WriteToken(securityToken);
+            return GenerateJwtSecurityToken(signingCredentialsRefreshToken, jwt.RefreshTokenExpiresIn, out expiresAt, null);
         }
 
         public bool ValidateRefreshToken(string refresh_token)
@@ -63,6 +62,14 @@ namespace Samp.Identity.API.Helpers
             try
             {
                 var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+                var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwt.RefreshTokenSecret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                };
                 jwtSecurityTokenHandler.ValidateToken(refresh_token, tokenValidationParameters, out SecurityToken _);
                 return true;
             }
@@ -75,23 +82,32 @@ namespace Samp.Identity.API.Helpers
         public string GenerateAccessToken(IEnumerable<Claim> userClaims, out DateTime expiresAt)
         {
             var datetimeNow = DateTime.UtcNow;
-            var symmetricSecurityKeyAccessToken = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.AccessTokenSecret));
+            var symmetricSecurityKeyAccessToken = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwt.AccessTokenSecret));
             var signingCredentialsAccessToken = new SigningCredentials(symmetricSecurityKeyAccessToken, SecurityAlgorithms.HmacSha256);
-            JwtSecurityToken securityToken = GenerateJwtSecurityToken(signingCredentialsAccessToken, jwt.AccessTokenExpiresIn, out expiresAt, userClaims);
-            return new JwtSecurityTokenHandler().WriteToken(securityToken);
+            return GenerateJwtSecurityToken(signingCredentialsAccessToken, jwt.AccessTokenExpiresIn, out expiresAt, userClaims);
         }
 
-        private JwtSecurityToken GenerateJwtSecurityToken(SigningCredentials signingCredentials, int expiresIn, out DateTime expiresAt, IEnumerable<Claim> claims = null)
+        private string GenerateJwtSecurityToken(SigningCredentials signingCredentials, int expiresIn, out DateTime expiresAt, IEnumerable<Claim> claims = null)
         {
             var dtNow = DateTime.UtcNow;
             expiresAt = dtNow.AddHours(expiresIn);
 
-            JwtSecurityToken securityToken = new(jwt.ValidIssuer.ToString(), jwt.ValidAudience,
-                claims,
-                dtNow,
-                expiresAt,
-                signingCredentials);
-            return securityToken;
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                NotBefore = dtNow,
+                Expires = expiresAt,
+                SigningCredentials = signingCredentials,
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+            //JwtSecurityToken securityToken = new(jwt.ValidIssuer.ToString(), jwt.ValidAudience,
+            //    claims,
+            //    dtNow,
+            //    expiresAt,
+            //    signingCredentials);
+            //return securityToken;
         }
     }
 }

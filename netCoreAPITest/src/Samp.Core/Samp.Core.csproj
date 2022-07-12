@@ -17,6 +17,11 @@
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.0-preview3.22168.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Attributes\" />
 	</ItemGroup>
 
 </Project>

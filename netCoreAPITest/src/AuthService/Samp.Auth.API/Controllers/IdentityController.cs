@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Samp.Auth.API.Models.Dto;
@@ -9,10 +10,13 @@ using Samp.Core.Results;
 using Samp.Identity.API.Helpers;
 using Samp.Identity.Core.Migrations;
 using Samp.Identity.Database.Entities;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace Samp.Auth.API.Controllers
 {
     [ApiController]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     public class IdentityController : BaseController
     {
@@ -46,7 +50,11 @@ namespace Samp.Auth.API.Controllers
                 return new UnauthorizedResponse("invalid credentials.");
             }
 
-            var response = tokenHelper.Authenticate(user);
+            var claims = new[] {
+                new Claim("id", user.Id.ToString()),
+                new Claim("name", user.Id.ToString()),
+            };
+            var response = tokenHelper.Authenticate(user, claims);
             return new OkResponse(response);
         }
     }

@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using netCoreAPI.Core.AppSettings;
+using Samp.Core.Results;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Samp.Core.Extensions
 {
@@ -19,16 +24,13 @@ namespace Samp.Core.Extensions
         public static IServiceCollection AddJWTAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             var config = configuration.Get<ApplicationSettings>();
-            var tokenValidationParameters = new TokenValidationParameters()
+            var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
                 ValidateIssuerSigningKey = true,
-                RequireExpirationTime = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(config.JWT.AccessTokenSecret)),
+                ValidateIssuer = false,
+                ValidateAudience = false,
                 ClockSkew = TimeSpan.Zero,
-                ValidAudience = config.JWT.ValidAudience,
-                ValidIssuer = config.JWT.ValidIssuer.ToString(),
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.JWT.AccessTokenSecret))
             };
             services.AddSingleton((isp) => tokenValidationParameters);
 
@@ -37,6 +39,19 @@ namespace Samp.Core.Extensions
                     {
                         options.RequireHttpsMetadata = false;
                         options.TokenValidationParameters = tokenValidationParameters;
+                        options.Events = new JwtBearerEvents()
+                        {
+                            OnChallenge = async context =>
+                            {
+                                context.HandleResponse();
+
+                                var httpContext = context.HttpContext;
+                                var routeData = httpContext.GetRouteData();
+                                var actionContext = new ActionContext(httpContext, routeData, new ActionDescriptor());
+                                var result = new UnauthorizedResponse();
+                                await result.ExecuteResultAsync(actionContext);
+                            }
+                        };
                     });
 
             return services;

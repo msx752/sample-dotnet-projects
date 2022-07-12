@@ -8,7 +8,7 @@ namespace Samp.Core.Results
         : BaseResult
     {
         public UnauthorizedResponse()
-            : base(StatusCodes.Status401Unauthorized)
+            : base(StatusCodes.Status401Unauthorized, "Unauthorized")
         {
         }
 

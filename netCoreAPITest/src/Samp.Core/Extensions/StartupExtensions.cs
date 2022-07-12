@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using netCoreAPI.Core.AppSettings;
+using Samp.Core.Middlewares;
 
 namespace Samp.Core.Extensions
 {
@@ -27,6 +28,7 @@ namespace Samp.Core.Extensions
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwagger();
+            app.UseMiddleware<JwtMiddleware>();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 

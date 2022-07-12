@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0-preview.5.22302.2" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Samp.Cart.Database\Samp.Cart.Database.csproj" />
+	</ItemGroup>
+</Project>

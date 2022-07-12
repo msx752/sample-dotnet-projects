@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Samp.Core.Interfaces.Repositories.Shared
+namespace Samp.Core.Interfaces.Repositories
 {
     public interface ISharedRepository<TDbContext>
         : ISharedRepository
@@ -12,6 +12,6 @@ namespace Samp.Core.Interfaces.Repositories.Shared
 
     public interface ISharedRepository : IDisposable
     {
-        int Commit();
+        int Commit(string userId);
     }
 }

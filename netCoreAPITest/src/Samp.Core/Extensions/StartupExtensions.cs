@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using netCoreAPI.Core.AppSettings;
-using Samp.Core.Interfaces;
-using Samp.Core.Interfaces.Repositories.Shared;
-using Samp.Core.RepositoryServices;
-using System;
 
 namespace Samp.Core.Extensions
 {

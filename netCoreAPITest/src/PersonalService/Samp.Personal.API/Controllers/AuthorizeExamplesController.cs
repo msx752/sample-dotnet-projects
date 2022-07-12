@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Samp.API.Personal.Models.Dtos;
-using Samp.Core.Interfaces.Repositories.Shared;
+using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
 using Samp.Core.Results;
 using Samp.Database.Personal.Entities;

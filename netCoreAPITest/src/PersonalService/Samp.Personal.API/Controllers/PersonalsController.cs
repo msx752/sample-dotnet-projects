@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Samp.API.Personal.Models.Dtos;
 using Samp.API.Personal.Models.Requests;
-using Samp.Core.Interfaces.Repositories.Shared;
+using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
 using Samp.Core.Results;
 using Samp.Database.Personal.Entities;
@@ -38,7 +38,7 @@ namespace Samp.API.Personal.Controllers
                 return new NotFoundResponse();
 
             personal = MyContext.Table<PersonalEntity>().Delete(personal);
-            MyContext.Commit();
+            MyContext.Commit(null);
 
             return new OkResponse(Mapper.Map<PersonalDto>(personal));
         }
@@ -83,7 +83,7 @@ namespace Samp.API.Personal.Controllers
             var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
 
             var personal = MyContext.Table<PersonalEntity>().Add(personalEntity);
-            MyContext.Commit();
+            MyContext.Commit(null);
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
@@ -115,7 +115,7 @@ namespace Samp.API.Personal.Controllers
              more details see https://aka.ms/RazorPagesCRUD.
              */
             personalEntity = MyContext.Table<PersonalEntity>().Update(personalEntity);
-            MyContext.Commit();
+            MyContext.Commit(null);
 
             return new OkResponse();
         }

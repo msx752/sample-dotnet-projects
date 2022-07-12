@@ -8,13 +8,11 @@ namespace Samp.Database.Personal.Migrations
     {
         public MyContext() : base()
         {
-            SetChangesTrackerMode();
         }
 
         public MyContext(DbContextOptions<MyContext> options)
             : base(options)
         {
-            SetChangesTrackerMode();
         }
 
         public DbSet<PersonalEntity> Personals { get; set; }
@@ -43,14 +41,6 @@ namespace Samp.Database.Personal.Migrations
             /************************************************************************************/
 
             base.OnModelCreating(modelBuilder);
-        }
-
-        /// <summary>
-        /// this behave must be observe before usage of the relational entity updates
-        /// </summary>
-        protected override void SetChangesTrackerMode()
-        {
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
         }
     }
 }

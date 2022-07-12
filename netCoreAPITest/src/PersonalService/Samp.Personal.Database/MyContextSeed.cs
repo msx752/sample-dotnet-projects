@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Samp.Core.Database;
-using Samp.Core.Interfaces.Repositories.Shared;
+using Samp.Core.Interfaces.Repositories;
 using Samp.Database.Personal.Entities;
 using Samp.Database.Personal.Migrations;
+using System;
 
 namespace Samp.Database.Personal
 {
@@ -38,7 +39,7 @@ namespace Samp.Database.Personal
             if (Repository.Table<PersonalEntity>().GetById(p2.Id) == null)
                 Repository.Table<PersonalEntity>().Add(p2);
 
-            Repository.Commit();
+            Repository.Commit(Guid.Empty.ToString());
         }
     }
 }

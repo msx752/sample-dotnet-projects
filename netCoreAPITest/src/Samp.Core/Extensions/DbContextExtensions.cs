@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Samp.Core.Interfaces;
-using Samp.Core.Interfaces.Repositories.Shared;
+using Samp.Core.Interfaces.Repositories;
 using Samp.Core.RepositoryServices;
 using System;
 using System.Linq;

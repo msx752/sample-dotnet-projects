@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Samp.Core.Database;
 using Samp.Core.Interfaces.Repositories;
-using Samp.Core.Interfaces.Repositories.Shared;
 using System;
 using System.Collections.Concurrent;
 
@@ -8,7 +8,7 @@ namespace Samp.Core.RepositoryServices
 {
     public sealed class SharedRepository<TDbContext>
         : ISharedRepository<TDbContext>
-        where TDbContext : DbContext
+        where TDbContext : SampBaseContext
     {
         private readonly TDbContext _context;
         private readonly ConcurrentDictionary<Type, object> _repositories;
@@ -24,9 +24,9 @@ namespace Samp.Core.RepositoryServices
         /// MAGIC
         /// </summary>
         /// <returns></returns>
-        public int Commit()
+        public int Commit(string userId)
         {
-            return _context.SaveChanges();
+            return _context.SaveChanges(userId);
         }
 
         public IEFRepository<TEntity> Table<TEntity>()

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Samp.Core.Interfaces.Repositories.Shared;
+using Samp.Core.Interfaces.Repositories;
 
 namespace Samp.Core.Interfaces
 {

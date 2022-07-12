@@ -30,7 +30,7 @@ namespace Samp.API.Personal
         public void ConfigureServices(IServiceCollection services)
         {
             var dbContext1 = new DbContextParameter<MyContext, MyContextSeed>((provider, opt) =>
-                    opt.UseInMemoryDatabase(databaseName: "NetCoreApiDatabase").EnableSensitiveDataLogging());
+                    opt.UseInMemoryDatabase(databaseName: "NetCoreApiDatabase").EnableSensitiveDataLogging().UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution));
 
             services.AddCustomDbContext(dbContext1);
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Samp.Core.Database;
 using Samp.Core.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Samp.Core.RepositoryServices
     internal sealed class EFRepository<T, TDbContext>
         : IEFRepository<T>
         where T : class
-        where TDbContext : DbContext
+        where TDbContext : SampBaseContext
     {
         private readonly TDbContext _context;
         private readonly DbSet<T> _dbset;
@@ -131,7 +132,7 @@ namespace Samp.Core.RepositoryServices
         public T Update(T entity)
         {
             var entry = _context.Entry(entity);
-            _dbset.Attach(entity);
+            //_dbset.Attach(entity);
             entry.State = EntityState.Modified;
             return entry.Entity;
         }

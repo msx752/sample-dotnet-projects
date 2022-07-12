@@ -172,12 +172,12 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.UpdatedBy.ShouldBeNull();
             enumerator.Current.OldValues.ShouldBeNull();
             enumerator.Current.AffectedColumns.ShouldBeNull();
-            enumerator.Current.NewValues.ShouldContain(TJString(new { user_scope1.IsActive }));
-            enumerator.Current.NewValues.ShouldNotContain(TJString(new { UserId = user_scope1.Id }));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { user_scope1.Username }));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { user_scope1.Password }));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { user_scope1.CreatedAt }));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { user_scope1.CreatedBy }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.IsActive }));
+            enumerator.Current.NewValues.ShouldNotContain(TokenJsonString(new { UserId = user_scope1.Id }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.Username }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.Password }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.CreatedAt }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.CreatedBy }));
 
             enumerator.MoveNext();
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession1.ToString());
@@ -189,11 +189,11 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
             enumerator.Current.AffectedColumns.ShouldBeNull();
-            enumerator.Current.NewValues.ShouldContain(TJString(new { refreshToken_scope1.IsActive }));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { UserId = user_scope1.Id }));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { refreshToken_scope1.RefreshToken }));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { refreshToken_scope1.CreatedAt }));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { refreshToken_scope1.CreatedBy }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.IsActive }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { UserId = user_scope1.Id }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.RefreshToken }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.CreatedAt }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.CreatedBy }));
 
             enumerator.MoveNext();
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession2.ToString());
@@ -204,11 +204,11 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Update);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
-            enumerator.Current.PrimaryKey.ShouldContain(TJString(new { user_scope2.Id }));
+            enumerator.Current.PrimaryKey.ShouldContain(TokenJsonString(new { user_scope2.Id }));
             enumerator.Current.AffectedColumns.ShouldNotBeNull();
             enumerator.Current.AffectedColumns.ShouldContain(nameof(user_scope2.Password));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { user_scope2.Password }));
-            enumerator.Current.OldValues.ShouldContain(TJString(new { user_scope1.Password }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope2.Password }));
+            enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope1.Password }));
 
             enumerator.MoveNext();
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession2.ToString());
@@ -219,11 +219,11 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Update);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
-            enumerator.Current.PrimaryKey.ShouldContain(TJString(new { refreshToken_scope2.Id }));
+            enumerator.Current.PrimaryKey.ShouldContain(TokenJsonString(new { refreshToken_scope2.Id }));
             enumerator.Current.AffectedColumns.ShouldNotBeNull();
             enumerator.Current.AffectedColumns.ShouldContain(nameof(refreshToken_scope2.RefreshToken));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { refreshToken_scope2.RefreshToken }));
-            enumerator.Current.OldValues.ShouldContain(TJString(new { refreshToken_scope1.RefreshToken }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope2.RefreshToken }));
+            enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.RefreshToken }));
 
             enumerator.MoveNext();
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession3.ToString());
@@ -234,14 +234,14 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Delete);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
-            enumerator.Current.PrimaryKey.ShouldContain(TJString(new { user_scope3.Id }));
+            enumerator.Current.PrimaryKey.ShouldContain(TokenJsonString(new { user_scope3.Id }));
             enumerator.Current.AffectedColumns.ShouldNotBeNull();
             enumerator.Current.AffectedColumns.ShouldContain(nameof(user_scope3.IsActive));
             enumerator.Current.AffectedColumns.ShouldContain(nameof(user_scope3.UpdatedBy));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { user_scope3.IsActive }));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { user_scope3.UpdatedBy }));
-            enumerator.Current.OldValues.ShouldContain(TJString(new { user_scope2.IsActive }));
-            enumerator.Current.OldValues.ShouldContain(TJString(new { user_scope2.UpdatedBy }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope3.IsActive }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope3.UpdatedBy }));
+            enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope2.IsActive }));
+            enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope2.UpdatedBy }));
 
             enumerator.MoveNext();
             enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession4.ToString());
@@ -252,20 +252,20 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Delete);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
-            enumerator.Current.PrimaryKey.ShouldContain(TJString(new { refreshToken_scope4.Id }));
+            enumerator.Current.PrimaryKey.ShouldContain(TokenJsonString(new { refreshToken_scope4.Id }));
             enumerator.Current.AffectedColumns.ShouldNotBeNull();
             enumerator.Current.AffectedColumns.ShouldContain(nameof(refreshToken_scope4.IsActive));
             enumerator.Current.AffectedColumns.ShouldContain(nameof(refreshToken_scope4.UpdatedBy));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { refreshToken_scope4.IsActive }));
-            enumerator.Current.NewValues.ShouldContain(TJString(new { refreshToken_scope4.UpdatedBy }));
-            enumerator.Current.OldValues.ShouldContain(TJString(new { refreshToken_scope2.IsActive }));
-            enumerator.Current.OldValues.ShouldContain(TJString(new { refreshToken_scope2.UpdatedBy }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope4.IsActive }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope4.UpdatedBy }));
+            enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { refreshToken_scope2.IsActive }));
+            enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { refreshToken_scope2.UpdatedBy }));
 
             enumerator.MoveNext();
             enumerator.Current.ShouldBeNull();
         }
 
-        private string TJString(object obj)
+        private string TokenJsonString(object obj)
         {
             var json = JsonConvert.SerializeObject(obj);
 

@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Samp.Auth.API.Models.Dto;
 using Samp.Auth.API.Models.Requests;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
@@ -11,7 +9,6 @@ using Samp.Identity.API.Helpers;
 using Samp.Identity.Core.Migrations;
 using Samp.Identity.Database.Entities;
 using System.Security.Claims;
-using System.Security.Principal;
 
 namespace Samp.Auth.API.Controllers
 {
@@ -41,21 +38,30 @@ namespace Samp.Auth.API.Controllers
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
             }
 
-            var user = repository.Table<UserEntity>()
-                .Where(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password))
-                .FirstOrDefault();
-
-            if (user == null)
+            if (model.grant_type.Equals("password", StringComparison.InvariantCultureIgnoreCase))
             {
-                return new UnauthorizedResponse("invalid credentials.");
-            }
+                if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
+                {
+                    return new BadRequestResponse("Username and Password fields can not be empty.");
+                }
 
-            var claims = new[] {
-                new Claim("id", user.Id.ToString()),
-                new Claim("name", user.Id.ToString()),
-            };
-            var response = tokenHelper.Authenticate(user, claims);
-            return new OkResponse(response);
+                var user = repository.Table<UserEntity>()
+                    .Where(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password))
+                    .FirstOrDefault();
+
+                if (user == null)
+                {
+                    return new UnauthorizedResponse("invalid credentials.");
+                }
+
+                var claims = new[] {
+                    new Claim("id", user.Id.ToString()),
+                    new Claim("name", user.Id.ToString()),
+                };
+                var response = tokenHelper.Authenticate(user, claims);
+                return new OkResponse(response);
+            }
+            return new BadRequestResponse();
         }
     }
 }

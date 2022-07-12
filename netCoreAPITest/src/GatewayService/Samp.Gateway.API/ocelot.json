@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/auth/token",
+      "DownstreamPathTemplate": "/api/Identity/token",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,11 +9,11 @@
           "Port": 1020
         }
       ],
-      "UpstreamPathTemplate": "/gateway/auth/token",
+      "UpstreamPathTemplate": "/gateway/Identity/token",
       "UpstreamHttpMethod": [ "GET" ]
-    },
+    }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:1011"
+    "BaseUrl": "http://localhost:1010"
   }
 }

@@ -83,9 +83,20 @@ namespace Samp.Tests.DbContexts
             //
             Guid userId_HttpRequestSession3 = Guid.NewGuid();
             ISharedRepository<IdentityDbContext> repo_scope3;
+            UserEntity user_scope3 = null;
             using (var scope3 = _factory.Services.CreateScope())
             {
                 repo_scope3 = scope3.ServiceProvider.GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                user_scope3 = repo_scope3.Table<UserEntity>().GetById(user_scope2.Id);                          //Select UserEntity
+                user_scope3.IsActive.ShouldBeTrue();
+                user_scope3.UpdatedBy.ShouldBe(user_scope3.UpdatedBy);
+                user_scope3.UpdatedAt.ShouldBe(user_scope3.UpdatedAt);
+
+                repo_scope3.Table<UserEntity>().Delete(user_scope3);                                            //Delete UserEntity
+                repo_scope3.Commit(userId_HttpRequestSession3);                                                 //Commit UserEntity
+                user_scope3.IsActive.ShouldBeFalse();
+                user_scope3.UpdatedBy.ShouldNotBe(user_scope2.UpdatedBy);
+                user_scope3.UpdatedAt.ShouldNotBe(user_scope2.UpdatedAt);
             }
         }
     }

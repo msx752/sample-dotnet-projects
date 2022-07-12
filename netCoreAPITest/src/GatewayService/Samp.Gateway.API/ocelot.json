@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Identity/token",
+      "DownstreamPathTemplate": "/api/Identity",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,8 +9,20 @@
           "Port": 1020
         }
       ],
-      "UpstreamPathTemplate": "/gateway/Identity/token",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/gateway/Identity",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DLETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Movies",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1030
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Movies",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DLETE" ]
     }
   ],
   "GlobalConfiguration": {

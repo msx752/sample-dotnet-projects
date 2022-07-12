@@ -28,7 +28,7 @@ namespace Samp.Identity.API
             services.AddGlobalStartupServices<IdentityApplicationSettings>(Configuration);
 
             var IdentityContext = new DbContextParameter<IdentityDbContext, IdentityContextSeed>((provider, opt) =>
-                    opt.UseInMemoryDatabase(databaseName: "SampIdentitiyContext").EnableSensitiveDataLogging());
+                    opt.UseInMemoryDatabase(databaseName: nameof(IdentityDbContext)).EnableSensitiveDataLogging());
 
             services.AddCustomDbContext(IdentityContext);
             services.AddScoped<ITokenHelper, TokenHelper>();

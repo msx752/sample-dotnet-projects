@@ -31,6 +31,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Identity.API", "src\Au
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Identity.Database", "src\AuthService\Samp.Auth.Database\Samp.Identity.Database.csproj", "{660ABB80-2601-4864-B5D2-F92CA13A7B1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samp.Movie.API", "src\MovieService\Samp.Movie.API\Samp.Movie.API.csproj", "{59F39A07-B0AA-4320-A087-2D66BA913186}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samp.Movie.Database", "src\MovieService\Samp.Movie.Database\Samp.Movie.Database.csproj", "{1E674B56-7DBE-419D-9840-AD92CC7C8773}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,14 @@ Global
 		{660ABB80-2601-4864-B5D2-F92CA13A7B1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{660ABB80-2601-4864-B5D2-F92CA13A7B1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{660ABB80-2601-4864-B5D2-F92CA13A7B1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59F39A07-B0AA-4320-A087-2D66BA913186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59F39A07-B0AA-4320-A087-2D66BA913186}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59F39A07-B0AA-4320-A087-2D66BA913186}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59F39A07-B0AA-4320-A087-2D66BA913186}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E674B56-7DBE-419D-9840-AD92CC7C8773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E674B56-7DBE-419D-9840-AD92CC7C8773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E674B56-7DBE-419D-9840-AD92CC7C8773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E674B56-7DBE-419D-9840-AD92CC7C8773}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +94,8 @@ Global
 		{C3D1FDBB-1F37-4464-8619-F6C68E738A41} = {4CFC13DB-2B81-4435-954F-D0EE6C6DC9C4}
 		{EF9C556C-6DD9-4A30-B8E5-59DE25F4B044} = {DE910A07-779A-41F1-A45D-F479368FD89E}
 		{660ABB80-2601-4864-B5D2-F92CA13A7B1F} = {DE910A07-779A-41F1-A45D-F479368FD89E}
+		{59F39A07-B0AA-4320-A087-2D66BA913186} = {9CA1796F-4B9D-4DF9-BF87-9A60CE171282}
+		{1E674B56-7DBE-419D-9840-AD92CC7C8773} = {9CA1796F-4B9D-4DF9-BF87-9A60CE171282}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61E965D0-D06B-49C1-881D-780568C9C080}

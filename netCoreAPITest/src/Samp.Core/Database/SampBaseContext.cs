@@ -120,7 +120,7 @@ namespace Samp.Core.Database
                     continue;
 
                 var auditEntry = new AuditEntry(entry);
-                auditEntry.TableName = entry.Entity.GetType().Name.Replace("Entity", "s");
+                auditEntry.TableName = entry.Entity.GetType().Name;
                 auditEntry.UserId = userId;
 
                 switch (entry.State)

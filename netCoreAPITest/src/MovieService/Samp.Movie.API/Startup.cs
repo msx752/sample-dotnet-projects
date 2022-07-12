@@ -1,15 +1,10 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Samp.Core.Extensions;
 using Samp.Core.Model;
-using Samp.Database.Personal;
-using Samp.Database.Personal.Migrations;
-using System;
+using Samp.Movie.Database;
+using Samp.Movie.Database.Migrations;
 
-namespace Samp.API.Personal
+namespace Samp.Movie.API
 {
     public class Startup
     {
@@ -29,12 +24,12 @@ namespace Samp.API.Personal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var dbContext1 = new DbContextParameter<MyContext, MyContextSeed>((provider, opt) =>
-                    opt.UseInMemoryDatabase(databaseName: nameof(MyContext)).EnableSensitiveDataLogging().UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution));
+            services.AddGlobalStartupServices<MovieApplicationSettings>(Configuration);
 
-            services.AddCustomDbContext(dbContext1);
+            var IdentityContext = new DbContextParameter<MovieDbContext, MovieDbContextSeed>((provider, opt) =>
+                    opt.UseInMemoryDatabase(databaseName: nameof(MovieDbContext)).EnableSensitiveDataLogging());
 
-            services.AddGlobalStartupServices<netCoreAPISettings>(Configuration);
+            services.AddCustomDbContext(IdentityContext);
         }
     }
 }

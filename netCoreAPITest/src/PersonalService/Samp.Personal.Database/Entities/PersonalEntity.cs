@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Samp.Database.Personal.Entities
 {
-    [Table("Personals")]
+    [Table("PersonalEntity")]
     public class PersonalEntity : BaseEntity
     {
         [Required]

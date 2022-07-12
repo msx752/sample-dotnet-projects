@@ -10,5 +10,10 @@ namespace Samp.Core.Results
             : base(StatusCodes.Status404NotFound)
         {
         }
+
+        public NotFoundResponse(string message)
+            : base(StatusCodes.Status400BadRequest, message)
+        {
+        }
     }
 }

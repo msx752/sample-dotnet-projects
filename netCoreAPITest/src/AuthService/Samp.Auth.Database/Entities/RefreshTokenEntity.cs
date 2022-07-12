@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Samp.Identity.Database.Entities
 {
-    [Table("RefreshTokens")]
+    [Table("RefreshTokenEntity")]
     public class RefreshTokenEntity : BaseEntity
     {
         [Key]

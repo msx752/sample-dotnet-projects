@@ -1,7 +1,7 @@
 ﻿using Samp.Core.Database;
 using Samp.Core.Interfaces.Repositories;
-using Samp.Identity.Core.Entities;
 using Samp.Identity.Core.Migrations;
+using Samp.Identity.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

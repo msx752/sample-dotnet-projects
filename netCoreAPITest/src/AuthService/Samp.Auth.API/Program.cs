@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Samp.Auth.Database;
 using Samp.Core.Extensions;
 using Samp.Core.Model;
+using Samp.Identity.API.Helpers;
 using Samp.Identity.Core.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ var IdentityContext = new DbContextParameter<SampIdentityContext, IdentityContex
         opt.UseInMemoryDatabase(databaseName: "SampIdentitiyContext").EnableSensitiveDataLogging());
 
 builder.Services.AddCustomDbContext(IdentityContext);
+builder.Services.AddScoped<ITokenHelper, TokenHelper>();
 
 var app = builder.Build();
 

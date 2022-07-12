@@ -6,8 +6,9 @@ using Samp.Auth.API.Models.Requests;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
 using Samp.Core.Results;
-using Samp.Identity.Core.Entities;
+using Samp.Identity.API.Helpers;
 using Samp.Identity.Core.Migrations;
+using Samp.Identity.Database.Entities;
 
 namespace Samp.Auth.API.Controllers
 {
@@ -15,16 +16,17 @@ namespace Samp.Auth.API.Controllers
     [Route("api/[controller]")]
     public class IdentityController : BaseController
     {
-        private readonly IOptions<IdentityApplicationSettings> appSettings;
         private readonly ISharedRepository<SampIdentityContext> repository;
+        private readonly ITokenHelper tokenHelper;
 
-        public IdentityController(IMapper mapper
-            , IOptions<IdentityApplicationSettings> appSettings
-            , ISharedRepository<SampIdentityContext> repository)
+        public IdentityController(
+            IMapper mapper
+            , ISharedRepository<SampIdentityContext> repository
+            , ITokenHelper tokenHelper)
             : base(mapper)
         {
-            this.appSettings = appSettings;
             this.repository = repository;
+            this.tokenHelper = tokenHelper;
         }
 
         [HttpPost("Token")]
@@ -44,7 +46,7 @@ namespace Samp.Auth.API.Controllers
                 return new UnauthorizedResponse("invalid credentials.");
             }
 
-            var response = new TokenDto();
+            var response = tokenHelper.Authenticate(user);
             return new OkResponse(response);
         }
     }

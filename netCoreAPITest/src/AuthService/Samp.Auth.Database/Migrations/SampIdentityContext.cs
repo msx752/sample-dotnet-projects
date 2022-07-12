@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Samp.Core.Database;
-using Samp.Identity.Core.Entities;
+using Samp.Identity.Database.Entities;
 
 namespace Samp.Identity.Core.Migrations
 {
@@ -12,6 +12,7 @@ namespace Samp.Identity.Core.Migrations
         }
 
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
 
         //roles, permissions etc..
     }

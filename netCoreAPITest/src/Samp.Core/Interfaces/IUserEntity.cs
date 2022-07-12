@@ -2,7 +2,7 @@
 
 namespace Samp.Core.Interfaces
 {
-    public interface IUserEntity : BaseEntity
+    public interface IUserEntity : IBaseEntity
     {
         Guid Id { get; set; }
         string Password { get; set; }

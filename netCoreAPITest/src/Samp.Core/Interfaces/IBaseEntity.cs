@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Samp.Core.Interfaces
 {
-    public interface BaseEntity
+    public interface IBaseEntity
     {
     }
 }

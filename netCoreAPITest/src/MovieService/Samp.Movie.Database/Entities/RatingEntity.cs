@@ -6,7 +6,7 @@ namespace Samp.Movie.Database.Entities
     [Table("RatingEntity")]
     public class RatingEntity : BaseEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public double AverageRating { get; set; }
         public int NumVotes { get; set; }
         public string MovieId { get; set; }

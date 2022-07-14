@@ -37,7 +37,7 @@ namespace Samp.Movie.Database.Entities
         public virtual ICollection<MovieDirectorEntity> MovieDirectors { get; set; }
         public virtual ICollection<MovieWriterEntity> MovieWriters { get; set; }
         public string Description { get; set; }
-        public int RatingId { get; set; }
+        public Guid RatingId { get; set; }
         public virtual RatingEntity Rating { get; set; }
         public MovieType Type { get; set; }
 

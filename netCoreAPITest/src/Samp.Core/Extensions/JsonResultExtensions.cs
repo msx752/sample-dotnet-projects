@@ -30,8 +30,10 @@ namespace Samp.Core.Extensions
         /// <param name="context"></param>
         public static void SetMeasuredResponsTime(this IResponseModel body, HttpContext context)
         {
-            var requestStartDateTime = DateTime.Parse(context.Items[Constants.RequestStartTime].ToString());
-            var elapsedResponseTime = DateTime.UtcNow - requestStartDateTime;
+            var requestStartDateTime = DateTimeOffset.Parse(context.Items[Constants.RequestStartTime].ToString());
+            var dtNow = DateTimeOffset.UtcNow;
+            body.Stats.Time = dtNow.ToString("o");
+            var elapsedResponseTime = dtNow - requestStartDateTime;
             body.Stats.ElapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
         }
 

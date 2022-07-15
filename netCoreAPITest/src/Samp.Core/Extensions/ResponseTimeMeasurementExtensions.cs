@@ -15,7 +15,7 @@ namespace Samp.Core.Extensions
         {
             application.Use(async (context, next) =>
             {
-                context.Items.Add(Constants.RequestStartTime, DateTime.UtcNow.ToString());
+                context.Items.Add(Constants.RequestStartTime, DateTimeOffset.UtcNow.ToString());
                 await next();
             });
             return application;

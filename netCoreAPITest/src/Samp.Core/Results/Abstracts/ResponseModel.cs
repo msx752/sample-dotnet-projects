@@ -32,6 +32,7 @@ namespace Samp.Core.Results.Abstracts
     {
         public string RId { get; set; }
         public string ElapsedMilliseconds { get; set; }
+        public string Time { get; set; }
     }
 
     public sealed class ResponseModel<T>

@@ -22,7 +22,10 @@ namespace Samp.Core.Extensions
 
             foreach (var item in contextSeeds)
             {
-                if (item != null && !typeof(IContextSeed).IsAssignableFrom(item))
+                if (item == null)
+                    continue;
+
+                if (!typeof(IContextSeed).IsAssignableFrom(item))
                 {
                     throw new Exception($"{item.FullName} must implement {typeof(ContextSeed).FullName}");
                 }

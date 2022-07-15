@@ -38,20 +38,20 @@ namespace Samp.Movie.API.Controllers
                 .Where(f => f.Rating.AverageRating >= 70)
                 .Take(5)
                 .ToList();
-            movieIndexModel.HighRatings = Mapper.Map<List<MovieDto>>(hightRatingEntity);
+            movieIndexModel.HighRatings = mapper.Map<List<MovieDto>>(hightRatingEntity);
 
             var allEntity = repository.Table<MovieEntity>()
                 .All()
                 .Include(f => f.Rating)
                 .ToList();
-            movieIndexModel.All = Mapper.Map<List<MovieDto>>(allEntity);
+            movieIndexModel.All = mapper.Map<List<MovieDto>>(allEntity);
 
             var recentyAddedEntities = repository.Table<MovieEntity>()
                 .All()
                 .Include(f => f.Rating)
                 .Take(4)
                 .ToList();
-            movieIndexModel.RecentlyAdded = Mapper.Map<List<MovieDto>>(recentyAddedEntities);
+            movieIndexModel.RecentlyAdded = mapper.Map<List<MovieDto>>(recentyAddedEntities);
 
             return new OkResponse(movieIndexModel);
         }
@@ -66,7 +66,7 @@ namespace Samp.Movie.API.Controllers
                 .Take(5)
                 .ToList();
 
-            return new OkResponse(Mapper.Map<List<MovieDto>>(hightRatingEntity));
+            return new OkResponse(mapper.Map<List<MovieDto>>(hightRatingEntity));
         }
 
         [HttpGet("RecentlyAdded")]
@@ -77,7 +77,7 @@ namespace Samp.Movie.API.Controllers
                 .Take(4)
                 .ToList();
 
-            return new OkResponse(Mapper.Map<List<MovieDto>>(recentyAddedEntities));
+            return new OkResponse(mapper.Map<List<MovieDto>>(recentyAddedEntities));
         }
 
         [HttpGet("{Id}")]
@@ -88,7 +88,7 @@ namespace Samp.Movie.API.Controllers
             if (entity == null)
                 return new NotFoundResponse();
 
-            return new OkResponse(Mapper.Map<List<MovieDto>>(entity));
+            return new OkResponse(mapper.Map<List<MovieDto>>(entity));
         }
 
         [HttpGet("Search")]
@@ -105,7 +105,7 @@ namespace Samp.Movie.API.Controllers
             if (entity == null)
                 return new NotFoundResponse();
 
-            return new OkResponse(Mapper.Map<List<MovieDto>>(entity));
+            return new OkResponse(mapper.Map<List<MovieDto>>(entity));
         }
 
         [HttpGet("CategoryBy/{Id}")]
@@ -123,7 +123,7 @@ namespace Samp.Movie.API.Controllers
                 .Select(f => f.Movie)
                 .ToList();
 
-            return new OkResponse(Mapper.Map<List<MovieDto>>(entity));
+            return new OkResponse(mapper.Map<List<MovieDto>>(entity));
         }
     }
 }

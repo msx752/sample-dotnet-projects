@@ -41,7 +41,7 @@ namespace Samp.API.Personal.Controllers
             MyContext.Table<PersonalEntity>().Delete(personal);
             MyContext.Commit(Guid.NewGuid());
 
-            return new OkResponse(Mapper.Map<PersonalDto>(personal));
+            return new OkResponse(mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Samp.API.Personal.Controllers
             if (personal == null)
                 return new NotFoundResponse();
 
-            return new OkResponse(Mapper.Map<PersonalDto>(personal));
+            return new OkResponse(mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Samp.API.Personal.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyContext.Table<PersonalEntity>().All().ToList()));
+            return new OkResponse(mapper.Map<List<PersonalDto>>(MyContext.Table<PersonalEntity>().All().ToList()));
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Samp.API.Personal.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
+            var personalEntity = mapper.Map<PersonalEntity>(personalViewModel);
 
             var personal = MyContext.Table<PersonalEntity>().Insert(personalEntity);
             MyContext.Commit(Guid.NewGuid());
@@ -89,7 +89,7 @@ namespace Samp.API.Personal.Controllers
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
             */
-            return new OkResponse(Mapper.Map<PersonalDto>(personal));
+            return new OkResponse(mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Samp.API.Personal.Controllers
             if (!MyContext.Table<PersonalEntity>().Exists(id))
                 return new BadRequestResponse("entity not found");
 
-            var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
+            var personalEntity = mapper.Map<PersonalEntity>(personalViewModel);
             personalEntity.Id = id;
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -136,7 +136,7 @@ namespace Samp.API.Personal.Controllers
             if (personal == null)
                 return new NotFoundResponse();
 
-            return new OkResponse(Mapper.Map<PersonalDto>(personal));
+            return new OkResponse(mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Samp.API.Personal.Controllers
             if (personal == null)
                 return new NotFoundResponse();
 
-            return new OkResponse(Mapper.Map<PersonalDto>(personal));
+            return new OkResponse(mapper.Map<PersonalDto>(personal));
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Samp.API.Personal.Controllers
             if (personals.Count() == 0)
                 return new NotFoundResponse();
 
-            return new OkResponse(Mapper.Map<List<PersonalDto>>(personals));
+            return new OkResponse(mapper.Map<List<PersonalDto>>(personals));
         }
 
         #endregion Custom Endpoints

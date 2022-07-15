@@ -1,17 +1,19 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Samp.Core.Model.Base
 {
     public abstract class BaseController : ControllerBase
     {
-        private readonly IMapper _mapper;
+        public readonly IMapper mapper;
 
-        protected BaseController(IMapper mapper)
+        protected BaseController(IMapper _mapper)
         {
-            _mapper = mapper;
+            this.mapper = _mapper;
+            LoggedUserId = Guid.Parse("00000000-0000-0000-0000-000000000001");
         }
 
-        protected IMapper Mapper => _mapper;
+        public Guid LoggedUserId { get; set; }
     }
 }

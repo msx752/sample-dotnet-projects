@@ -39,7 +39,7 @@ namespace Samp.API.Personal.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return new OkResponse(Mapper.Map<List<PersonalDto>>(MyContext.Table<PersonalEntity>().All().ToList()));
+            return new OkResponse(mapper.Map<List<PersonalDto>>(MyContext.Table<PersonalEntity>().All().ToList()));
         }
     }
 }

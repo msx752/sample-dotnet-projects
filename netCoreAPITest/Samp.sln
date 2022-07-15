@@ -33,11 +33,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Identity.Database", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Movie.API", "src\MovieService\Samp.Movie.API\Samp.Movie.API.csproj", "{59F39A07-B0AA-4320-A087-2D66BA913186}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samp.Movie.Database", "src\MovieService\Samp.Movie.Database\Samp.Movie.Database.csproj", "{1E674B56-7DBE-419D-9840-AD92CC7C8773}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Movie.Database", "src\MovieService\Samp.Movie.Database\Samp.Movie.Database.csproj", "{1E674B56-7DBE-419D-9840-AD92CC7C8773}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samp.Cart.API", "src\CartService\Samp.Cart.API\Samp.Cart.API.csproj", "{2BD01860-0DF4-458A-AE40-FFF6441D5BD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Cart.API", "src\CartService\Samp.Cart.API\Samp.Cart.API.csproj", "{2BD01860-0DF4-458A-AE40-FFF6441D5BD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samp.Cart.Database", "src\CartService\Samp.Cart.Database\Samp.Cart.Database.csproj", "{39ED1235-CF0C-42CC-8DFF-7A83DD4AE89F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Cart.Database", "src\CartService\Samp.Cart.Database\Samp.Cart.Database.csproj", "{39ED1235-CF0C-42CC-8DFF-7A83DD4AE89F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasketService", "BasketService", "{E095E3C4-A8A7-4327-A953-078203087302}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samp.Basket.API", "src\Samp.Basket\Samp.Basket.API\Samp.Basket.API.csproj", "{F0D53E44-5DE1-4D1A-81C3-F049E081B32B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samp.Basket.Database", "src\Samp.Basket\Samp.Basket.Database\Samp.Basket.Database.csproj", "{AB98F16C-5671-49B6-ABDC-94505FAD6A74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +95,14 @@ Global
 		{39ED1235-CF0C-42CC-8DFF-7A83DD4AE89F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39ED1235-CF0C-42CC-8DFF-7A83DD4AE89F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39ED1235-CF0C-42CC-8DFF-7A83DD4AE89F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0D53E44-5DE1-4D1A-81C3-F049E081B32B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0D53E44-5DE1-4D1A-81C3-F049E081B32B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0D53E44-5DE1-4D1A-81C3-F049E081B32B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0D53E44-5DE1-4D1A-81C3-F049E081B32B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB98F16C-5671-49B6-ABDC-94505FAD6A74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB98F16C-5671-49B6-ABDC-94505FAD6A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB98F16C-5671-49B6-ABDC-94505FAD6A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB98F16C-5671-49B6-ABDC-94505FAD6A74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,6 +124,9 @@ Global
 		{1E674B56-7DBE-419D-9840-AD92CC7C8773} = {9CA1796F-4B9D-4DF9-BF87-9A60CE171282}
 		{2BD01860-0DF4-458A-AE40-FFF6441D5BD2} = {39DC0D3E-BB4A-4CCC-A8C6-FD925091B1FD}
 		{39ED1235-CF0C-42CC-8DFF-7A83DD4AE89F} = {39DC0D3E-BB4A-4CCC-A8C6-FD925091B1FD}
+		{E095E3C4-A8A7-4327-A953-078203087302} = {21B8AFBE-101E-4658-982F-DECEACDB1423}
+		{F0D53E44-5DE1-4D1A-81C3-F049E081B32B} = {E095E3C4-A8A7-4327-A953-078203087302}
+		{AB98F16C-5671-49B6-ABDC-94505FAD6A74} = {E095E3C4-A8A7-4327-A953-078203087302}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61E965D0-D06B-49C1-881D-780568C9C080}

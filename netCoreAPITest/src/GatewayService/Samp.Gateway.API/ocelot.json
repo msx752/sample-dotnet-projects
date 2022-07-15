@@ -23,6 +23,18 @@
       ],
       "UpstreamPathTemplate": "/gateway/Movies",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DLETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Baskets",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1050
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Baskets",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DLETE" ]
     }
   ],
   "GlobalConfiguration": {

@@ -60,7 +60,7 @@ namespace Samp.Auth.API.Controllers
                 var response = tokenHelper.Authenticate(user, claims);
                 return new OkResponse(response);
             }
-            return new BadRequestResponse();
+            return new BadRequestResponse($"invalid grant_type value:'{model.grant_type}'");
         }
     }
 }

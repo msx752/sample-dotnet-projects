@@ -19,7 +19,10 @@ namespace Samp.Core.Extensions
         public static IApplicationBuilder UseGlobalStartupConfigures(this IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+            }
 
             app.UseElapsedTimeMeasurement();
             app.UseContextSeed();
@@ -27,7 +30,6 @@ namespace Samp.Core.Extensions
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseSwagger();
             app.UseMiddleware<JwtMiddleware>();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

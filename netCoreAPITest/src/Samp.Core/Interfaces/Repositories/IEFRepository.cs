@@ -14,34 +14,37 @@ namespace Samp.Core.Interfaces.Repositories
         : IEFRepository
         where T : class
     {
-        T Add(T entity);
+        T Insert(T entity);
 
-        void Add(params T[] entities);
+        void Insert(params T[] entities);
 
-        void Add(IEnumerable<T> entities);
+        void Insert(IEnumerable<T> entities);
 
         IQueryable<T> All(bool includesInActives = false);
 
-        T Delete(T entity);
+        bool Any(Expression<Func<T, bool>> predicate, bool includesInActives = false);
+
+        void Delete(T entity);
 
         void Delete(params T[] entities);
 
         void Delete(IEnumerable<T> entities);
 
         T FirstOrDefault(Expression<Func<T, bool>> predicate, bool includesInAvtives = false);
+        bool Exists(object id, bool includesInActives = false);
 
         T GetById(object id, bool includesInActives = false);
 
-        T Search(bool includesInActives = false, params object[] keyValues);
+        T Find(bool includesInActives = false, params object[] keyValues);
 
         T Single(Expression<Func<T, T>> selector, Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true, bool includesInActives = false);
 
-        T Update(T entity);
+        void Update(T entity);
 
         void Update(params T[] entities);
 
         void Update(IEnumerable<T> entities);
 
-        IEnumerable<T> Where(Expression<Func<T, bool>> predicate, bool includesInActives = false);
+        IQueryable<T> Where(Expression<Func<T, bool>> predicate, bool includesInActives = false);
     }
 }

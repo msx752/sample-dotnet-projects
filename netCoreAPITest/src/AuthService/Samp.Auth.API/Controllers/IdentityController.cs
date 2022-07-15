@@ -46,8 +46,7 @@ namespace Samp.Auth.API.Controllers
                 }
 
                 var user = repository.Table<UserEntity>()
-                    .Where(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password))
-                    .FirstOrDefault();
+                    .FirstOrDefault(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password));
 
                 if (user == null)
                 {

@@ -83,7 +83,7 @@ namespace Samp.API.Personal.Controllers
 
             var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
 
-            var personal = MyContext.Table<PersonalEntity>().Add(personalEntity);
+            var personal = MyContext.Table<PersonalEntity>().Insert(personalEntity);
             MyContext.Commit(Guid.NewGuid());
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -104,9 +104,7 @@ namespace Samp.API.Personal.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var personalEntityDb = MyContext.Table<PersonalEntity>().GetById(id);
-
-            if (personalEntityDb == null)
+            if (!MyContext.Table<PersonalEntity>().Exists(id))
                 return new BadRequestResponse("entity not found");
 
             var personalEntity = Mapper.Map<PersonalEntity>(personalViewModel);
@@ -115,7 +113,7 @@ namespace Samp.API.Personal.Controllers
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
              */
-            personalEntity = MyContext.Table<PersonalEntity>().Update(personalEntity);
+            MyContext.Table<PersonalEntity>().Update(personalEntity);
             MyContext.Commit(Guid.NewGuid());
 
             return new OkResponse();
@@ -133,7 +131,8 @@ namespace Samp.API.Personal.Controllers
         public ActionResult GetByName([FromRoute] string name)
         {
             var personal = MyContext.Table<PersonalEntity>()
-                .FirstOrDefault(f => f.Name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase));
+                .FirstOrDefault(f => f.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+
             if (personal == null)
                 return new NotFoundResponse();
 
@@ -150,7 +149,7 @@ namespace Samp.API.Personal.Controllers
         public ActionResult GetBySurname([FromRoute] string sname)
         {
             var personal = MyContext.Table<PersonalEntity>()
-                .FirstOrDefault(f => f.Surname.Equals(sname, System.StringComparison.InvariantCultureIgnoreCase));
+                .FirstOrDefault(f => f.Surname.Equals(sname, StringComparison.InvariantCultureIgnoreCase));
 
             if (personal == null)
                 return new NotFoundResponse();
@@ -172,6 +171,7 @@ namespace Samp.API.Personal.Controllers
             var personals = MyContext.Table<PersonalEntity>()
                 .Where(f => f.Name.IndexOf(q, System.StringComparison.InvariantCultureIgnoreCase) > -1 ||
                             f.Surname.IndexOf(q, System.StringComparison.InvariantCultureIgnoreCase) > -1);
+
             if (personals.Count() == 0)
                 return new NotFoundResponse();
 

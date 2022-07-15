@@ -14,16 +14,16 @@ namespace Samp.Movie.Database
 
         public override void CommitSeed()
         {
-            Repository.Table<CategoryEntity>().Add(SeedCategories());
-            Repository.Table<DirectorEntity>().Add(SeedDirectors());
-            Repository.Table<WriterEntity>().Add(SeedWriters());
+            Repository.Table<CategoryEntity>().Insert(SeedCategories());
+            Repository.Table<DirectorEntity>().Insert(SeedDirectors());
+            Repository.Table<WriterEntity>().Insert(SeedWriters());
             var seedRating = SeedRatings();
-            Repository.Table<RatingEntity>().Add(seedRating);
+            Repository.Table<RatingEntity>().Insert(seedRating);
             var seedMovies = SeedMovies(seedRating);
-            Repository.Table<MovieEntity>().Add(seedMovies);
-            Repository.Table<MovieWriterEntity>().Add(SeedMovieWriters());
-            Repository.Table<MovieDirectorEntity>().Add(SeedmovieDirectors());
-            Repository.Table<MovieCategoryEntity>().Add(SeedMovieCategories());
+            Repository.Table<MovieEntity>().Insert(seedMovies);
+            Repository.Table<MovieWriterEntity>().Insert(SeedMovieWriters());
+            Repository.Table<MovieDirectorEntity>().Insert(SeedmovieDirectors());
+            Repository.Table<MovieCategoryEntity>().Insert(SeedMovieCategories());
             Repository.Commit(Guid.Empty);
         }
 

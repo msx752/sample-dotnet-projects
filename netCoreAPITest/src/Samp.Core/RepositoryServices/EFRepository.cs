@@ -24,34 +24,38 @@ namespace Samp.Core.RepositoryServices
             _dbset = _context.Set<T>();
         }
 
-        public T Add(T entity)
+        public T Insert(T entity)
         {
             return _dbset.Add(entity).Entity;
         }
 
-        public void Add(params T[] entities)
+        public void Insert(params T[] entities)
         {
             _dbset.AddRange(entities);
         }
 
-        public void Add(IEnumerable<T> entities)
+        public void Insert(IEnumerable<T> entities)
         {
             _dbset.AddRange(entities);
         }
 
         public IQueryable<T> All(bool includesInActives = false)
         {
-            var query = _dbset
-                .AsQueryable<T>()
-                .Where(f => f.IsActive == !includesInActives);
-            return query;
+            IQueryable<T> queryable = _dbset.AsQueryable<T>();
+            if (includesInActives)
+            {
+                return queryable;
+            }
+            else
+            {
+                return queryable.Where(f => f.IsActive);
+            }
         }
 
-        public T Delete(T entity)
+        public void Delete(T entity)
         {
             var entry = _context.Entry(entity);
             entry.State = EntityState.Deleted;
-            return entry.Entity;
         }
 
         public void Delete(params T[] entities)
@@ -80,21 +84,26 @@ namespace Samp.Core.RepositoryServices
             return All(includesInActives).FirstOrDefault(predicate);
         }
 
-        public T GetById(object id, bool includesInActives = false)
+        public bool Exists(object id, bool includesInActives = false)
         {
-            var entity = _dbset.Find(id);
-
-            if (entity == null || !entity.IsActive)
-                return null;
-
-            return entity;
+            return GetById(id, includesInActives) != null;
         }
 
-        public T Search(bool includesInActives = false, params object[] keyValues)
+        public bool Any(Expression<Func<T, bool>> predicate, bool includesInActives = false)
+        {
+            return All(includesInActives).Any(predicate);
+        }
+
+        public T GetById(object id, bool includesInActives = false)
+        {
+            return Find(includesInActives, id);
+        }
+
+        public T Find(bool includesInActives = false, params object[] keyValues)
         {
             var entity = _dbset.Find(keyValues);
 
-            if (entity == null || !entity.IsActive)
+            if (entity == null || (!entity.IsActive && !includesInActives))
                 return null;
 
             return entity;
@@ -144,12 +153,11 @@ namespace Samp.Core.RepositoryServices
              */
         }
 
-        public T Update(T entity)
+        public void Update(T entity)
         {
             var entry = _context.Entry(entity);
             //_dbset.Attach(entity);
             entry.State = EntityState.Modified;
-            return entry.Entity;
         }
 
         public void Update(params T[] entities)
@@ -168,9 +176,9 @@ namespace Samp.Core.RepositoryServices
             }
         }
 
-        public IEnumerable<T> Where(Expression<Func<T, bool>> predicate, bool includesInActives = false)
+        public IQueryable<T> Where(Expression<Func<T, bool>> predicate, bool includesInActives = false)
         {
-            return All(includesInActives).Where(predicate).AsEnumerable();
+            return All(includesInActives).Where(predicate);
         }
     }
 }

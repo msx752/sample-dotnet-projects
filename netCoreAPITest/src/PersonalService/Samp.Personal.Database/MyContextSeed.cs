@@ -26,7 +26,7 @@ namespace Samp.Database.Personal
                 NationalId = "11111111111"
             };
             if (Repository.Table<PersonalEntity>().GetById(p1.Id) == null)
-                Repository.Table<PersonalEntity>().Add(p1);
+                Repository.Table<PersonalEntity>().Insert(p1);
 
             var p2 = new PersonalEntity()
             {
@@ -37,7 +37,7 @@ namespace Samp.Database.Personal
                 NationalId = "333333333333"
             };
             if (Repository.Table<PersonalEntity>().GetById(p2.Id) == null)
-                Repository.Table<PersonalEntity>().Add(p2);
+                Repository.Table<PersonalEntity>().Insert(p2);
 
             Repository.Commit(Guid.NewGuid());
         }

@@ -25,7 +25,7 @@ namespace Samp.Auth.Database
                 Password = "1234"
             };
 
-            Repository.Table<UserEntity>().Add(user1);
+            Repository.Table<UserEntity>().Insert(user1);
 
             Repository.Commit(Guid.NewGuid());
         }

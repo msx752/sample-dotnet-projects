@@ -163,7 +163,7 @@ namespace Samp.Tests.DbContexts
             auditLogs_scope5.Count().ShouldBe(totalAuditCount);
             var enumerator = auditLogs_scope5.GetEnumerator();
             enumerator.MoveNext(); //SERVICE SCOPE 1
-            enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession1.ToString());
+            enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(UserEntity));
             enumerator.Current.IsActive.ShouldBeTrue();
             enumerator.Current.CreatedAt.ToString().ShouldBe(user_scope1.CreatedAt.ToString());
@@ -181,7 +181,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.CreatedBy }));
 
             enumerator.MoveNext(); //SERVICE SCOPE 1
-            enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession1.ToString());
+            enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(RefreshTokenEntity));
             enumerator.Current.IsActive.ShouldBeTrue();
             enumerator.Current.CreatedAt.ToString().ShouldBe(refreshToken_scope1.CreatedAt.ToString());
@@ -197,7 +197,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.CreatedBy }));
 
             enumerator.MoveNext(); //SERVICE SCOPE 2
-            enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession2.ToString());
+            enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(UserEntity));
             enumerator.Current.IsActive.ShouldBeTrue();
             enumerator.Current.CreatedAt.ToString().ShouldBe(user_scope2.CreatedAt.ToString());
@@ -212,7 +212,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope1.Password }));
 
             enumerator.MoveNext(); //SERVICE SCOPE 2
-            enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession2.ToString());
+            enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(RefreshTokenEntity));
             enumerator.Current.IsActive.ShouldBeTrue();
             enumerator.Current.CreatedAt.ToString().ShouldBe(refreshToken_scope2.CreatedAt.ToString());
@@ -227,7 +227,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.RefreshToken }));
 
             enumerator.MoveNext(); //SERVICE SCOPE 3
-            enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession3.ToString());
+            enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(UserEntity));
             enumerator.Current.IsActive.ShouldBeTrue();
             enumerator.Current.CreatedAt.ToString().ShouldBe(user_scope3.CreatedAt.ToString());
@@ -245,7 +245,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope2.UpdatedBy }));
 
             enumerator.MoveNext(); //SERVICE SCOPE 4
-            enumerator.Current.Identifier.ShouldStartWith(userId_HttpRequestSession4.ToString());
+            enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(RefreshTokenEntity));
             enumerator.Current.IsActive.ShouldBeTrue();
             enumerator.Current.CreatedAt.ToString().ShouldBe(refreshToken_scope4.CreatedAt.ToString());

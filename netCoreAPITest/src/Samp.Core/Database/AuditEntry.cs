@@ -32,7 +32,7 @@ namespace Samp.Core.Database
             audit.IsActive = true;
             audit.CreatedBy = UserId;
             audit.CreatedAt = dtnow;
-            audit.Identifier = $"{UserId}+{System.Diagnostics.Activity.Current?.RootId}";
+            audit.Identifier = System.Diagnostics.Activity.Current?.RootId ?? Guid.Empty.ToString();
             audit.Type = AuditType;
             audit.TableName = TableName;
             audit.PrimaryKey = JsonConvert.SerializeObject(KeyValues);

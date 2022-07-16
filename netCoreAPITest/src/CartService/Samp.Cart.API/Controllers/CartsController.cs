@@ -81,6 +81,7 @@ namespace Samp.Cart.API.Controllers
         {
             var entity = repository.Table<CartItemEntity>()
                 .Where(f => f.CartId == cartId
+                    && !f.Cart.IsDeleted
                     && f.Cart.UserId == LoggedUserId
                     && f.Id == cartItemId
                     )

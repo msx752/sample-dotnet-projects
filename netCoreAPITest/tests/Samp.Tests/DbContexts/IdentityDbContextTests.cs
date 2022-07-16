@@ -52,7 +52,7 @@ namespace Samp.Tests.DbContexts
             {
                 var repo_scope1 = scope1.ServiceProvider
                     .GetRequiredService<ISharedRepository<IdentityDbContext>>();
-                repo_scope1.Table<UserEntity>().Insert(user_scope1);                                               //Add UserEntity
+                repo_scope1.Table<UserEntity>().Insert(user_scope1);                                            //Add UserEntity
                 repo_scope1.Commit(userId_HttpRequestSession1);                                                 //Commit UserEntity
                 auditlogCounter[nameof(UserEntity)] += 1;
                 user_scope1.ShouldNotBeNull();

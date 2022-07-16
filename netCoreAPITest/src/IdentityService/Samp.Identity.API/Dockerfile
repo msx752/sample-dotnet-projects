@@ -1,10 +1,10 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mustafasalih/dotnetcore-runtime:7.0.0-preview.5-bullseye-slim-amd64 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mustafasalih/dotnetcore-sdk:7.0.0-preview.5-bullseye-slim-amd64 AS build
 WORKDIR /src
 COPY ["src/IdentityService/Samp.Identity.API/Samp.Identity.API.csproj", "src/IdentityService/Samp.Identity.API/"]
 COPY ["src/IdentityService/Samp.Identity.Database/Samp.Identity.Database.csproj", "src/IdentityService/Samp.Identity.Database/"]

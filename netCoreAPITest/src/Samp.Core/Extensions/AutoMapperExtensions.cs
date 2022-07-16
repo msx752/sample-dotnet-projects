@@ -18,11 +18,8 @@ namespace Samp.Core.Extensions
                 var assemblies = AppDomain.CurrentDomain.GetAssemblies()
                     .Where(f =>
                         !f.IsDynamic
-                        && !f.FullName.StartsWith("Microsoft.")
-                        && !f.FullName.StartsWith("System.")
-                        && !f.FullName.StartsWith("xunit.")
-                        && !f.FullName.StartsWith("System,")
-                        && !f.FullName.StartsWith("AutoMapper,")
+                        && !f.FullName.StartsWith("Samp.Core")
+                        && f.FullName.StartsWith("Samp.")
                         && f.DefinedTypes.Any(x => x.IsAssignableTo(typeof(AutoMapper.Profile)))
                      );
                 cfg.AddMaps(assemblies);

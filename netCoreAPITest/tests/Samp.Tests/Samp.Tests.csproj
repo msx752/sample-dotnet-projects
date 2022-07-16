@@ -23,6 +23,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AuthService\Samp.Auth.API\Samp.Identity.API.csproj" />
+    <ProjectReference Include="..\..\src\CartService\Samp.Cart.API\Samp.Cart.API.csproj" />
+    <ProjectReference Include="..\..\src\GatewayService\Samp.Gateway.API\Samp.Gateway.API.csproj" />
+    <ProjectReference Include="..\..\src\IdentityService\Samp.Identity.API\Samp.Identity.API.csproj" />
+    <ProjectReference Include="..\..\src\IdentityService\Samp.Identity.Database\Samp.Identity.Database.csproj" />
+    <ProjectReference Include="..\..\src\MovieService\Samp.Movie.API\Samp.Movie.API.csproj" />
     <ProjectReference Include="..\..\src\PersonalService\Samp.Personal.API\Samp.Personal.API.csproj" />
   </ItemGroup>
 

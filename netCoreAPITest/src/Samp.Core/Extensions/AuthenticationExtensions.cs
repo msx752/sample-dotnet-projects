@@ -23,22 +23,20 @@ namespace Samp.Core.Extensions
         /// <returns></returns>
         public static IServiceCollection AddJWTAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            var config = configuration.Get<ApplicationSettings>();
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(config.JWT.AccessTokenSecret)),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ClockSkew = TimeSpan.Zero,
-            };
-            services.AddSingleton((isp) => tokenValidationParameters);
-
             services.AddAuthentication((ao) => ao.DefaultChallengeScheme = ao.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, (options) =>
                     {
+                        var config = configuration.Get<ApplicationSettings>();
+
                         options.RequireHttpsMetadata = false;
-                        options.TokenValidationParameters = tokenValidationParameters;
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(config.JWT.AccessTokenSecret)),
+                            ValidateIssuer = false,
+                            ValidateAudience = false,
+                            ClockSkew = TimeSpan.Zero,
+                        };
                         options.Events = new JwtBearerEvents()
                         {
                             OnChallenge = async context =>

@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Identity",
+      "DownstreamPathTemplate": "/api/Identity/Token",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,8 +9,8 @@
           "Port": 1020
         }
       ],
-      "UpstreamPathTemplate": "/gateway/Identity",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DLETE" ]
+      "UpstreamPathTemplate": "/gateway/Identity/Token",
+      "UpstreamHttpMethod": [ "POST" ]
     },
     {
       "DownstreamPathTemplate": "/api/Movies",
@@ -22,7 +22,19 @@
         }
       ],
       "UpstreamPathTemplate": "/gateway/Movies",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DLETE" ]
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Movies/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1030
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Movies/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
       "DownstreamPathTemplate": "/api/Baskets",
@@ -34,7 +46,31 @@
         }
       ],
       "UpstreamPathTemplate": "/gateway/Baskets",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DLETE" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Carts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1050
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Carts",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Carts/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1050
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Carts/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
   ],
   "GlobalConfiguration": {

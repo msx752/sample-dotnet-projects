@@ -20,5 +20,4 @@ RUN dotnet publish "Samp.Identity.API.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-#RUN echo "Europe/London" > /etc/timezone
 ENTRYPOINT ["dotnet", "Samp.Identity.API.dll"]

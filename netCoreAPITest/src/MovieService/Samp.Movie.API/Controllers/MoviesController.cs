@@ -88,7 +88,7 @@ namespace Samp.Movie.API.Controllers
             if (entity == null)
                 return new NotFoundResponse();
 
-            return new OkResponse(mapper.Map<List<MovieDto>>(entity));
+            return new OkResponse(mapper.Map<MovieDto>(entity));
         }
 
         [HttpGet("Search")]

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Samp.Cart.Database.Entities
+namespace Samp.Payment.Database.Entities
 {
     [Table("PaymentHistoryEntity")]
     public class PaymentHistoryEntity : BaseEntity

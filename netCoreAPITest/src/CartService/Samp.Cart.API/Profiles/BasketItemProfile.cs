@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Samp.Basket.API.Models.Dtos;
-using Samp.Basket.Database.Entities;
+using Samp.Cart.Database.Entities;
 
-namespace Samp.Movie.API.Profiles
+namespace Samp.Cart.API.Profiles
 {
     public class BasketItemProfile : Profile
     {
         public BasketItemProfile()
         {
-            CreateMap<BasketItemEntity, BasketItemDto>();
+            CreateMap<CartItemEntity, BasketItemDto>();
         }
     }
 }

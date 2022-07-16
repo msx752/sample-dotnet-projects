@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Samp.Basket.Database.Migrations;
+using Samp.Cart.Database;
 using Samp.Core.Extensions;
 using Samp.Core.Model;
-using Samp.Cart;
-using Samp.Cart.Database.Migrations;
-using Samp.Cart.Database;
 
 namespace Samp.Cart.API
 {

@@ -1,6 +1,7 @@
-﻿using Samp.Basket.Database.Enums;
+﻿using Samp.Basket.API.Models.Dtos;
+using Samp.Cart.Database.Enums;
 
-namespace Samp.Basket.API.Models.Dtos
+namespace Samp.Cart.API.Models.Dtos
 {
     public class BasketDto
     {
@@ -10,7 +11,7 @@ namespace Samp.Basket.API.Models.Dtos
         }
 
         public Guid Id { get; set; }
-        private BasketStatus Satus { get; set; }
+        private CartStatus Satus { get; set; }
         public List<BasketItemDto> Items { get; set; }
     }
 }

@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MovieService", "MovieServic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{DE910A07-779A-41F1-A45D-F479368FD89E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CartService", "CartService", "{39DC0D3E-BB4A-4CCC-A8C6-FD925091B1FD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentService", "PaymentService", "{39DC0D3E-BB4A-4CCC-A8C6-FD925091B1FD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GatewayService", "GatewayService", "{4CFC13DB-2B81-4435-954F-D0EE6C6DC9C4}"
 EndProject
@@ -35,15 +35,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Movie.API", "src\Movie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Movie.Database", "src\MovieService\Samp.Movie.Database\Samp.Movie.Database.csproj", "{1E674B56-7DBE-419D-9840-AD92CC7C8773}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Cart.API", "src\CartService\Samp.Cart.API\Samp.Cart.API.csproj", "{2BD01860-0DF4-458A-AE40-FFF6441D5BD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Payment.API", "src\PaymentService\Samp.Payment.API\Samp.Payment.API.csproj", "{2BD01860-0DF4-458A-AE40-FFF6441D5BD2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Cart.Database", "src\CartService\Samp.Cart.Database\Samp.Cart.Database.csproj", "{39ED1235-CF0C-42CC-8DFF-7A83DD4AE89F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Payment.Database", "src\PaymentService\Samp.Payment.Database\Samp.Payment.Database.csproj", "{39ED1235-CF0C-42CC-8DFF-7A83DD4AE89F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasketService", "BasketService", "{E095E3C4-A8A7-4327-A953-078203087302}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CartService", "CartService", "{E095E3C4-A8A7-4327-A953-078203087302}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samp.Basket.API", "src\Samp.Basket\Samp.Basket.API\Samp.Basket.API.csproj", "{F0D53E44-5DE1-4D1A-81C3-F049E081B32B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Cart.API", "src\CartService\Samp.Cart.API\Samp.Cart.API.csproj", "{F0D53E44-5DE1-4D1A-81C3-F049E081B32B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samp.Basket.Database", "src\Samp.Basket\Samp.Basket.Database\Samp.Basket.Database.csproj", "{AB98F16C-5671-49B6-ABDC-94505FAD6A74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Cart.Database", "src\CartService\Samp.Cart.Database\Samp.Cart.Database.csproj", "{AB98F16C-5671-49B6-ABDC-94505FAD6A74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

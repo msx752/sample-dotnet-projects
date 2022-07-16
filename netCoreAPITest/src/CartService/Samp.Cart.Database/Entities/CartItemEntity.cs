@@ -1,13 +1,14 @@
-﻿using Samp.Core.Entities;
+﻿using Samp.Basket.Database.Entities;
+using Samp.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Samp.Basket.Database.Entities
+namespace Samp.Cart.Database.Entities
 {
-    [Table("BasketItemEntity")]
-    public class BasketItemEntity : BaseEntity
+    [Table("CartItemEntity")]
+    public class CartItemEntity : BaseEntity
     {
-        public BasketItemEntity()
+        public CartItemEntity()
         {
             SalesPriceCurrency = "usd";
             ItemDatabase = "Movies";
@@ -23,6 +24,6 @@ namespace Samp.Basket.Database.Entities
         public string SalesPriceCurrency { get; set; }
         public string ItemDatabase { get; set; }
         public Guid BasketId { get; set; }
-        public virtual BasketEntity Basket { get; set; }
+        public virtual CartEntity Basket { get; set; }
     }
 }

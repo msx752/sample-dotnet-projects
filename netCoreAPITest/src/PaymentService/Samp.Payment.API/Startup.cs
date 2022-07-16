@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Samp.Basket.Database;
-using Samp.Basket.Database.Migrations;
 using Samp.Core.Extensions;
 using Samp.Core.Model;
+using Samp.Payment.Database;
+using Samp.Payment.Database.Migrations;
 
-namespace Samp.Basket.API
+namespace Samp.Payment.API
 {
     public class Startup
     {
@@ -24,10 +24,10 @@ namespace Samp.Basket.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGlobalStartupServices<BasketApplicationSettings>(Configuration);
+            services.AddGlobalStartupServices<PaymentApplicationSettings>(Configuration);
 
-            var IdentityContext = new DbContextParameter<BasketDbContext, BasketDbContextSeed>((provider, opt) =>
-                    opt.UseInMemoryDatabase(databaseName: nameof(BasketDbContext)).EnableSensitiveDataLogging());
+            var IdentityContext = new DbContextParameter<PaymentDbContext, PaymentDbContextSeed>((provider, opt) =>
+                    opt.UseInMemoryDatabase(databaseName: nameof(PaymentDbContext)).EnableSensitiveDataLogging());
 
             services.AddCustomDbContext(IdentityContext);
         }

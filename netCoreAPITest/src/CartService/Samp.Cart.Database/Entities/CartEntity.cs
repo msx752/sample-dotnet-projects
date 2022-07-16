@@ -1,24 +1,25 @@
-﻿using Samp.Basket.Database.Enums;
+﻿using Samp.Cart.Database.Entities;
+using Samp.Cart.Database.Enums;
 using Samp.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Samp.Basket.Database.Entities
 {
-    [Table("BasketEntity")]
-    public class BasketEntity : BaseEntity
+    [Table("CartEntity")]
+    public class CartEntity : BaseEntity
     {
-        public BasketEntity()
+        public CartEntity()
         {
-            Items = new HashSet<BasketItemEntity>();
+            Items = new HashSet<CartItemEntity>();
         }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        public BasketStatus Satus { get; set; }
+        public CartStatus Satus { get; set; }
         public Guid UserId { get; set; }
-        public virtual ICollection<BasketItemEntity> Items { get; set; }
+        public virtual ICollection<CartItemEntity> Items { get; set; }
     }
 }

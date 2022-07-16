@@ -1,4 +1,4 @@
-﻿using Samp.Cart.Database.Migrations;
+﻿using Samp.Basket.Database.Migrations;
 using Samp.Core.Database;
 using Samp.Core.Interfaces.Repositories;
 

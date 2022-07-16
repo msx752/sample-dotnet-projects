@@ -16,5 +16,6 @@ namespace Samp.Movie.API.Models.Dtos
         public MovieType Type { get; set; }
 
         public decimal UsdPrice { get; set; }
+        public string ItemDatabase { get; set; }
     }
 }

@@ -11,19 +11,19 @@ namespace Samp.Cart.Database.Entities
         public CartItemEntity()
         {
             SalesPriceCurrency = "usd";
-            ItemDatabase = "Movies";
+            ProductDatabase = "movie";
         }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        public string ItemId { get; set; }
+        public string ProductId { get; set; }
         public string Title { get; set; }
         public double SalesPrice { get; set; }
         public string SalesPriceCurrency { get; set; }
-        public string ItemDatabase { get; set; }
-        public Guid BasketId { get; set; }
-        public virtual CartEntity Basket { get; set; }
+        public string ProductDatabase { get; set; }
+        public Guid CartId { get; set; }
+        public virtual CartEntity Cart { get; set; }
     }
 }

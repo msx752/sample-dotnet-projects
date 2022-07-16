@@ -115,14 +115,14 @@ namespace Samp.Tests.DbContexts
                 var repo_scope3 = scope3.ServiceProvider
                     .GetRequiredService<ISharedRepository<IdentityDbContext>>();
                 user_scope3 = repo_scope3.Table<UserEntity>().GetById(user_scope2.Id);                          //Select UserEntity
-                user_scope3.IsActive.ShouldBeTrue();
+                user_scope3.IsDeleted.ShouldBeFalse();
                 user_scope3.UpdatedBy.ShouldBe(user_scope3.UpdatedBy);
                 user_scope3.UpdatedAt.ShouldBe(user_scope3.UpdatedAt);
 
                 repo_scope3.Table<UserEntity>().Delete(user_scope3);                                            //Delete UserEntity
                 repo_scope3.Commit(userId_HttpRequestSession3);                                                 //Commit UserEntity
                 auditlogCounter[nameof(UserEntity)] += 1;
-                user_scope3.IsActive.ShouldBeFalse();
+                user_scope3.IsDeleted.ShouldBeTrue();
                 user_scope3.UpdatedBy.ShouldNotBe(user_scope2.UpdatedBy);
                 user_scope3.UpdatedAt.ShouldNotBe(user_scope2.UpdatedAt);
                 user_scope3.UpdatedBy.ShouldBe(userId_HttpRequestSession3);
@@ -135,14 +135,14 @@ namespace Samp.Tests.DbContexts
                 var repo_scope4 = scope4.ServiceProvider
                     .GetRequiredService<ISharedRepository<IdentityDbContext>>();
                 refreshToken_scope4 = repo_scope4.Table<RefreshTokenEntity>().GetById(refreshToken_scope2.Id);  //Select UserEntity
-                refreshToken_scope4.IsActive.ShouldBeTrue();
+                refreshToken_scope4.IsDeleted.ShouldBeFalse();
                 refreshToken_scope4.UpdatedBy.ShouldBe(refreshToken_scope2.UpdatedBy);
                 refreshToken_scope4.UpdatedAt.ShouldBe(refreshToken_scope2.UpdatedAt);
 
                 repo_scope4.Table<RefreshTokenEntity>().Delete(refreshToken_scope4);                            //Delete UserEntity
                 repo_scope4.Commit(userId_HttpRequestSession4);                                                 //Commit UserEntity
                 auditlogCounter[nameof(RefreshTokenEntity)] += 1;
-                refreshToken_scope4.IsActive.ShouldBeFalse();
+                refreshToken_scope4.IsDeleted.ShouldBeTrue();
                 refreshToken_scope4.UpdatedBy.ShouldNotBe(refreshToken_scope2.UpdatedBy);
                 refreshToken_scope4.UpdatedAt.ShouldNotBe(refreshToken_scope2.UpdatedAt);
                 refreshToken_scope4.UpdatedBy.ShouldBe(userId_HttpRequestSession4);
@@ -165,7 +165,7 @@ namespace Samp.Tests.DbContexts
             enumerator.MoveNext(); //SERVICE SCOPE 1
             enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(UserEntity));
-            enumerator.Current.IsActive.ShouldBeTrue();
+            enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(user_scope1.CreatedAt.ToString());
             enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Create);
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession1);
@@ -173,7 +173,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.UpdatedBy.ShouldBeNull();
             enumerator.Current.OldValues.ShouldBeNull();
             enumerator.Current.AffectedColumns.ShouldBeNull();
-            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.IsActive }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.IsDeleted }));
             enumerator.Current.NewValues.ShouldNotContain(TokenJsonString(new { UserId = user_scope1.Id }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.Username }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.Password }));
@@ -183,14 +183,14 @@ namespace Samp.Tests.DbContexts
             enumerator.MoveNext(); //SERVICE SCOPE 1
             enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(RefreshTokenEntity));
-            enumerator.Current.IsActive.ShouldBeTrue();
+            enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(refreshToken_scope1.CreatedAt.ToString());
             enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Create);
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession1);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
             enumerator.Current.AffectedColumns.ShouldBeNull();
-            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.IsActive }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.IsDeleted }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { UserId = user_scope1.Id }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.RefreshToken }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.CreatedAt }));
@@ -199,7 +199,7 @@ namespace Samp.Tests.DbContexts
             enumerator.MoveNext(); //SERVICE SCOPE 2
             enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(UserEntity));
-            enumerator.Current.IsActive.ShouldBeTrue();
+            enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(user_scope2.CreatedAt.ToString());
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession2);
             enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Update);
@@ -214,7 +214,7 @@ namespace Samp.Tests.DbContexts
             enumerator.MoveNext(); //SERVICE SCOPE 2
             enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(RefreshTokenEntity));
-            enumerator.Current.IsActive.ShouldBeTrue();
+            enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(refreshToken_scope2.CreatedAt.ToString());
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession2);
             enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Update);
@@ -229,7 +229,7 @@ namespace Samp.Tests.DbContexts
             enumerator.MoveNext(); //SERVICE SCOPE 3
             enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(UserEntity));
-            enumerator.Current.IsActive.ShouldBeTrue();
+            enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(user_scope3.CreatedAt.ToString());
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession3);
             enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Delete);
@@ -237,17 +237,17 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.UpdatedBy.ShouldBeNull();
             enumerator.Current.PrimaryKey.ShouldContain(TokenJsonString(new { user_scope3.Id }));
             enumerator.Current.AffectedColumns.ShouldNotBeNull();
-            enumerator.Current.AffectedColumns.ShouldContain(nameof(user_scope3.IsActive));
+            enumerator.Current.AffectedColumns.ShouldContain(nameof(user_scope3.IsDeleted));
             enumerator.Current.AffectedColumns.ShouldContain(nameof(user_scope3.UpdatedBy));
-            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope3.IsActive }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope3.IsDeleted }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope3.UpdatedBy }));
-            enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope2.IsActive }));
+            enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope2.IsDeleted }));
             enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { user_scope2.UpdatedBy }));
 
             enumerator.MoveNext(); //SERVICE SCOPE 4
             enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
             enumerator.Current.TableName.ShouldBe(nameof(RefreshTokenEntity));
-            enumerator.Current.IsActive.ShouldBeTrue();
+            enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(refreshToken_scope4.CreatedAt.ToString());
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession4);
             enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Delete);
@@ -255,11 +255,11 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.UpdatedBy.ShouldBeNull();
             enumerator.Current.PrimaryKey.ShouldContain(TokenJsonString(new { refreshToken_scope4.Id }));
             enumerator.Current.AffectedColumns.ShouldNotBeNull();
-            enumerator.Current.AffectedColumns.ShouldContain(nameof(refreshToken_scope4.IsActive));
+            enumerator.Current.AffectedColumns.ShouldContain(nameof(refreshToken_scope4.IsDeleted));
             enumerator.Current.AffectedColumns.ShouldContain(nameof(refreshToken_scope4.UpdatedBy));
-            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope4.IsActive }));
+            enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope4.IsDeleted }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope4.UpdatedBy }));
-            enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { refreshToken_scope2.IsActive }));
+            enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { refreshToken_scope2.IsDeleted }));
             enumerator.Current.OldValues.ShouldContain(TokenJsonString(new { refreshToken_scope2.UpdatedBy }));
 
             enumerator.MoveNext();

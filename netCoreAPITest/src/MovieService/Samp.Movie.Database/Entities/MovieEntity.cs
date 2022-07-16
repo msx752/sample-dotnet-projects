@@ -15,6 +15,7 @@ namespace Samp.Movie.Database.Entities
             MovieDirectors = new HashSet<MovieDirectorEntity>();
             MovieWriters = new HashSet<MovieWriterEntity>();
             //PaymentHistory = new HashSet<PaymentHistory>();
+            ProductDatabase = "movie";
         }
 
         //public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }
@@ -40,6 +41,7 @@ namespace Samp.Movie.Database.Entities
         public Guid RatingId { get; set; }
         public virtual RatingEntity Rating { get; set; }
         public MovieType Type { get; set; }
+        public string ProductDatabase { get; set; }
 
         public decimal UsdPrice { get; set; }
     }

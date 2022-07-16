@@ -24,9 +24,9 @@ namespace Samp.Core.RepositoryServices
             _dbset = _context.Set<T>();
         }
 
-        public T Insert(T entity)
+        public void Insert(T entity)
         {
-            return _dbset.Add(entity).Entity;
+            _dbset.Add(entity);
         }
 
         public void Insert(params T[] entities)
@@ -39,16 +39,16 @@ namespace Samp.Core.RepositoryServices
             _dbset.AddRange(entities);
         }
 
-        public IQueryable<T> All(bool includesInActives = false)
+        public IQueryable<T> All(bool includesDeletedEntities = false)
         {
             IQueryable<T> queryable = _dbset.AsQueryable<T>();
-            if (includesInActives)
+            if (includesDeletedEntities)
             {
                 return queryable;
             }
             else
             {
-                return queryable.Where(f => f.IsActive);
+                return queryable.Where(f => !f.IsDeleted);
             }
         }
 
@@ -79,31 +79,31 @@ namespace Samp.Core.RepositoryServices
             _context?.Dispose();
         }
 
-        public T FirstOrDefault(Expression<Func<T, bool>> predicate, bool includesInActives = false)
+        public T FirstOrDefault(Expression<Func<T, bool>> predicate, bool includesDeletedEntities = false)
         {
-            return All(includesInActives).FirstOrDefault(predicate);
+            return All(includesDeletedEntities).FirstOrDefault(predicate);
         }
 
-        public bool Exists(object id, bool includesInActives = false)
+        public bool Exists(object id, bool includesDeletedEntities = false)
         {
-            return GetById(id, includesInActives) != null;
+            return GetById(id, includesDeletedEntities) != null;
         }
 
-        public bool Any(Expression<Func<T, bool>> predicate, bool includesInActives = false)
+        public bool Any(Expression<Func<T, bool>> predicate, bool includesDeletedEntities = false)
         {
-            return All(includesInActives).Any(predicate);
+            return All(includesDeletedEntities).Any(predicate);
         }
 
-        public T GetById(object id, bool includesInActives = false)
+        public T GetById(object id, bool includesDeletedEntities = false)
         {
-            return Find(includesInActives, id);
+            return Find(includesDeletedEntities, id);
         }
 
-        public T Find(bool includesInActives = false, params object[] keyValues)
+        public T Find(bool includesDeletedEntities = false, params object[] keyValues)
         {
             var entity = _dbset.Find(keyValues);
 
-            if (entity == null || (!entity.IsActive && !includesInActives))
+            if (entity == null || (entity.IsDeleted && !includesDeletedEntities))
                 return null;
 
             return entity;
@@ -125,9 +125,9 @@ namespace Samp.Core.RepositoryServices
                                     Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                                     Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
                                     bool disableTracking = true,
-                                    bool includesInActives = false)
+                                    bool includesDeletedEntities = false)
         {
-            IQueryable<T> query = All(includesInActives);
+            IQueryable<T> query = All(includesDeletedEntities);
             if (disableTracking)
                 query = query.AsNoTracking();
 
@@ -176,9 +176,9 @@ namespace Samp.Core.RepositoryServices
             }
         }
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> predicate, bool includesInActives = false)
+        public IQueryable<T> Where(Expression<Func<T, bool>> predicate, bool includesDeletedEntities = false)
         {
-            return All(includesInActives).Where(predicate);
+            return All(includesDeletedEntities).Where(predicate);
         }
     }
 }

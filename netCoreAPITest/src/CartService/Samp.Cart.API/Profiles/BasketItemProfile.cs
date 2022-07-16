@@ -8,7 +8,7 @@ namespace Samp.Cart.API.Profiles
     {
         public BasketItemProfile()
         {
-            CreateMap<CartItemEntity, BasketItemDto>();
+            CreateMap<CartItemEntity, CartItemDto>();
         }
     }
 }

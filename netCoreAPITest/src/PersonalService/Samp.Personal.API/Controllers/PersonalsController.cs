@@ -83,13 +83,13 @@ namespace Samp.API.Personal.Controllers
 
             var personalEntity = mapper.Map<PersonalEntity>(personalViewModel);
 
-            var personal = MyContext.Table<PersonalEntity>().Insert(personalEntity);
+            MyContext.Table<PersonalEntity>().Insert(personalEntity);
             MyContext.Commit(Guid.NewGuid());
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
             */
-            return new OkResponse(mapper.Map<PersonalDto>(personal));
+            return new OkResponse(mapper.Map<PersonalDto>(personalEntity));
         }
 
         /// <summary>

@@ -29,7 +29,6 @@ namespace Samp.Core.Database
         {
             var dtnow = DateTimeOffset.UtcNow;
             var audit = new AuditEntity();
-            audit.IsActive = true;
             audit.CreatedBy = UserId;
             audit.CreatedAt = dtnow;
             audit.Identifier = System.Diagnostics.Activity.Current?.RootId ?? Guid.Empty.ToString();

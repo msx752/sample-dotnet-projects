@@ -11,7 +11,7 @@ namespace Samp.Core.Entities
         }
 
         [Required]
-        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
 
         [Required]
         public DateTimeOffset CreatedAt { get; set; }

@@ -3,15 +3,15 @@ using Samp.Cart.Database.Enums;
 
 namespace Samp.Cart.API.Models.Dtos
 {
-    public class BasketDto
+    public class CartDto
     {
-        public BasketDto()
+        public CartDto()
         {
-            Items = new List<BasketItemDto>();
+            Items = new List<CartItemDto>();
         }
 
         public Guid Id { get; set; }
         private CartStatus Satus { get; set; }
-        public List<BasketItemDto> Items { get; set; }
+        public List<CartItemDto> Items { get; set; }
     }
 }

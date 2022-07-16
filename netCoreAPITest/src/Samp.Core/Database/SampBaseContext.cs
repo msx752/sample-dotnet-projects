@@ -98,13 +98,12 @@ namespace Samp.Core.Database
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        baseEntity.IsActive = true;
                         baseEntity.CreatedAt = DateTimeOffset.UtcNow;
                         baseEntity.CreatedBy = userId;
                         break;
 
                     case EntityState.Deleted:
-                        baseEntity.IsActive = false;
+                        baseEntity.IsDeleted = true;
                         baseEntity.UpdatedAt = DateTimeOffset.UtcNow;
                         baseEntity.UpdatedBy = userId;
                         entry.State = EntityState.Modified; //SampDbContext doesn't support hard-delete, so we change state to modified to update the record.
@@ -133,13 +132,13 @@ namespace Samp.Core.Database
                         throw new NotSupportedException($"only soft-delete allowed on {nameof(SampBaseContext)}");
 
                     case EntityState.Modified:
-                        if (baseEntity.IsActive)
+                        if (baseEntity.IsDeleted)
                         {
-                            auditEntry.AuditType = Enums.AuditType.Update;
+                            auditEntry.AuditType = Enums.AuditType.Delete;
                         }
                         else
                         {
-                            auditEntry.AuditType = Enums.AuditType.Delete;
+                            auditEntry.AuditType = Enums.AuditType.Update;
                         }
                         break;
                 }

@@ -10,6 +10,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports: 
       - "1020:80"
+    depends_on:
+      - "myrabbitmq"
+      - "mymongodb"
 
   movieservice:
     image: mustafasalih/sample-dotnet-microservices:movieservice
@@ -20,6 +23,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports: 
       - "1030:80"
+    depends_on:
+      - "myrabbitmq"
+      - "mymongodb"
 
   cartservice:
     image: mustafasalih/sample-dotnet-microservices:cartservice
@@ -32,6 +38,8 @@ services:
       - "1050:80"
     depends_on:
       - "identityservice"
+      - "myrabbitmq"
+      - "mymongodb"
           
   getewayservice:
     image: mustafasalih/sample-dotnet-microservices:getewayservice
@@ -46,3 +54,24 @@ services:
       - "identityservice"
       - "movieservice"
       - "cartservice"
+      - "myrabbitmq"
+      - "mymongodb"
+
+  myrabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ./volumes/rabbitmq/data/:/var/lib/rabbitmq/
+        - ./volumes/rabbitmq/log/:/var/log/rabbitmq
+
+  mymongodb:
+    image: mongo:latest
+    environment:
+        - MONGO_INITDB_DATABASE=MongoDb
+    volumes:
+        - ./volumes/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+        - ./volumes/mongo:/data/db
+    ports:
+        - "27017-27019:27017-27019"

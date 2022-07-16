@@ -1,11 +1,48 @@
 version: '3.4'
 
 services:
-  mynet6api:
-    image: mustafasalih/net6:api1
+  identityservice:
+    image: mustafasalih/sample-dotnet-microservices:identityservice
     build:
      context: .
-     dockerfile: netCoreAPITest/Dockerfile
+     dockerfile: src/IdentityService/Samp.Identity.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     ports: 
-      - "5501:443"
-      - "5500:80"
+      - "1020:80"
+
+  movieservice:
+    image: mustafasalih/sample-dotnet-microservices:movieservice
+    build:
+     context: .
+     dockerfile: src/MovieService/Samp.Movie.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports: 
+      - "1030:80"
+
+  cartservice:
+    image: mustafasalih/sample-dotnet-microservices:cartservice
+    build:
+     context: .
+     dockerfile: src/CartService/Samp.Cart.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports: 
+      - "1050:80"
+    depends_on:
+      - "identityservice"
+          
+  getewayservice:
+    image: mustafasalih/sample-dotnet-microservices:getewayservice
+    build:
+     context: .
+     dockerfile: src/GatewayService/Samp.Gateway.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports: 
+      - "1010:80"
+    depends_on:
+      - "identityservice"
+      - "movieservice"
+      - "cartservice"

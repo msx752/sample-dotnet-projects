@@ -27,9 +27,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GatewayService", "GatewaySe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Gateway.API", "src\GatewayService\Samp.Gateway.API\Samp.Gateway.API.csproj", "{C3D1FDBB-1F37-4464-8619-F6C68E738A41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Identity.API", "src\AuthService\Samp.Auth.API\Samp.Identity.API.csproj", "{EF9C556C-6DD9-4A30-B8E5-59DE25F4B044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Identity.API", "src\IdentityService\Samp.Identity.API\Samp.Identity.API.csproj", "{EF9C556C-6DD9-4A30-B8E5-59DE25F4B044}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Identity.Database", "src\AuthService\Samp.Auth.Database\Samp.Identity.Database.csproj", "{660ABB80-2601-4864-B5D2-F92CA13A7B1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Identity.Database", "src\IdentityService\Samp.Identity.Database\Samp.Identity.Database.csproj", "{660ABB80-2601-4864-B5D2-F92CA13A7B1F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Movie.API", "src\MovieService\Samp.Movie.API\Samp.Movie.API.csproj", "{59F39A07-B0AA-4320-A087-2D66BA913186}"
 EndProject

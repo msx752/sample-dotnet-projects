@@ -11,8 +11,8 @@
 	
 	<ItemGroup>
 
-	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0-preview.5.22302.2" />
-	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0-preview.6.22329.4" />
+	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -23,12 +23,12 @@
 	<ItemGroup>
 		
 		<Content Update="appsettings.Development.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
 		<Content Update="appsettings.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>

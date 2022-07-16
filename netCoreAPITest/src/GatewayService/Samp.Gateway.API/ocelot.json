@@ -5,7 +5,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "172.26.112.1",
           "Port": 1020
         }
       ],
@@ -17,7 +17,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "172.26.112.1",
           "Port": 1030
         }
       ],
@@ -29,7 +29,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "172.26.112.1",
           "Port": 1030
         }
       ],
@@ -37,23 +37,11 @@
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Baskets",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 1050
-        }
-      ],
-      "UpstreamPathTemplate": "/gateway/Baskets",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
-    },
-    {
       "DownstreamPathTemplate": "/api/Carts",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "172.26.112.1",
           "Port": 1050
         }
       ],
@@ -65,7 +53,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "172.26.112.1",
           "Port": 1050
         }
       ],
@@ -74,6 +62,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:1010"
+    "BaseUrl": "http://172.26.112.1:1010"
   }
 }

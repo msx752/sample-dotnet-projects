@@ -18,11 +18,8 @@ namespace Samp.Core.Extensions
         /// <returns></returns>
         public static IApplicationBuilder UseGlobalStartupConfigures(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-            }
+            app.UseExceptionHandlerMiddleware();
+            app.UseSwagger();
 
             app.UseElapsedTimeMeasurement();
             app.UseContextSeed();

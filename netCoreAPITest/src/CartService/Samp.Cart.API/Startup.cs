@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Samp.Basket.Database.Migrations;
 using Samp.Cart.Database;
@@ -30,6 +31,19 @@ namespace Samp.Cart.API
                     opt.UseInMemoryDatabase(databaseName: nameof(CartDbContext)).EnableSensitiveDataLogging());
 
             services.AddCustomDbContext(IdentityContext);
+
+            services.AddMassTransit(x =>
+            {
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("localhost", c =>
+                    {
+                        c.Username("guest");
+                        c.Password("guest");
+                    });
+                });
+            });
         }
     }
 }

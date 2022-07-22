@@ -43,6 +43,6 @@ namespace Samp.Movie.Database.Entities
         public MovieType Type { get; set; }
         public string ProductDatabase { get; set; }
 
-        public decimal UsdPrice { get; set; }
+        public double UsdPrice { get; set; }
     }
 }

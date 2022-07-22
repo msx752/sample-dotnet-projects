@@ -17,6 +17,8 @@
 	
 	<ItemGroup>
 		
+		<ProjectReference Include="..\..\Samp.Contract\Samp.Contract.csproj" />
+		
 		<ProjectReference Include="..\Samp.Movie.Database\Samp.Movie.Database.csproj" />
 	</ItemGroup>
 

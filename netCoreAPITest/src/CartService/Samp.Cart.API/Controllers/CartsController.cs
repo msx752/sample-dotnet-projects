@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Samp.Basket.API.Models.Dtos;
@@ -7,6 +8,8 @@ using Samp.Basket.Database.Migrations;
 using Samp.Cart.API.Models.Dtos;
 using Samp.Cart.API.Models.Requests;
 using Samp.Cart.Database.Entities;
+using Samp.Contract.Cart.Requests;
+using Samp.Contract.Cart.Responses;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
 using Samp.Core.Results;
@@ -18,13 +21,17 @@ namespace Samp.Cart.API.Controllers
     public class CartsController : BaseController
     {
         private readonly ISharedRepository<CartDbContext> repository;
+        private readonly IRequestClient<MovieEntityRequestMessage> client;
 
         public CartsController(
             IMapper mapper
-            , ISharedRepository<CartDbContext> repository)
+            , ISharedRepository<CartDbContext> repository
+            , IRequestClient<MovieEntityRequestMessage> client
+            )
             : base(mapper)
         {
             this.repository = repository;
+            this.client = client;
         }
 
         [HttpGet]
@@ -48,7 +55,7 @@ namespace Samp.Cart.API.Controllers
         }
 
         [HttpPost("{cartId}/Item")]
-        public ActionResult CartItemAdd([FromRoute] Guid cartId, [FromBody] CartItemAddModel model)
+        public async Task<ActionResult> CartItemAdd([FromRoute] Guid cartId, [FromBody] CartItemAddModel model)
         {
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
@@ -60,14 +67,25 @@ namespace Samp.Cart.API.Controllers
             if (entity == null)
                 return new NotFoundResponse($"cart not found: {cartId}");
 
+            var movieEntityResponse = await client.GetResponse<MovieEntityResponseMessage>(new MovieEntityRequestMessage()
+            {
+                ProductId = model.ProductId,
+                ProductDatabase = model.ProductDatabase,
+                RequestUserId = LoggedUserId,
+                ActivityId = System.Diagnostics.Activity.Current.RootId,
+            });
+
+            if (movieEntityResponse.Message == null)
+                return new NotFoundResponse($"product not found: {model.ProductId}");
+
             var entityCartItem = new CartItemEntity()
             {
                 ProductId = model.ProductId,
                 ProductDatabase = model.ProductDatabase,
-                Title = "mock Item",
+                Title = movieEntityResponse.Message.Title,
                 CartId = cartId,
                 SalesPriceCurrency = "usd",
-                SalesPrice = 1.2,
+                SalesPrice = movieEntityResponse.Message.UsdPrice,
             };
 
             repository.Table<CartItemEntity>().Insert(entityCartItem);

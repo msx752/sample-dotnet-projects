@@ -12,6 +12,7 @@
   <ItemGroup>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0-preview.5.22302.2" />
 	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
+	  <ProjectReference Include="..\..\Samp.Contract\Samp.Contract.csproj" />
     <ProjectReference Include="..\Samp.Cart.Database\Samp.Cart.Database.csproj" />
   </ItemGroup>
 

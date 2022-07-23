@@ -40,6 +40,21 @@ services:
       - "identityservice"
       - "myrabbitmq"
       - "mymongodb"
+
+  paymentservice:
+    image: mustafasalih/sample-dotnet-microservices:paymentservice
+    build:
+     context: .
+     dockerfile: src/PaymentService/Samp.Payment.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports: 
+      - "1040:80"
+    depends_on:
+      - "identityservice"
+      - "cartservice"
+      - "myrabbitmq"
+      - "mymongodb"
           
   getewayservice:
     image: mustafasalih/sample-dotnet-microservices:getewayservice

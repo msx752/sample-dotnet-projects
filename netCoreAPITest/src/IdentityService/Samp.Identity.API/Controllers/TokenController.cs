@@ -1,26 +1,27 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Samp.Auth.API.Models.Requests;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
 using Samp.Core.Results;
 using Samp.Identity.API.Helpers;
+using Samp.Identity.API.Models.Dto;
+using Samp.Identity.API.Models.Requests;
 using Samp.Identity.Core.Migrations;
 using Samp.Identity.Database.Entities;
 using System.Security.Claims;
 
-namespace Samp.Auth.API.Controllers
+namespace Samp.Identity.API.Controllers
 {
     [ApiController]
     [AllowAnonymous]
     [Route("api/[controller]")]
-    public class IdentityController : BaseController
+    public class TokenController : BaseController
     {
         private readonly ISharedRepository<IdentityDbContext> repository;
         private readonly ITokenHelper tokenHelper;
 
-        public IdentityController(
+        public TokenController(
             IMapper mapper
             , ISharedRepository<IdentityDbContext> repository
             , ITokenHelper tokenHelper)
@@ -30,8 +31,8 @@ namespace Samp.Auth.API.Controllers
             this.tokenHelper = tokenHelper;
         }
 
-        [HttpPost("Token")]
-        public ActionResult Token([FromForm] TokenRequest model)
+        [HttpPost]
+        public ActionResult Post([FromForm] TokenRequest model)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +58,7 @@ namespace Samp.Auth.API.Controllers
                     new Claim("id", user.Id.ToString()),
                     new Claim("name", user.Id.ToString()),
                 };
-                var response = tokenHelper.Authenticate(user, claims);
+                TokenDto response = tokenHelper.Authenticate(user, claims);
                 return new OkResponse(response);
             }
             return new BadRequestResponse($"invalid grant_type value:'{model.grant_type}'");

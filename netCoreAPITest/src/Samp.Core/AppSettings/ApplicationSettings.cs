@@ -1,6 +1,4 @@
-﻿using Samp.Core.AppSettings;
-
-namespace netCoreAPI.Core.AppSettings
+﻿namespace Samp.Core.AppSettings
 {
     public class ApplicationSettings
     {

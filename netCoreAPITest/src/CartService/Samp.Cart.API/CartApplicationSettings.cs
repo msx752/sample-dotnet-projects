@@ -1,4 +1,4 @@
-﻿using netCoreAPI.Core.AppSettings;
+﻿using Samp.Core.AppSettings;
 
 namespace Samp.Cart.API
 {

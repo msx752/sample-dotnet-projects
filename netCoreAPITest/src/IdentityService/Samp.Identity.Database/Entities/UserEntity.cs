@@ -16,8 +16,25 @@ namespace Samp.Identity.Database.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        [Required]
+        [StringLength(250)]
         public string Username { get; set; }
+
+        [Required]
+        [StringLength(250)]
         public string Password { get; set; }
+
+        [Required]
+        [StringLength(250)]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(250)]
+        public string Surname { get; set; }
+
+        [Required]
+        [StringLength(250)]
+        public string Name { get; set; }
 
         public virtual ICollection<RefreshTokenEntity> RefreshTokens { get; set; }
     }

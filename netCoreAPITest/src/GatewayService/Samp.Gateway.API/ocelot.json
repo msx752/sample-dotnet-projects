@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Identity/Token",
+      "DownstreamPathTemplate": "/api/Users",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,7 +9,31 @@
           "Port": 1020
         }
       ],
-      "UpstreamPathTemplate": "/gateway/Identity/Token",
+      "UpstreamPathTemplate": "/gateway/Users",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Users/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1020
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Users/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Token",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1020
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/Token",
       "UpstreamHttpMethod": [ "POST" ]
     },
     {

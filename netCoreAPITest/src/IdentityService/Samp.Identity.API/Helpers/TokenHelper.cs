@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Samp.Auth.API.Models.Dto;
 using Samp.Core.AppSettings;
 using Samp.Core.Interfaces.Repositories;
+using Samp.Identity.API.Models.Dto;
 using Samp.Identity.Core.Migrations;
 using Samp.Identity.Database.Entities;
 using System;

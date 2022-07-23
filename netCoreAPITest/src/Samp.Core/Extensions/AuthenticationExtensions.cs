@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using netCoreAPI.Core.AppSettings;
+using Samp.Core.AppSettings;
 using Samp.Core.Results;
 using System;
 using System.Text;

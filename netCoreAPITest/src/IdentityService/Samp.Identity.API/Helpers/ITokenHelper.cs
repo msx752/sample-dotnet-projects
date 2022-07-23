@@ -1,4 +1,4 @@
-﻿using Samp.Auth.API.Models.Dto;
+﻿using Samp.Identity.API.Models.Dto;
 using Samp.Identity.Database.Entities;
 using System.Security.Claims;
 

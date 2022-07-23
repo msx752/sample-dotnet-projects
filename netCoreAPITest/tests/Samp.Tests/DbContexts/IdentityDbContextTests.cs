@@ -45,7 +45,14 @@ namespace Samp.Tests.DbContexts
             //## Service Scope: ADD
             //
             Guid userId_HttpRequestSession1 = Guid.NewGuid();
-            UserEntity user_scope1 = new() { Username = Guid.NewGuid().ToString(), Password = "test1234" };
+            UserEntity user_scope1 = new()
+            {
+                Username = Guid.NewGuid().ToString(),
+                Password = "test1234",
+                Email = "auditlog@test.com",
+                Name = "asdf",
+                Surname = "ghjk",
+            };
             RefreshTokenEntity refreshToken_scope1 = new RefreshTokenEntity() { RefreshToken = Guid.NewGuid().ToString() };
 
             using (var scope1 = _factory.Services.CreateScope())

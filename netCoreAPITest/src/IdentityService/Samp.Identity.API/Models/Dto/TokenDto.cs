@@ -1,4 +1,4 @@
-﻿namespace Samp.Auth.API.Models.Dto
+﻿namespace Samp.Identity.API.Models.Dto
 {
     public class TokenDto
     {

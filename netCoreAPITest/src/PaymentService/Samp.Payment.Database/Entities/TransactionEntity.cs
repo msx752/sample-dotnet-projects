@@ -9,19 +9,20 @@ using System.Threading.Tasks;
 
 namespace Samp.Payment.Database.Entities
 {
-    [Table("PaymentHistoryEntity")]
-    public class PaymentHistoryEntity : BaseEntity
+    [Table("TransactionItemEntity")]
+    public class TransactionEntity : BaseEntity
     {
-        public PaymentHistoryEntity()
+        public TransactionEntity()
         {
-            WhenPaid = DateTimeOffset.UtcNow;
+            TransactionItems = new HashSet<TransactionItemEntity>();
         }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public string ProductId { get; set; }
-        public string ProductTitle { get; set; }
+
         public Guid UserId { get; set; }
-        public decimal PaidUsdPrice { get; set; }
-        public DateTimeOffset WhenPaid { get; set; }
+
+        public virtual ICollection<TransactionItemEntity> TransactionItems { get; set; }
     }
 }

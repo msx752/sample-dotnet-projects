@@ -1,6 +1,7 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Samp.Contract.Cart.Requests;
+using Samp.Contract.Extensions;
 using Samp.Core.Extensions;
 using Samp.Core.Model;
 using Samp.Movie.API.Consumers;
@@ -34,22 +35,16 @@ namespace Samp.Movie.API
 
             services.AddCustomDbContext(IdentityContext);
 
-            services.AddMassTransit(x =>
+            services.AddCustomMassTransit(Configuration
+            , (consumers) =>
             {
-                x.AddConsumer<MovieEntityRequestMessageConsumer>();
-
-                x.UsingRabbitMq((context, cfg) =>
+                consumers.AddConsumer<MovieEntityRequestMessageConsumer>();
+            }
+            , (context, endpoints) =>
+            {
+                endpoints.ReceiveEndpoint(nameof(MovieEntityRequestMessage), e =>
                 {
-                    cfg.Host("localhost", c =>
-                    {
-                        c.Username("guest");
-                        c.Password("guest");
-                    });
-
-                    cfg.ReceiveEndpoint(nameof(MovieEntityRequestMessage), e =>
-                    {
-                        e.ConfigureConsumer<MovieEntityRequestMessageConsumer>(context);
-                    });
+                    e.ConfigureConsumer<MovieEntityRequestMessageConsumer>(context);
                 });
             });
         }

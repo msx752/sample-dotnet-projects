@@ -1,4 +1,7 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Samp.Contract;
+using Samp.Contract.Extensions;
 using Samp.Core.Extensions;
 using Samp.Core.Model;
 using Samp.Payment.Database;
@@ -30,6 +33,8 @@ namespace Samp.Payment.API
                     opt.UseInMemoryDatabase(databaseName: nameof(PaymentDbContext)).EnableSensitiveDataLogging());
 
             services.AddCustomDbContext(IdentityContext);
+
+            services.AddCustomMassTransit(Configuration, null, null);
         }
     }
 }

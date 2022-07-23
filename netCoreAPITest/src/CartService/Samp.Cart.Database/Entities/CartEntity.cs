@@ -12,6 +12,7 @@ namespace Samp.Basket.Database.Entities
         public CartEntity()
         {
             Items = new HashSet<CartItemEntity>();
+            Satus = CartStatus.Open;
         }
 
         [Key]

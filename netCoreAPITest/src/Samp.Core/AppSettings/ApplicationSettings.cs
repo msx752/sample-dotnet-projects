@@ -8,5 +8,6 @@ namespace netCoreAPI.Core.AppSettings
         public string AllowedHosts { get; set; }
         public string ASPNETCORE_ENVIRONMENT { get; set; }
         public JWT JWT { get; set; }
+        public RabbitMqOptions RabbitMqOptions { get; set; }
     }
 }

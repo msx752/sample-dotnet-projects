@@ -23,20 +23,20 @@ namespace Samp.Tests.Controllers
         public async Task<ResponseModel<PersonalDto>> Delete()
         {
             var obj = await Post();
-            obj.Result.ShouldNotBeEmpty();
-            obj.Result.Count.ShouldBeEquivalentTo(1);
+            obj.Results.ShouldNotBeEmpty();
+            obj.Results.Count.ShouldBeEquivalentTo(1);
 
-            var response = await client.DeleteAsync($"api/Personals/{obj.Result.First().Id}");
+            var response = await client.DeleteAsync($"api/Personals/{obj.Results.First().Id}");
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
             data.Stats.RId.ShouldNotBeNull();
             data.Errors.ShouldBeNull();
-            data.Result.ShouldNotBeNull();
-            data.Result.First().Name.ShouldBe(obj.Result.First().Name);
-            data.Result.First().Surname.ShouldBe(obj.Result.First().Surname);
-            data.Result.First().Id.ShouldBe(obj.Result.First().Id);
+            data.Results.ShouldNotBeNull();
+            data.Results.First().Name.ShouldBe(obj.Results.First().Name);
+            data.Results.First().Surname.ShouldBe(obj.Results.First().Surname);
+            data.Results.First().Id.ShouldBe(obj.Results.First().Id);
 
             return data;
         }
@@ -51,7 +51,7 @@ namespace Samp.Tests.Controllers
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
             data.Stats.RId.ShouldNotBeNull();
-            data.Result.ShouldBeNull();
+            data.Results.ShouldBeNull();
             data.Errors.ShouldBeNull();
         }
 
@@ -65,8 +65,8 @@ namespace Samp.Tests.Controllers
 
             data.Stats.RId.ShouldNotBeNull();
             data.Errors.ShouldBeNull();
-            data.Result.ShouldNotBeNull();
-            data.Result.Count.ShouldBeGreaterThan(0);
+            data.Results.ShouldNotBeNull();
+            data.Results.Count.ShouldBeGreaterThan(0);
         }
 
         [Theory]
@@ -79,8 +79,8 @@ namespace Samp.Tests.Controllers
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
             data.Stats.RId.ShouldNotBeNull();
-            data.Result.ShouldNotBeEmpty();
-            data.Result.First().Id.ShouldBe(1);
+            data.Results.ShouldNotBeEmpty();
+            data.Results.First().Id.ShouldBe(1);
         }
 
         [Theory]
@@ -94,8 +94,8 @@ namespace Samp.Tests.Controllers
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
             data.Stats.RId.ShouldNotBeNull();
-            data.Result.ShouldNotBeEmpty();
-            data.Result.First().Id.ShouldNotBe(0);
+            data.Results.ShouldNotBeEmpty();
+            data.Results.First().Id.ShouldNotBe(0);
         }
 
         [Theory]
@@ -109,8 +109,8 @@ namespace Samp.Tests.Controllers
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
             data.Stats.RId.ShouldNotBeNull();
-            data.Result.ShouldNotBeEmpty();
-            data.Result.First().Id.ShouldNotBe(0);
+            data.Results.ShouldNotBeEmpty();
+            data.Results.First().Id.ShouldNotBe(0);
         }
 
         [Fact]
@@ -132,8 +132,8 @@ namespace Samp.Tests.Controllers
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
             data.Stats.RId.ShouldNotBeNull();
-            data.Result.First().Name.ShouldBe(obj.Name);
-            data.Result.First().Surname.ShouldBe(obj.Surname);
+            data.Results.First().Name.ShouldBe(obj.Name);
+            data.Results.First().Surname.ShouldBe(obj.Surname);
 
             return data;
         }
@@ -146,12 +146,12 @@ namespace Samp.Tests.Controllers
             PersonalModel objRequest = new PersonalModel()
             {
                 Age = 25,
-                Name = obj.Result.First().Name,
+                Name = obj.Results.First().Name,
                 NationalId = "9999999999",
-                Surname = obj.Result.First().Surname
+                Surname = obj.Results.First().Surname
             };
 
-            var response = await client.PutAsync($"api/Personals/{obj.Result.First().Id}",
+            var response = await client.PutAsync($"api/Personals/{obj.Results.First().Id}",
                 new StringContent(JsonConvert.SerializeObject(objRequest, jsonSerializerSettings), Encoding.UTF8, "application/json"));
 
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -171,7 +171,7 @@ namespace Samp.Tests.Controllers
             var data = ConvertResponse<ResponseModel<PersonalDto>>(response);
 
             data.Stats.RId.ShouldNotBeNull();
-            data.Result.ShouldNotBeEmpty();
+            data.Results.ShouldNotBeEmpty();
         }
     }
 }

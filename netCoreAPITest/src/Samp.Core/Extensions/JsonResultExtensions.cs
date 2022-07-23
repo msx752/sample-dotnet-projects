@@ -32,7 +32,7 @@ namespace Samp.Core.Extensions
         {
             var requestStartDateTime = DateTimeOffset.Parse(context.Items[Constants.RequestStartTime].ToString());
             var dtNow = DateTimeOffset.UtcNow;
-            body.Stats.Time = dtNow.ToString("o");
+            body.Stats.Offset = dtNow.ToUnixTimeSeconds();
             var elapsedResponseTime = dtNow - requestStartDateTime;
             body.Stats.ElapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
         }

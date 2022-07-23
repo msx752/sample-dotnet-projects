@@ -13,6 +13,6 @@ namespace Samp.Core.Interfaces
         : IResponseModel
         where T : class
     {
-        public List<T> Result { get; set; }
+        public List<T> Results { get; set; }
     }
 }

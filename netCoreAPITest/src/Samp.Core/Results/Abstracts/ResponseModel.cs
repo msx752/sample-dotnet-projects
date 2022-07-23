@@ -32,7 +32,7 @@ namespace Samp.Core.Results.Abstracts
     {
         public string RId { get; set; }
         public string ElapsedMilliseconds { get; set; }
-        public string Time { get; set; }
+        public long Offset { get; set; }
     }
 
     public sealed class ResponseModel<T>
@@ -46,14 +46,14 @@ namespace Samp.Core.Results.Abstracts
 
         public ResponseModel(IEnumerable<T> body)
         {
-            Result = new();
-            Result.AddRange(body);
+            Results = new();
+            Results.AddRange(body);
         }
 
         public ResponseModel(T body)
         {
-            Result = new();
-            Result.Add(body);
+            Results = new();
+            Results.Add(body);
         }
 
         public ResponseModel(IEnumerable<string> messages)
@@ -66,7 +66,7 @@ namespace Samp.Core.Results.Abstracts
         {
         }
 
-        public List<T> Result { get; set; }
+        public List<T> Results { get; set; }
     }
 
     public sealed class ResponseModel

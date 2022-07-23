@@ -2,9 +2,9 @@
 
 namespace Samp.Core.AppSettings
 {
-    public class JWT
+    public class JWTOptions
     {
-        public JWT()
+        public JWTOptions()
         {
             AccessTokenExpiresIn = 1;
             RefreshTokenExpiresIn = 8350;

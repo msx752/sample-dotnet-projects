@@ -17,7 +17,7 @@ namespace Samp.Identity.API.Helpers
     public class TokenHelper : ITokenHelper
     {
         private readonly ISharedRepository<IdentityDbContext> repository;
-        private readonly JWT jwt;
+        private readonly JWTOptions jwt;
 
         public TokenHelper(
             IOptions<IdentityApplicationSettings> appSettings
@@ -25,7 +25,7 @@ namespace Samp.Identity.API.Helpers
         {
             this.repository = repository;
 
-            jwt = appSettings.Value.JWT;
+            jwt = appSettings.Value.JWTOptions;
         }
 
         public TokenDto Authenticate(UserEntity user, IEnumerable<Claim> claims = null)

@@ -32,7 +32,7 @@ namespace Samp.Core.Extensions
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
                             ValidateIssuerSigningKey = true,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(config.JWT.AccessTokenSecret)),
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(config.JWTOptions.AccessTokenSecret)),
                             ValidateIssuer = false,
                             ValidateAudience = false,
                             ClockSkew = TimeSpan.Zero,

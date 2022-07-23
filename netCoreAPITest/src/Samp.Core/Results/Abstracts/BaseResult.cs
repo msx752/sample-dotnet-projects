@@ -83,7 +83,9 @@ namespace Samp.Core.Results.Abstracts
             JsonResultExtensions.SetMeasuredResponsTime((IResponseModel)Value, context.HttpContext);
 
             var executor = services.GetRequiredService<IActionResultExecutor<JsonResult>>();
-            return executor.ExecuteAsync(context, this);
+            var executedTask = executor.ExecuteAsync(context, this);
+
+            return executedTask;
         }
 
         private static partial class Log

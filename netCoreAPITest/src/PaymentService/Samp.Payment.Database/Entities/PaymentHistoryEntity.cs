@@ -17,9 +17,10 @@ namespace Samp.Payment.Database.Entities
             WhenPaid = DateTimeOffset.UtcNow;
         }
 
-        public Guid TransactionId { get; set; }
-        public string MovieId { get; set; }
-        public string UserId { get; set; }
+        public Guid Id { get; set; }
+        public string ProductId { get; set; }
+        public string ProductTitle { get; set; }
+        public Guid UserId { get; set; }
         public decimal PaidUsdPrice { get; set; }
         public DateTimeOffset WhenPaid { get; set; }
     }

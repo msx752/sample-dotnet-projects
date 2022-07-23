@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Samp.Basket.Database.Migrations;
 using Samp.Cart.Database;
+using Samp.Contract;
 using Samp.Core.Extensions;
 using Samp.Core.Model;
 
@@ -34,7 +35,6 @@ namespace Samp.Cart.API
 
             services.AddMassTransit(x =>
             {
-
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host("localhost", c =>
@@ -44,6 +44,7 @@ namespace Samp.Cart.API
                     });
                 });
             });
+            services.AddSingleton<IMessageBus, MessageBus>();
         }
     }
 }

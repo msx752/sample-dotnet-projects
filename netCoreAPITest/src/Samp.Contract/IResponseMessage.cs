@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Samp.Contract
 {
-    public interface IMessage
+    public interface IResponseMessage
     {
-        public string ActivityId { get; set; }
-        public Guid RequestUserId { get; set; }
+        string BusErrorMessage { get; set; }
     }
 }

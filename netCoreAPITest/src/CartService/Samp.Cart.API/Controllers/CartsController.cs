@@ -8,8 +8,9 @@ using Samp.Basket.Database.Migrations;
 using Samp.Cart.API.Models.Dtos;
 using Samp.Cart.API.Models.Requests;
 using Samp.Cart.Database.Entities;
+using Samp.Contract;
+using Samp.Contract.Cart.Movie;
 using Samp.Contract.Cart.Requests;
-using Samp.Contract.Cart.Responses;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
 using Samp.Core.Results;
@@ -21,17 +22,17 @@ namespace Samp.Cart.API.Controllers
     public class CartsController : BaseController
     {
         private readonly ISharedRepository<CartDbContext> repository;
-        private readonly IRequestClient<MovieEntityRequestMessage> client;
+        private readonly IMessageBus messageBus;
 
         public CartsController(
             IMapper mapper
             , ISharedRepository<CartDbContext> repository
-            , IRequestClient<MovieEntityRequestMessage> client
+            , IMessageBus messageBus
             )
             : base(mapper)
         {
             this.repository = repository;
-            this.client = client;
+            this.messageBus = messageBus;
         }
 
         [HttpGet]
@@ -67,16 +68,16 @@ namespace Samp.Cart.API.Controllers
             if (entity == null)
                 return new NotFoundResponse($"cart not found: {cartId}");
 
-            var movieEntityResponse = await client.GetResponse<MovieEntityResponseMessage>(new MovieEntityRequestMessage()
+            var movieEntityResponse = await messageBus.Call<MovieEntityResponseMessage, MovieEntityRequestMessage>(new()
             {
                 ProductId = model.ProductId,
                 ProductDatabase = model.ProductDatabase,
-                RequestUserId = LoggedUserId,
+                ActivityUserId = LoggedUserId,
                 ActivityId = System.Diagnostics.Activity.Current.RootId,
             });
 
-            if (movieEntityResponse.Message == null)
-                return new NotFoundResponse($"product not found: {model.ProductId}");
+            if (movieEntityResponse.Message.BusErrorMessage != null)
+                return new NotFoundResponse(movieEntityResponse.Message.BusErrorMessage);
 
             var entityCartItem = new CartItemEntity()
             {

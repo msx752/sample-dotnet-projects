@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Samp.Contract.Cart.Responses;
+using Samp.Contract.Cart.Movie;
 using Samp.Movie.API.Models.Dtos;
 using Samp.Movie.Database.Entities;
 

@@ -9,6 +9,7 @@ WORKDIR /src
 COPY ["src/CartService/Samp.Cart.API/Samp.Cart.API.csproj", "src/CartService/Samp.Cart.API/"]
 COPY ["src/CartService/Samp.Cart.Database/Samp.Cart.Database.csproj", "src/CartService/Samp.Cart.Database/"]
 COPY ["src/Samp.Core/Samp.Core.csproj", "src/Samp.Core/"]
+COPY ["src/Samp.Contract/Samp.Contract.csproj", "src/Samp.Contract/"]
 RUN dotnet restore "src/CartService/Samp.Cart.API/Samp.Cart.API.csproj"
 COPY . .
 WORKDIR "/src/src/CartService/Samp.Cart.API"

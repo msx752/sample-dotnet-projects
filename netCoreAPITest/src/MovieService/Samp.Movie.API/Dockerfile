@@ -9,6 +9,7 @@ WORKDIR /src
 COPY ["src/MovieService/Samp.Movie.API/Samp.Movie.API.csproj", "src/MovieService/Samp.Movie.API/"]
 COPY ["src/MovieService/Samp.Movie.Database/Samp.Movie.Database.csproj", "src/MovieService/Samp.Movie.Database/"]
 COPY ["src/Samp.Core/Samp.Core.csproj", "src/Samp.Core/"]
+COPY ["src/Samp.Contract/Samp.Contract.csproj", "src/Samp.Contract/"]
 RUN dotnet restore "src/MovieService/Samp.Movie.API/Samp.Movie.API.csproj"
 COPY . .
 WORKDIR "/src/src/MovieService/Samp.Movie.API"

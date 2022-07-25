@@ -1,88 +1,14 @@
 version: '3.4'
 
 services:
-  identityservice:
-    image: mustafasalih/sample-dotnet-microservices:identityservice
-    container_name: identityservice
-    build:
-     context: .
-     dockerfile: src/IdentityService/Samp.Identity.API/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports: 
-      - "1020:80"
-    depends_on:
-      - "myrabbitmq"
-      - "mymongodb"
-
-  movieservice:
-    image: mustafasalih/sample-dotnet-microservices:movieservice
-    container_name: movieservice
-    build:
-     context: .
-     dockerfile: src/MovieService/Samp.Movie.API/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports: 
-      - "1030:80"
-    depends_on:
-      - "myrabbitmq"
-      - "mymongodb"
-
-  cartservice:
-    image: mustafasalih/sample-dotnet-microservices:cartservice
-    container_name: cartservice
-    build:
-     context: .
-     dockerfile: src/CartService/Samp.Cart.API/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports: 
-      - "1050:80"
-    depends_on:
-      - "identityservice"
-      - "myrabbitmq"
-      - "mymongodb"
-
-  paymentservice:
-    image: mustafasalih/sample-dotnet-microservices:paymentservice
-    container_name: paymentservice
-    build:
-     context: .
-     dockerfile: src/PaymentService/Samp.Payment.API/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports: 
-      - "1040:80"
-    depends_on:
-      - "identityservice"
-      - "cartservice"
-      - "myrabbitmq"
-      - "mymongodb"
-          
-  getewayservice:
-    image: mustafasalih/sample-dotnet-microservices:getewayservice
-    container_name: getewayservice
-    build:
-     context: .
-     dockerfile: src/GatewayService/Samp.Gateway.API/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports: 
-      - "1010:80"
-    depends_on:
-      - "identityservice"
-      - "movieservice"
-      - "cartservice"
-      - "myrabbitmq"
-      - "mymongodb"
-
   myrabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: myrabbitmq
+    network_mode: "host"
+    restart: "on-failure"
     ports:
-        - 5672:5672
-        - 15672:15672
+        - "5672:5672"
+        - "15672:15672"
     volumes:
         - ./volumes/rabbitmq/data/:/var/lib/rabbitmq/
         - ./volumes/rabbitmq/log/:/var/log/rabbitmq
@@ -90,6 +16,8 @@ services:
   mymongodb:
     image: mongo:latest
     container_name: mymongodb
+    network_mode: "host"
+    restart: "on-failure"
     environment:
         - MONGO_INITDB_DATABASE=MongoDb
     volumes:
@@ -97,3 +25,94 @@ services:
         - ./volumes/mongo:/data/db
     ports:
         - "27017-27019:27017-27019"
+
+  identityservice:
+    image: mustafasalih/sample-dotnet-microservices:identityservice
+    container_name: identityservice
+    network_mode: "host"
+    restart: "on-failure"
+    build:
+     context: .
+     dockerfile: src/IdentityService/Samp.Identity.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:1020
+    ports: 
+      - "1020:1020"
+    depends_on:
+      - "myrabbitmq"
+      - "mymongodb"
+
+  movieservice:
+    image: mustafasalih/sample-dotnet-microservices:movieservice
+    container_name: movieservice
+    network_mode: "host"
+    restart: "on-failure"
+    build:
+     context: .
+     dockerfile: src/MovieService/Samp.Movie.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:1030
+    ports: 
+      - "1030:1030"
+    depends_on:
+      - "myrabbitmq"
+      - "mymongodb"
+
+  cartservice:
+    image: mustafasalih/sample-dotnet-microservices:cartservice
+    container_name: cartservice
+    network_mode: "host"
+    restart: "on-failure"
+    build:
+     context: .
+     dockerfile: src/CartService/Samp.Cart.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:1050
+    ports: 
+      - "1050:1050"
+    depends_on:
+      - "myrabbitmq"
+      - "mymongodb"
+      - "identityservice"
+
+  paymentservice:
+    image: mustafasalih/sample-dotnet-microservices:paymentservice
+    container_name: paymentservice
+    network_mode: "host"
+    restart: "on-failure"
+    build:
+     context: .
+     dockerfile: src/PaymentService/Samp.Payment.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:1040
+    ports: 
+      - "1040:1040"
+    depends_on:
+      - "myrabbitmq"
+      - "mymongodb"
+      - "identityservice"
+      - "cartservice"
+          
+  getewayservice:
+    image: mustafasalih/sample-dotnet-microservices:getewayservice
+    container_name: getewayservice
+    network_mode: "host"
+    restart: "on-failure"
+    build:
+     context: .
+     dockerfile: src/GatewayService/Samp.Gateway.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:1010
+    ports: 
+      - "1010:1010"
+    depends_on:
+      - "myrabbitmq"
+      - "mymongodb"
+      - "identityservice"
+      - "movieservice"
+      - "cartservice"

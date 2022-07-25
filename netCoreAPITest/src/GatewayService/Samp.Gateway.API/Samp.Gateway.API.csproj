@@ -30,6 +30,9 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="ocelot.docker.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="ocelot.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

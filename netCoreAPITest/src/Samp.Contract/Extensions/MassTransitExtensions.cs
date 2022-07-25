@@ -15,14 +15,24 @@ namespace Samp.Contract.Extensions
         {
             services.AddMassTransit(x =>
             {
+                var host = configuration["RabbitMqOptions:Host"];
+                var username = configuration["RabbitMqOptions:Username"];
+                var passsword = configuration["RabbitMqOptions:Password"];
+
                 defineConsumers?.Invoke(x);
+
+                var isUseDockerOcelot = Environment.GetEnvironmentVariable("USEDOCKEROCELOT"); //for the debugging purposes
+                if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
+                {
+                    host = "host.docker.internal";
+                }
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host(configuration["RabbitMqOptions:Host"], c =>
+                    cfg.Host(host, c =>
                     {
-                        c.Username(configuration["RabbitMqOptions:Username"]);
-                        c.Password(configuration["RabbitMqOptions:Password"]);
+                        c.Username(username);
+                        c.Password(passsword);
                     });
 
                     defineReceiveEndpoints?.Invoke(context, cfg);

@@ -4,7 +4,8 @@ services:
   myrabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: myrabbitmq
-    network_mode: "host"
+    networks:
+    - mynetwork
     restart: "on-failure"
     ports:
         - "5672:5672"
@@ -16,7 +17,8 @@ services:
   mymongodb:
     image: mongo:latest
     container_name: mymongodb
-    network_mode: "host"
+    networks:
+    - mynetwork
     restart: "on-failure"
     environment:
         - MONGO_INITDB_DATABASE=MongoDb
@@ -29,7 +31,8 @@ services:
   identityservice:
     image: mustafasalih/sample-dotnet-microservices:identityservice
     container_name: identityservice
-    network_mode: "host"
+    networks:
+    - mynetwork
     restart: "on-failure"
     build:
      context: .
@@ -46,7 +49,8 @@ services:
   movieservice:
     image: mustafasalih/sample-dotnet-microservices:movieservice
     container_name: movieservice
-    network_mode: "host"
+    networks:
+    - mynetwork
     restart: "on-failure"
     build:
      context: .
@@ -63,7 +67,8 @@ services:
   cartservice:
     image: mustafasalih/sample-dotnet-microservices:cartservice
     container_name: cartservice
-    network_mode: "host"
+    networks:
+    - mynetwork
     restart: "on-failure"
     build:
      context: .
@@ -81,7 +86,8 @@ services:
   paymentservice:
     image: mustafasalih/sample-dotnet-microservices:paymentservice
     container_name: paymentservice
-    network_mode: "host"
+    networks:
+    - mynetwork
     restart: "on-failure"
     build:
      context: .
@@ -100,14 +106,16 @@ services:
   getewayservice:
     image: mustafasalih/sample-dotnet-microservices:getewayservice
     container_name: getewayservice
-    network_mode: "host"
+    networks:
+    - mynetwork
     restart: "on-failure"
     build:
      context: .
-     dockerfile: src/GatewayService/Samp.Gateway.API/Dockerfile
+     dockerfile: src/GatewayService/Samp.Gateway.API/DockerfileForDockerCompose
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1010
+      - USEDOCKEROCELOT=true
     ports: 
       - "1010:1010"
     depends_on:
@@ -116,3 +124,7 @@ services:
       - "identityservice"
       - "movieservice"
       - "cartservice"
+
+networks:
+  mynetwork:
+     driver: bridge

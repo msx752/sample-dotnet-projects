@@ -18,6 +18,10 @@ namespace Samp.Contract
             where TRequest : class, IRequestMessage
         {
             var client = clientFactory.CreateRequestClient<TRequest>();
+
+            if (string.IsNullOrEmpty(message.ActivityId))
+                message.ActivityId = System.Diagnostics.Activity.Current.RootId;
+
             var response = await client.GetResponse<TResponse>(message);
 
             return response;

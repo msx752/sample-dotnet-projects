@@ -19,7 +19,6 @@
 	  <ProjectReference Include="..\Samp.Payment.Database\Samp.Payment.Database.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Models\Dtos\" />
 	  <Folder Include="Models\Requests\" />
 	</ItemGroup>
 </Project>

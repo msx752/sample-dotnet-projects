@@ -68,12 +68,21 @@ namespace Samp.Cart.API.Controllers
             if (entity == null)
                 return new NotFoundResponse($"cart not found: {cartId}");
 
+            if (entity.Satus == Database.Enums.CartStatus.LockedOnPayment)
+            {
+                return new BadRequestResponse($"selected cart status is LOCKED due to payment process, please try again later");
+            }
+
+            if (entity.Satus == Database.Enums.CartStatus.Paid)
+            {
+                return new BadRequestResponse($"selected cart status is PAID, no more items can be added");
+            }
+
             var movieEntityResponse = await messageBus.Call<MovieEntityResponseMessage, MovieEntityRequestMessage>(new()
             {
                 ProductId = model.ProductId,
                 ProductDatabase = model.ProductDatabase,
                 ActivityUserId = LoggedUserId,
-                ActivityId = System.Diagnostics.Activity.Current.RootId,
             });
 
             if (movieEntityResponse.Message.BusErrorMessage != null)
@@ -109,6 +118,16 @@ namespace Samp.Cart.API.Controllers
 
             if (entity == null)
                 return new NotFoundResponse($"selected item not found: {cartId}");
+
+            if (entity.Cart.Satus == Database.Enums.CartStatus.LockedOnPayment)
+            {
+                return new BadRequestResponse($"selected cart status is LOCKED due to payment process, please try again later");
+            }
+
+            if (entity.Cart.Satus == Database.Enums.CartStatus.Paid)
+            {
+                return new BadRequestResponse($"selected cart status is PAID, no more items can be removed");
+            }
 
             repository.Table<CartItemEntity>().Delete(entity);
             repository.Commit(LoggedUserId);

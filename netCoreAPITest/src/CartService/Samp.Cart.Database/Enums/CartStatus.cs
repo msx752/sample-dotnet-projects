@@ -4,5 +4,6 @@
     {
         Open,
         LockedOnPayment,
+        Paid,
     }
 }

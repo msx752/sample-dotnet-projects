@@ -1,9 +1,11 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Samp.Basket.Database.Migrations;
+using Samp.Cart.API.Consumers;
 using Samp.Cart.Database;
 using Samp.Contract;
 using Samp.Contract.Extensions;
+using Samp.Contract.Payment;
 using Samp.Core.Extensions;
 using Samp.Core.Model;
 
@@ -34,7 +36,24 @@ namespace Samp.Cart.API
 
             services.AddCustomDbContext(IdentityContext);
 
-            services.AddCustomMassTransit(Configuration);
+            services.AddCustomMassTransit(Configuration
+            , (consumers) =>
+            {
+                consumers.AddConsumer<CartStatusMessageConsumer>();
+                consumers.AddConsumer<CartEntityMessageConsumer>();
+            }
+            , (context, endpoints) =>
+            {
+                endpoints.ReceiveEndpoint(nameof(CartStatusRequestMessage), e =>
+                {
+                    e.ConfigureConsumer<CartStatusMessageConsumer>(context);
+                });
+
+                endpoints.ReceiveEndpoint(nameof(CartEntityRequestMessage), e =>
+                {
+                    e.ConfigureConsumer<CartEntityMessageConsumer>(context);
+                });
+            });
         }
     }
 }

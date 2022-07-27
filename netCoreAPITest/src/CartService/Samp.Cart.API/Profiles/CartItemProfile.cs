@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
 using Samp.Basket.API.Models.Dtos;
 using Samp.Cart.Database.Entities;
+using Samp.Contract.Payment.Cart;
 
 namespace Samp.Cart.API.Profiles
 {
-    public class BasketItemProfile : Profile
+    public class CartItemProfile : Profile
     {
-        public BasketItemProfile()
+        public CartItemProfile()
         {
             CreateMap<CartItemEntity, CartItemDto>();
+            CreateMap<CartItemEntity, CartItemEntityResponseMessage>();
         }
     }
 }

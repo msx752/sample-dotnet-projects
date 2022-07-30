@@ -11,11 +11,11 @@ import { TokenDto } from '../models/responses/identity/token.dto';
 export class AuthService {
   constructor(private http: HttpClient
     , @Inject('BASE_URL') private baseUrl: string
-    , private apiClient: ApiClientService
+    , private api: ApiClientService
   ) { }
 
   login(username: string, password: string): Observable<ResponseModel<TokenDto>> {
-    return this.apiClient.post<TokenDto>('/token', {
+    return this.api.post<TokenDto>('/token', {
       username,
       password,
       grant_type: 'password'
@@ -23,16 +23,10 @@ export class AuthService {
   }
 
   register(username: string, email: string, password: string): Observable<ResponseModel<any>> {
-    const body = new HttpParams({
-      fromObject: {
-        username,
-        email,
-        password
-      }
-    });
-    return this.http.post<any>(this.baseUrl + '/register'
-      , body.toString()
-      , { headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }) }
-    );
+    return this.api.post<any>('/register', {
+      username,
+      email,
+      password
+    }, null, 'application/x-www-form-urlencoded');
   }
 }

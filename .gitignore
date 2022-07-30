@@ -349,4 +349,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 netCoreAPITest/volumes/
-netCoreAPITest/src/Samp.Website/ClientApp/.angular/
+netCoreAPITest/src/Samp.Web.MovieStore/ClientApp/.angular/

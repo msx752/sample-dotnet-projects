@@ -22,7 +22,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\services\apiclient.service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\imgs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\services\apiclient.service.ts" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

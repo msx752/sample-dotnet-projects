@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Cart.Database", "src\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Contract", "src\Samp.Contract\Samp.Contract.csproj", "{A49D29F2-4F06-4AC8-8796-DA56A8D0CD71}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Web.MovieStore", "src\Samp.Website\Samp.Web.MovieStore.csproj", "{6C9DC300-545B-4AC4-985F-F166521232B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samp.Web.MovieStore", "src\Samp.Web.MovieStore\Samp.Web.MovieStore.csproj", "{6C9DC300-545B-4AC4-985F-F166521232B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { PopupService } from '../../services/popup.service';
 import { TokenStorageService } from '../../services/token-storage.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +19,13 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
   username: string = '';
+  inProgressLoginButton: boolean = false;
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, @Inject('BASE_URL') private baseUrl: string) { }
+  constructor(private authService: AuthService,
+    private tokenStorage: TokenStorageService,
+    @Inject('BASE_URL') private baseUrl: string,
+    private popupService: PopupService
+  ) { }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
@@ -28,6 +35,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+
+    this.inProgressLoginButton = true;
+
     const { username, password } = this.form;
 
     this.authService.login(username, password).subscribe({
@@ -38,11 +48,14 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.username = this.tokenStorage.getUser().Username;
+        this.inProgressLoginButton = false;
         this.reloadPage();
       },
       error: err => {
-        this.errorMessage = err.error.message;
         this.isLoginFailed = true;
+        this.popupService.showError('Login failed', err.error.message);
+
+        this.inProgressLoginButton = false;
       }
     });
   }

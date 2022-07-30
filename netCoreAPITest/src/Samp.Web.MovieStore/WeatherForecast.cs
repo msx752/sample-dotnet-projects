@@ -1,4 +1,4 @@
-namespace Samp.Website
+namespace Samp.Web.MovieStore
 {
     public class WeatherForecast
     {

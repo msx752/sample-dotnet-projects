@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Samp.Website.Controllers
+namespace Samp.Web.MovieStore.Controllers
 {
     [ApiController]
     [Route("[controller]")]

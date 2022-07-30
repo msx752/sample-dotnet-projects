@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { UserDto } from '../models/responses/identity/user-dto.model';
+import { UserDto } from '../models/responses/identity/user.dto';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';

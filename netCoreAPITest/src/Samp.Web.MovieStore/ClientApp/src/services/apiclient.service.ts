@@ -12,28 +12,28 @@ export class ApiClientService {
     , private tokenStorageService: TokenStorageService
   ) { }
 
-  public get(
+  public get<T>(
     resource: string
     , headers?: HttpHeaders
     , contentType: string = 'application/json'
-  ): Observable<any> {
+  ): Observable<T> {
     var _headers = this.configureHeaders(headers, contentType);
     var url = this.configureResource(resource);
 
-    return this.http.get(url, { headers: _headers });
+    return this.http.get<T>(url, { headers: _headers });
   }
 
-  public post(
+  public post<T>(
     resource: string
     , body: any
     , headers?: HttpHeaders
     , contentType: string = 'application/json'
-  ): Observable<any> {
+  ): Observable<T> {
     var _headers = this.configureHeaders(headers, contentType);
     var _body = this.configureBody(body);
     var url = this.configureResource(resource);
 
-    return this.http.post(url, _body, { headers: _headers });
+    return this.http.post<T>(url, _body, { headers: _headers });
   }
 
   private configureResource(resource: string) {

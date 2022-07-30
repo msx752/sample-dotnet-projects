@@ -1,4 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
+import { UserDto } from '../models/responses/identity/user-dto.model';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
@@ -35,7 +36,7 @@ export class TokenStorageService {
     return this.getUser() != null;
   }
 
-  public getUser(): any {
+  public getUser(): UserDto {
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {
       return JSON.parse(user);

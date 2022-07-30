@@ -21,9 +21,22 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ClientApp\src\models\responses\identity\user-dto.model.ts" />
+    <None Remove="ClientApp\src\models\responses\token-dto.ts" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <Folder Include="wwwroot\imgs\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\models\responses\identity\user-dto.model.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\models\responses\identity\token-dto.model.ts" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

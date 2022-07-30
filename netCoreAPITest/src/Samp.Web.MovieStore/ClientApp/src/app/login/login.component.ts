@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-
     this.inProgressLoginButton = true;
 
     const { username, password } = this.form;

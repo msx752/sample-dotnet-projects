@@ -42,8 +42,8 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(username, password).subscribe({
       next: data => {
-        this.tokenStorage.saveToken(data.results[0].accessToken);
-        this.tokenStorage.saveUser(data.results[0].user);
+        this.tokenStorage.saveToken(data.Results[0].access_token);
+        this.tokenStorage.saveUser(data.Results[0].User);
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit {
         this.popupService.showError('Login failed', err.error.message);
 
         this.inProgressLoginButton = false;
+        this.tokenStorage.logout();
       }
     });
   }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TokenStorageService } from '../../services/token-storage.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -6,6 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
+  constructor(public tokenStorage: TokenStorageService) {
+
+  }
   isExpanded = false;
 
   collapse() {

@@ -17,10 +17,10 @@ export class ApiClientService {
     , headers?: HttpHeaders
     , contentType: string = 'application/json'
   ): Observable<any> {
-    this.configureHeaders(headers, contentType);
+    var _headers = this.configureHeaders(headers, contentType);
+    var url = this.configureResource(resource);
 
-    var requestUrl = this.configureResource(resource);
-    return this.http.get(requestUrl, { headers: headers });
+    return this.http.get(url, { headers: _headers });
   }
 
   public post(
@@ -29,10 +29,11 @@ export class ApiClientService {
     , headers?: HttpHeaders
     , contentType: string = 'application/json'
   ): Observable<any> {
-    this.configureHeaders(headers, contentType);
+    var _headers = this.configureHeaders(headers, contentType);
+    var _body = this.configureBody(body);
+    var url = this.configureResource(resource);
 
-    var requestUrl = this.configureResource(resource);
-    return this.http.post(requestUrl, this.configureBody(body), { headers: headers });
+    return this.http.post(url, _body, { headers: _headers });
   }
 
   private configureResource(resource: string) {
@@ -49,8 +50,10 @@ export class ApiClientService {
     if (!headers)
       headers = new HttpHeaders();
 
-    headers.set('Content-Type', contentType);
-    headers.set('Authorization', 'Bearer ' + this.tokenStorageService.getToken());
+    headers = headers.set('Content-Type', contentType);
+    headers = headers.set('Authorization', 'Bearer ' + this.tokenStorageService.getToken());
+
+    return headers;
   }
 
   private configureBody(body: any) {

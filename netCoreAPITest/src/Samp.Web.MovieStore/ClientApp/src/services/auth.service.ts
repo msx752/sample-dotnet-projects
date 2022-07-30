@@ -2,8 +2,8 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiClientService } from '../services/apiclient.service';
-import { ResponseModel } from '../models/response-model';
-import { TokenDto } from '../models/responses/identity/token-dto.model';
+import { ResponseModel } from '../models/responses/response-model';
+import { TokenDto } from '../models/responses/identity/token.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class AuthService {
   ) { }
 
   login(username: string, password: string): Observable<ResponseModel<TokenDto>> {
-    return this.apiClient.post<ResponseModel<TokenDto>>('/token', {
+    return this.apiClient.post<TokenDto>('/token', {
       username,
       password,
       grant_type: 'password'
@@ -30,7 +30,7 @@ export class AuthService {
         password
       }
     });
-    return this.http.post<ResponseModel<any>>(this.baseUrl + '/register'
+    return this.http.post<any>(this.baseUrl + '/register'
       , body.toString()
       , { headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }) }
     );

@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TokenStorageService } from '../services/token-storage.service';
+import { ResponseModel } from '../models/responses/response-model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,11 @@ export class ApiClientService {
     resource: string
     , headers?: HttpHeaders
     , contentType: string = 'application/json'
-  ): Observable<T> {
+  ): Observable<ResponseModel<T>> {
     var _headers = this.configureHeaders(headers, contentType);
     var url = this.configureResource(resource);
 
-    return this.http.get<T>(url, { headers: _headers });
+    return this.http.get<ResponseModel<T>>(url, { headers: _headers });
   }
 
   public post<T>(
@@ -28,12 +29,12 @@ export class ApiClientService {
     , body: any
     , headers?: HttpHeaders
     , contentType: string = 'application/json'
-  ): Observable<T> {
+  ): Observable<ResponseModel<T>> {
     var _headers = this.configureHeaders(headers, contentType);
     var _body = this.configureBody(body);
     var url = this.configureResource(resource);
 
-    return this.http.post<T>(url, _body, { headers: _headers });
+    return this.http.post<ResponseModel<T>>(url, _body, { headers: _headers });
   }
 
   private configureResource(resource: string) {

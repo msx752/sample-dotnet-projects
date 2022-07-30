@@ -16,7 +16,7 @@ export class ApiClientService {
     resource: string
     , headers?: HttpHeaders
     , contentType: string = 'application/json'
-  ) {
+  ): Observable<any> {
     this.configureHeaders(headers, contentType);
 
     var requestUrl = this.configureResource(resource);
@@ -28,7 +28,7 @@ export class ApiClientService {
     , body: any
     , headers?: HttpHeaders
     , contentType: string = 'application/json'
-  ) {
+  ): Observable<any> {
     this.configureHeaders(headers, contentType);
 
     var requestUrl = this.configureResource(resource);

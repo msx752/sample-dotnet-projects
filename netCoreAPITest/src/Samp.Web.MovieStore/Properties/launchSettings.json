@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "Samp.Website": {
+    "Samp.Web.MovieStore": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5210",

@@ -14,3 +14,177 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+.title-header {
+  padding: 0.75rem 0.25rem !important;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid transparent;
+}
+
+  .title-header h3 {
+    font-size: 0.80rem;
+    margin: 0;
+  }
+
+.movies {
+  margin-top: 2rem;
+}
+
+.img-card {
+  width: 100%;
+  margin-bottom: .40rem;
+}
+
+.movies {
+  margin-bottom: .60rem;
+}
+
+.series {
+  margin-bottom: .60rem;
+}
+
+.footer {
+  padding: 1rem 0;
+  margin-top: 2rem;
+  font-size: 80%;
+  text-align: left;
+}
+
+  .footer p {
+    margin: 0;
+  }
+
+.footer-links {
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+  .footer-links li {
+    display: inline-block;
+  }
+
+.footer a {
+  font-weight: 500;
+  color: inherit;
+}
+
+.footer-links li + li {
+  margin-left: 1rem;
+}
+/* Bug Bootstrap V4.0.6 - Mobile - SCSS _navbar*/
+.navbar {
+  display: block;
+}
+
+
+
+
+.card-block .view-detail {
+  position: absolute;
+  top: 56%;
+  left: 45%;
+  transform: translate(-35%, -50%);
+  -ms-transform: translate(-35%, -50%);
+  border: none;
+  cursor: pointer !important;
+}
+
+.img-card:hover {
+  opacity: 0.9;
+  cursor: pointer !important;
+}
+
+.img-card:hover {
+  -webkit-box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75);
+  box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75);
+}
+
+.average-rating {
+  left: 23% !important;
+  top: 91%;
+  position: absolute;
+  -webkit-box-shadow: -1px 3px 32px -3px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 3px 32px -3px rgba(0,0,0,0.75);
+  box-shadow: -1px 3px 32px -3px rgba(0,0,0,0.75);
+  color: white;
+  background-color: black;
+  opacity: 0.6;
+  padding: 1px;
+}
+
+.star-checked {
+  color: orange;
+}
+
+.detail-shadow {
+  -webkit-box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75) !important;
+  -moz-box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75) !important;
+  box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75) !important;
+}
+
+.detail-img {
+  padding: 5px;
+  position: absolute !important;
+}
+

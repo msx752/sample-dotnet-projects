@@ -1,27 +1,48 @@
 <header>
-  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+  <nav class="navbar navbar-fixed-top navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 ">
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Samp.Web.MovieStore</a>
+      <a class="navbar-brand" [routerLink]="['/']">Movie Store</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end" [ngClass]="{ show: isExpanded }">
-        <ul class="navbar-nav flex-grow">
+      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]="{ show: isExpanded }">
+
+        <ul class="navbar-nav" *ngIf="!tokenStorage.isLoggedIn()">
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark">Register</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav" *ngIf="tokenStorage.isLoggedIn()">
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/']" (click)="tokenStorage.logout(false)">hello <b>{{tokenStorage.getUser().Username}}</b></a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav flex-grow-1">
           <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']">Counter</a>
+            <a class="nav-link text-dark">Categories</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']">Fetch data</a>
+            <a class="nav-link text-dark">High Ratings</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!tokenStorage.isLoggedIn()">
-            <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark">Recently Added</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="tokenStorage.isLoggedIn()">
-            <a class="nav-link text-dark" [routerLink]="['/']" (click)="tokenStorage.logout(false)">hello <b>{{tokenStorage.getUser().Username}}</b></a>
-          </li>
+          <form class="navbar-form navbar-left" action="Search">
+            <div class="input-group">
+              <input id="searchText" name="searchText" type="text" class="form-control" placeholder="Search Movie...">
+              <span class="input-group-btn">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+              </span>
+            </div>
+          </form>
         </ul>
       </div>
     </div>

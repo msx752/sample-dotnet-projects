@@ -6,5 +6,6 @@
         public DateTime ExpiresAt { get; set; }
         public string refresh_token { get; set; }
         public DateTime RefreshTokenExpiresAt { get; set; }
+        public UserDto User { get; set; }
     }
 }

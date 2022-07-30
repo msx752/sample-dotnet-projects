@@ -59,6 +59,7 @@ namespace Samp.Identity.API.Controllers
                     new Claim("name", user.Id.ToString()),
                 };
                 TokenDto response = tokenHelper.Authenticate(user, claims);
+                response.User = mapper.Map<UserDto>(user);
                 return new OkResponse(response);
             }
             return new BadRequestResponse($"invalid grant_type value:'{model.grant_type}'");

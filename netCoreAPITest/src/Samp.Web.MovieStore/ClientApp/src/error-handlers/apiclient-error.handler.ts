@@ -17,14 +17,19 @@ export class ApiClientErrorHandler {
 
   public handle(error: any): string {
     const responseModel = error.error as ResponseModel<any>;
-    const errorList = responseModel.errors.join(",\n");
+    var errorStrList = "";
+    if (responseModel.errors) {
+      errorStrList = responseModel.errors.join(",\n");
+    } else {
+      errorStrList = 'given url not found.';
+    }
     const title = error.statusText;
     const traceIdStringFormat = 'TraceId:&nbsp;<b>' + responseModel.stats.rid + '</b>';
     if (error.status >= 500) {
       this.popupService.show({
         icon: 'error',
         title: 'Something went wrong!',
-        text: errorList,
+        text: errorStrList,
         footer: 'please contact with supports, ' + traceIdStringFormat,
         showClass: {
           popup: 'animate__animated animate__fadeInDown'
@@ -37,7 +42,7 @@ export class ApiClientErrorHandler {
       this.popupService.show({
         icon: 'error',
         title: title,
-        text: errorList,
+        text: errorStrList,
         footer: traceIdStringFormat,
         showClass: {
           popup: 'animate__animated animate__fadeInDown'
@@ -50,7 +55,7 @@ export class ApiClientErrorHandler {
       this.popupService.show({
         icon: 'error',
         title: title,
-        text: errorList,
+        text: errorStrList,
         footer: traceIdStringFormat,
         showClass: {
           popup: 'animate__animated animate__fadeInDown'
@@ -61,6 +66,6 @@ export class ApiClientErrorHandler {
       });
     }
 
-    return errorList;
+    return errorStrList;
   }
 }

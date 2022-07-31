@@ -1,4 +1,5 @@
-﻿using Samp.Movie.API.Models.Dtos;
+﻿using Newtonsoft.Json;
+using Samp.Movie.API.Models.Dtos;
 
 namespace Samp.Movie.API.Models.Responses
 {
@@ -11,9 +12,13 @@ namespace Samp.Movie.API.Models.Responses
             RecentlyAdded = new();
         }
 
+        [JsonProperty("highratings")]
         public List<MovieDto> HighRatings { get; set; }
+
+        [JsonProperty("all")]
         public List<MovieDto> All { get; set; }
 
+        [JsonProperty("recentlyadded")]
         public List<MovieDto> RecentlyAdded { get; set; }
     }
 }

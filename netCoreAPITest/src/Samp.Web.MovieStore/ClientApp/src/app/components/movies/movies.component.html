@@ -1,5 +1,5 @@
-<div ng-repeat="movie in movies">
-  <div class="col-sm-2 hvr-shadow-radial">
+<div *ngFor="let movie of movies">
+  <div class="col-sm-2 hvr-shadow-radial" ng-model="movie">
     <article class="card rounded">
       <header class="title-header">
         <h3 class="text-center">{{movie.title}}</h3>

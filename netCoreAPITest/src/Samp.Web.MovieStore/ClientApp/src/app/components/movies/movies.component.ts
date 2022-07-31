@@ -21,28 +21,9 @@ export class MoviesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.fetchType === 'index') {
-      this.GetIndex();
-    } else if (this.fetchType === 'high-ratings') {
-      this.GetHighRatings();
-    } else if (this.fetchType === 'recently-added') {
-      this.RecentlyAdded();
-    } else {
-      this.popupService.showError("unknown movie fetch type", this.fetchType + ' is not implemented.')
-      throw new Error("unknown movie fetch type");
-    }
   }
 
   public GetIndex() {
-    this.movies = [];
-    this.apiMovies.GetIndex().subscribe({
-      next: data => {
-        this.movies = data.results;
-      },
-      error: error => {
-        var errStr = this.errorHandler.handle(error);
-      }
-    });
   }
 
   public GetHighRatings() {

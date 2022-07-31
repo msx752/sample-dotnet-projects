@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiClientErrorHandler } from '../../error-handlers/apiclient-error.handler';
 import { MovieIndexViewModel } from '../../models/responses/movie/movie-index-view.model';
-import { MovieDto } from '../../models/responses/movie/movie.dto';
 import { MoviesApiService } from '../../services/api/movies-api.service';
-import { PopupService } from '../../services/popup.service';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +13,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private apiMovies: MoviesApiService
     , private errorHandler: ApiClientErrorHandler
-    , private popupService: PopupService
   ) { }
+
   ngOnInit(): void {
     this.apiMovies.GetIndex().subscribe({
       next: data => {

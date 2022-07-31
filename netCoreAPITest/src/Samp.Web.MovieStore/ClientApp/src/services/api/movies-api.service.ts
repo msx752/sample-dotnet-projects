@@ -22,7 +22,7 @@ export class MoviesApiService {
     return this.api.get<MovieDto>('/Movies/HighRatings');
   }
 
-  RecentlyAdded(): Observable<ResponseModel<MovieDto>> {
+  GetRecentlyAdded(): Observable<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/RecentlyAdded');
   }
 

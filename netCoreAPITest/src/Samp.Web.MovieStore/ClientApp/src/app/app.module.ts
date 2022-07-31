@@ -11,6 +11,9 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
 import { MoviesComponent } from './components/movies/movies.component';
+import { HighRatingsComponent } from './movies/highratings/highratings.component';
+import { RecentlyAddedComponent } from './movies/recentlyadded/recentlyadded.component';
+import { AllMoviesComponent } from './movies/allmovies/allmovies.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { MoviesComponent } from './components/movies/movies.component';
     CounterComponent,
     FetchDataComponent,
     LoginComponent,
-    MoviesComponent
+    MoviesComponent,
+    HighRatingsComponent,
+    RecentlyAddedComponent,
+    AllMoviesComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -28,8 +34,8 @@ import { MoviesComponent } from './components/movies/movies.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'highratings', component: HighRatingsComponent },
+      { path: 'recentlyadded', component: RecentlyAddedComponent },
       { path: 'login', component: LoginComponent },
     ])
   ],

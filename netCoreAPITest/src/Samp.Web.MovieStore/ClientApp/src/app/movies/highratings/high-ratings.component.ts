@@ -5,7 +5,7 @@ import { MoviesApiService } from '../../../services/api/movies-api.service';
 
 @Component({
   selector: 'high-ratings-movies',
-  templateUrl: './highratings.component.html',
+  templateUrl: './high-ratings.component.html',
 })
 export class HighRatingsComponent implements OnInit {
   title = 'High Ratings';

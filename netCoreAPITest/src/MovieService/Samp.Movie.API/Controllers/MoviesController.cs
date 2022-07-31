@@ -125,5 +125,17 @@ namespace Samp.Movie.API.Controllers
 
             return new OkResponse(mapper.Map<List<MovieDto>>(entity));
         }
+
+        [HttpGet("Categories")]
+        public ActionResult GetCategories() //TODO: move to CategoriesController
+        {
+            var entity = repository.Table<CategoryEntity>()
+                .All()
+                .Include(f => f.Categories)
+                .Where(f => f.Categories.Any())
+                .ToList();
+
+            return new OkResponse(mapper.Map<List<CategoryDto>>(entity));
+        }
     }
 }

@@ -11,7 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
 import { MoviesComponent } from './components/movies/movies.component';
-import { HighRatingsComponent } from './movies/highratings/highratings.component';
+import { HighRatingsComponent } from './movies/highratings/high-ratings.component';
 import { RecentlyAddedComponent } from './movies/recentlyadded/recentlyadded.component';
 import { AllMoviesComponent } from './movies/allmovies/allmovies.component';
 

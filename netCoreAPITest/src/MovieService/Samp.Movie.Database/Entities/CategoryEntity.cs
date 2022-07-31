@@ -7,6 +7,11 @@ namespace Samp.Movie.Database.Entities
     [Table("CategoryEntity")]
     public class CategoryEntity : BaseEntity
     {
+        public CategoryEntity()
+        {
+            Categories = new HashSet<MovieCategoryEntity>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

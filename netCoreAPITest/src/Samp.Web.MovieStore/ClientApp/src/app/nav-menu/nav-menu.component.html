@@ -26,8 +26,16 @@
           <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark">Categories</a>
+          <li class="dropdown">
+            <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+              Categories
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" *ngFor="let category of categories">
+              <li ng-model="category">
+                <a class="nav-link text-dark" [routerLink]="['/Movies/Filtered/{{category.id}}']">{{category.name}}</a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/highratings']">High Ratings</a>

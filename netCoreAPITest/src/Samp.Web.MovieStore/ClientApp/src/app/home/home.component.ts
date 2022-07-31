@@ -9,7 +9,7 @@ import { MoviesApiService } from '../../services/api/movies-api.service';
 })
 export class HomeComponent implements OnInit {
   title = 'Home';
-  public movieIndexModel: MovieIndexViewModel;
+  public movieIndexModel: MovieIndexViewModel = { all: [], highratings: [], recentlyadded:[] };
 
   constructor(private apiMovies: MoviesApiService
     , private errorHandler: ApiClientErrorHandler

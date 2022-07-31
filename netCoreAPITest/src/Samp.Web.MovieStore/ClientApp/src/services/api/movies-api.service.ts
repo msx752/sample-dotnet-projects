@@ -1,9 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiClientService } from '../apiclient.service';
 import { ResponseModel } from '../../models/responses/response-model';
-import { TokenDto } from '../../models/responses/identity/token.dto';
 import { MovieDto } from '../../models/responses/movie/movie.dto';
 import { MovieIndexViewModel } from '../../models/responses/movie/movie-index-view.model';
 

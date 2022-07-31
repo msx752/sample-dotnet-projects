@@ -11,9 +11,14 @@ import { PopupService } from '../../../services/popup.service';
 })
 export class MoviesComponent implements OnInit {
   @Input()
-  fetchType: string;
-
   public movies: MovieDto[] = [];
+  @Input()
+  public id: string = '';
+  @Input()
+  public class: string = '';
+  @Input()
+  public header: string = '';
+
   constructor(
     private apiMovies: MoviesApiService
     , private errorHandler: ApiClientErrorHandler
@@ -21,32 +26,5 @@ export class MoviesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  }
-
-  public GetIndex() {
-  }
-
-  public GetHighRatings() {
-    this.movies = [];
-    this.apiMovies.GetHighRatings().subscribe({
-      next: data => {
-        this.movies = data.results;
-      },
-      error: error => {
-        var errStr = this.errorHandler.handle(error);
-      }
-    });
-  }
-
-  public RecentlyAdded() {
-    this.movies = [];
-    this.apiMovies.RecentlyAdded().subscribe({
-      next: data => {
-        this.movies = data.results;
-      },
-      error: error => {
-        var errStr = this.errorHandler.handle(error);
-      }
-    });
   }
 }

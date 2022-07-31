@@ -1,26 +1,31 @@
-<div *ngFor="let movie of movies">
-  <div class="col-sm-2 hvr-shadow-radial" ng-model="movie">
-    <article class="card rounded">
-      <header class="title-header">
-        <h3 class="text-center">{{movie.title}}</h3>
-      </header>
-      <a style="color:white;" id="{{movie.id}}">
-        <div class="card-block">
-          <div class="img-card">
-            <img src="~/images/{{movie.id}}.png" alt="{{movie.title}}" class="w-100" />
-            <div class="average-rating rounded">
-              <span class="fa fa-star star-checked"></span>
-              <span class="fa fa-star star-checked"></span>
-              <span class="fa fa-star star-checked"></span>
-              <span class="fa fa-star "></span>
-              <span class="fa fa-star "></span>
+<section class="{{class}}" id="{{id}}">
+  <h2>{{header}}</h2>
+  <div class="row">
+    <div class="col-sm-2 hvr-shadow-radial" *ngFor="let movie of movies">
+      <div ng-model="movie">
+        <article class="card rounded">
+          <header class="title-header">
+            <h3 class="text-center">{{movie.title}}</h3>
+          </header>
+          <a style="color:white;" id="{{movie.id}}">
+            <div class="card-block">
+              <div class="img-card">
+                <img src="assets/images/{{movie.id}}.png" alt="{{movie.title}}" class="w-100" />
+                <div class="average-rating rounded">
+                  <span class="fa fa-star star-checked"></span>
+                  <span class="fa fa-star star-checked"></span>
+                  <span class="fa fa-star star-checked"></span>
+                  <span class="fa fa-star "></span>
+                  <span class="fa fa-star "></span>
+                </div>
+                <div class="view-detail" style="display:none;">
+                  <i class="fa fa-search fa-3x"></i>
+                </div>
+              </div>
             </div>
-            <div class="view-detail" style="display:none;">
-              <i class="fa fa-search fa-3x"></i>
-            </div>
-          </div>
-        </div>
-      </a>
-    </article>
+          </a>
+        </article>
+      </div>
+    </div>
   </div>
-</div>
+</section>

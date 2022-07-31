@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { SweetAlertIcon } from 'sweetalert2';
+import { SweetAlertIcon, SweetAlertOptions } from 'sweetalert2';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Injectable({
@@ -28,26 +28,32 @@ export class PopupService {
     , onConfirm?
     , onCancel?
   ) {
-    Swal.fire({
+    this.show({
       title: title,
       text: text,
       icon: icon,
       showCancelButton: !cancelButtonText ? false : true,
       confirmButtonText: confirmButtonText,
       cancelButtonText: cancelButtonText,
-    }).then((result) => {
-      if (result.value) {
-
-        if (onConfirm)
+    },
+      function (result) {
+        if (result.value) {
+          if (onConfirm)
             onConfirm(result);
-
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-
-        if (onCancel && cancelButtonText)
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          if (onCancel && cancelButtonText)
             onCancel(result);
-
-      }
-    });
+        }
+      });
   }
 
+  public show(options: SweetAlertOptions
+    , onResult?
+  ) {
+    Swal.fire(options)
+      .then((result) => {
+        if (onResult)
+          onResult(result);
+      });
+  }
 }

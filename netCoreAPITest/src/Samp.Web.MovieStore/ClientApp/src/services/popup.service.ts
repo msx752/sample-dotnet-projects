@@ -9,15 +9,15 @@ export class PopupService {
   constructor() { }
 
   public showError(title: string, htmlMessage: string) {
-    Swal.fire(title, htmlMessage, 'error');
+    return Swal.fire(title, htmlMessage, 'error');
   }
 
   public showSuccess(title: string, htmlMessage: string) {
-    Swal.fire(title, htmlMessage, 'success');
+    return Swal.fire(title, htmlMessage, 'success');
   }
 
   public showWarning(title: string, htmlMessage: string) {
-    Swal.fire(title, htmlMessage, 'warning');
+    return Swal.fire(title, htmlMessage, 'warning');
   }
 
   public showDailog(title: string
@@ -28,7 +28,7 @@ export class PopupService {
     , onConfirm?
     , onCancel?
   ) {
-    this.show({
+    return this.show({
       title: title,
       text: text,
       icon: icon,
@@ -50,7 +50,10 @@ export class PopupService {
   public show(options: SweetAlertOptions
     , onResult?
   ) {
-    Swal.fire(options)
+    if (!options.confirmButtonText)
+      options.confirmButtonText = 'Okay';
+
+    return Swal.fire(options)
       .then((result) => {
         if (onResult)
           onResult(result);

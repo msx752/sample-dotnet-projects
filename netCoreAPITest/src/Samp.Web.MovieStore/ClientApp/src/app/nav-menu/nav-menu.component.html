@@ -18,7 +18,7 @@
 
         <ul class="navbar-nav" *ngIf="tokenStorage.isLoggedIn()">
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/']" (click)="tokenStorage.logout(false)">hello <b>{{tokenStorage.getUser().Username}}</b></a>
+            <a class="nav-link text-dark" [routerLink]="['/']" (click)="tokenStorage.logout(false)">hello <b>{{tokenStorage.getUser().username}}</b></a>
           </li>
         </ul>
 

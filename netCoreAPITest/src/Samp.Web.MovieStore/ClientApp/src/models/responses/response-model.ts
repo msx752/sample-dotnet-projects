@@ -1,14 +1,14 @@
 export interface BaseResponseModel {
-  Errors: string[];
-  Stats: ResponseStatModel;
+  errors: string[];
+  stats: ResponseStatModel;
 }
 
 export interface ResponseStatModel {
-  RId: string;
-  ElapsedMilliseconds: string;
-  Offset: number;
+  rid: string;
+  elapsedmilliseconds: string;
+  offset: number;
 }
 
 export interface ResponseModel<T> extends BaseResponseModel {
-  Results: T[];
+  results: T[];
 }

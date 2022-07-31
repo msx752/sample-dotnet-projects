@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Samp.Core.Extensions;
 using Samp.Core.Interfaces;
 using System;
@@ -57,11 +58,11 @@ namespace Samp.Core.Results.Abstracts
         {
             return new JsonSerializerSettings()
             {
-                //NullValueHandling = NullValueHandling.Include,
-                //Formatting = Formatting.None,
-                //Culture = new System.Globalization.CultureInfo("en-us"),
-                //DateParseHandling = DateParseHandling.DateTimeOffset,
-                //ContractResolver = new DefaultContractResolver()
+                NullValueHandling = NullValueHandling.Ignore,
+                Formatting = Formatting.None,
+                Culture = new System.Globalization.CultureInfo("en-us"),
+                DateParseHandling = DateParseHandling.DateTimeOffset,
+                ContractResolver = new DefaultContractResolver(),
             };
         }
 

@@ -1,4 +1,5 @@
-﻿using Samp.Core.Interfaces;
+﻿using Newtonsoft.Json;
+using Samp.Core.Interfaces;
 using System.Collections.Generic;
 
 namespace Samp.Core.Results.Abstracts
@@ -24,14 +25,22 @@ namespace Samp.Core.Results.Abstracts
             Errors.Add(message);
         }
 
+        [JsonProperty("errors")]
         public List<string> Errors { get; set; }
+
+        [JsonProperty("stats")]
         public ResponseStatModel Stats { get; set; }
     }
 
     public class ResponseStatModel
     {
+        [JsonProperty("rid")]
         public string RId { get; set; }
+
+        [JsonProperty("elapsedmilliseconds")]
         public string ElapsedMilliseconds { get; set; }
+
+        [JsonProperty("offset")]
         public long Offset { get; set; }
     }
 
@@ -66,6 +75,7 @@ namespace Samp.Core.Results.Abstracts
         {
         }
 
+        [JsonProperty("results")]
         public List<T> Results { get; set; }
     }
 

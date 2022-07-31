@@ -46,6 +46,19 @@ export class ApiClientErrorHandler {
           popup: 'animate__animated animate__fadeOutUp'
         }
       });
+    } else {
+      this.popupService.show({
+        icon: 'error',
+        title: title,
+        text: errorList,
+        footer: traceIdStringFormat,
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        }
+      });
     }
 
     return errorList;

@@ -1,0 +1,26 @@
+<div ng-repeat="movie in movies">
+  <div class="col-sm-2 hvr-shadow-radial">
+    <article class="card rounded">
+      <header class="title-header">
+        <h3 class="text-center">{{movie.title}}</h3>
+      </header>
+      <a style="color:white;" id="{{movie.id}}">
+        <div class="card-block">
+          <div class="img-card">
+            <img src="~/images/{{movie.id}}.png" alt="{{movie.title}}" class="w-100" />
+            <div class="average-rating rounded">
+              <span class="fa fa-star star-checked"></span>
+              <span class="fa fa-star star-checked"></span>
+              <span class="fa fa-star star-checked"></span>
+              <span class="fa fa-star "></span>
+              <span class="fa fa-star "></span>
+            </div>
+            <div class="view-detail" style="display:none;">
+              <i class="fa fa-search fa-3x"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+    </article>
+  </div>
+</div>

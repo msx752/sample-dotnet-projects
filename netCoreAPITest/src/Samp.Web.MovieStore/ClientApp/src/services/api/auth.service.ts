@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiClientService } from '../services/apiclient.service';
-import { ResponseModel } from '../models/responses/response-model';
-import { TokenDto } from '../models/responses/identity/token.dto';
+import { ApiClientService } from '../apiclient.service';
+import { ResponseModel } from '../../models/responses/response-model';
+import { TokenDto } from '../../models/responses/identity/token.dto';
 
 @Injectable({
   providedIn: 'root'

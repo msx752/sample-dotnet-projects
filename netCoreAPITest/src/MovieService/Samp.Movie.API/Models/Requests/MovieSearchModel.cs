@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace Samp.Movie.API.Models.Requests
@@ -8,6 +9,7 @@ namespace Samp.Movie.API.Models.Requests
         [FromQuery]
         [Required]
         [StringLength(255, MinimumLength = 2)]
+        [JsonProperty("query")]
         public string Query { get; set; }
     }
 }

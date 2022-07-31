@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/api/auth.service';
 import { PopupService } from '../../services/popup.service';
 import { TokenStorageService } from '../../services/token-storage.service';
 import Swal from 'sweetalert2';

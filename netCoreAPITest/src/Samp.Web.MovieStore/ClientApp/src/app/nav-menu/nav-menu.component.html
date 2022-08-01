@@ -26,14 +26,13 @@
           <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
-          <li class="dropdown">
-            <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+          <li class="nav-item dropdown">
+            <a class="dropdown-toggle btn" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" Toggle>
               Categories
-              <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" *ngFor="let category of categories">
-              <li ng-model="category">
-                <a class="nav-link text-dark" [routerLink]="['/Movies/Filtered/{{category.id}}']">{{category.name}}</a>
+            <ul class="dropdown-menu" Menu aria-labelledby="navbarScrollingDropdown">
+              <li *ngFor="let category of categories">
+                <a class="nav-link text-dark dropdown-item" [routerLink]="['/Movies/Filtered/' + category.id]" ng-model="category">{{category.name}}</a>
               </li>
             </ul>
           </li>
@@ -45,9 +44,14 @@
           </li>
           <form class="navbar-form navbar-left" action="Search">
             <div class="input-group">
-              <input id="searchText" name="searchText" type="text" class="form-control" placeholder="Search Movie...">
+              <input id="searchText"
+                     name="searchText"
+                     type="text"
+                     class="form-control"
+                     placeholder="Search Movie..."
+                     [(ngModel)]="searchInput">
               <span class="input-group-btn">
-                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                <button class="btn btn-outline-secondary" type="submit" (click)="search()">Search</button>
               </span>
             </div>
           </form>

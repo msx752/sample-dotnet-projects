@@ -12,8 +12,9 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
 import { MoviesComponent } from './components/movies/movies.component';
 import { HighRatingsComponent } from './movies/highratings/high-ratings.component';
-import { RecentlyAddedComponent } from './movies/recentlyadded/recentlyadded.component';
-import { AllMoviesComponent } from './movies/allmovies/allmovies.component';
+import { RecentlyAddedComponent } from './movies/recentlyadded/recently-added.component';
+import { AllMoviesComponent } from './movies/allmovies/all-movies.component';
+import { SearchMoviesComponent } from './movies/searchmovies/search-movies.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AllMoviesComponent } from './movies/allmovies/allmovies.component';
     HighRatingsComponent,
     RecentlyAddedComponent,
     AllMoviesComponent,
+    SearchMoviesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -36,6 +38,7 @@ import { AllMoviesComponent } from './movies/allmovies/allmovies.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'highratings', component: HighRatingsComponent },
       { path: 'recentlyadded', component: RecentlyAddedComponent },
+      { path: 'search', component: SearchMoviesComponent,  },
       { path: 'login', component: LoginComponent },
     ])
   ],

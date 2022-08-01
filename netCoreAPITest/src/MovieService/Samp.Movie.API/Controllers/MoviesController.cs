@@ -74,6 +74,7 @@ namespace Samp.Movie.API.Controllers
         {
             var recentyAddedEntities = repository.Table<MovieEntity>()
                 .All()
+                .Include(f => f.Rating)
                 .Take(4)
                 .ToList();
 
@@ -99,6 +100,7 @@ namespace Samp.Movie.API.Controllers
 
             var entity = repository.Table<MovieEntity>()
                 .All()
+                .Include(f => f.Rating)
                 .Where(f => f.Title.Contains(model.Query, StringComparison.InvariantCultureIgnoreCase))
                 .ToList();
 

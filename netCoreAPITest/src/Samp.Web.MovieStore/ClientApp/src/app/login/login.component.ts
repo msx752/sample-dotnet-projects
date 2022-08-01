@@ -1,16 +1,17 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { AuthService } from '../../services/api/auth.service';
 import { PopupService } from '../../services/popup.service';
 import { TokenStorageService } from '../../services/token-storage.service';
 import Swal from 'sweetalert2';
 import { ApiClientErrorHandler } from '../../error-handlers/apiclient-error.handler';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   form: any = {
     username: null,
     password: null
@@ -21,6 +22,11 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
   username: string = '';
   inProgressLoginButton: boolean = false;
+  private subscriptions: Subscription[] = [];
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
 
   constructor(private authService: AuthService
     , private tokenStorage: TokenStorageService
@@ -41,7 +47,7 @@ export class LoginComponent implements OnInit {
 
     const { username, password } = this.form;
 
-    this.authService.login(username, password).subscribe({
+    this.subscriptions.push(this.authService.login(username, password).subscribe({
       next: data => {
         this.tokenStorage.saveToken(data.results[0].access_token);
         this.tokenStorage.saveUser(data.results[0].user);
@@ -60,7 +66,7 @@ export class LoginComponent implements OnInit {
         this.inProgressLoginButton = false;
         this.tokenStorage.logout();
       }
-    });
+    }));
   }
 
   reloadPage(): void {

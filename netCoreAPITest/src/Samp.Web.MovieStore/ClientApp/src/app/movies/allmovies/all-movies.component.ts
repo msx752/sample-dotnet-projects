@@ -3,7 +3,7 @@ import { MovieDto } from '../../../models/responses/movie/movie.dto';
 
 @Component({
   selector: 'all-movies',
-  templateUrl: './allmovies.component.html',
+  templateUrl: './all-movies.component.html',
 })
 export class AllMoviesComponent {
   title = 'Movies';

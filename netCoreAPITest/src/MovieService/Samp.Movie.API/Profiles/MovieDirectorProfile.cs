@@ -1,15 +1,13 @@
 ﻿using AutoMapper;
-using Samp.Contract.Cart.Movie;
 using Samp.Movie.API.Models.Dtos;
 using Samp.Movie.Database.Entities;
 
 namespace Samp.Movie.API.Profiles
 {
-    public class MovieProfile : Profile
+    public class MovieDirectorProfile : Profile
     {
-        public MovieProfile()
+        public MovieDirectorProfile()
         {
-            CreateMap<MovieEntity, MovieEntityResponseMessage>();
             CreateMap<MovieEntity, MovieDto>();
             CreateMap<WriterEntity, WriterDto>();
             CreateMap<CategoryEntity, CategoryDto>();

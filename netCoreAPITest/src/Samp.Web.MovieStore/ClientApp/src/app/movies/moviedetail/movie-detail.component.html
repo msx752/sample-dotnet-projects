@@ -1,0 +1,27 @@
+<div ng-model="movie">
+  <div class="card detail-shadow" style="">
+    <div class="row">
+      <div class="col-2 left">
+        <img src="assets/images/{{movie.id}}.png" alt="{{movie.title}}" class="card-img-top detail-img" style="width: 100%;" />
+      </div>
+      <div class="card-body col-10 right">
+        <h2 class="card-title">{{movie.title}}</h2>
+        <span><b>IMDB Rating: </b>{{(movie.rating.averagerating / 10)}}</span><br />
+        <span><b>Number of Votes: </b>{{movie.rating.numvotes}}</span><br />
+        <span><b>Year: </b>{{movie.startyear}}</span><br />
+        <span><b>Minutes: </b>{{movie.runtimeminutes}}</span><br />
+        <span><b>Categories: </b>{{categories}}</span><br />
+        <span><b>Directors: </b>{{directors}}</span><br />
+        <span><b>Writers: </b>{{writers}}</span><br /><br />
+        <p class="card-text"><span><b>Short Description: </b>{{movie.description}}</span></p><br />
+        <p><b>Price: </b><span>{{movie.usdprice}}<b>$</b></span></p>
+        <div *ngIf="tokenStorage.isLoggedIn()">
+
+        </div>
+        <div *ngIf="!tokenStorage.isLoggedIn()">
+          <p>you must be <a [routerLink]="['/login']"><b>logged in</b></a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

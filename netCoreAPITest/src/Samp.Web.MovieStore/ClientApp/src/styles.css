@@ -185,6 +185,6 @@ body {
 
 .detail-img {
   padding: 5px;
-  position: absolute !important;
+  /*position: absolute !important;*/
 }
 

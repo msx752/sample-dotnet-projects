@@ -7,7 +7,7 @@
           <header class="title-header">
             <h3 class="text-center">{{movie.title}}</h3>
           </header>
-          <a style="color:white;" id="{{movie.id}}">
+          <a style="color:white;" id="{{movie.id}}" (click)="movieById('/movie/' + movie.id)">
             <div class="card-block" (mouseover)="cardBlockMouseover($event.target)" (mouseout)="cardBlockMouseout($event.target)">
               <div class="img-card">
                 <img src="assets/images/{{movie.id}}.png" alt="{{movie.title}}" class="w-100" />

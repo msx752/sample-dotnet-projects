@@ -15,6 +15,8 @@ import { HighRatingsComponent } from './movies/highratings/high-ratings.componen
 import { RecentlyAddedComponent } from './movies/recentlyadded/recently-added.component';
 import { AllMoviesComponent } from './movies/allmovies/all-movies.component';
 import { SearchMoviesComponent } from './movies/searchmovies/search-movies.component';
+import { MoviesByCategoryComponent } from './movies/moviesbycategory/movies-by-category.component';
+import { MovieDetailComponent } from './movies/moviedetail/movie-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { SearchMoviesComponent } from './movies/searchmovies/search-movies.compo
     HighRatingsComponent,
     RecentlyAddedComponent,
     AllMoviesComponent,
-    SearchMoviesComponent
+    SearchMoviesComponent,
+    MoviesByCategoryComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,7 +41,9 @@ import { SearchMoviesComponent } from './movies/searchmovies/search-movies.compo
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'highratings', component: HighRatingsComponent },
       { path: 'recentlyadded', component: RecentlyAddedComponent },
-      { path: 'search', component: SearchMoviesComponent,  },
+      { path: 'category/:categoryid', component: MoviesByCategoryComponent, },
+      { path: 'movie/:movieid', component: MovieDetailComponent, },
+      { path: 'search', component: SearchMoviesComponent, },
       { path: 'login', component: LoginComponent },
     ])
   ],

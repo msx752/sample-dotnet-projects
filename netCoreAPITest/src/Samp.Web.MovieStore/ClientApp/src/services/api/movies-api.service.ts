@@ -24,7 +24,7 @@ export class MoviesApiService {
     return this.api.get<MovieDto>('/Movies/RecentlyAdded');
   }
 
-  GetById(id: number): Observable<ResponseModel<MovieDto>> {
+  GetById(id: string): Observable<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/' + id);
   }
 

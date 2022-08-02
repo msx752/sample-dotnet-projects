@@ -5,6 +5,15 @@ namespace Samp.Movie.API.Models.Dtos
 {
     public class MovieDto
     {
+        [JsonProperty("categories")]
+        public List<MovieCategoryDto> Categories { get; set; }
+
+        [JsonProperty("moviedirectors")]
+        public List<MovieDirectorDto> MovieDirectors { get; set; }
+
+        [JsonProperty("moviewriters")]
+        public List<MovieWriterDto> MovieWriters { get; set; }
+
         [JsonProperty("id")]
         public string Id { get; set; }
 

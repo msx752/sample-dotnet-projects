@@ -4,11 +4,11 @@ using Samp.Movie.Database.Entities;
 
 namespace Samp.Movie.API.Profiles
 {
-    public class CatrgoryProfile : Profile
+    public class DirectorProfile : Profile
     {
-        public CatrgoryProfile()
+        public DirectorProfile()
         {
-            CreateMap<CategoryEntity, CategoryDto>();
+            CreateMap<DirectorEntity, DirectorDto>();
         }
     }
 }

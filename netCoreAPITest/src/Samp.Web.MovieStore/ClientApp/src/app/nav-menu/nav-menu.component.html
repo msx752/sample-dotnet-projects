@@ -32,7 +32,10 @@
             </a>
             <ul class="dropdown-menu" Menu aria-labelledby="navbarScrollingDropdown">
               <li *ngFor="let category of categories">
-                <a class="nav-link text-dark dropdown-item" [routerLink]="['/Movies/Filtered/' + category.id]" ng-model="category">{{category.name}}</a>
+                <a
+                   class="nav-link text-dark dropdown-item btn"
+                   (click)="moviesByCategory('/category/' + category.id)"
+                   ng-model="category">{{category.name}}</a>
               </li>
             </ul>
           </li>

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiClientErrorHandler } from '../../../error-handlers/apiclient-error.handler';
 import { MovieDto } from '../../../models/responses/movie/movie.dto';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
@@ -24,6 +25,7 @@ export class MoviesComponent implements OnInit {
     , private errorHandler: ApiClientErrorHandler
     , private popupService: PopupService
     , private renderer: Renderer2
+    , private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -55,6 +57,13 @@ export class MoviesComponent implements OnInit {
       return 'fa fa-star star-checked';
     } else {
       return 'fa fa-star ';
+    }
+  }
+  public movieById(url: string) {
+    if (url) {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate([url])
+      );
     }
   }
 }

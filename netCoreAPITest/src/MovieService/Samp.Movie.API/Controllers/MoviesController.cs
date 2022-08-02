@@ -84,12 +84,22 @@ namespace Samp.Movie.API.Controllers
         [HttpGet("{Id}")]
         public ActionResult GetById(string Id)
         {
-            var entity = repository.Table<MovieEntity>().GetById(Id);
+            var entity = repository.Table<MovieEntity>()
+                .All()
+                .Include(x => x.Rating)
+                .Include(x => x.MovieWriters)
+                .ThenInclude(x => x.Writer)
+                .Include(x => x.MovieDirectors)
+                .ThenInclude(x => x.Director)
+                .Include(x => x.Categories)
+                .ThenInclude(x => x.Category)
+                .Where(f => f.Id == Id)
+                .ToList();
 
             if (entity == null)
                 return new NotFoundResponse();
 
-            return new OkResponse(mapper.Map<MovieDto>(entity));
+            return new OkResponse(mapper.Map<List<MovieDto>>(entity));
         }
 
         [HttpGet("Search")]

@@ -52,8 +52,17 @@ export class NavMenuComponent implements OnInit, OnDestroy {
 
   public search() {
     if (this.searchInput) {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        var navigationExtras = { queryParams: { q: this.searchInput } };
+        this.searchInput = '';
+        this.router.navigate(['/search'], navigationExtras);
+      });
+    }
+  }
+  public moviesByCategory(url: string) {
+    if (url) {
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-        this.router.navigate(['/search'], { queryParams: { q: this.searchInput }, })
+        this.router.navigate([url])
       );
     }
   }

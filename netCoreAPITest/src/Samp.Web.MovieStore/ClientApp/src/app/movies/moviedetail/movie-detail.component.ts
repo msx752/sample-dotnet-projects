@@ -15,9 +15,9 @@ export class MovieDetailComponent implements OnInit, OnDestroy {
   movieid: string;
   public movie: MovieDto;
   private subscriptions: Subscription[] = [];
-  public categories: string = "todo";
-  public directors: string = "todo";
-  public writers: string = "todo";
+  public categories: string = "";
+  public directors: string = "";
+  public writers: string = "";
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -34,16 +34,19 @@ export class MovieDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.route.params.subscribe(params => {
       this.movieid = params['movieid'];
 
-        this.subscriptions.push(this.apiMovies.GetById(this.movieid).subscribe({
-          next: data => {
-            if (data.results.length > 0) {
-              this.movie = data.results[0];
-            }
-          },
-          error: error => {
-            var errStr = this.errorHandler.handle(error);
+      this.subscriptions.push(this.apiMovies.GetById(this.movieid).subscribe({
+        next: data => {
+          if (data.results.length > 0) {
+            this.movie = data.results[0];
+            this.categories = Array.from(this.movie.categories).map(({ category }) => category.name).join(", ");
+            this.directors = Array.from(this.movie.moviedirectors).map(({ director }) => director.fullname).join(", ");
+            this.writers = Array.from(this.movie.moviewriters).map(({ writer }) => writer.fullname).join(", ");
           }
-        }));
+        },
+        error: error => {
+          var errStr = this.errorHandler.handle(error);
+        }
+      }));
     }));
   }
 }

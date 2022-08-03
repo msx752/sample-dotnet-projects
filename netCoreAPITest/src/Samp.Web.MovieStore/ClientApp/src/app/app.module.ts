@@ -31,7 +31,8 @@ import { MovieDetailComponent } from './movies/moviedetail/movie-detail.componen
     RecentlyAddedComponent,
     AllMoviesComponent,
     SearchMoviesComponent,
-    MoviesByCategoryComponent
+    MoviesByCategoryComponent,
+    MovieDetailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

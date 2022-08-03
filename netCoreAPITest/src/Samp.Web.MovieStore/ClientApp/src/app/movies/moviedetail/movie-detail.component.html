@@ -16,7 +16,7 @@
         <p class="card-text"><span><b>Short Description: </b>{{movie.description}}</span></p><br />
         <p><b>Price: </b><span>{{movie.usdprice}}<b>$</b></span></p>
         <div *ngIf="tokenStorage.isLoggedIn()">
-
+          <button class="btn {{true ? 'btn-primary': 'btn-secondary'}}" [disabled]="false">Add to Basket</button>
         </div>
         <div *ngIf="!tokenStorage.isLoggedIn()">
           <p>you must be <a [routerLink]="['/login']"><b>logged in</b></a>.</p>

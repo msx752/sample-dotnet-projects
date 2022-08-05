@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ApiClientErrorHandler } from '../../error-handlers/apiclient-error.handler';
 import { CategoryDto } from '../../models/responses/movies/category-dto';
 import { MovieCatagoriesApiService } from '../../services/api/movie-category-api';
 import { TokenStorageService } from '../../services/token-storage.service';
@@ -14,7 +13,6 @@ import { TokenStorageService } from '../../services/token-storage.service';
 export class NavMenuComponent implements OnInit, OnDestroy {
   constructor(
     private apiMovieCategories: MovieCatagoriesApiService
-    , private errorHandler: ApiClientErrorHandler
     , public tokenStorage: TokenStorageService
     , private router: Router
   ) { }

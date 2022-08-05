@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiClientService } from '../apiclient.service';
+import { ApiClientService } from '../api-client.service';
 import { ResponseModel } from '../../models/responses/response-model';
 import { TokenDto } from '../../models/responses/identity/token.dto';
 
@@ -10,7 +10,6 @@ import { TokenDto } from '../../models/responses/identity/token.dto';
 })
 export class IdentityService {
   constructor(private http: HttpClient
-    , @Inject('BASE_URL') private baseUrl: string
     , private api: ApiClientService
   ) { }
 

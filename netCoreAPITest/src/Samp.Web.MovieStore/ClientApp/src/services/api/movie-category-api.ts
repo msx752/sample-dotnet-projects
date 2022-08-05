@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiClientService } from '../apiclient.service';
+import { ApiClientService } from '../api-client.service';
 import { ResponseModel } from '../../models/responses/response-model';
 import { CategoryDto } from '../../models/responses/movies/category-dto';
 

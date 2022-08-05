@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { ApiClientErrorHandler } from '../../../error-handlers/apiclient-error.handler';
 import { MovieDto } from '../../../models/responses/movies/movie.dto';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
 import { TokenStorageService } from '../../../services/token-storage.service';
@@ -24,7 +23,6 @@ export class MovieDetailComponent implements OnInit, OnDestroy {
   }
 
   constructor(private apiMovies: MoviesApiService
-    , private errorHandler: ApiClientErrorHandler
     , public tokenStorage: TokenStorageService
     , private route: ActivatedRoute
     , private router: Router

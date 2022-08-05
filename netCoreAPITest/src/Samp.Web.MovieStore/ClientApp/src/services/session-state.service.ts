@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { TokenStorageService } from '../services/token-storage.service';
 import { CartApiService } from './api/cart-api.service';
-import { ApiClientErrorHandler } from '../error-handlers/apiclient-error.handler';
 import { CartDto } from '../models/responses/carts/cart.dto';
 import { Observable, Observer } from 'rxjs';
 import { ResponseModel } from '../models/responses/response-model';
@@ -13,7 +12,6 @@ export class SessionStateService {
   constructor(
     private tokenStorageService: TokenStorageService
     , private cartApiService: CartApiService
-    , private errorHandler: ApiClientErrorHandler
   ) { }
 
   public isLoggedIn() {

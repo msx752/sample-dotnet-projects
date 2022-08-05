@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiClientErrorHandler } from '../../../error-handlers/apiclient-error.handler';
 import { MovieDto } from '../../../models/responses/movies/movie.dto';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
 import { PopupService } from '../../../services/popup.service';
@@ -22,8 +21,6 @@ export class MoviesComponent implements OnInit {
 
   constructor(
     private apiMovies: MoviesApiService
-    , private errorHandler: ApiClientErrorHandler
-    , private popupService: PopupService
     , private renderer: Renderer2
     , private router: Router
   ) { }

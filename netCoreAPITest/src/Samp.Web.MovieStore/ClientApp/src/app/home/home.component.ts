@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ApiClientErrorHandler } from '../../error-handlers/apiclient-error.handler';
 import { MovieIndexViewModel } from '../../models/responses/movies/movie-index-view.model';
 import { MoviesApiService } from '../../services/api/movies-api.service';
 
@@ -18,7 +17,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   constructor(private apiMovies: MoviesApiService
-    , private errorHandler: ApiClientErrorHandler
   ) { }
 
   ngOnInit(): void {

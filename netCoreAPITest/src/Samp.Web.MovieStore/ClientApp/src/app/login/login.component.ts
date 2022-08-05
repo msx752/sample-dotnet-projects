@@ -3,7 +3,6 @@ import { IdentityService } from '../../services/api/identity.service';
 import { PopupService } from '../../services/popup.service';
 import { TokenStorageService } from '../../services/token-storage.service';
 import Swal from 'sweetalert2';
-import { ApiClientErrorHandler } from '../../error-handlers/apiclient-error.handler';
 import { Subscription } from 'rxjs';
 import { SessionStateService } from '../../services/session-state.service';
 
@@ -32,8 +31,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private identityService: IdentityService
     , private tokenStorage: TokenStorageService
     , @Inject('BASE_URL') private baseUrl: string
-    , private popupService: PopupService
-    , private errorHandler: ApiClientErrorHandler
     , private sessionStateService: SessionStateService
     , private tokenStorageService: TokenStorageService
   ) { }

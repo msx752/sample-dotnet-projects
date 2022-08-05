@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ApiClientErrorHandler } from '../../../error-handlers/apiclient-error.handler';
 import { MovieDto } from '../../../models/responses/movies/movie.dto';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
 
@@ -19,7 +18,6 @@ export class RecentlyAddedComponent implements OnInit, OnDestroy {
   }
 
   constructor(private apiMovies: MoviesApiService
-    , private errorHandler: ApiClientErrorHandler
   ) { }
 
   ngOnInit(): void {

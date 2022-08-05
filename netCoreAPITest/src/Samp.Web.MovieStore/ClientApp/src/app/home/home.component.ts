@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.apiMovies.GetIndex()
+    this.apiMovies.getIndex()
       .then((data) => {
         if (data.results.length > 0) {
           this.movieIndexModel = data.results[0];

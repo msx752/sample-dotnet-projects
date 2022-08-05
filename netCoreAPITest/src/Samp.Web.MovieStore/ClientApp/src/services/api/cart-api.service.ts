@@ -21,7 +21,7 @@ export class CartApiService {
     return this.api.post<CartItemDto>('/Carts/' + cartid, { productid: productid, productdatabase: productdatabase });
   }
 
-  deleteCartItem(cartid: string, cartitemid: string): Observable<ResponseModel<any>> {
+  deleteCartItem(cartid: string, cartitemid: string): Promise<ResponseModel<any>> {
     return this.api.delete<any>('/Carts/' + cartid + '/Item/' + cartitemid);
   }
 }

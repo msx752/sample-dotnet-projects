@@ -69,11 +69,24 @@ export class ApiClientService {
     resource: string
     , headers?: HttpHeaders
     , contentType: string = 'application/json'
-  ): Observable<ResponseModel<T>> {
+  ): Promise<ResponseModel<T>> {
     var _headers = this.configureHeaders(headers, contentType);
     var url = this.configureResource(resource);
 
-    return this.http.delete<ResponseModel<T>>(url, { headers: _headers });
+    var promise = new Promise<ResponseModel<T>>((resolve, reject) => {
+      var sub = this.http.delete<ResponseModel<T>>(url, { headers: _headers }).subscribe({
+        next: data => {
+          sub.unsubscribe();
+          resolve(data);
+        },
+        error: error => {
+          var errStr = this.errorHandler.handle(error);
+          reject(errStr);
+        }
+      });
+    });
+
+    return promise;
   }
 
   private configureResource(resource: string) {

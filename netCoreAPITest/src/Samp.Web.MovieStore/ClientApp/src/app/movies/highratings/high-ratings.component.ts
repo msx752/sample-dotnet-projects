@@ -24,7 +24,7 @@ export class HighRatingsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (!this.movies) {
-      this.apiMovies.GetHighRatings()
+      this.apiMovies.getHighRatings()
         .then((data) => {
           if (data.results.length > 0) {
             this.movies = data.results;

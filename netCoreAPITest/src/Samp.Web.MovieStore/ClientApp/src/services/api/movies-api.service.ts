@@ -12,27 +12,27 @@ export class MoviesApiService {
   constructor(private api: ApiClientService
   ) { }
 
-  GetIndex(): Promise<ResponseModel<MovieIndexViewModel>> {
+  getIndex(): Promise<ResponseModel<MovieIndexViewModel>> {
     return this.api.get<MovieIndexViewModel>('/Movies');
   }
 
-  GetHighRatings(): Promise<ResponseModel<MovieDto>> {
+  getHighRatings(): Promise<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/HighRatings');
   }
 
-  GetRecentlyAdded(): Promise<ResponseModel<MovieDto>> {
+  getRecentlyAdded(): Promise<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/RecentlyAdded');
   }
 
-  GetById(id: string): Promise<ResponseModel<MovieDto>> {
+  getById(id: string): Promise<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/' + id);
   }
 
-  Search(search: string): Promise<ResponseModel<MovieDto>> {
+  search(search: string): Promise<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/Search?query=' + search);
   }
 
-  GetFilteredByCategoryId(id: number): Promise<ResponseModel<MovieDto>> {
+  getFilteredByCategoryId(id: number): Promise<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/CategoryBy/' + id);
   }
 }

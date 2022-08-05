@@ -34,7 +34,7 @@ export class MovieDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.route.params.subscribe(params => {
       this.movieid = params['movieid'];
 
-      this.apiMovies.GetById(this.movieid)
+      this.apiMovies.getById(this.movieid)
         .then((data) => {
           if (data.results.length > 0) {
             this.movie = data.results[0];

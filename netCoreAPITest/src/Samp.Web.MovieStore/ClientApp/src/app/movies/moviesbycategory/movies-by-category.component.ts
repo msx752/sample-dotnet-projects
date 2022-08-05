@@ -32,7 +32,7 @@ export class MoviesByCategoryComponent implements OnInit, OnDestroy {
       this.categoryid = +params['categoryid'];
 
       if (!this.movies) {
-        this.apiMovies.GetFilteredByCategoryId(this.categoryid)
+        this.apiMovies.getFilteredByCategoryId(this.categoryid)
           .then((data) => {
             if (data.results.length > 0) {
               this.movies = data.results;

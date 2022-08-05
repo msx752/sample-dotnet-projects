@@ -30,7 +30,7 @@ export class SearchMoviesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.push(this.route.queryParams.subscribe(params => {
       if (params.q) {
-        this.apiMovies.Search(params.q)
+        this.apiMovies.search(params.q)
           .then((data) => {
             if (data.results.length > 0) {
               this.movies = data.results;

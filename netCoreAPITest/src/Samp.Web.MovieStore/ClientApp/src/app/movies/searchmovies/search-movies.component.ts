@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiClientErrorHandler } from '../../../error-handlers/apiclient-error.handler';
-import { MovieDto } from '../../../models/responses/movie/movie.dto';
+import { MovieDto } from '../../../models/responses/movies/movie.dto';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
 
 @Component({
@@ -30,18 +30,16 @@ export class SearchMoviesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.push(this.route.queryParams.subscribe(params => {
       if (params.q) {
-        this.apiMovies.Search(params.q).subscribe({
-          next: data => {
+        this.apiMovies.Search(params.q)
+          .then((data) => {
             if (data.results.length > 0) {
               this.movies = data.results;
             } else {
               this.message = 'no result..';
             }
-          },
-          error: error => {
-            var err = this.errorHandler.handle(error);
-          }
-        });
+          })
+          .catch((error) => {
+          });
       }
     }));
   }

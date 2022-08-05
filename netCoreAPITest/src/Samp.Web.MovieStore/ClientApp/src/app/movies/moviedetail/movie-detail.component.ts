@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { ApiClientErrorHandler } from '../../../error-handlers/apiclient-error.handler';
-import { MovieDto } from '../../../models/responses/movie/movie.dto';
+import { MovieDto } from '../../../models/responses/movies/movie.dto';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
 import { TokenStorageService } from '../../../services/token-storage.service';
 
@@ -34,19 +34,17 @@ export class MovieDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.route.params.subscribe(params => {
       this.movieid = params['movieid'];
 
-      this.subscriptions.push(this.apiMovies.GetById(this.movieid).subscribe({
-        next: data => {
+      this.apiMovies.GetById(this.movieid)
+        .then((data) => {
           if (data.results.length > 0) {
             this.movie = data.results[0];
             this.categories = Array.from(this.movie.categories).map(({ category }) => category.name).join(", ");
             this.directors = Array.from(this.movie.moviedirectors).map(({ director }) => director.fullname).join(", ");
             this.writers = Array.from(this.movie.moviewriters).map(({ writer }) => writer.fullname).join(", ");
           }
-        },
-        error: error => {
-          var errStr = this.errorHandler.handle(error);
-        }
-      }));
+        })
+        .catch((error) => {
+        });
     }));
   }
 }

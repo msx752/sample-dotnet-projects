@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MovieDto } from '../../../models/responses/movie/movie.dto';
+import { MovieDto } from '../../../models/responses/movies/movie.dto';
 
 @Component({
   selector: 'all-movies',

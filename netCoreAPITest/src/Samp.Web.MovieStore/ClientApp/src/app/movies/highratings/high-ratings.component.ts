@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ApiClientErrorHandler } from '../../../error-handlers/apiclient-error.handler';
-import { MovieDto } from '../../../models/responses/movie/movie.dto';
+import { MovieDto } from '../../../models/responses/movies/movie.dto';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
 
 @Component({
@@ -24,16 +24,14 @@ export class HighRatingsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (!this.movies) {
-      this.subscriptions.push(this.apiMovies.GetHighRatings().subscribe({
-        next: data => {
+      this.apiMovies.GetHighRatings()
+        .then((data) => {
           if (data.results.length > 0) {
             this.movies = data.results;
           }
-        },
-        error: error => {
-          var errStr = this.errorHandler.handle(error);
-        }
-      }));
+        })
+        .catch((error) => {
+        });
     }
   }
 }

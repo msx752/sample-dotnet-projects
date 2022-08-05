@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { ApiClientErrorHandler } from '../../../error-handlers/apiclient-error.handler';
-import { MovieDto } from '../../../models/responses/movie/movie.dto';
+import { MovieDto } from '../../../models/responses/movies/movie.dto';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
 
 @Component({
@@ -32,18 +32,16 @@ export class MoviesByCategoryComponent implements OnInit, OnDestroy {
       this.categoryid = +params['categoryid'];
 
       if (!this.movies) {
-        this.subscriptions.push(this.apiMovies.GetFilteredByCategoryId(this.categoryid).subscribe({
-          next: data => {
+        this.apiMovies.GetFilteredByCategoryId(this.categoryid)
+          .then((data) => {
             if (data.results.length > 0) {
               this.movies = data.results;
             } else {
               this.message = 'no result..';
             }
-          },
-          error: error => {
-            var errStr = this.errorHandler.handle(error);
-          }
-        }));
+          })
+          .catch((error) => {
+          });
       }
     }));
   }

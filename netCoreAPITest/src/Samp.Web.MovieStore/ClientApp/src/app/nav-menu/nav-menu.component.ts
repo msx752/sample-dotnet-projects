@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiClientErrorHandler } from '../../error-handlers/apiclient-error.handler';
-import { CategoryDto } from '../../models/responses/movie/category-dto';
+import { CategoryDto } from '../../models/responses/movies/category-dto';
 import { MovieCatagoriesApiService } from '../../services/api/movie-category-api';
 import { TokenStorageService } from '../../services/token-storage.service';
 
@@ -28,16 +28,14 @@ export class NavMenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.apiMovieCategories.GetCategories().subscribe({
-      next: data => {
+    this.apiMovieCategories.getCategories()
+      .then((data) => {
         if (data.results.length > 0) {
           this.categories = data.results;
         }
-      },
-      error: error => {
-        var errStr = this.errorHandler.handle(error);
-      }
-    }));
+      })
+      .catch((error) => {
+      });
   }
 
   isExpanded = false;

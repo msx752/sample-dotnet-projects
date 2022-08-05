@@ -3,6 +3,7 @@ import { UserDto } from '../models/responses/identity/user.dto';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
+const CARTID_KEY = 'cardid-user'
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +44,18 @@ export class TokenStorageService {
     }
 
     return null;
+  }
+
+  public setCartId(cardid: string): void {
+    window.sessionStorage.removeItem(CARTID_KEY);
+    window.sessionStorage.setItem(CARTID_KEY, cardid);
+  }
+
+  public getCartId(): string {
+    return window.sessionStorage.getItem(CARTID_KEY);
+  }
+
+  public removeCartId(): void {
+    window.sessionStorage.removeItem(CARTID_KEY);
   }
 }

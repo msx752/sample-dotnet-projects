@@ -2,8 +2,8 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiClientService } from '../apiclient.service';
 import { ResponseModel } from '../../models/responses/response-model';
-import { MovieDto } from '../../models/responses/movie/movie.dto';
-import { MovieIndexViewModel } from '../../models/responses/movie/movie-index-view.model';
+import { MovieDto } from '../../models/responses/movies/movie.dto';
+import { MovieIndexViewModel } from '../../models/responses/movies/movie-index-view.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,27 +12,27 @@ export class MoviesApiService {
   constructor(private api: ApiClientService
   ) { }
 
-  GetIndex(): Observable<ResponseModel<MovieIndexViewModel>> {
+  GetIndex(): Promise<ResponseModel<MovieIndexViewModel>> {
     return this.api.get<MovieIndexViewModel>('/Movies');
   }
 
-  GetHighRatings(): Observable<ResponseModel<MovieDto>> {
+  GetHighRatings(): Promise<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/HighRatings');
   }
 
-  GetRecentlyAdded(): Observable<ResponseModel<MovieDto>> {
+  GetRecentlyAdded(): Promise<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/RecentlyAdded');
   }
 
-  GetById(id: string): Observable<ResponseModel<MovieDto>> {
+  GetById(id: string): Promise<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/' + id);
   }
 
-  Search(search: string): Observable<ResponseModel<MovieDto>> {
+  Search(search: string): Promise<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/Search?query=' + search);
   }
 
-  GetFilteredByCategoryId(id: number): Observable<ResponseModel<MovieDto>> {
+  GetFilteredByCategoryId(id: number): Promise<ResponseModel<MovieDto>> {
     return this.api.get<MovieDto>('/Movies/CategoryBy/' + id);
   }
 }

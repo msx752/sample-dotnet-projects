@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiClientErrorHandler } from '../../../error-handlers/apiclient-error.handler';
-import { MovieDto } from '../../../models/responses/movie/movie.dto';
+import { MovieDto } from '../../../models/responses/movies/movie.dto';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
 import { PopupService } from '../../../services/popup.service';
 
@@ -48,7 +48,7 @@ export class MoviesComponent implements OnInit {
     }
   }
 
-  drawStars(starIndex:number, averagerating: number): string {
+  drawStars(starIndex: number, averagerating: number): string {
     var n1 = (averagerating / 100);
     var n2 = (n1 / 2);
     var n3 = (n2 * 10);

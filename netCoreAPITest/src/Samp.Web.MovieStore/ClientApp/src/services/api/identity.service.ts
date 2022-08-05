@@ -8,13 +8,13 @@ import { TokenDto } from '../../models/responses/identity/token.dto';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class IdentityService {
   constructor(private http: HttpClient
     , @Inject('BASE_URL') private baseUrl: string
     , private api: ApiClientService
   ) { }
 
-  login(username: string, password: string): Observable<ResponseModel<TokenDto>> {
+  login(username: string, password: string): Promise<ResponseModel<TokenDto>> {
     return this.api.post<TokenDto>('/token', {
       username,
       password,
@@ -22,7 +22,7 @@ export class AuthService {
     }, null, 'application/x-www-form-urlencoded');
   }
 
-  register(username: string, email: string, password: string): Observable<ResponseModel<any>> {
+  register(username: string, email: string, password: string): Promise<ResponseModel<any>> {
     return this.api.post<any>('/register', {
       username,
       email,

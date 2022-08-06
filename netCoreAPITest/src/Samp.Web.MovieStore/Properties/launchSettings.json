@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "Samp.Web.MovieStore": {
+    "Development": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

@@ -1,0 +1,40 @@
+<div class="panel-body">
+  <ul class="list-group">
+    <li class="list-group-item list-group-item-secondary" style="margin-bottom:20px;" *ngFor="let item of basket.items">
+      <div class="container">
+        <div class="row">
+          <div class="col-1">
+            <img src="assets/images/{{item.productid}}.png" alt="{{item.title}}" style="width:100%;" />
+          </div>
+          <div class="col-9">
+            <a style="color: black; cursor: pointer;" (click)="movieById('/movie/' + item.productid)">
+              <span style="font-size:20px;margin-left:15px;"><b>{{item.title}}</b></span>
+            </a>
+          </div>
+          <div class="col-1">
+            <span> <b style="font-size:18px;">{{item.salesprice}}$</b></span>
+          </div>
+          <div class="col-1">
+            <a class="trash" (click)="removeFromBasket(item.id)" style="cursor: pointer;"><i class="fas fa-trash-alt fa-2x"></i></a>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li class="list-group-item list-group-item-warning">
+      <div class="container">
+        <div class="row">
+          <div class="col-8">
+            <span> <b>Total Price</b></span>
+          </div>
+          <div class="col-2">
+            <span> <b>{{calculatedTotalPrice}}$</b></span>
+          </div>
+          <div class="col-2">
+            <a class="btn btn-success" style="cursor: pointer;" asp-area="" asp-controller="Shop" asp-action="BuyAll">Purchase</a>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

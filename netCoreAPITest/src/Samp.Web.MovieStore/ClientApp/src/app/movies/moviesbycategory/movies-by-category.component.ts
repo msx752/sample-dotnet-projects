@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { MovieDto } from '../../../models/responses/movies/movie.dto';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
 
@@ -22,7 +22,6 @@ export class MoviesByCategoryComponent implements OnInit, OnDestroy {
 
   constructor(private apiMovies: MoviesApiService
     , private route: ActivatedRoute
-    , private router: Router
   ) { }
 
   ngOnInit(): void {

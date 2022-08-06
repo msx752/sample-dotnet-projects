@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiClientService } from '../api-client.service';
 import { ResponseModel } from '../../models/responses/response-model';
 import { TokenDto } from '../../models/responses/identity/token.dto';
+import { Constants } from '../../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class IdentityService {
       username,
       password,
       grant_type: 'password'
-    }, null, 'application/x-www-form-urlencoded');
+    }, null, Constants.xwwwfromurlencoded);
   }
 
   register(username: string, email: string, password: string): Promise<ResponseModel<any>> {
@@ -26,6 +27,6 @@ export class IdentityService {
       username,
       email,
       password
-    }, null, 'application/x-www-form-urlencoded');
+    }, null, Constants.xwwwfromurlencoded);
   }
 }

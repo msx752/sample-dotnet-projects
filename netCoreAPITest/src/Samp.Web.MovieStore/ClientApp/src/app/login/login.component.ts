@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private identityService: IdentityService
     , private tokenStorage: TokenStorageService
-    , @Inject('BASE_URL') private baseUrl: string
     , private sessionStateService: SessionStateService
     , private tokenStorageService: TokenStorageService
   ) { }
@@ -70,6 +69,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   reloadPage() {
-    window.location.reload();
+    window.location.href = "/";
   }
 }

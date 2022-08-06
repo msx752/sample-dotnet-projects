@@ -18,7 +18,7 @@ export class CartApiService {
   }
 
   postCartItem(cartid: string, productid: string, productdatabase: string): Promise<ResponseModel<CartItemDto>> {
-    return this.api.post<CartItemDto>('/Carts/' + cartid, { productid: productid, productdatabase: productdatabase });
+    return this.api.post<CartItemDto>('/Carts/' + cartid + '/Item', { productid: productid, productdatabase: productdatabase });
   }
 
   deleteCartItem(cartid: string, cartitemid: string): Promise<ResponseModel<any>> {

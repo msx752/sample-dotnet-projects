@@ -17,6 +17,7 @@ import { AllMoviesComponent } from './movies/allmovies/all-movies.component';
 import { SearchMoviesComponent } from './movies/searchmovies/search-movies.component';
 import { MoviesByCategoryComponent } from './movies/moviesbycategory/movies-by-category.component';
 import { MovieDetailComponent } from './movies/moviedetail/movie-detail.component';
+import { BasketComponent } from './basket/basket.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MovieDetailComponent } from './movies/moviedetail/movie-detail.componen
     AllMoviesComponent,
     SearchMoviesComponent,
     MoviesByCategoryComponent,
-    MovieDetailComponent
+    MovieDetailComponent,
+    BasketComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -46,6 +48,7 @@ import { MovieDetailComponent } from './movies/moviedetail/movie-detail.componen
       { path: 'movie/:movieid', component: MovieDetailComponent, },
       { path: 'search', component: SearchMoviesComponent, },
       { path: 'login', component: LoginComponent },
+      { path: 'basket', component: BasketComponent },
     ])
   ],
   providers: [],

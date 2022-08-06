@@ -14,7 +14,11 @@ export class SessionStateService {
     , private cartApiService: CartApiService
   ) { }
 
-  public isLoggedIn() {
+  public getCartId(): string {
+    return this.tokenStorageService.getCartId();
+  }
+
+  public isLoggedIn(): boolean {
     var loginState = this.tokenStorageService.getUser() != null;
     if (!loginState) {
       this.clearSession();
@@ -39,7 +43,7 @@ export class SessionStateService {
     return new Promise((resolve, reject) => { });
   }
 
-  public clearSession() {
+  public clearSession(): void {
     this.tokenStorageService.removeCartId();
   }
 }

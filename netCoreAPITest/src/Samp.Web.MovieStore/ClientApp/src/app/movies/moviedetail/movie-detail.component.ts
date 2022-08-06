@@ -2,7 +2,10 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { MovieDto } from '../../../models/responses/movies/movie.dto';
+import { CartApiService } from '../../../services/api/cart-api.service';
 import { MoviesApiService } from '../../../services/api/movies-api.service';
+import { PopupService } from '../../../services/popup.service';
+import { SessionStateService } from '../../../services/session-state.service';
 import { TokenStorageService } from '../../../services/token-storage.service';
 
 @Component({
@@ -23,9 +26,10 @@ export class MovieDetailComponent implements OnInit, OnDestroy {
   }
 
   constructor(private apiMovies: MoviesApiService
-    , public tokenStorage: TokenStorageService
     , private route: ActivatedRoute
-    , private router: Router
+    , public sessionState: SessionStateService
+    , private cartApi: CartApiService
+    , private popupService: PopupService
   ) { }
 
   ngOnInit(): void {
@@ -44,5 +48,20 @@ export class MovieDetailComponent implements OnInit, OnDestroy {
         .catch((error) => {
         });
     }));
+  }
+
+  public addToCart(cartItemId: string, productDatabase: string = 'movie'): void {
+    this.cartApi.postCartItem(this.sessionState.getCartId(), cartItemId, productDatabase).then(() => {
+      this.popupService.showDailog(
+        "Movie added to cart"
+        , ""
+        , "success"
+        , "Continue to Shopping"
+        , "Go to Cart"
+        , null
+        , function () {
+          document.location.href = "/basket";
+        });
+    });
   }
 }

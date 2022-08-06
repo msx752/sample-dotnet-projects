@@ -97,7 +97,6 @@ namespace Samp.Cart.API.Controllers
                 SalesPriceCurrency = "usd",
                 SalesPrice = movieEntityResponse.Message.UsdPrice,
             };
-
             repository.Table<CartItemEntity>().Insert(entityCartItem);
             repository.Commit(LoggedUserId);
 

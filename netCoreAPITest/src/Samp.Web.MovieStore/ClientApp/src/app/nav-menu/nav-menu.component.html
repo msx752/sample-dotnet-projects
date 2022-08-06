@@ -15,8 +15,13 @@
             <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
           </li>
         </ul>
-
         <ul class="navbar-nav" *ngIf="tokenStorage.isLoggedIn()">
+          <li class="nav-item">
+            <a class="nav-link text-dark" title="Recent Payments" [routerLink]="['/payment-history']"><i class="fas fa-2x fa-history"></i></a>
+          </li>
+          <li class="nav-item">
+            <a style="" class="nav-link text-dark" title="Shopping Basket" [routerLink]="['/basket']"><i class="fas fa-2x fa-shopping-cart"></i><span class="badge badge-primary">0</span></a>
+          </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/']" (click)="tokenStorage.logout(false)">hello <b>{{tokenStorage.getUser().username}}</b></a>
           </li>
@@ -32,8 +37,7 @@
             </a>
             <ul class="dropdown-menu" Menu aria-labelledby="navbarScrollingDropdown">
               <li *ngFor="let category of categories">
-                <a
-                   class="nav-link text-dark dropdown-item btn"
+                <a class="nav-link text-dark dropdown-item btn"
                    (click)="moviesByCategory('/category/' + category.id)"
                    ng-model="category">{{category.name}}</a>
               </li>

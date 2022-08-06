@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
 import { ResponseModel } from '../models/responses/response-model';
 import { PopupService } from './popup.service';
+import { Constants } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,12 @@ export class ApiClientService {
   public get<T>(
     resource: string
     , headers?: HttpHeaders
-    , contentType: string = 'application/json'
+    , contentType: string = Constants.applicationjson
   ): Promise<ResponseModel<T>> {
     var _headers = this.configureHeaders(headers, contentType);
     var url = this.configureResource(resource);
 
-    return this.responseHandle<T>(
+    return this.handleResponse<T>(
       this.http.get<ResponseModel<T>>(url, { headers: _headers })
     );
   }
@@ -32,13 +33,13 @@ export class ApiClientService {
     resource: string
     , body: any
     , headers?: HttpHeaders
-    , contentType: string = 'application/json'
+    , contentType: string = Constants.applicationjson
   ): Promise<ResponseModel<T>> {
     var _headers = this.configureHeaders(headers, contentType);
-    var _body = this.configureBody(body);
+    var _body = this.configureBody(body, contentType);
     var url = this.configureResource(resource);
 
-    return this.responseHandle<T>(
+    return this.handleResponse<T>(
       this.http.post<ResponseModel<T>>(url, _body, { headers: _headers })
     );
   }
@@ -46,12 +47,12 @@ export class ApiClientService {
   public delete<T>(
     resource: string
     , headers?: HttpHeaders
-    , contentType: string = 'application/json'
+    , contentType: string = Constants.applicationjson
   ): Promise<ResponseModel<T>> {
     var _headers = this.configureHeaders(headers, contentType);
     var url = this.configureResource(resource);
 
-    return this.responseHandle<T>(
+    return this.handleResponse<T>(
       this.http.delete<ResponseModel<T>>(url, { headers: _headers })
     );
   }
@@ -65,7 +66,7 @@ export class ApiClientService {
 
   private configureHeaders(
     headers?: HttpHeaders
-    , contentType: string = 'application/json'
+    , contentType: string = Constants.applicationjson
   ) {
     if (!headers)
       headers = new HttpHeaders();
@@ -76,13 +77,17 @@ export class ApiClientService {
     return headers;
   }
 
-  private configureBody(body: any) {
-    var params = new HttpParams({ fromObject: body });;
-
-    return params.toString();
+  private configureBody(body: any, contentType: string): any {
+    if (contentType == Constants.applicationjson) {
+      return JSON.stringify(body);
+    } else if (contentType == Constants.xwwwfromurlencoded) {
+      return new HttpParams({ fromObject: body }).toString();
+    } else {
+      throw "not implemented " + contentType;
+    }
   }
 
-  private responseHandle<T>(httpRequest: Observable<ResponseModel<T>>) {
+  private handleResponse<T>(httpRequest: Observable<ResponseModel<T>>) {
     var promise = new Promise<ResponseModel<T>>((resolve, reject) => {
       var sub = httpRequest.subscribe({
         next: data => {
@@ -90,7 +95,7 @@ export class ApiClientService {
           resolve(data);
         },
         error: error => {
-          var errStr = this.errorHandle(error);
+          var errStr = this.handleError(error);
           reject(errStr);
         }
       });
@@ -99,7 +104,7 @@ export class ApiClientService {
     return promise;
   }
 
-  private errorHandle(error: any): string {
+  private handleError(error: any): string {
     const responseModel = error.error as ResponseModel<any>;
     var errorStrList = "";
     if (responseModel.errors) {

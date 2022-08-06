@@ -1,7 +1,28 @@
 [![CodeQL](https://github.com/msx752/sample-netcore-api/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/msx752/sample-netcore-api/actions/workflows/codeql-analysis.yml)
 
-## sample-net6-api
-Sample Online Movie Store Website built on microservice api architecture with AngularUI using Ocelot Gateway
+## sample dotnet project
+Sample Online Movie Store Website built on microservice architecture with AngularUI using Ocelot Gateway
+
+## How to run demo on the docker linux containers
+``` css
+cd netCoreAPITest
+docker-compose down
+docker-compose build --no-cache
+docker-compose up
+
+Website Endpoint: http//:localhost:2000
+Gateway API Endpoint: http//:localhost:1010
+```
+
+```
+Other services reachable over gateway service, checkout 'DockerUp.ps1' and 'docker-compose.yml' files
+```
+
+``` css
+MongoDB : ports 27017-27019 (not used in the project yet)
+RabbitMQ: ports 5672, 15672
+```
+
 
 ### Project Contents
 - Microservice Architecture 
@@ -56,4 +77,4 @@ Sample Online Movie Store Website built on microservice api architecture with An
 - RabbitMQ
 - In Memory Database
 
-**will continue to include other features**
+**will continue to include the rest**

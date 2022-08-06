@@ -43,6 +43,7 @@ export class MovieDetailComponent implements OnInit, OnDestroy {
             this.categories = Array.from(this.movie.categories).map(({ category }) => category.name).join(", ");
             this.directors = Array.from(this.movie.moviedirectors).map(({ director }) => director.fullname).join(", ");
             this.writers = Array.from(this.movie.moviewriters).map(({ writer }) => writer.fullname).join(", ");
+            this.sessionState.refreshUserCart();
           }
         })
         .catch((error) => {

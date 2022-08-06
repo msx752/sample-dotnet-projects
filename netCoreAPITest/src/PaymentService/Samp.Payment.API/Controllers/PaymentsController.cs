@@ -41,7 +41,7 @@ namespace Samp.ayment.API.Controllers
             return new OkResponse(mapper.Map<List<TransactionDto>>(transactionEntities));
         }
 
-        [HttpGet("Create/{cartId}")]
+        [HttpPost("Create/{cartId}")]
         public async Task<IActionResult> CreatePayment(Guid cartId)
         {
             var lock_response = await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()

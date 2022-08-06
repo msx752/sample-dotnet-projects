@@ -39,7 +39,7 @@ namespace Samp.Cart.API.Controllers
         public IActionResult GetCart()
         {
             var entity = repository.Table<CartEntity>()
-                .Where(f => f.UserId == LoggedUserId)
+                .Where(f => f.UserId == LoggedUserId && f.Satus != Database.Enums.CartStatus.Paid)
                 .Include(f => f.Items.Where(x => !x.IsDeleted))
                 .FirstOrDefault();
 

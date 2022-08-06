@@ -78,6 +78,10 @@ export class ApiClientService {
   }
 
   private configureBody(body: any, contentType: string): any {
+    if (!body) {
+      return null;
+    }
+
     if (contentType == Constants.applicationjson) {
       return JSON.stringify(body);
     } else if (contentType == Constants.xwwwfromurlencoded) {

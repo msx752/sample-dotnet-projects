@@ -1,6 +1,40 @@
 <div class="panel-body">
-  <ul class="list-group">
+  <h5>{{title}}</h5>
+  <ul class="list-group mt-2 mb-3 list-group-item-dark" *ngFor="let transaction of transactions">
+    <h5 class="text-success">Order Id: <b>{{transaction.id}}</b></h5>
     <li class="list-group-item list-group-item-secondary" style="margin-bottom:20px;" *ngFor="let transactionitem of transaction.transactionitems">
+      <div class="container">
+        <div class="row">
+          <div class="col-1">
+            <img src="assets/images/{{transactionitem.productid}}.png" alt="{{transactionitem.title}}" style="width:100%;" />
+          </div>
+          <div class="col-9">
+            <a style="color: black; cursor: pointer;" (click)="movieById('/movie/' + tranasctionitem.productid)">
+              <span style="font-size:20px;margin-left:15px;"><b>{{transactionitem.title}}</b></span>
+            </a>
+          </div>
+          <div class="col-1">
+            <span> <b style="font-size:18px;">{{transactionitem.quantity}} qty.</b></span>
+          </div>
+          <div class="col-1">
+            <span> <b style="font-size:18px;">{{transactionitem.calculatedprice}}</b></span>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li class="list-group-item list-group-item-warning">
+      <div class="container">
+        <div class="row">
+          <div class="col-8">
+            <span> <b>Total Price</b></span>
+          </div>
+          <div class="col-2">
+            <span> <b>{{transaction.totalcalculatedprice}}</b></span>
+          </div>
+        </div>
+      </div>
     </li>
   </ul>
+  <span ng-show="transactions.length == 0">no records</span>
 </div>

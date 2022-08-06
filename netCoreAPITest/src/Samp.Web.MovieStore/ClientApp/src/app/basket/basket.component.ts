@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartDto } from '../../models/responses/carts/cart.dto';
 import { CartApiService } from '../../services/api/cart-api.service';
+import { PaymentService } from '../../services/api/payment-api.service';
+import { PopupService } from '../../services/popup.service';
 import { SessionStateService } from '../../services/session-state.service';
 
 @Component({
@@ -16,6 +18,8 @@ export class BasketComponent implements OnInit {
     private cartApi: CartApiService
     , private sessionState: SessionStateService
     , private router: Router
+    , private popupService: PopupService
+    , private paymentApi: PaymentService
 
   ) {
   }
@@ -51,5 +55,25 @@ export class BasketComponent implements OnInit {
         this.router.navigate(['/basket'])
       );
     });
+  }
+
+  public purchase(cartid: string) {
+    this.paymentApi.postPayment(cartid)
+      .then(() => {
+        this.popupService.showDailog(
+          "Payment Completed"
+          , "Paid " + this.calculatedTotalPrice + "$ successfully"
+          , "success"
+          , "Continue to Shopping"
+          , "Go to Payment History"
+          , null
+          , function () {
+            document.location.href = "/payment-history";
+          });
+        this.sessionState.refreshUserCart();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 }

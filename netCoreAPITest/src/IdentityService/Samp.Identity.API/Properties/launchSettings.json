@@ -26,7 +26,8 @@
       "useSSL": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://+:1020"
+        "ASPNETCORE_URLS": "http://+:1020",
+        "USEDOCKEROCELOT": "false"
       }
     }
   }

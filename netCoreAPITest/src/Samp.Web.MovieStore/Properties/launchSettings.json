@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "Development": {
+    "Dev": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
@@ -29,7 +29,12 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "publishAllPorts": true
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",
+        "ASPNETCORE_URLS": "http://+:2000",
+        "USEDOCKEROCELOT": "false"
+      }
     }
   }
 }

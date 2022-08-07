@@ -6,7 +6,9 @@
     <ProjectGuid>c0557b6b-262e-4745-ac9a-c002df6dec20</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
-    <DockerLaunchAction>None</DockerLaunchAction>
+    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <DockerServiceUrl>{Scheme}://{ServiceIPAddress}{ServicePort}</DockerServiceUrl>
+    <DockerServiceName>websiteapp</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

@@ -1,38 +1,65 @@
 version: '3.4'
 
 services:
+  dps:
+    image: defreitas/dns-proxy-server
+    container_name: mycontainerdnsresolver
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/resolv.conf:/etc/resolv.conf
+    restart: "on-failure"
+    environment:
+      - MG_LOG_LEVEL=ERROR
+    hostname: dns.mageddo
+    networks:
+      dps:
+        ipv4_address: 172.0.0.10
+
   myrabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: myrabbitmq
     networks:
-    - mynetwork
+      - dps
+    dns:
+      - 172.0.0.10
     restart: "on-failure"
+    environment:
+        - HOSTNAMES=myrabbitmq.container
     ports:
         - "5672:5672"
         - "15672:15672"
     volumes:
         - ./volumes/rabbitmq/data/:/var/lib/rabbitmq/
         - ./volumes/rabbitmq/log/:/var/log/rabbitmq
+    depends_on:
+      - "dps"
 
   mymongodb:
     image: mongo:latest
     container_name: mymongodb
     networks:
-    - mynetwork
+      - dps
+    dns:
+      - 172.0.0.10
     restart: "on-failure"
     environment:
         - MONGO_INITDB_DATABASE=MongoDb
+        - HOSTNAMES=mymongodb.container
     volumes:
         - ./volumes/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
         - ./volumes/mongo:/data/db
     ports:
         - "27017-27019:27017-27019"
+    depends_on:
+      - "dps"
 
   identityservice:
     image: mustafasalih/sample-dotnet-microservices:identityservice
     container_name: identityservice
     networks:
-    - mynetwork
+      - dps
+    dns:
+      - 172.0.0.10
     restart: "on-failure"
     build:
      context: .
@@ -40,6 +67,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1020
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=identityservice.container
     ports: 
       - "1020:1020"
     depends_on:
@@ -50,7 +79,9 @@ services:
     image: mustafasalih/sample-dotnet-microservices:movieservice
     container_name: movieservice
     networks:
-    - mynetwork
+      - dps
+    dns:
+      - 172.0.0.10
     restart: "on-failure"
     build:
      context: .
@@ -58,6 +89,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1030
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=movieservice.container
     ports: 
       - "1030:1030"
     depends_on:
@@ -68,7 +101,9 @@ services:
     image: mustafasalih/sample-dotnet-microservices:cartservice
     container_name: cartservice
     networks:
-    - mynetwork
+      - dps
+    dns:
+      - 172.0.0.10
     restart: "on-failure"
     build:
      context: .
@@ -76,6 +111,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1050
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=cartservice.container
     ports: 
       - "1050:1050"
     depends_on:
@@ -87,7 +124,9 @@ services:
     image: mustafasalih/sample-dotnet-microservices:paymentservice
     container_name: paymentservice
     networks:
-    - mynetwork
+      - dps
+    dns:
+      - 172.0.0.10
     restart: "on-failure"
     build:
      context: .
@@ -95,6 +134,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1040
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=paymentservice.container
     ports: 
       - "1040:1040"
     depends_on:
@@ -107,7 +148,9 @@ services:
     image: mustafasalih/sample-dotnet-microservices:getewayservice
     container_name: getewayservice
     networks:
-    - mynetwork
+      - dps
+    dns:
+      - 172.0.0.10
     restart: "on-failure"
     build:
      context: .
@@ -116,6 +159,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1010
       - USEDOCKEROCELOT=true
+      - HOSTNAMES=getewayservice.container
     ports: 
       - "1010:1010"
     depends_on:
@@ -129,7 +173,9 @@ services:
     image: mustafasalih/sample-dotnet-microservices:websiteapp
     container_name: websiteapp
     networks:
-    - mynetwork
+      - dps
+    dns:
+      - 172.0.0.10
     restart: "on-failure"
     build:
      context: .
@@ -137,6 +183,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:2000
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=websiteapp.container
     ports: 
       - "2000:2000"
     depends_on:
@@ -145,5 +193,7 @@ services:
       - "getewayservice"
 
 networks:
-  mynetwork:
-     driver: bridge
+  dps:
+    ipam:
+      config:
+        - subnet: 172.0.0.0/24

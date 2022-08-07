@@ -24,7 +24,7 @@ namespace Samp.Contract.Extensions
                 var isUseDockerOcelot = Environment.GetEnvironmentVariable("USEDOCKEROCELOT"); //for the debugging purposes
                 if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
                 {
-                    host = "host.docker.internal";
+                    host = "myrabbitmq.container";
                 }
 
                 x.UsingRabbitMq((context, cfg) =>

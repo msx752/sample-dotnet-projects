@@ -10,6 +10,9 @@ COPY ["src/PaymentService/Samp.Payment.API/Samp.Payment.API.csproj", "src/Paymen
 COPY ["src/Samp.Contract/Samp.Contract.csproj", "src/Samp.Contract/"]
 COPY ["src/PaymentService/Samp.Payment.Database/Samp.Payment.Database.csproj", "src/PaymentService/Samp.Payment.Database/"]
 COPY ["src/Samp.Core/Samp.Core.csproj", "src/Samp.Core/"]
+COPY ["src/Samp.Authentication/Samp.Authentication.csproj", "src/Samp.Authentication/"]
+COPY ["src/Samp.Result/Samp.Result.csproj", "src/Samp.Result/"]
+COPY ["src/Samp.Database/Samp.Database.csproj", "src/Samp.Database/"]
 RUN dotnet restore "src/PaymentService/Samp.Payment.API/Samp.Payment.API.csproj"
 COPY . .
 WORKDIR "/src/src/PaymentService/Samp.Payment.API"

@@ -6,13 +6,15 @@ using Samp.Contract.Payment;
 using Samp.Contract.Payment.Cart;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
-using Samp.Core.Results;
+using Samp.Result;
 using Samp.Payment.API.Models.Dtos;
 using Samp.Payment.Database.Entities;
 using Samp.Payment.Database.Migrations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Samp.ayment.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PaymentsController : BaseController

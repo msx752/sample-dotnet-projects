@@ -9,6 +9,9 @@ WORKDIR /src
 COPY ["src/IdentityService/Samp.Identity.API/Samp.Identity.API.csproj", "src/IdentityService/Samp.Identity.API/"]
 COPY ["src/IdentityService/Samp.Identity.Database/Samp.Identity.Database.csproj", "src/IdentityService/Samp.Identity.Database/"]
 COPY ["src/Samp.Core/Samp.Core.csproj", "src/Samp.Core/"]
+COPY ["src/Samp.Authentication/Samp.Authentication.csproj", "src/Samp.Authentication/"]
+COPY ["src/Samp.Result/Samp.Result.csproj", "src/Samp.Result/"]
+COPY ["src/Samp.Database/Samp.Database.csproj", "src/Samp.Database/"]
 RUN dotnet restore "src/IdentityService/Samp.Identity.API/Samp.Identity.API.csproj"
 COPY . .
 WORKDIR "/src/src/IdentityService/Samp.Identity.API"

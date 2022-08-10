@@ -1,8 +1,8 @@
 ﻿using CustomImageProvider.Tests;
 using Newtonsoft.Json;
-using Samp.Core.Results.Abstracts;
 using Samp.Identity.API.Models.Dto;
 using Samp.Identity.API.Models.Requests;
+using Samp.Result.Abstractions;
 using Shouldly;
 using System;
 using System.Linq;

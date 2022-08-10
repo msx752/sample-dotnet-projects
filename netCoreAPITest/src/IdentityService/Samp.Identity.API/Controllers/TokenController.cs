@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
-using Samp.Core.Results;
 using Samp.Identity.API.Helpers;
 using Samp.Identity.API.Models.Dto;
 using Samp.Identity.API.Models.Requests;
 using Samp.Identity.Core.Migrations;
 using Samp.Identity.Database.Entities;
+using Samp.Result;
 using System.Security.Claims;
 
 namespace Samp.Identity.API.Controllers

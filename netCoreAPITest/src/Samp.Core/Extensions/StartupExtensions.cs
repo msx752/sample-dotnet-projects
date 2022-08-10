@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json.Serialization;
 using Samp.Core.AppSettings;
 using Samp.Core.Middlewares;
+using Samp.Result.Extensions;
+using Samp.Result.Executors;
+using Samp.Result.Interfaces;
 
 namespace Samp.Core.Extensions
 {
@@ -51,8 +53,12 @@ namespace Samp.Core.Extensions
         public static IServiceCollection AddGlobalStartupServices<TApplicationSettings>(this IServiceCollection services, IConfiguration configuration)
         where TApplicationSettings : ApplicationSettings
         {
+            services.AddSingleton<IBaseResultExecutor, ExecuteRequestTrackingId>();
+            services.AddSingleton<IBaseResultExecutor, ExecuteMeasuredResponsTime>();
+
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
             services.Configure<TApplicationSettings>(configuration);
+
             services.AddEntityMapper();
             services.AddHttpContextAccessor();
             services.AddJWTAuthentication(configuration);

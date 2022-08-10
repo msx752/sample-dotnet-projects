@@ -19,6 +19,8 @@ namespace Samp.Core.Extensions
                     .Where(f =>
                         !f.IsDynamic
                         && !f.FullName.StartsWith("Samp.Core")
+                        && !f.FullName.StartsWith("Samp.Database")
+                        && !f.FullName.StartsWith("Samp.Contract")
                         && f.FullName.StartsWith("Samp.")
                         && f.DefinedTypes.Any(x => x.IsAssignableTo(typeof(AutoMapper.Profile)))
                      );

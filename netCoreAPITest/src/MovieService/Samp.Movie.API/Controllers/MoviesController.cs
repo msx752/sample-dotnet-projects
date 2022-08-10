@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
-using Samp.Core.Results;
+using Samp.Result;
 using Samp.Movie.API.Models.Dtos;
 using Samp.Movie.API.Models.Requests;
 using Samp.Movie.API.Models.Responses;

@@ -27,5 +27,11 @@
 	<ItemGroup>
 	  <Folder Include="Attributes\" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\Samp.Authentication\Samp.Authentication.csproj" />
+	  <ProjectReference Include="..\Samp.Database\Samp.Database.csproj" />
+	  <ProjectReference Include="..\Samp.Result\Samp.Result.csproj" />
+	</ItemGroup>
 
 </Project>

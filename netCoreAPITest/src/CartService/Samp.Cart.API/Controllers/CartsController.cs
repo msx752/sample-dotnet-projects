@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Samp.Basket.API.Models.Dtos;
@@ -13,10 +14,11 @@ using Samp.Contract.Cart.Movie;
 using Samp.Contract.Cart.Requests;
 using Samp.Core.Interfaces.Repositories;
 using Samp.Core.Model.Base;
-using Samp.Core.Results;
+using Samp.Result;
 
 namespace Samp.Cart.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CartsController : BaseController

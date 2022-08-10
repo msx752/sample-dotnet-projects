@@ -15,7 +15,7 @@ apt-get install -y build-essential nodejs
 # End Install
 WORKDIR /src
 COPY ["src/Samp.Web.MovieStore/Samp.Web.MovieStore.csproj", "src/Samp.Web.MovieStore/"]
-RUN dotnet restore --no-cache "src/Samp.Web.MovieStore/Samp.Web.MovieStore.csproj"
+RUN dotnet restore "src/Samp.Web.MovieStore/Samp.Web.MovieStore.csproj"
 COPY . .
 WORKDIR "/src/src/Samp.Web.MovieStore"
 RUN dotnet build "Samp.Web.MovieStore.csproj" -c Release -o /app/build

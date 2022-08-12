@@ -48,4 +48,38 @@ namespace Samp.Tests
             }
         }
     }
+
+    public class MainControllerTests
+    {
+        /// be sure same value with below of the pecified configuration, to not engage with type of any serialization error
+        /// <seealso cref="namespace:netCoreAPI.Startup.ConfigureServices().AddNewtonsoftJson(settings)"/>
+        internal readonly JsonSerializerSettings jsonSerializerSettings;
+
+        public MainControllerTests()
+        {
+            jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.None,
+            };
+        }
+
+        internal T ConvertResponse<T>(HttpResponseMessage response)
+            where T : class
+        {
+            using (var sr = new StreamReader(response.Content.ReadAsStream()))
+            {
+                try
+                {
+                    var resp = sr.ReadToEnd();
+                    var data = JsonConvert.DeserializeObject<T>(resp, jsonSerializerSettings);
+                    return data;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+    }
 }

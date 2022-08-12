@@ -35,9 +35,9 @@ namespace Samp.Core.Database
             audit.Type = AuditType;
             audit.TableName = TableName;
             audit.PrimaryKey = JsonConvert.SerializeObject(KeyValues);
-            audit.OldValues = OldValues.Count == 0 ? "{}" : JsonConvert.SerializeObject(OldValues);
-            audit.NewValues = NewValues.Count == 0 ? "{}" : JsonConvert.SerializeObject(NewValues);
-            audit.AffectedColumns = ChangedColumns.Count == 0 ? "{}" : JsonConvert.SerializeObject(ChangedColumns);
+            audit.OldValues = OldValues.Count == 0 ? "" : JsonConvert.SerializeObject(OldValues);
+            audit.NewValues = NewValues.Count == 0 ? "" : JsonConvert.SerializeObject(NewValues);
+            audit.AffectedColumns = ChangedColumns.Count == 0 ? "" : JsonConvert.SerializeObject(ChangedColumns);
             return audit;
         }
     }

@@ -175,10 +175,7 @@ namespace Samp.Core.Database
                 }
             }
 
-            foreach (var auditEntry in auditEntries)
-            {
-                Audits.Add(auditEntry.ToAudit());
-            }
+            Audits.AddRange(auditEntries.Select(f => f.ToAudit()));
         }
     }
 }

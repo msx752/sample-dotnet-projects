@@ -5,9 +5,11 @@ using Samp.Identity.API.Models.Requests;
 using Samp.Result.Abstractions;
 using Shouldly;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -18,6 +20,19 @@ namespace Samp.Tests.Controllers
     {
         public UsersControllerTests(CustomWebApplicationFactory<Samp.Identity.API.Startup> factory) : base(factory)
         {
+            //POST: User Login
+            var contentUserLogin = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("username", "user1"),
+                new KeyValuePair<string, string>("password", "password1"),
+                new KeyValuePair<string, string>("grant_type", "password"),
+            });
+            var responseUserLogin = this.ConvertResponse<ResponseModel<TokenDto>>(client.PostAsync($"api/token", contentUserLogin)
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult());
+            var access_token = responseUserLogin.Results.First().access_token;
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
         }
 
         [Fact]

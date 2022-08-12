@@ -1,26 +1,29 @@
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
-using Samp.Core.Extensions;
-using Samp.Gateway.API;
-
-var builder = WebApplication.CreateBuilder(args);
-
-var isUseDockerOcelot = Environment.GetEnvironmentVariable("USEDOCKEROCELOT"); //for the debugging purposes
-if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
+namespace Samp.Gateway.API
 {
-    builder.Configuration.AddJsonFile("ocelot.docker.json", false, true);
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.ConfigureAppConfiguration(configurationBuilder =>
+                    {
+                        var isUseDockerOcelot = Environment.GetEnvironmentVariable("USEDOCKEROCELOT"); //for the debugging purposes
+                        if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
+                        {
+                            configurationBuilder.AddJsonFile("ocelot.docker.json", false, true);
+                        }
+                        else
+                        {
+                            configurationBuilder.AddJsonFile("ocelot.json", false, true);
+                        }
+                    });
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-else
-{
-    builder.Configuration.AddJsonFile("ocelot.json", false, true);
-}
-
-builder.Services.AddGlobalStartupServices<GatewayApplicationSettings>(builder.Configuration);
-builder.Services.AddOcelot();
-
-var app = builder.Build();
-
-app.UseGlobalStartupConfigures(app.Environment);
-app.UseOcelot().GetAwaiter().GetResult();
-
-app.Run();

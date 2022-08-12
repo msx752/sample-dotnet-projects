@@ -19,8 +19,12 @@ namespace Samp.Tests.DbContexts
         {
         }
 
+        /// <summary>
+        /// run this test alone, otherwise you will get an error,
+        /// due to non-transactional in-memory database is not working well with WebApplicationFactory
+        /// </summary>
         [Fact]
-        public void Add_Update_Delete_with_AuditLog_Success()
+        public void RUN_THIS_TEST_ALONE___Add_Update_Delete_with_AuditLog_Success()
         {
             CustomWebApplicationFactory<Samp.Identity.API.Startup> _factory = new CustomWebApplicationFactory<Identity.API.Startup>();
             _factory.CreateClient();
@@ -157,7 +161,7 @@ namespace Samp.Tests.DbContexts
 
             //## Service Scope: AUDIT LOGS
             //
-            IEnumerable<AuditEntity> auditLogs_scope5;
+            List<AuditEntity> auditLogs_scope5;
             using (var scope5 = _factory.Services.CreateScope())
             {
                 var repo_scope5 = scope5.ServiceProvider
@@ -167,7 +171,7 @@ namespace Samp.Tests.DbContexts
 
             //## VALIDATION OF THE AUDIT LOGS
             var totalAuditCount = auditlogCounter.Select(f => f.Value).Sum();
-            auditLogs_scope5.Count().ShouldBe(totalAuditCount);
+            auditLogs_scope5.Count.ShouldBe(totalAuditCount);
             var enumerator = auditLogs_scope5.GetEnumerator();
             enumerator.MoveNext(); //SERVICE SCOPE 1
             enumerator.Current.Identifier.ShouldBe(Guid.Empty.ToString());
@@ -178,8 +182,8 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession1);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
-            enumerator.Current.OldValues.ShouldBeNull();
-            enumerator.Current.AffectedColumns.ShouldBeNull();
+            enumerator.Current.OldValues.ShouldBeEmpty();
+            enumerator.Current.AffectedColumns.ShouldBeEmpty();
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.IsDeleted }));
             enumerator.Current.NewValues.ShouldNotContain(TokenJsonString(new { UserId = user_scope1.Id }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { user_scope1.Username }));
@@ -196,7 +200,7 @@ namespace Samp.Tests.DbContexts
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession1);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
-            enumerator.Current.AffectedColumns.ShouldBeNull();
+            enumerator.Current.AffectedColumns.ShouldBeEmpty();
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.IsDeleted }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { UserId = user_scope1.Id }));
             enumerator.Current.NewValues.ShouldContain(TokenJsonString(new { refreshToken_scope1.RefreshToken }));

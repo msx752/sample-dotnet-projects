@@ -28,9 +28,6 @@ services:
     ports:
         - "5672:5672"
         - "15672:15672"
-    volumes:
-        - ./volumes/rabbitmq/data/:/var/lib/rabbitmq/
-        - ./volumes/rabbitmq/log/:/var/log/rabbitmq
     depends_on:
       - "dps"
 
@@ -45,9 +42,6 @@ services:
     environment:
         - MONGO_INITDB_DATABASE=MongoDb
         - HOSTNAMES=mymongodb.container
-    volumes:
-        - ./volumes/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-        - ./volumes/mongo:/data/db
     ports:
         - "27017-27019:27017-27019"
     depends_on:

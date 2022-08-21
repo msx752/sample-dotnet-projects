@@ -348,5 +348,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-netCoreAPITest/volumes/
-netCoreAPITest/src/Samp.Web.MovieStore/ClientApp/.angular/
+SampleDotnet/Microservices/OnlineMovieStore/volumes/
+SampleDotnet/Microservices/OnlineMovieStore/src/Samp.Web.MovieStore/ClientApp/.angular/

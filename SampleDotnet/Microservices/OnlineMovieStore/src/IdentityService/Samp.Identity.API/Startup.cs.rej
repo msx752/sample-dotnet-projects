@@ -1,4 +1,4 @@
-diff a/netCoreAPITest/netCoreAPI/Startup.cs b/netCoreAPITest/netCoreAPI/Startup.cs	(rejected hunks)
+diff a/SampleDotnet.Microservices/netCoreAPI/Startup.cs b/SampleDotnet.Microservices/netCoreAPI/Startup.cs	(rejected hunks)
 @@ -58,7 +58,7 @@
              services.AddEntityMapper();
              services.Configure<ApplicationSettings>(Configuration);

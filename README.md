@@ -4,8 +4,8 @@
 Sample Online Movie Store Website built on microservice architecture with AngularUI using Ocelot Gateway
 
 ## How to run demo on the docker linux containers
-``` css
-cd netCoreAPITest
+``` powershell
+cd SampleDotnet/Microservices/OnlineMovieStore
 docker-compose down
 docker-compose build --no-cache
 docker-compose up

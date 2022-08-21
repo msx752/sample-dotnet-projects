@@ -1,5 +1,7 @@
-﻿docker-compose down
-docker-compose build --no-cache
+﻿cd $(Get-Location)
+
+docker-compose down
+docker-compose build
 docker-compose up
 
 pause

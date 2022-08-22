@@ -4,7 +4,7 @@ using System;
 
 namespace Samp.Core.Interfaces.Repositories
 {
-    public interface ISharedRepository<TDbContext>
+    public interface IUnitOfWork<TDbContext>
         : ISharedRepository
         where TDbContext : DbContext
     {
@@ -13,6 +13,6 @@ namespace Samp.Core.Interfaces.Repositories
 
     public interface ISharedRepository : IDisposable
     {
-        int Commit(Guid userId);
+        int SaveChanges(Guid userId);
     }
 }

@@ -6,7 +6,7 @@ namespace Samp.Payment.Database
 {
     public class PaymentDbContextSeed : ContextSeed<PaymentDbContext>
     {
-        public PaymentDbContextSeed(ISharedRepository<PaymentDbContext> connection)
+        public PaymentDbContextSeed(IUnitOfWork<PaymentDbContext> connection)
             : base(connection)
         {
         }

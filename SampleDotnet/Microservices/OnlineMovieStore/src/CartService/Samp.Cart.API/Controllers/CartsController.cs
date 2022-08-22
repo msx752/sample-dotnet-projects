@@ -23,12 +23,12 @@ namespace Samp.Cart.API.Controllers
     [Route("api/[controller]")]
     public class CartsController : BaseController
     {
-        private readonly ISharedRepository<CartDbContext> repository;
+        private readonly IUnitOfWork<CartDbContext> repository;
         private readonly IMessageBus messageBus;
 
         public CartsController(
             IMapper mapper
-            , ISharedRepository<CartDbContext> repository
+            , IUnitOfWork<CartDbContext> repository
             , IMessageBus messageBus
             )
             : base(mapper)
@@ -52,7 +52,7 @@ namespace Samp.Cart.API.Controllers
                     UserId = LoggedUserId,
                 };
                 repository.Table<CartEntity>().Insert(entity);
-                repository.Commit(LoggedUserId);
+                repository.SaveChanges(LoggedUserId);
             }
             return new OkResponse(mapper.Map<CartDto>(entity));
         }
@@ -100,7 +100,7 @@ namespace Samp.Cart.API.Controllers
                 SalesPrice = movieEntityResponse.Message.UsdPrice,
             };
             repository.Table<CartItemEntity>().Insert(entityCartItem);
-            repository.Commit(LoggedUserId);
+            repository.SaveChanges(LoggedUserId);
 
             return new OkResponse(mapper.Map<CartItemDto>(entityCartItem));
         }
@@ -131,7 +131,7 @@ namespace Samp.Cart.API.Controllers
             }
 
             repository.Table<CartItemEntity>().Delete(entity);
-            repository.Commit(LoggedUserId);
+            repository.SaveChanges(LoggedUserId);
 
             return new OkResponse();
         }

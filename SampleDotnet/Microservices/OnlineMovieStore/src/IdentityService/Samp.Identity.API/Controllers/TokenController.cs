@@ -18,12 +18,12 @@ namespace Samp.Identity.API.Controllers
     [Route("api/[controller]")]
     public class TokenController : BaseController
     {
-        private readonly ISharedRepository<IdentityDbContext> repository;
+        private readonly IUnitOfWork<IdentityDbContext> repository;
         private readonly ITokenHelper tokenHelper;
 
         public TokenController(
             IMapper mapper
-            , ISharedRepository<IdentityDbContext> repository
+            , IUnitOfWork<IdentityDbContext> repository
             , ITokenHelper tokenHelper)
             : base(mapper)
         {

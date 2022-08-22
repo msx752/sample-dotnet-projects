@@ -30,7 +30,7 @@ namespace Samp.Movie.API.Consumers
         public async Task Consume(ConsumeContext<MovieEntityRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<ISharedRepository<MovieDbContext>>())
+            using (var repository = scope.ServiceProvider.GetRequiredService<IUnitOfWork<MovieDbContext>>())
             {
                 var movieEntity = repository
                     .Table<MovieEntity>()

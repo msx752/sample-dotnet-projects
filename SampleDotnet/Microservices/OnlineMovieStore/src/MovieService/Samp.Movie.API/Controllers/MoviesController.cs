@@ -18,10 +18,10 @@ namespace Samp.Movie.API.Controllers
     [Route("api/[controller]")]
     public class MoviesController : BaseController
     {
-        private readonly ISharedRepository<MovieDbContext> repository;
+        private readonly IUnitOfWork<MovieDbContext> repository;
 
         public MoviesController(IMapper mapper
-            , ISharedRepository<MovieDbContext> repository)
+            , IUnitOfWork<MovieDbContext> repository)
             : base(mapper)
         {
             this.repository = repository;

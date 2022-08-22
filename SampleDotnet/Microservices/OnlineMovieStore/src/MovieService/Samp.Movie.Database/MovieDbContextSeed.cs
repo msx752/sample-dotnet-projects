@@ -7,7 +7,7 @@ namespace Samp.Movie.Database
 {
     public class MovieDbContextSeed : ContextSeed<MovieDbContext>
     {
-        public MovieDbContextSeed(ISharedRepository<MovieDbContext> connection)
+        public MovieDbContextSeed(IUnitOfWork<MovieDbContext> connection)
             : base(connection)
         {
         }
@@ -24,7 +24,7 @@ namespace Samp.Movie.Database
             Repository.Table<MovieWriterEntity>().Insert(SeedMovieWriters());
             Repository.Table<MovieDirectorEntity>().Insert(SeedmovieDirectors());
             Repository.Table<MovieCategoryEntity>().Insert(SeedMovieCategories());
-            Repository.Commit(Guid.Empty);
+            Repository.SaveChanges(Guid.Empty);
         }
 
         public static CategoryEntity[] SeedCategories()

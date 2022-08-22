@@ -38,8 +38,8 @@ namespace Samp.Core.Extensions
 
                 #region DbContext Repository Initializer
 
-                var genericSharedRepository = typeof(SharedRepository<>).MakeGenericType(dbContextParameter.DbContextType);
-                var iGenericSharedRepository = typeof(ISharedRepository<>).MakeGenericType(dbContextParameter.DbContextType);
+                var genericSharedRepository = typeof(UnitOfWork<>).MakeGenericType(dbContextParameter.DbContextType);
+                var iGenericSharedRepository = typeof(IUnitOfWork<>).MakeGenericType(dbContextParameter.DbContextType);
 
                 services.AddScoped(iGenericSharedRepository, genericSharedRepository);
 

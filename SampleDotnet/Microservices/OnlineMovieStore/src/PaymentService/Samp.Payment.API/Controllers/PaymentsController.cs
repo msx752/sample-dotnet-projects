@@ -19,12 +19,12 @@ namespace Samp.ayment.API.Controllers
     [Route("api/[controller]")]
     public class PaymentsController : BaseController
     {
-        private readonly ISharedRepository<PaymentDbContext> repository;
+        private readonly IUnitOfWork<PaymentDbContext> repository;
         private readonly IMessageBus messageBus;
 
         public PaymentsController(
             IMapper _mapper
-            , ISharedRepository<PaymentDbContext> repository
+            , IUnitOfWork<PaymentDbContext> repository
             , IMessageBus messageBus)
             : base(_mapper)
         {
@@ -96,7 +96,7 @@ namespace Samp.ayment.API.Controllers
                 transactionEntity.TotalCalculatedPrice = $"{totalPrice} {transactionEntity.TransactionItems.First().ProductPriceCurrency}";
 
                 repository.Table<TransactionEntity>().Insert(transactionEntity);
-                repository.Commit(LoggedUserId);
+                repository.SaveChanges(LoggedUserId);
 
                 var paid_response = await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
                 {

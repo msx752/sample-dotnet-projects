@@ -16,12 +16,12 @@ namespace Samp.Identity.API.Helpers
 {
     public class TokenHelper : ITokenHelper
     {
-        private readonly ISharedRepository<IdentityDbContext> repository;
+        private readonly IUnitOfWork<IdentityDbContext> repository;
         private readonly JWTOptions jwt;
 
         public TokenHelper(
             IOptions<IdentityApplicationSettings> appSettings
-            , ISharedRepository<IdentityDbContext> repository)
+            , IUnitOfWork<IdentityDbContext> repository)
         {
             this.repository = repository;
 
@@ -38,7 +38,7 @@ namespace Samp.Identity.API.Helpers
                 User = user
             };
             user.RefreshTokens.Add(generatedRefreshToken);
-            repository.Commit(user.Id);
+            repository.SaveChanges(user.Id);
             var accessToken = GenerateAccessToken(claims, out DateTime AccessTokenExpiresAt);
 
             return new TokenDto()

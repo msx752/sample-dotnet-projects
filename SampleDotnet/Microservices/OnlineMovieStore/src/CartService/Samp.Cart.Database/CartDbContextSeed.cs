@@ -6,7 +6,7 @@ namespace Samp.Cart.Database
 {
     public class CartDbContextSeed : ContextSeed<CartDbContext>
     {
-        public CartDbContextSeed(ISharedRepository<CartDbContext> connection)
+        public CartDbContextSeed(IUnitOfWork<CartDbContext> connection)
             : base(connection)
         {
         }

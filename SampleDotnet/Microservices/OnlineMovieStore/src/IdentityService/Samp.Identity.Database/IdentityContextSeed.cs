@@ -12,7 +12,7 @@ namespace Samp.Auth.Database
 {
     public class IdentityContextSeed : ContextSeed<IdentityDbContext>
     {
-        public IdentityContextSeed(ISharedRepository<IdentityDbContext> connection)
+        public IdentityContextSeed(IUnitOfWork<IdentityDbContext> connection)
             : base(connection)
         {
         }
@@ -41,7 +41,7 @@ namespace Samp.Auth.Database
 
             Repository.Table<UserEntity>().Insert(user2);
 
-            Repository.Commit(Guid.NewGuid());
+            Repository.SaveChanges(Guid.NewGuid());
         }
     }
 }

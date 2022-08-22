@@ -7,15 +7,15 @@ using System.Collections.Concurrent;
 
 namespace Samp.Core.RepositoryServices
 {
-    public sealed class SharedRepository<TDbContext>
-        : ISharedRepository<TDbContext>
+    public sealed class UnitOfWork<TDbContext>
+        : IUnitOfWork<TDbContext>
         where TDbContext : SampBaseContext
     {
         private readonly TDbContext _context;
         private readonly ConcurrentDictionary<Type, object> _repositories;
         private bool _disposed;
 
-        public SharedRepository(TDbContext context)
+        public UnitOfWork(TDbContext context)
         {
             _repositories = new ConcurrentDictionary<Type, object>();
             _context = context;
@@ -25,7 +25,7 @@ namespace Samp.Core.RepositoryServices
         /// MAGIC
         /// </summary>
         /// <returns></returns>
-        public int Commit(Guid userId)
+        public int SaveChanges(Guid userId)
         {
             return _context.SaveChanges(userId);
         }

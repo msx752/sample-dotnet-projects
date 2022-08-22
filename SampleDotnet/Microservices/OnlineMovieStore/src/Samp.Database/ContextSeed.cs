@@ -11,12 +11,12 @@ namespace Samp.Core.Database
     {
         private bool initiated = false;
 
-        public ContextSeed(ISharedRepository<TDbContext> connection)
+        public ContextSeed(IUnitOfWork<TDbContext> connection)
         {
             Repository = connection;
         }
 
-        public ISharedRepository<TDbContext> Repository { get; }
+        public IUnitOfWork<TDbContext> Repository { get; }
 
         public override sealed void Execute()
         {

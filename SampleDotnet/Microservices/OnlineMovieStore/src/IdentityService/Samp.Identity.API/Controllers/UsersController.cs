@@ -16,11 +16,11 @@ namespace Samp.Identity.API.Controllers
     [Route("api/[controller]")]
     public class UsersController : BaseController
     {
-        private readonly ISharedRepository<IdentityDbContext> repository;
+        private readonly IUnitOfWork<IdentityDbContext> repository;
 
         public UsersController(
             IMapper mapper
-            , ISharedRepository<IdentityDbContext> repository
+            , IUnitOfWork<IdentityDbContext> repository
             )
             : base(mapper)
         {
@@ -41,7 +41,7 @@ namespace Samp.Identity.API.Controllers
                 return new NotFoundResponse();
 
             repository.Table<UserEntity>().Delete(personal);
-            repository.Commit(LoggedUserId);
+            repository.SaveChanges(LoggedUserId);
 
             return new OkResponse(mapper.Map<UserDto>(personal));
         }
@@ -86,7 +86,7 @@ namespace Samp.Identity.API.Controllers
             var UserEntity = mapper.Map<UserEntity>(personalViewModel);
 
             repository.Table<UserEntity>().Insert(UserEntity);
-            repository.Commit(LoggedUserId);
+            repository.SaveChanges(LoggedUserId);
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
@@ -119,7 +119,7 @@ namespace Samp.Identity.API.Controllers
              more details see https://aka.ms/RazorPagesCRUD.
              */
             repository.Table<UserEntity>().Update(userEntity);
-            repository.Commit(LoggedUserId);
+            repository.SaveChanges(LoggedUserId);
 
             return new OkResponse();
         }

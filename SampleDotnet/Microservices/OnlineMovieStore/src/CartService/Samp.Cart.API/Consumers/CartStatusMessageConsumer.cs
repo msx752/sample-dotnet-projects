@@ -33,7 +33,7 @@ namespace Samp.Cart.API.Consumers
         public async Task Consume(ConsumeContext<CartStatusRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<ISharedRepository<CartDbContext>>())
+            using (var repository = scope.ServiceProvider.GetRequiredService<IUnitOfWork<CartDbContext>>())
             {
                 var entity = repository.Table<CartEntity>()
                     .Where(f =>
@@ -55,7 +55,7 @@ namespace Samp.Cart.API.Consumers
                 {
                     entity.Satus = cartStatus;
                     repository.Table<CartEntity>().Update(entity);
-                    repository.Commit(context.Message.ActivityUserId);
+                    repository.SaveChanges(context.Message.ActivityUserId);
                 }
                 else
                 {

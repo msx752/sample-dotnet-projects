@@ -34,10 +34,10 @@ namespace Samp.Tests.DbContexts
             using (var scope0 = _factory.Services.CreateScope())
             {
                 var repo_scope0 = scope0.ServiceProvider
-                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                    .GetRequiredService<IUnitOfWork<IdentityDbContext>>();
                 var auditLogs_scope0 = repo_scope0.Table<AuditEntity>().All();
                 repo_scope0.Table<AuditEntity>().Delete(auditLogs_scope0);
-                repo_scope0.Commit(userId_HttpRequestSession0);
+                repo_scope0.SaveChanges(userId_HttpRequestSession0);
             }
 
             Dictionary<string, int> auditlogCounter = new()
@@ -62,16 +62,16 @@ namespace Samp.Tests.DbContexts
             using (var scope1 = _factory.Services.CreateScope())
             {
                 var repo_scope1 = scope1.ServiceProvider
-                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                    .GetRequiredService<IUnitOfWork<IdentityDbContext>>();
                 repo_scope1.Table<UserEntity>().Insert(user_scope1);                                            //Add UserEntity
-                repo_scope1.Commit(userId_HttpRequestSession1);                                                 //Commit UserEntity
+                repo_scope1.SaveChanges(userId_HttpRequestSession1);                                                 //Commit UserEntity
                 auditlogCounter[nameof(UserEntity)] += 1;
                 user_scope1.ShouldNotBeNull();
                 user_scope1.CreatedBy.ShouldBe(userId_HttpRequestSession1);
 
                 refreshToken_scope1.UserId = user_scope1.Id;
                 user_scope1.RefreshTokens.Add(refreshToken_scope1);                                             //Add RefreshTokenEntity
-                repo_scope1.Commit(userId_HttpRequestSession1);                                                 //Commit UserEntity
+                repo_scope1.SaveChanges(userId_HttpRequestSession1);                                                 //Commit UserEntity
                 auditlogCounter[nameof(RefreshTokenEntity)] += 1;
                 refreshToken_scope1.ShouldNotBeNull();
                 refreshToken_scope1.CreatedBy.ShouldBe(userId_HttpRequestSession1);
@@ -86,13 +86,13 @@ namespace Samp.Tests.DbContexts
             using (var scope2 = _factory.Services.CreateScope())
             {
                 var repo_scope2 = scope2.ServiceProvider
-                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                    .GetRequiredService<IUnitOfWork<IdentityDbContext>>();
                 user_scope2 = repo_scope2.Table<UserEntity>().GetById(user_scope1.Id);                          //Select UserEntity
                 user_scope2.ShouldNotBeNull();
                 user_scope2.Id.ShouldBe(user_scope1.Id);
 
                 user_scope2.Password = "4321test";                                                              //Update UserEntity
-                repo_scope2.Commit(userId_HttpRequestSession2);                                                 //Commit UserEntity
+                repo_scope2.SaveChanges(userId_HttpRequestSession2);                                                 //Commit UserEntity
                 auditlogCounter[nameof(UserEntity)] += 1;
                 user_scope2.Password.ShouldNotBe(user_scope1.Password);
                 user_scope2.CreatedAt.ShouldBe(user_scope1.CreatedAt);
@@ -110,7 +110,7 @@ namespace Samp.Tests.DbContexts
                 refreshToken_scope2.UpdatedBy.ShouldBeNull();
 
                 refreshToken_scope2.RefreshToken = Guid.NewGuid().ToString();                                   //Update RefreshTokenEntity
-                repo_scope2.Commit(userId_HttpRequestSession2);                                                 //Commit RefreshTokenEntity
+                repo_scope2.SaveChanges(userId_HttpRequestSession2);                                                 //Commit RefreshTokenEntity
                 auditlogCounter[nameof(RefreshTokenEntity)] += 1;
                 refreshToken_scope2.UpdatedBy.ShouldNotBeNull();
                 refreshToken_scope2.UpdatedBy.ShouldBe(userId_HttpRequestSession2);
@@ -124,14 +124,14 @@ namespace Samp.Tests.DbContexts
             using (var scope3 = _factory.Services.CreateScope())
             {
                 var repo_scope3 = scope3.ServiceProvider
-                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                    .GetRequiredService<IUnitOfWork<IdentityDbContext>>();
                 user_scope3 = repo_scope3.Table<UserEntity>().GetById(user_scope2.Id);                          //Select UserEntity
                 user_scope3.IsDeleted.ShouldBeFalse();
                 user_scope3.UpdatedBy.ShouldBe(user_scope3.UpdatedBy);
                 user_scope3.UpdatedAt.ShouldBe(user_scope3.UpdatedAt);
 
                 repo_scope3.Table<UserEntity>().Delete(user_scope3);                                            //Delete UserEntity
-                repo_scope3.Commit(userId_HttpRequestSession3);                                                 //Commit UserEntity
+                repo_scope3.SaveChanges(userId_HttpRequestSession3);                                                 //Commit UserEntity
                 auditlogCounter[nameof(UserEntity)] += 1;
                 user_scope3.IsDeleted.ShouldBeTrue();
                 user_scope3.UpdatedBy.ShouldNotBe(user_scope2.UpdatedBy);
@@ -144,14 +144,14 @@ namespace Samp.Tests.DbContexts
             using (var scope4 = _factory.Services.CreateScope())
             {
                 var repo_scope4 = scope4.ServiceProvider
-                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                    .GetRequiredService<IUnitOfWork<IdentityDbContext>>();
                 refreshToken_scope4 = repo_scope4.Table<RefreshTokenEntity>().GetById(refreshToken_scope2.Id);  //Select UserEntity
                 refreshToken_scope4.IsDeleted.ShouldBeFalse();
                 refreshToken_scope4.UpdatedBy.ShouldBe(refreshToken_scope2.UpdatedBy);
                 refreshToken_scope4.UpdatedAt.ShouldBe(refreshToken_scope2.UpdatedAt);
 
                 repo_scope4.Table<RefreshTokenEntity>().Delete(refreshToken_scope4);                            //Delete UserEntity
-                repo_scope4.Commit(userId_HttpRequestSession4);                                                 //Commit UserEntity
+                repo_scope4.SaveChanges(userId_HttpRequestSession4);                                                 //Commit UserEntity
                 auditlogCounter[nameof(RefreshTokenEntity)] += 1;
                 refreshToken_scope4.IsDeleted.ShouldBeTrue();
                 refreshToken_scope4.UpdatedBy.ShouldNotBe(refreshToken_scope2.UpdatedBy);
@@ -165,7 +165,7 @@ namespace Samp.Tests.DbContexts
             using (var scope5 = _factory.Services.CreateScope())
             {
                 var repo_scope5 = scope5.ServiceProvider
-                    .GetRequiredService<ISharedRepository<IdentityDbContext>>();
+                    .GetRequiredService<IUnitOfWork<IdentityDbContext>>();
                 auditLogs_scope5 = repo_scope5.Table<AuditEntity>().All().OrderBy(f => f.CreatedAt).ToList();
             }
 

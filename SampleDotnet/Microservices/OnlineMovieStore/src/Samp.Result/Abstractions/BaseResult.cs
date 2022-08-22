@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Samp.Result.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Samp.Result.Abstractions
 {
@@ -84,9 +85,8 @@ namespace Samp.Result.Abstractions
             return executedTask;
         }
 
-        internal IResponseModel GetResponseModel()
-        {
-            return (IResponseModel)Value;
-        }
+        [NotMapped]
+        [JsonIgnore]
+        internal IResponseModel Model => (IResponseModel)Value;
     }
 }

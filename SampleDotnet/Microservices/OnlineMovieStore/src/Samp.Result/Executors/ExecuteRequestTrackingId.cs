@@ -10,7 +10,7 @@ namespace Samp.Result.Executors
         {
             return Task.Run(() =>
             {
-                baseResult.GetResponseModel().Stats.RId = System.Diagnostics.Activity.Current?.RootId;
+                baseResult.Model.Stats.RId = System.Diagnostics.Activity.Current?.RootId;
             });
         }
     }

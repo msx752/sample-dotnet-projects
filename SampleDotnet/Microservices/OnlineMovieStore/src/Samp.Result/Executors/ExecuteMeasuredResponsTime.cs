@@ -13,9 +13,9 @@ namespace Samp.Result.Executors
             {
                 var requestStartDateTime = DateTimeOffset.Parse(context.Items[_Constants.RequestStartTime].ToString());
                 var dtNow = DateTimeOffset.UtcNow;
-                baseResult.GetResponseModel().Stats.Offset = dtNow.ToUnixTimeSeconds();
+                baseResult.Model.Stats.Offset = dtNow.ToUnixTimeSeconds();
                 var elapsedResponseTime = dtNow - requestStartDateTime;
-                baseResult.GetResponseModel().Stats.ElapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
+                baseResult.Model.Stats.ElapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
             });
         }
     }

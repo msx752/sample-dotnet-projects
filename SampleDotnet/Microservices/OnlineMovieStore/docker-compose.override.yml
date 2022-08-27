@@ -1,1 +1,126 @@
 version: '3.4'
+
+services:
+  dps:
+    image: defreitas/dns-proxy-server
+    container_name: mycontainerdnsresolver
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/resolv.conf:/etc/resolv.conf
+    restart: "on-failure"
+    environment:
+      - MG_LOG_LEVEL=ERROR
+    hostname: dns.mageddo
+    networks:
+      dps:
+        ipv4_address: 172.0.0.10
+        
+  myrabbitmq:
+    environment:
+        - HOSTNAMES=myrabbitmq.container
+    networks:
+      - dps
+    dns:
+      - 172.0.0.10
+    depends_on:
+      - "dps"
+  
+  mymongodb:
+    networks:
+      - dps
+    dns:
+      - 172.0.0.10
+    environment:
+        - HOSTNAMES=mymongodb.container
+    depends_on:
+      - "dps"
+      
+  identityservice:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:1020
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=identityservice.container
+    ports: 
+      - "1020:1020"
+    networks:
+      - dps
+    dns:
+      - 172.0.0.10
+      
+      
+  movieservice:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:1030
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=movieservice.container
+    ports: 
+      - "1030:1030"
+    networks:
+      - dps
+    dns:
+      - 172.0.0.10
+      
+      
+  cartservice:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:1050
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=cartservice.container
+    ports: 
+      - "1050:1050"
+    networks:
+      - dps
+    dns:
+      - 172.0.0.10
+      
+      
+  paymentservice:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:1040
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=paymentservice.container
+    ports: 
+      - "1040:1040"
+    networks:
+      - dps
+    dns:
+      - 172.0.0.10
+      
+      
+  getewayservice:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:1010
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=getewayservice.container
+    ports: 
+      - "1010:1010"
+    networks:
+      - dps
+    dns:
+      - 172.0.0.10
+      
+      
+  websiteapp:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:2000
+      - USEDOCKEROCELOT=true
+      - HOSTNAMES=websiteapp.container
+    ports: 
+      - "2000:2000"
+    networks:
+      - dps
+    dns:
+      - 172.0.0.10
+      
+      
+networks:
+  dps:
+    ipam:
+      config:
+        - subnet: 172.0.0.0/24

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Samp.Core\Samp.Core.csproj" />
+    <ProjectReference Include="..\..\OnlineMovieStore.Core\OnlineMovieStore.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

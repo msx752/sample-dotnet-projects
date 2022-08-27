@@ -15,8 +15,8 @@
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Samp.Contract\Samp.Contract.csproj" />
-	  <ProjectReference Include="..\Samp.Payment.Database\Samp.Payment.Database.csproj" />
+	  <ProjectReference Include="..\..\Samp.Contract\SampleProject.Contract.csproj" />
+	  <ProjectReference Include="..\Payment.Database\Payment.Database.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Models\Requests\" />

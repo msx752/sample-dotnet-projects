@@ -29,9 +29,9 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <ProjectReference Include="..\Samp.Authentication\Samp.Authentication.csproj" />
-	  <ProjectReference Include="..\Samp.Database\Samp.Database.csproj" />
-	  <ProjectReference Include="..\Samp.Result\Samp.Result.csproj" />
+	  <ProjectReference Include="..\Samp.Authentication\SampleProject.Authentication.csproj" />
+	  <ProjectReference Include="..\Samp.Database\SampleProject.Database.csproj" />
+	  <ProjectReference Include="..\Samp.Result\SampleProject.Result.csproj" />
 	</ItemGroup>
 
 </Project>

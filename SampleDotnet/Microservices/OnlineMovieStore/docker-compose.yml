@@ -57,7 +57,7 @@ services:
     restart: "on-failure"
     build:
      context: .
-     dockerfile: src/IdentityService/Samp.Identity.API/Dockerfile
+     dockerfile: src/IdentityService/Identity.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1020
@@ -79,7 +79,7 @@ services:
     restart: "on-failure"
     build:
      context: .
-     dockerfile: src/MovieService/Samp.Movie.API/Dockerfile
+     dockerfile: src/MovieService/Movie.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1030
@@ -101,7 +101,7 @@ services:
     restart: "on-failure"
     build:
      context: .
-     dockerfile: src/CartService/Samp.Cart.API/Dockerfile
+     dockerfile: src/CartService/Cart.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1050
@@ -124,7 +124,7 @@ services:
     restart: "on-failure"
     build:
      context: .
-     dockerfile: src/PaymentService/Samp.Payment.API/Dockerfile
+     dockerfile: src/PaymentService/Payment.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1040
@@ -148,7 +148,7 @@ services:
     restart: "on-failure"
     build:
      context: .
-     dockerfile: src/GatewayService/Samp.Gateway.API/Dockerfile
+     dockerfile: src/GatewayService/Gateway.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1010
@@ -173,7 +173,7 @@ services:
     restart: "on-failure"
     build:
      context: .
-     dockerfile: src/Samp.Web.MovieStore/Dockerfile
+     dockerfile: src/Web.MovieStore/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:2000

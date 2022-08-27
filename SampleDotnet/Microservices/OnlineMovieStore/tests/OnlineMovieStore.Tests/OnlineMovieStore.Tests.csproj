@@ -22,11 +22,11 @@
   </Target>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CartService\Samp.Cart.API\Samp.Cart.API.csproj" />
-    <ProjectReference Include="..\..\src\GatewayService\Samp.Gateway.API\Samp.Gateway.API.csproj" />
-    <ProjectReference Include="..\..\src\IdentityService\Samp.Identity.API\Samp.Identity.API.csproj" />
-    <ProjectReference Include="..\..\src\MovieService\Samp.Movie.API\Samp.Movie.API.csproj" />
-    <ProjectReference Include="..\..\src\PaymentService\Samp.Payment.API\Samp.Payment.API.csproj" />
+    <ProjectReference Include="..\..\src\CartService\Cart.API\Cart.API.csproj" />
+    <ProjectReference Include="..\..\src\GatewayService\Gateway.API\Gateway.API.csproj" />
+    <ProjectReference Include="..\..\src\IdentityService\Identity.API\Identity.API.csproj" />
+    <ProjectReference Include="..\..\src\MovieService\Movie.API\Movie.API.csproj" />
+    <ProjectReference Include="..\..\src\PaymentService\Payment.API\Payment.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

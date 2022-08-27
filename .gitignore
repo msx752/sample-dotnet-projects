@@ -349,4 +349,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 SampleDotnet/Microservices/OnlineMovieStore/volumes/
-SampleDotnet/Microservices/OnlineMovieStore/src/Samp.Web.MovieStore/ClientApp/.angular/
+SampleDotnet/Microservices/OnlineMovieStore/src/Web.MovieStore/ClientApp/.angular/

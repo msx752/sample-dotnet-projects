@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Samp.Identity.Database\Samp.Identity.Database.csproj" />
+	  <ProjectReference Include="..\Identity.Database\Identity.Database.csproj" />
 	</ItemGroup>
 
 	

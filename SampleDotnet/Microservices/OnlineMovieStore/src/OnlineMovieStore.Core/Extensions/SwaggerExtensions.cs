@@ -5,6 +5,7 @@ using Samp.Core.Extensions;
 using Samp.Core.Filters;
 using Samp.Core.Model.Base;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -19,14 +20,11 @@ namespace Samp.Core.Extensions
         /// <returns></returns>
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                    .Where(f =>
-                        !f.IsDynamic
-                        && !f.FullName.StartsWith("Samp.Core")
-                        && f.FullName.StartsWith("Samp.")
-                        && !f.FullName.Equals(typeof(BaseController).Assembly.FullName)
-                        && f.DefinedTypes.Any(x => x.IsAssignableTo(typeof(BaseController)))
-                     );
+            var assemblies = Utility.GetLoadedAssemblies(f =>
+                !f.IsDynamic
+                && !f.FullName.Equals(typeof(BaseController).Assembly.FullName)
+                && f.DefinedTypes.Any(x => x.IsAssignableTo(typeof(BaseController)))
+            );
 
             services.AddSwaggerGen((sgo) =>
             {

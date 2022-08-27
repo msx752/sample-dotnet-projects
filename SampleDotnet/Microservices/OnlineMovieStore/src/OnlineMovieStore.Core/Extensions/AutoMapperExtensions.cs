@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Samp.Core.Extensions
 {
@@ -15,15 +17,11 @@ namespace Samp.Core.Extensions
         {
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                    .Where(f =>
-                        !f.IsDynamic
-                        && !f.FullName.StartsWith("Samp.Core")
-                        && !f.FullName.StartsWith("Samp.Database")
-                        && !f.FullName.StartsWith("Samp.Contract")
-                        && f.FullName.StartsWith("Samp.")
-                        && f.DefinedTypes.Any(x => x.IsAssignableTo(typeof(AutoMapper.Profile)))
-                     );
+                var assemblies = Utility.GetLoadedAssemblies(f =>
+                    !f.IsDynamic
+                    && f.DefinedTypes.Any(x => x.IsAssignableTo(typeof(AutoMapper.Profile)))
+                );
+
                 cfg.AddMaps(assemblies);
             });
 

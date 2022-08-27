@@ -14,16 +14,16 @@ wget -qO- https://deb.nodesource.com/setup_16.x | bash - && \
 apt-get install -y build-essential nodejs
 # End Install
 WORKDIR /src
-COPY ["src/Samp.Web.MovieStore/Samp.Web.MovieStore.csproj", "src/Samp.Web.MovieStore/"]
-RUN dotnet restore "src/Samp.Web.MovieStore/Samp.Web.MovieStore.csproj"
+COPY ["src/Web.MovieStore/Web.MovieStore.csproj", "src/Web.MovieStore/"]
+RUN dotnet restore "src/Web.MovieStore/Web.MovieStore.csproj"
 COPY . .
-WORKDIR "/src/src/Samp.Web.MovieStore"
-RUN dotnet build "Samp.Web.MovieStore.csproj" -c Release -o /app/build
+WORKDIR "/src/src/Web.MovieStore"
+RUN dotnet build "Web.MovieStore.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Samp.Web.MovieStore.csproj" -c Release -o /app/publish
+RUN dotnet publish "Web.MovieStore.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Samp.Web.MovieStore.dll"]
+ENTRYPOINT ["dotnet", "Web.MovieStore.dll"]

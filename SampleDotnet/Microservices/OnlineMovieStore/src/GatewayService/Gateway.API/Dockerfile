@@ -6,20 +6,20 @@ EXPOSE 80
 
 FROM mustafasalih/dotnetcore-sdk:7.0.0-preview.5-bullseye-slim-amd64 AS build
 WORKDIR /src
-COPY ["src/GatewayService/Samp.Gateway.API/Samp.Gateway.API.csproj", "src/GatewayService/Samp.Gateway.API/"]
-COPY ["src/Samp.Core/Samp.Core.csproj", "src/Samp.Core/"]
-COPY ["src/Samp.Authentication/Samp.Authentication.csproj", "src/Samp.Authentication/"]
-COPY ["src/Samp.Result/Samp.Result.csproj", "src/Samp.Result/"]
-COPY ["src/Samp.Database/Samp.Database.csproj", "src/Samp.Database/"]
-RUN dotnet restore "src/GatewayService/Samp.Gateway.API/Samp.Gateway.API.csproj"
+COPY ["src/GatewayService/Gateway.API/Gateway.API.csproj", "src/GatewayService/Gateway.API/"]
+COPY ["src/OnlineMovieStore.Core/OnlineMovieStore.Core.csproj", "src/OnlineMovieStore.Core/"]
+COPY ["src/Samp.Database/SampleProject.Database.csproj", "src/Samp.Database/"]
+COPY ["src/Samp.Authentication/SampleProject.Authentication.csproj", "src/Samp.Authentication/"]
+COPY ["src/Samp.Result/SampleProject.Result.csproj", "src/Samp.Result/"]
+RUN dotnet restore "src/GatewayService/Gateway.API/Gateway.API.csproj"
 COPY . .
-WORKDIR "/src/src/GatewayService/Samp.Gateway.API"
-RUN dotnet build "Samp.Gateway.API.csproj" -c Release -o /app/build
+WORKDIR "/src/src/GatewayService/Gateway.API"
+RUN dotnet build "Gateway.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Samp.Gateway.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "Gateway.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Samp.Gateway.API.dll"]
+ENTRYPOINT ["dotnet", "Gateway.API.dll"]

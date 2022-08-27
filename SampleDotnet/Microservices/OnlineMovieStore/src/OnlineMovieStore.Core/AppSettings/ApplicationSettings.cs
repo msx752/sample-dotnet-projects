@@ -1,4 +1,4 @@
-﻿namespace Samp.Core.AppSettings
+﻿namespace SampleProject.Core.AppSettings
 {
     public class ApplicationSettings
     {

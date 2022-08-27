@@ -29,9 +29,11 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <ProjectReference Include="..\Samp.Authentication\SampleProject.Authentication.csproj" />
-	  <ProjectReference Include="..\Samp.Database\SampleProject.Database.csproj" />
-	  <ProjectReference Include="..\Samp.Result\SampleProject.Result.csproj" />
+	  <ProjectReference Include="..\..\..\..\NugetPackages\SampleProject.Authentication\SampleProject.Authentication.csproj" />
+	  <ProjectReference Include="..\..\..\..\NugetPackages\SampleProject.Database\SampleProject.Database.csproj" />
+	  <ProjectReference Include="..\..\..\..\NugetPackages\SampleProject.Result\SampleProject.Result.csproj" />
 	</ItemGroup>
+	
+	
 
 </Project>

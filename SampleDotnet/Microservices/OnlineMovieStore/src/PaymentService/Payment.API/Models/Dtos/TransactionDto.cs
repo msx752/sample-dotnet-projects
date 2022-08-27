@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Samp.Payment.API.Models.Dtos
+namespace SampleProject.Payment.API.Models.Dtos
 {
     public class TransactionDto
     {

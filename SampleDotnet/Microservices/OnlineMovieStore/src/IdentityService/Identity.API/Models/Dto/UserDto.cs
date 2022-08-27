@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Samp.Identity.API.Models.Dto
+namespace SampleProject.Identity.API.Models.Dto
 {
     public class UserDto
     {

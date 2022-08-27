@@ -1,6 +1,6 @@
-﻿using Samp.Core.AppSettings;
+﻿using SampleProject.Core.AppSettings;
 
-namespace Samp.Cart.API
+namespace SampleProject.Cart.API
 {
     public class CartApplicationSettings : ApplicationSettings
     {

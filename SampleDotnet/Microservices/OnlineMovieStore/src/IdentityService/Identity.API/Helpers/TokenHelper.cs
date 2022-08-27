@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Samp.Core.AppSettings;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Identity.API.Models.Dto;
-using Samp.Identity.Core.Migrations;
-using Samp.Identity.Database.Entities;
+using SampleProject.Core.AppSettings;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Identity.API.Models.Dto;
+using SampleProject.Identity.Core.Migrations;
+using SampleProject.Identity.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace Samp.Identity.API.Helpers
+namespace SampleProject.Identity.API.Helpers
 {
     public class TokenHelper : ITokenHelper
     {

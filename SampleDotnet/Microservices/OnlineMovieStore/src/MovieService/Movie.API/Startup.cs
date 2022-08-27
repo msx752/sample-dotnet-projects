@@ -1,14 +1,14 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Samp.Contract.Cart.Requests;
-using Samp.Contract.Extensions;
-using Samp.Core.Extensions;
-using Samp.Core.Model;
-using Samp.Movie.API.Consumers;
-using Samp.Movie.Database;
-using Samp.Movie.Database.Migrations;
+using SampleProject.Contract.Cart.Requests;
+using SampleProject.Contract.Extensions;
+using SampleProject.Core.Extensions;
+using SampleProject.Core.Model;
+using SampleProject.Movie.API.Consumers;
+using SampleProject.Movie.Database;
+using SampleProject.Movie.Database.Migrations;
 
-namespace Samp.Movie.API
+namespace SampleProject.Movie.API
 {
     public class Startup
     {

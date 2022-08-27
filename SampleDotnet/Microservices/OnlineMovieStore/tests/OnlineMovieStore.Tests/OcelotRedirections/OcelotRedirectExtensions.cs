@@ -1,4 +1,4 @@
-namespace Samp.Tests.OcelotRedirections;
+namespace SampleProject.Tests.OcelotRedirections;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;

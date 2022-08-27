@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Core.Model.Base;
-using Samp.Result;
-using Samp.Movie.API.Models.Dtos;
-using Samp.Movie.API.Models.Requests;
-using Samp.Movie.API.Models.Responses;
-using Samp.Movie.Database.Entities;
-using Samp.Movie.Database.Migrations;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Core.Model.Base;
+using SampleProject.Result;
+using SampleProject.Movie.API.Models.Dtos;
+using SampleProject.Movie.API.Models.Requests;
+using SampleProject.Movie.API.Models.Responses;
+using SampleProject.Movie.Database.Entities;
+using SampleProject.Movie.Database.Migrations;
 
-namespace Samp.Movie.API.Controllers
+namespace SampleProject.Movie.API.Controllers
 {
     [ApiController]
     [AllowAnonymous]

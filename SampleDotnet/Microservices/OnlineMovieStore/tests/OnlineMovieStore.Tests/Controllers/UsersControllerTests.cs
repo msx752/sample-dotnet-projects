@@ -1,8 +1,8 @@
 ﻿using CustomImageProvider.Tests;
 using Newtonsoft.Json;
-using Samp.Identity.API.Models.Dto;
-using Samp.Identity.API.Models.Requests;
-using Samp.Result.Abstractions;
+using SampleProject.Identity.API.Models.Dto;
+using SampleProject.Identity.API.Models.Requests;
+using SampleProject.Result.Abstractions;
 using Shouldly;
 using System;
 using System.Collections.Generic;
@@ -14,11 +14,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Samp.Tests.Controllers
+namespace SampleProject.Tests.Controllers
 {
-    public class UsersControllerTests : MainControllerTests<Samp.Identity.API.Startup>
+    public class UsersControllerTests : MainControllerTests<SampleProject.Identity.API.Startup>
     {
-        public UsersControllerTests(CustomWebApplicationFactory<Samp.Identity.API.Startup> factory) : base(factory)
+        public UsersControllerTests(CustomWebApplicationFactory<SampleProject.Identity.API.Startup> factory) : base(factory)
         {
             //POST: User Login
             var contentUserLogin = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>()

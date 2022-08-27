@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Routing;
-using Samp.Result;
+using SampleProject.Result;
 using System.Collections.Generic;
 
-namespace Samp.Core.Middlewares
+namespace SampleProject.Core.Middlewares
 {
     public static class ExceptionMiddleware
     {

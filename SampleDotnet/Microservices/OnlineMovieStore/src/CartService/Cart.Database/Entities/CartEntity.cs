@@ -1,10 +1,10 @@
-﻿using Samp.Cart.Database.Entities;
-using Samp.Cart.Database.Enums;
-using Samp.Core.Entities;
+﻿using Cart.Database.Enums;
+using SampleProject.Cart.Database.Entities;
+using SampleProject.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Samp.Basket.Database.Entities
+namespace Cart.Database.Entities
 {
     [Table("CartEntity")]
     public class CartEntity : BaseEntity

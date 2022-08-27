@@ -1,4 +1,4 @@
-namespace Samp.Tests.OcelotRedirections;
+namespace SampleProject.Tests.OcelotRedirections;
 
 using System;
 using System.Net.Http;

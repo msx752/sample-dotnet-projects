@@ -1,4 +1,4 @@
-﻿using Samp.Core.Entities;
+﻿using SampleProject.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Samp.Identity.Database.Entities
+namespace SampleProject.Identity.Database.Entities
 {
     [Table("RefreshTokenEntity")]
     public class RefreshTokenEntity : BaseEntity

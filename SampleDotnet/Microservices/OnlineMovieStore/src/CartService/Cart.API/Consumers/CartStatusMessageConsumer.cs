@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
+using Cart.Database.Entities;
+using Cart.Database.Enums;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Samp.Basket.Database.Entities;
-using Samp.Basket.Database.Migrations;
-using Samp.Cart.Database.Enums;
-using Samp.Contract.Cart.Movie;
-using Samp.Contract.Cart.Requests;
-using Samp.Contract.Payment;
-using Samp.Contract.Payment.Cart;
-using Samp.Core.Interfaces.Repositories;
+using SampleProject.Basket.Database.Migrations;
+using SampleProject.Contract.Cart.Movie;
+using SampleProject.Contract.Cart.Requests;
+using SampleProject.Contract.Payment;
+using SampleProject.Contract.Payment.Cart;
+using SampleProject.Core.Interfaces.Repositories;
 
-namespace Samp.Cart.API.Consumers
+namespace SampleProject.Cart.API.Consumers
 {
     public class CartStatusMessageConsumer :
             IConsumer<CartStatusRequestMessage>

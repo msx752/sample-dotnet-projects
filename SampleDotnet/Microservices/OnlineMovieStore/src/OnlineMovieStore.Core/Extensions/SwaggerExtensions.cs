@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Samp.Core.Extensions;
-using Samp.Core.Filters;
-using Samp.Core.Model.Base;
+using SampleProject.Core.Extensions;
+using SampleProject.Core.Filters;
+using SampleProject.Core.Model.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Samp.Core.Extensions
+namespace SampleProject.Core.Extensions
 {
     public static class SwaggerExtensions
     {

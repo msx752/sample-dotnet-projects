@@ -1,4 +1,4 @@
-namespace Samp.Payment.API
+namespace SampleProject.Payment.API
 {
     public class Program
     {

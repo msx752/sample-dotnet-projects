@@ -56,8 +56,8 @@ services:
       - 172.0.0.10
     restart: "on-failure"
     build:
-     context: .
-     dockerfile: src/IdentityService/Identity.API/Dockerfile
+     context: ../../
+     dockerfile: Microservices/OnlineMovieStore/src/IdentityService/Identity.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1020
@@ -78,8 +78,8 @@ services:
       - 172.0.0.10
     restart: "on-failure"
     build:
-     context: .
-     dockerfile: src/MovieService/Movie.API/Dockerfile
+     context: ../../
+     dockerfile: Microservices/OnlineMovieStore/src/MovieService/Movie.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1030
@@ -100,8 +100,8 @@ services:
       - 172.0.0.10
     restart: "on-failure"
     build:
-     context: .
-     dockerfile: src/CartService/Cart.API/Dockerfile
+     context: ../../
+     dockerfile: Microservices/OnlineMovieStore/src/CartService/Cart.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1050
@@ -123,8 +123,8 @@ services:
       - 172.0.0.10
     restart: "on-failure"
     build:
-     context: .
-     dockerfile: src/PaymentService/Payment.API/Dockerfile
+     context: ../../
+     dockerfile: Microservices/OnlineMovieStore/src/PaymentService/Payment.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1040
@@ -147,8 +147,8 @@ services:
       - 172.0.0.10
     restart: "on-failure"
     build:
-     context: .
-     dockerfile: src/GatewayService/Gateway.API/Dockerfile
+     context: ../../
+     dockerfile: Microservices/OnlineMovieStore/src/GatewayService/Gateway.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:1010
@@ -172,8 +172,8 @@ services:
       - 172.0.0.10
     restart: "on-failure"
     build:
-     context: .
-     dockerfile: src/Web.MovieStore/Dockerfile
+     context: ../../
+     dockerfile: Microservices/OnlineMovieStore/src/Web.MovieStore/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:2000

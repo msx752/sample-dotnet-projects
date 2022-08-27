@@ -1,4 +1,4 @@
-namespace Samp.Gateway.API
+namespace SampleProject.Gateway.API
 {
     public class Program
     {

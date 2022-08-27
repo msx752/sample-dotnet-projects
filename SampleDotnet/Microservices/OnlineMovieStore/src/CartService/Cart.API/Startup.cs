@@ -1,15 +1,15 @@
+using Cart.Database;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Samp.Basket.Database.Migrations;
-using Samp.Cart.API.Consumers;
-using Samp.Cart.Database;
-using Samp.Contract;
-using Samp.Contract.Extensions;
-using Samp.Contract.Payment;
-using Samp.Core.Extensions;
-using Samp.Core.Model;
+using SampleProject.Basket.Database.Migrations;
+using SampleProject.Cart.API.Consumers;
+using SampleProject.Contract;
+using SampleProject.Contract.Extensions;
+using SampleProject.Contract.Payment;
+using SampleProject.Core.Extensions;
+using SampleProject.Core.Model;
 
-namespace Samp.Cart.API
+namespace SampleProject.Cart.API
 {
     public class Startup
     {

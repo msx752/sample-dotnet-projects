@@ -1,8 +1,8 @@
-﻿using Samp.Core.Entities;
+﻿using SampleProject.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Samp.Movie.Database.Entities
+namespace SampleProject.Movie.Database.Entities
 {
     [Table("CategoryEntity")]
     public class CategoryEntity : BaseEntity

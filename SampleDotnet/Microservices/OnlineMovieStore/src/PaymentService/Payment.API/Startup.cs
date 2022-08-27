@@ -1,13 +1,13 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Samp.Contract;
-using Samp.Contract.Extensions;
-using Samp.Core.Extensions;
-using Samp.Core.Model;
-using Samp.Payment.Database;
-using Samp.Payment.Database.Migrations;
+using SampleProject.Contract;
+using SampleProject.Contract.Extensions;
+using SampleProject.Core.Extensions;
+using SampleProject.Core.Model;
+using SampleProject.Payment.Database;
+using SampleProject.Payment.Database.Migrations;
 
-namespace Samp.Payment.API
+namespace SampleProject.Payment.API
 {
     public class Startup
     {

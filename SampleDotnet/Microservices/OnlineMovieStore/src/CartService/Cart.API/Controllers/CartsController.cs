@@ -1,22 +1,23 @@
 ﻿using AutoMapper;
+using Cart.Database.Entities;
+using Cart.Database.Enums;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Samp.Basket.API.Models.Dtos;
-using Samp.Basket.Database.Entities;
-using Samp.Basket.Database.Migrations;
-using Samp.Cart.API.Models.Dtos;
-using Samp.Cart.API.Models.Requests;
-using Samp.Cart.Database.Entities;
-using Samp.Contract;
-using Samp.Contract.Cart.Movie;
-using Samp.Contract.Cart.Requests;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Core.Model.Base;
-using Samp.Result;
+using SampleProject.Basket.API.Models.Dtos;
+using SampleProject.Basket.Database.Migrations;
+using SampleProject.Cart.API.Models.Dtos;
+using SampleProject.Cart.API.Models.Requests;
+using SampleProject.Cart.Database.Entities;
+using SampleProject.Contract;
+using SampleProject.Contract.Cart.Movie;
+using SampleProject.Contract.Cart.Requests;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Core.Model.Base;
+using SampleProject.Result;
 
-namespace Samp.Cart.API.Controllers
+namespace SampleProject.Cart.API.Controllers
 {
     [Authorize]
     [ApiController]
@@ -41,7 +42,7 @@ namespace Samp.Cart.API.Controllers
         public IActionResult GetCart()
         {
             var entity = repository.Table<CartEntity>()
-                .Where(f => f.UserId == LoggedUserId && f.Satus != Database.Enums.CartStatus.Paid)
+                .Where(f => f.UserId == LoggedUserId && f.Satus != CartStatus.Paid)
                 .Include(f => f.Items.Where(x => !x.IsDeleted))
                 .FirstOrDefault();
 
@@ -70,12 +71,12 @@ namespace Samp.Cart.API.Controllers
             if (entity == null)
                 return new NotFoundResponse($"cart not found: {cartId}");
 
-            if (entity.Satus == Database.Enums.CartStatus.LockedOnPayment)
+            if (entity.Satus == CartStatus.LockedOnPayment)
             {
                 return new BadRequestResponse($"selected cart status is LOCKED due to payment process, please try again later");
             }
 
-            if (entity.Satus == Database.Enums.CartStatus.Paid)
+            if (entity.Satus == CartStatus.Paid)
             {
                 return new BadRequestResponse($"selected cart status is PAID, no more items can be added");
             }
@@ -120,12 +121,12 @@ namespace Samp.Cart.API.Controllers
             if (entity == null)
                 return new NotFoundResponse($"selected item not found: {cartId}");
 
-            if (entity.Cart.Satus == Database.Enums.CartStatus.LockedOnPayment)
+            if (entity.Cart.Satus == CartStatus.LockedOnPayment)
             {
                 return new BadRequestResponse($"selected cart status is LOCKED due to payment process, please try again later");
             }
 
-            if (entity.Cart.Satus == Database.Enums.CartStatus.Paid)
+            if (entity.Cart.Satus == CartStatus.Paid)
             {
                 return new BadRequestResponse($"selected cart status is PAID, no more items can be removed");
             }

@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerfileContext>..\..\..</DockerfileContext>
+		<DockerfileContext>..\..\..\..\..</DockerfileContext>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -16,9 +16,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		
-		<ProjectReference Include="..\..\Samp.Contract\SampleProject.Contract.csproj" />
-		
+		<ProjectReference Include="..\..\..\..\..\NugetPackages\SampleProject.Contract\SampleProject.Contract.csproj" />
 		<ProjectReference Include="..\Movie.Database\Movie.Database.csproj" />
 	</ItemGroup>
 

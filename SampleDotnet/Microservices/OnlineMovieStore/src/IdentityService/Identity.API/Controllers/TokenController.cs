@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Core.Model.Base;
-using Samp.Identity.API.Helpers;
-using Samp.Identity.API.Models.Dto;
-using Samp.Identity.API.Models.Requests;
-using Samp.Identity.Core.Migrations;
-using Samp.Identity.Database.Entities;
-using Samp.Result;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Core.Model.Base;
+using SampleProject.Identity.API.Helpers;
+using SampleProject.Identity.API.Models.Dto;
+using SampleProject.Identity.API.Models.Requests;
+using SampleProject.Identity.Core.Migrations;
+using SampleProject.Identity.Database.Entities;
+using SampleProject.Result;
 using System.Security.Claims;
 
-namespace Samp.Identity.API.Controllers
+namespace SampleProject.Identity.API.Controllers
 {
     [ApiController]
     [AllowAnonymous]

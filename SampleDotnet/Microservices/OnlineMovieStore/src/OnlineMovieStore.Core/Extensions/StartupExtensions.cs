@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Samp.Core.AppSettings;
-using Samp.Core.Middlewares;
-using Samp.Result.Extensions;
-using Samp.Result.Executors;
-using Samp.Result.Interfaces;
+using SampleProject.Core.AppSettings;
+using SampleProject.Core.Middlewares;
+using SampleProject.Result.Extensions;
+using SampleProject.Result.Executors;
+using SampleProject.Result.Interfaces;
+using SampleProject.Authentication.Extensions;
+using SampleProject.Authentication.Middlewares;
+using SampleProject.Result;
 
-namespace Samp.Core.Extensions
+namespace SampleProject.Core.Extensions
 {
     public static class StartupExtensions
     {
@@ -61,7 +64,7 @@ namespace Samp.Core.Extensions
 
             services.AddEntityMapper();
             services.AddHttpContextAccessor();
-            services.AddJWTAuthentication(configuration);
+            services.AddJWTAuthentication(configuration, new UnauthorizedResponse());
             services.AddSwagger();
             services.AddControllers().AddNewtonsoftJson();
             services.AddCors();

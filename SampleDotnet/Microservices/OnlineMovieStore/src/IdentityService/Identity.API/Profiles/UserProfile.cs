@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Samp.Identity.API.Models.Dto;
-using Samp.Identity.API.Models.Requests;
-using Samp.Identity.Database.Entities;
+using SampleProject.Identity.API.Models.Dto;
+using SampleProject.Identity.API.Models.Requests;
+using SampleProject.Identity.Database.Entities;
 
-namespace Samp.Identity.API.Profiles
+namespace SampleProject.Identity.API.Profiles
 {
     public class UserProfile : Profile
     {

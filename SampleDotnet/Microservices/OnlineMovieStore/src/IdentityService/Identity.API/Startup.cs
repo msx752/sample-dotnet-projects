@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Samp.Auth.Database;
-using Samp.Core.Extensions;
-using Samp.Core.Model;
-using Samp.Identity.API.Helpers;
-using Samp.Identity.Core.Migrations;
+using SampleProject.Auth.Database;
+using SampleProject.Core.Extensions;
+using SampleProject.Core.Model;
+using SampleProject.Identity.API.Helpers;
+using SampleProject.Identity.Core.Migrations;
 
-namespace Samp.Identity.API
+namespace SampleProject.Identity.API
 {
     public class Startup
     {

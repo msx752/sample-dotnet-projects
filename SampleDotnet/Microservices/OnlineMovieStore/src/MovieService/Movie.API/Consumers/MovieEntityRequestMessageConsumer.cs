@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using MassTransit;
-using Samp.Contract;
-using Samp.Contract.Cart.Movie;
-using Samp.Contract.Cart.Requests;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Movie.Database.Entities;
-using Samp.Movie.Database.Migrations;
+using SampleProject.Contract;
+using SampleProject.Contract.Cart.Movie;
+using SampleProject.Contract.Cart.Requests;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Movie.Database.Entities;
+using SampleProject.Movie.Database.Migrations;
 
-namespace Samp.Movie.API.Consumers
+namespace SampleProject.Movie.API.Consumers
 {
     public class MovieEntityRequestMessageConsumer :
             IConsumer<MovieEntityRequestMessage>

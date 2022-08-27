@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Samp.Movie.API.Models.Dtos;
+using SampleProject.Movie.API.Models.Dtos;
 
-namespace Samp.Movie.API.Models.Responses
+namespace SampleProject.Movie.API.Models.Responses
 {
     public class MovieIndexViewModel
     {

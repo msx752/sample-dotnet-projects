@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Samp.Identity.API.Models.Requests
+namespace SampleProject.Identity.API.Models.Requests
 {
     public class TokenRequest
     {

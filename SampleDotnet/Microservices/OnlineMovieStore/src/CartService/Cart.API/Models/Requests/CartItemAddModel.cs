@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
-namespace Samp.Cart.API.Models.Requests
+namespace SampleProject.Cart.API.Models.Requests
 {
     public class CartItemAddModel
     {

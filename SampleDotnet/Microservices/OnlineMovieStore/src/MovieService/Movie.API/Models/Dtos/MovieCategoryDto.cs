@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Samp.Movie.API.Models.Dtos
+namespace SampleProject.Movie.API.Models.Dtos
 {
     public class MovieCategoryDto
     {

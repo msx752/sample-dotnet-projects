@@ -1,6 +1,6 @@
-﻿using Samp.Core.AppSettings;
+﻿using SampleProject.Core.AppSettings;
 
-namespace Samp.Payment.API
+namespace SampleProject.Payment.API
 {
     public class PaymentApplicationSettings : ApplicationSettings
     {

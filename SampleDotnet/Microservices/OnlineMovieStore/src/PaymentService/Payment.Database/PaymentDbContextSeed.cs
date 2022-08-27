@@ -1,8 +1,8 @@
-﻿using Samp.Core.Database;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Payment.Database.Migrations;
+﻿using SampleProject.Core.Database;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Payment.Database.Migrations;
 
-namespace Samp.Payment.Database
+namespace SampleProject.Payment.Database
 {
     public class PaymentDbContextSeed : ContextSeed<PaymentDbContext>
     {

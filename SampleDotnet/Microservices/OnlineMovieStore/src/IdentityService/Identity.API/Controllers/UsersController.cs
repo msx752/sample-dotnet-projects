@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Core.Model.Base;
-using Samp.Result;
-using Samp.Identity.API.Models.Dto;
-using Samp.Identity.API.Models.Requests;
-using Samp.Identity.Core.Migrations;
-using Samp.Identity.Database.Entities;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Core.Model.Base;
+using SampleProject.Result;
+using SampleProject.Identity.API.Models.Dto;
+using SampleProject.Identity.API.Models.Requests;
+using SampleProject.Identity.Core.Migrations;
+using SampleProject.Identity.Database.Entities;
 
-namespace Samp.Identity.API.Controllers
+namespace SampleProject.Identity.API.Controllers
 {
     [ApiController]
     [Authorize]

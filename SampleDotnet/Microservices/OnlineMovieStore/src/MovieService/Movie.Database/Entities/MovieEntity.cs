@@ -1,9 +1,9 @@
-﻿using Samp.Core.Entities;
-using Samp.Movie.Database.Enums;
+﻿using SampleProject.Core.Entities;
+using SampleProject.Movie.Database.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Samp.Movie.Database.Entities
+namespace SampleProject.Movie.Database.Entities
 {
     [Table("MovieEntity")]
     public class MovieEntity : BaseEntity

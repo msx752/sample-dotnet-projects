@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Samp.Basket.API.Models.Dtos
+namespace SampleProject.Basket.API.Models.Dtos
 {
     public class CartItemDto
     {

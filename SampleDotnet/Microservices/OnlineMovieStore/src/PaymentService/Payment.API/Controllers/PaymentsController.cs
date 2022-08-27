@@ -1,18 +1,18 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Samp.Contract;
-using Samp.Contract.Payment;
-using Samp.Contract.Payment.Cart;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Core.Model.Base;
-using Samp.Result;
-using Samp.Payment.API.Models.Dtos;
-using Samp.Payment.Database.Entities;
-using Samp.Payment.Database.Migrations;
+using SampleProject.Contract;
+using SampleProject.Contract.Payment;
+using SampleProject.Contract.Payment.Cart;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Core.Model.Base;
+using SampleProject.Result;
+using SampleProject.Payment.API.Models.Dtos;
+using SampleProject.Payment.Database.Entities;
+using SampleProject.Payment.Database.Migrations;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Samp.ayment.API.Controllers
+namespace SampleProject.ayment.API.Controllers
 {
     [Authorize]
     [ApiController]

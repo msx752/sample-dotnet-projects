@@ -1,17 +1,17 @@
 ﻿using CustomImageProvider.Tests;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Samp.Core.Entities;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Identity.Core.Migrations;
-using Samp.Identity.Database.Entities;
+using SampleProject.Core.Entities;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Identity.Core.Migrations;
+using SampleProject.Identity.Database.Entities;
 using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace Samp.Tests.DbContexts
+namespace SampleProject.Tests.DbContexts
 {
     public class IdentityDbContextTests
     {
@@ -26,7 +26,7 @@ namespace Samp.Tests.DbContexts
         [Fact]
         public void RUN_THIS_TEST_ALONE___Add_Update_Delete_with_AuditLog_Success()
         {
-            CustomWebApplicationFactory<Samp.Identity.API.Startup> _factory = new CustomWebApplicationFactory<Identity.API.Startup>();
+            CustomWebApplicationFactory<SampleProject.Identity.API.Startup> _factory = new CustomWebApplicationFactory<Identity.API.Startup>();
             _factory.CreateClient();
 
             //## Service Scope: DELETE Seed's AuditLogs

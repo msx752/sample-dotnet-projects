@@ -1,8 +1,8 @@
-﻿using Samp.Basket.Database.Migrations;
-using Samp.Core.Database;
-using Samp.Core.Interfaces.Repositories;
+﻿using SampleProject.Basket.Database.Migrations;
+using SampleProject.Core.Database;
+using SampleProject.Core.Interfaces.Repositories;
 
-namespace Samp.Cart.Database
+namespace Cart.Database
 {
     public class CartDbContextSeed : ContextSeed<CartDbContext>
     {

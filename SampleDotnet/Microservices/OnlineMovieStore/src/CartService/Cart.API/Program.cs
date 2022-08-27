@@ -1,4 +1,4 @@
-namespace Samp.Cart.API
+namespace SampleProject.Cart.API
 {
     public class Program
     {

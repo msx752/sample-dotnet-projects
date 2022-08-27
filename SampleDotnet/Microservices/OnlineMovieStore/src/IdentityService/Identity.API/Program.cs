@@ -1,4 +1,4 @@
-namespace Samp.Identity.API
+namespace SampleProject.Identity.API
 {
     public class Program
     {

@@ -1,8 +1,8 @@
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using Samp.Core.Extensions;
+using SampleProject.Core.Extensions;
 
-namespace Samp.Gateway.API
+namespace SampleProject.Gateway.API
 {
     public class Startup
     {

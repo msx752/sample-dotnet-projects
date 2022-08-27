@@ -1,6 +1,6 @@
-﻿using Samp.Core.AppSettings;
+﻿using SampleProject.Core.AppSettings;
 
-namespace Samp.Gateway.API
+namespace SampleProject.Gateway.API
 {
     public class GatewayApplicationSettings : ApplicationSettings
     {

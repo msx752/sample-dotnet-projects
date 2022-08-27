@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Samp.Movie.API.Models.Dtos;
-using Samp.Movie.Database.Entities;
+using SampleProject.Movie.API.Models.Dtos;
+using SampleProject.Movie.Database.Entities;
 
-namespace Samp.Movie.API.Models
+namespace SampleProject.Movie.API.Models
 {
     public class RatingProfile : Profile
     {

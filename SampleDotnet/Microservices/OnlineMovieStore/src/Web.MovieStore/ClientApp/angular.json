@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Samp.Web.MovieStore": {
+    "SampleProject.Web.MovieStore": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Samp.Web.MovieStore:build:production"
+              "browserTarget": "SampleProject.Web.MovieStore:build:production"
             },
             "development": {
-              "browserTarget": "Samp.Web.MovieStore:build:development",
+              "browserTarget": "SampleProject.Web.MovieStore:build:development",
               "proxyConfig": "proxy.conf.js"
             }
           },
@@ -85,7 +85,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Samp.Web.MovieStore:build"
+            "browserTarget": "SampleProject.Web.MovieStore:build"
           }
         },
         "test": {
@@ -133,5 +133,5 @@
       }
     }
   },
-  "defaultProject": "Samp.Web.MovieStore"
+  "defaultProject": "SampleProject.Web.MovieStore"
 }

@@ -1,4 +1,4 @@
-﻿namespace Samp.Core
+﻿namespace SampleProject.Core
 {
     public class Constants
     {

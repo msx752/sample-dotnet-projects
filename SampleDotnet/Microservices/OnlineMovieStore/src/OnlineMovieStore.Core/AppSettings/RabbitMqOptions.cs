@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Samp.Core.AppSettings
+namespace SampleProject.Core.AppSettings
 {
     public class RabbitMqOptions
     {

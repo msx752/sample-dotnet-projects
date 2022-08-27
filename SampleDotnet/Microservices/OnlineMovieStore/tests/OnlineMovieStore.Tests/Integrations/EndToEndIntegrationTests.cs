@@ -1,14 +1,14 @@
 ﻿using CustomImageProvider.Tests;
 using Newtonsoft.Json;
-using Samp.Basket.API.Models.Dtos;
-using Samp.Cart.API.Models.Dtos;
-using Samp.Cart.API.Models.Requests;
-using Samp.Identity.API.Models.Dto;
-using Samp.Identity.API.Models.Requests;
-using Samp.Movie.API.Models.Responses;
-using Samp.Result;
-using Samp.Result.Abstractions;
-using Samp.Tests.OcelotRedirections;
+using SampleProject.Basket.API.Models.Dtos;
+using SampleProject.Cart.API.Models.Dtos;
+using SampleProject.Cart.API.Models.Requests;
+using SampleProject.Identity.API.Models.Dto;
+using SampleProject.Identity.API.Models.Requests;
+using SampleProject.Movie.API.Models.Responses;
+using SampleProject.Result;
+using SampleProject.Result.Abstractions;
+using SampleProject.Tests.OcelotRedirections;
 using Shouldly;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Samp.Tests.Integrations
+namespace SampleProject.Tests.Integrations
 {
     public class EndToEndIntegrationTests : MainControllerTests
     {

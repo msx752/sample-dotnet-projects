@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using Cart.Database.Entities;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Samp.Basket.Database.Entities;
-using Samp.Basket.Database.Migrations;
-using Samp.Contract.Payment;
-using Samp.Contract.Payment.Cart;
-using Samp.Core.Interfaces.Repositories;
+using SampleProject.Basket.Database.Migrations;
+using SampleProject.Contract.Payment;
+using SampleProject.Contract.Payment.Cart;
+using SampleProject.Core.Interfaces.Repositories;
 
-namespace Samp.Cart.API.Consumers
+namespace SampleProject.Cart.API.Consumers
 {
     public class CartEntityMessageConsumer :
             IConsumer<CartEntityRequestMessage>

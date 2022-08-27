@@ -1,14 +1,14 @@
-﻿using Samp.Core.Database;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Identity.Core.Migrations;
-using Samp.Identity.Database.Entities;
+﻿using SampleProject.Core.Database;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Identity.Core.Migrations;
+using SampleProject.Identity.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Samp.Auth.Database
+namespace SampleProject.Auth.Database
 {
     public class IdentityContextSeed : ContextSeed<IdentityDbContext>
     {

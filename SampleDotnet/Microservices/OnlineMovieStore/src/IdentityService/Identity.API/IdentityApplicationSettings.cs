@@ -1,6 +1,6 @@
-﻿using Samp.Core.AppSettings;
+﻿using SampleProject.Core.AppSettings;
 
-namespace Samp.Identity.API;
+namespace SampleProject.Identity.API;
 
 public class IdentityApplicationSettings : ApplicationSettings
 {

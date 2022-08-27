@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Samp.Basket.Database.Entities;
-using Samp.Cart.Database.Entities;
-using Samp.Core.Database;
+﻿using Cart.Database.Entities;
+using Microsoft.EntityFrameworkCore;
+using SampleProject.Cart.Database.Entities;
+using SampleProject.Core.Database;
 
-namespace Samp.Basket.Database.Migrations
+namespace SampleProject.Basket.Database.Migrations
 {
     public class CartDbContext : SampBaseContext
     {

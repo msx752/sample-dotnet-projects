@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Samp.Basket.Database.Entities;
-using Samp.Cart.API.Models.Dtos;
-using Samp.Contract.Payment.Cart;
+using Cart.Database.Entities;
+using SampleProject.Cart.API.Models.Dtos;
+using SampleProject.Contract.Payment.Cart;
 
-namespace Samp.Cart.API.Profiles
+namespace SampleProject.Cart.API.Profiles
 {
     public class CartProfile : Profile
     {

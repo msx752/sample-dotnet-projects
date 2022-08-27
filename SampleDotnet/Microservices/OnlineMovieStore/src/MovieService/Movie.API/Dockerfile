@@ -6,16 +6,16 @@ EXPOSE 80
 
 FROM mustafasalih/dotnetcore-sdk:7.0.0-preview.5-bullseye-slim-amd64 AS build
 WORKDIR /src
-COPY ["src/MovieService/Movie.API/Movie.API.csproj", "src/MovieService/Movie.API/"]
-COPY ["src/MovieService/Movie.Database/Movie.Database.csproj", "src/MovieService/Movie.Database/"]
-COPY ["src/OnlineMovieStore.Core/OnlineMovieStore.Core.csproj", "src/OnlineMovieStore.Core/"]
-COPY ["src/Samp.Database/SampleProject.Database.csproj", "src/Samp.Database/"]
-COPY ["src/Samp.Authentication/SampleProject.Authentication.csproj", "src/Samp.Authentication/"]
-COPY ["src/Samp.Result/SampleProject.Result.csproj", "src/Samp.Result/"]
-COPY ["src/Samp.Contract/SampleProject.Contract.csproj", "src/Samp.Contract/"]
-RUN dotnet restore "src/MovieService/Movie.API/Movie.API.csproj"
+COPY ["Microservices/OnlineMovieStore/src/MovieService/Movie.API/Movie.API.csproj", "Microservices/OnlineMovieStore/src/MovieService/Movie.API/"]
+COPY ["Microservices/OnlineMovieStore/src/MovieService/Movie.Database/Movie.Database.csproj", "Microservices/OnlineMovieStore/src/MovieService/Movie.Database/"]
+COPY ["Microservices/OnlineMovieStore/src/OnlineMovieStore.Core/OnlineMovieStore.Core.csproj", "Microservices/OnlineMovieStore/src/OnlineMovieStore.Core/"]
+COPY ["NugetPackages/SampleProject.Authentication/SampleProject.Authentication.csproj", "NugetPackages/SampleProject.Authentication/"]
+COPY ["NugetPackages/SampleProject.Result/SampleProject.Result.csproj", "NugetPackages/SampleProject.Result/"]
+COPY ["NugetPackages/SampleProject.Database/SampleProject.Database.csproj", "NugetPackages/SampleProject.Database/"]
+COPY ["NugetPackages/SampleProject.Contract/SampleProject.Contract.csproj", "NugetPackages/SampleProject.Contract/"]
+RUN dotnet restore "Microservices/OnlineMovieStore/src/MovieService/Movie.API/Movie.API.csproj"
 COPY . .
-WORKDIR "/src/src/MovieService/Movie.API"
+WORKDIR "/src/Microservices/OnlineMovieStore/src/MovieService/Movie.API"
 RUN dotnet build "Movie.API.csproj" -c Release -o /app/build
 
 FROM build AS publish

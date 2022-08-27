@@ -14,10 +14,10 @@ wget -qO- https://deb.nodesource.com/setup_16.x | bash - && \
 apt-get install -y build-essential nodejs
 # End Install
 WORKDIR /src
-COPY ["src/Web.MovieStore/Web.MovieStore.csproj", "src/Web.MovieStore/"]
-RUN dotnet restore "src/Web.MovieStore/Web.MovieStore.csproj"
+COPY ["Microservices/OnlineMovieStore/src/Web.MovieStore/Web.MovieStore.csproj", "Microservices/OnlineMovieStore/src/Web.MovieStore/"]
+RUN dotnet restore "Microservices/OnlineMovieStore/src/Web.MovieStore/Web.MovieStore.csproj"
 COPY . .
-WORKDIR "/src/src/Web.MovieStore"
+WORKDIR "/src/Microservices/OnlineMovieStore/src/Web.MovieStore"
 RUN dotnet build "Web.MovieStore.csproj" -c Release -o /app/build
 
 FROM build AS publish

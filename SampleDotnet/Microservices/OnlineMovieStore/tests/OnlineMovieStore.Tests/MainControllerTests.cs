@@ -5,7 +5,7 @@ using System.IO;
 using System.Net.Http;
 using Xunit;
 
-namespace Samp.Tests
+namespace SampleProject.Tests
 {
     public class MainControllerTests<TStartup> : IClassFixture<CustomWebApplicationFactory<TStartup>>
         where TStartup : class

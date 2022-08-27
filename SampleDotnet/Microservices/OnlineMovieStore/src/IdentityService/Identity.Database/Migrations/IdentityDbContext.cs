@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Samp.Core.Database;
-using Samp.Identity.Database.Entities;
+using SampleProject.Core.Database;
+using SampleProject.Identity.Database.Entities;
 
-namespace Samp.Identity.Core.Migrations
+namespace SampleProject.Identity.Core.Migrations
 {
     public class IdentityDbContext : SampBaseContext
     {

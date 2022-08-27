@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
-namespace Samp.Core.Model.Base
+namespace SampleProject.Core.Model.Base
 {
     public abstract class BaseController : ControllerBase
     {

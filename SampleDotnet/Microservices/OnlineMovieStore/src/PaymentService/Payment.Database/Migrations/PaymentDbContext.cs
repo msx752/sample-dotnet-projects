@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Samp.Core.Database;
-using Samp.Payment.Database.Entities;
+using SampleProject.Core.Database;
+using SampleProject.Payment.Database.Entities;
 
-namespace Samp.Payment.Database.Migrations
+namespace SampleProject.Payment.Database.Migrations
 {
     public class PaymentDbContext : SampBaseContext
     {

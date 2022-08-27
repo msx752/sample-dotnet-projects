@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
-namespace Samp.Movie.API.Models.Requests
+namespace SampleProject.Movie.API.Models.Requests
 {
     public class MovieSearchModel
     {

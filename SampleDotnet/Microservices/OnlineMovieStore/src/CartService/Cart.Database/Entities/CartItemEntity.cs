@@ -1,9 +1,9 @@
-﻿using Samp.Basket.Database.Entities;
-using Samp.Core.Entities;
+﻿using Cart.Database.Entities;
+using SampleProject.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Samp.Cart.Database.Entities
+namespace SampleProject.Cart.Database.Entities
 {
     [Table("CartItemEntity")]
     public class CartItemEntity : BaseEntity

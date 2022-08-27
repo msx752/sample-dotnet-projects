@@ -1,8 +1,8 @@
-﻿using Samp.Identity.API.Models.Dto;
-using Samp.Identity.Database.Entities;
+﻿using SampleProject.Identity.API.Models.Dto;
+using SampleProject.Identity.Database.Entities;
 using System.Security.Claims;
 
-namespace Samp.Identity.API.Helpers
+namespace SampleProject.Identity.API.Helpers
 {
     public interface ITokenHelper
     {

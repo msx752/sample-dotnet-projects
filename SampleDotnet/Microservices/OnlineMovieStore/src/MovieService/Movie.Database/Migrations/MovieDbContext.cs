@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Samp.Core.Database;
-using Samp.Movie.Database.Entities;
+using SampleProject.Core.Database;
+using SampleProject.Movie.Database.Entities;
 
-namespace Samp.Movie.Database.Migrations
+namespace SampleProject.Movie.Database.Migrations
 {
     public class MovieDbContext : SampBaseContext
     {

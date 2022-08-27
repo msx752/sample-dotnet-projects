@@ -1,4 +1,4 @@
-namespace Samp.Movie.API
+namespace SampleProject.Movie.API
 {
     public class Program
     {

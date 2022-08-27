@@ -1,9 +1,9 @@
-﻿using Samp.Core.Database;
-using Samp.Core.Interfaces.Repositories;
-using Samp.Movie.Database.Entities;
-using Samp.Movie.Database.Migrations;
+﻿using SampleProject.Core.Database;
+using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Movie.Database.Entities;
+using SampleProject.Movie.Database.Migrations;
 
-namespace Samp.Movie.Database
+namespace SampleProject.Movie.Database
 {
     public class MovieDbContextSeed : ContextSeed<MovieDbContext>
     {

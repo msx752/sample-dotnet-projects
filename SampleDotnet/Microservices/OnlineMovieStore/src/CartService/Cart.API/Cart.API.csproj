@@ -6,13 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-	  <DockerfileContext>..\..\..</DockerfileContext>
+	  <DockerfileContext>..\..\..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0-preview.5.22302.2" />
 	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
-	  <ProjectReference Include="..\..\Samp.Contract\SampleProject.Contract.csproj" />
+	  <ProjectReference Include="..\..\..\..\..\NugetPackages\SampleProject.Contract\SampleProject.Contract.csproj" />
     <ProjectReference Include="..\Cart.Database\Cart.Database.csproj" />
   </ItemGroup>
 

@@ -1,6 +1,6 @@
-﻿using Samp.Core.AppSettings;
+﻿using SampleProject.Core.AppSettings;
 
-namespace Samp.Movie.API
+namespace SampleProject.Movie.API
 {
     public class MovieApplicationSettings : ApplicationSettings
     {

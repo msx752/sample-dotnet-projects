@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using Samp.Basket.API.Models.Dtos;
-using Samp.Cart.Database.Enums;
+﻿using Cart.Database.Enums;
+using Newtonsoft.Json;
+using SampleProject.Basket.API.Models.Dtos;
 
-namespace Samp.Cart.API.Models.Dtos
+namespace SampleProject.Cart.API.Models.Dtos
 {
     public class CartDto
     {

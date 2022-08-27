@@ -1,8 +1,8 @@
-﻿using Samp.Core.Entities;
+﻿using SampleProject.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Samp.Identity.Database.Entities
+namespace SampleProject.Identity.Database.Entities
 {
     [Table("UserEntity")]
     public class UserEntity : BaseEntity

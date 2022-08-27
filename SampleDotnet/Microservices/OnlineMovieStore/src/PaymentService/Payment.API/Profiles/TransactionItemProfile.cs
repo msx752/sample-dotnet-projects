@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Samp.Payment.API.Models.Dtos;
-using Samp.Payment.Database.Entities;
+using SampleProject.Payment.API.Models.Dtos;
+using SampleProject.Payment.Database.Entities;
 
-namespace Samp.Payment.API.Profiles
+namespace SampleProject.Payment.API.Profiles
 {
     public class TransactionItemProfile : Profile
     {

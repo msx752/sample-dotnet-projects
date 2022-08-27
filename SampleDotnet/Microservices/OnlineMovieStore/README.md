@@ -9,6 +9,8 @@ docker-compose build --no-cache
 docker-compose up
 
 Website Endpoint: http//:localhost:2000
+  - username: user1
+  - password: password1
 Gateway API Endpoint: http//:localhost:1010
 ```
 

@@ -1,11 +1,10 @@
-﻿using CustomImageProvider.Tests;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net.Http;
 using Xunit;
 
-namespace SampleProject.Tests
+namespace OnlineMovieStore.Tests
 {
     public class MainControllerTests<TStartup> : IClassFixture<CustomWebApplicationFactory<TStartup>>
         where TStartup : class

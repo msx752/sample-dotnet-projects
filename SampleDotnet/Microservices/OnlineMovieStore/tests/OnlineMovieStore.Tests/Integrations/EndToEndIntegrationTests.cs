@@ -1,25 +1,20 @@
-﻿using CustomImageProvider.Tests;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using OnlineMovieStore.Tests.OcelotRedirections;
 using SampleProject.Basket.API.Models.Dtos;
 using SampleProject.Cart.API.Models.Dtos;
 using SampleProject.Cart.API.Models.Requests;
 using SampleProject.Identity.API.Models.Dto;
-using SampleProject.Identity.API.Models.Requests;
 using SampleProject.Movie.API.Models.Responses;
-using SampleProject.Result;
 using SampleProject.Result.Abstractions;
-using SampleProject.Tests.OcelotRedirections;
 using Shouldly;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SampleProject.Tests.Integrations
+namespace OnlineMovieStore.Tests.Integrations
 {
     public class EndToEndIntegrationTests : MainControllerTests
     {
@@ -30,19 +25,19 @@ namespace SampleProject.Tests.Integrations
 
             #region Starts In-Memory Microservices
 
-            var movieService = new CustomWebApplicationFactory<Movie.API.Startup>();
+            var movieService = new CustomWebApplicationFactory<SampleProject.Movie.API.Startup>();
             var movieClient = movieService.CreateOcelotClient(1030);
 
-            var identityService = new CustomWebApplicationFactory<Identity.API.Startup>();
+            var identityService = new CustomWebApplicationFactory<SampleProject.Identity.API.Startup>();
             var identityClient = identityService.CreateOcelotClient(1020);
 
-            var cartService = new CustomWebApplicationFactory<Cart.API.Startup>();
+            var cartService = new CustomWebApplicationFactory<SampleProject.Cart.API.Startup>();
             var cartClient = cartService.CreateOcelotClient(1050);
 
-            var paymentService = new CustomWebApplicationFactory<Payment.API.Startup>();
+            var paymentService = new CustomWebApplicationFactory<SampleProject.Payment.API.Startup>();
             var pamynetClient = paymentService.CreateOcelotClient(1040);
 
-            var gatewayService = new OcelotWebApplicationFactory<Gateway.API.Startup>(new HttpClient[] {
+            var gatewayService = new OcelotWebApplicationFactory<SampleProject.Gateway.API.Startup>(new HttpClient[] {
                 movieClient, identityClient, cartClient, pamynetClient }
             );
             var client = gatewayService.CreateOcelotClient(1010);

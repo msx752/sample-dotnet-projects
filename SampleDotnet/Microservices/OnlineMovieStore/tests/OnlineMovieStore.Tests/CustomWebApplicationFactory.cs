@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Hosting;
 using System;
 
-namespace CustomImageProvider.Tests
+namespace OnlineMovieStore.Tests
 {
     ///https://github.com/aspnet/AspNetCore.Docs/blob/master/aspnetcore/test/integration-tests/samples/3.x/IntegrationTestsSample/tests/RazorPagesProject.Tests/CustomWebApplicationFactory.cs
     public class CustomWebApplicationFactory<TStartup>

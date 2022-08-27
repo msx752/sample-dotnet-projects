@@ -1,5 +1,5 @@
-﻿using CustomImageProvider.Tests;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using OnlineMovieStore.Tests;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
 using SampleProject.Result.Abstractions;
@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SampleProject.Tests.Controllers
+namespace OnlineMovieStore.Tests.Controllers
 {
     public class UsersControllerTests : MainControllerTests<SampleProject.Identity.API.Startup>
     {
@@ -27,7 +27,7 @@ namespace SampleProject.Tests.Controllers
                 new KeyValuePair<string, string>("password", "password1"),
                 new KeyValuePair<string, string>("grant_type", "password"),
             });
-            var responseUserLogin = this.ConvertResponse<ResponseModel<TokenDto>>(client.PostAsync($"api/token", contentUserLogin)
+            var responseUserLogin = ConvertResponse<ResponseModel<TokenDto>>(client.PostAsync($"api/token", contentUserLogin)
                 .ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult());

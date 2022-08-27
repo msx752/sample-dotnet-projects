@@ -1,6 +1,6 @@
-﻿using CustomImageProvider.Tests;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using OnlineMovieStore.Tests;
 using SampleProject.Core.Entities;
 using SampleProject.Core.Interfaces.Repositories;
 using SampleProject.Identity.Core.Migrations;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace SampleProject.Tests.DbContexts
+namespace OnlineMovieStore.Tests.DbContexts
 {
     public class IdentityDbContextTests
     {
@@ -26,7 +26,7 @@ namespace SampleProject.Tests.DbContexts
         [Fact]
         public void RUN_THIS_TEST_ALONE___Add_Update_Delete_with_AuditLog_Success()
         {
-            CustomWebApplicationFactory<SampleProject.Identity.API.Startup> _factory = new CustomWebApplicationFactory<Identity.API.Startup>();
+            CustomWebApplicationFactory<SampleProject.Identity.API.Startup> _factory = new CustomWebApplicationFactory<SampleProject.Identity.API.Startup>();
             _factory.CreateClient();
 
             //## Service Scope: DELETE Seed's AuditLogs
@@ -178,7 +178,7 @@ namespace SampleProject.Tests.DbContexts
             enumerator.Current.TableName.ShouldBe(nameof(UserEntity));
             enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(user_scope1.CreatedAt.ToString());
-            enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Create);
+            enumerator.Current.Type.ShouldBe(SampleProject.Core.Enums.AuditType.Create);
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession1);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
@@ -196,7 +196,7 @@ namespace SampleProject.Tests.DbContexts
             enumerator.Current.TableName.ShouldBe(nameof(RefreshTokenEntity));
             enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(refreshToken_scope1.CreatedAt.ToString());
-            enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Create);
+            enumerator.Current.Type.ShouldBe(SampleProject.Core.Enums.AuditType.Create);
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession1);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
@@ -213,7 +213,7 @@ namespace SampleProject.Tests.DbContexts
             enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(user_scope2.CreatedAt.ToString());
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession2);
-            enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Update);
+            enumerator.Current.Type.ShouldBe(SampleProject.Core.Enums.AuditType.Update);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
             enumerator.Current.PrimaryKey.ShouldContain(TokenJsonString(new { user_scope2.Id }));
@@ -228,7 +228,7 @@ namespace SampleProject.Tests.DbContexts
             enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(refreshToken_scope2.CreatedAt.ToString());
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession2);
-            enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Update);
+            enumerator.Current.Type.ShouldBe(SampleProject.Core.Enums.AuditType.Update);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
             enumerator.Current.PrimaryKey.ShouldContain(TokenJsonString(new { refreshToken_scope2.Id }));
@@ -243,7 +243,7 @@ namespace SampleProject.Tests.DbContexts
             enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(user_scope3.CreatedAt.ToString());
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession3);
-            enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Delete);
+            enumerator.Current.Type.ShouldBe(SampleProject.Core.Enums.AuditType.Delete);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
             enumerator.Current.PrimaryKey.ShouldContain(TokenJsonString(new { user_scope3.Id }));
@@ -261,7 +261,7 @@ namespace SampleProject.Tests.DbContexts
             enumerator.Current.IsDeleted.ShouldBeFalse();
             enumerator.Current.CreatedAt.ToString().ShouldBe(refreshToken_scope4.CreatedAt.ToString());
             enumerator.Current.CreatedBy.ShouldBe(userId_HttpRequestSession4);
-            enumerator.Current.Type.ShouldBe(Core.Enums.AuditType.Delete);
+            enumerator.Current.Type.ShouldBe(SampleProject.Core.Enums.AuditType.Delete);
             enumerator.Current.UpdatedAt.ShouldBeNull();
             enumerator.Current.UpdatedBy.ShouldBeNull();
             enumerator.Current.PrimaryKey.ShouldContain(TokenJsonString(new { refreshToken_scope4.Id }));

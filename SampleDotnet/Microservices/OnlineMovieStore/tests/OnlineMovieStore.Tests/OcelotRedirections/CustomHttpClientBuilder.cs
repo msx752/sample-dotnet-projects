@@ -1,4 +1,4 @@
-namespace SampleProject.Tests.OcelotRedirections;
+namespace OnlineMovieStore.Tests.OcelotRedirections;
 
 using System;
 using System.Linq;

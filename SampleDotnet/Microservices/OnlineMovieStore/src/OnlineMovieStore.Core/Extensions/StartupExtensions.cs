@@ -29,7 +29,7 @@ namespace SampleProject.Core.Extensions
 
             if (env.IsDevelopment())
             {
-                app.UseSwagger();
+                app.UseCustomSwagger();
             }
 
             app.UseElapsedTimeMeasurement();
@@ -65,7 +65,7 @@ namespace SampleProject.Core.Extensions
             services.AddEntityMapper();
             services.AddHttpContextAccessor();
             services.AddJWTAuthentication(configuration, new UnauthorizedResponse());
-            services.AddSwagger();
+            services.AddCustomSwagger();
             services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
 

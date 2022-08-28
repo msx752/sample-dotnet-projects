@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using SampleProject.Core.Extensions;
@@ -6,6 +7,7 @@ using SampleProject.Core.Filters;
 using SampleProject.Core.Model.Base;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -18,14 +20,8 @@ namespace SampleProject.Core.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
         {
-            var assemblies = Utility.GetLoadedAssemblies(f =>
-                !f.IsDynamic
-                && !f.FullName.Equals(typeof(BaseController).Assembly.FullName)
-                && f.DefinedTypes.Any(x => x.IsAssignableTo(typeof(BaseController)))
-            );
-
             services.AddSwaggerGen((sgo) =>
             {
                 sgo.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -35,15 +31,20 @@ namespace SampleProject.Core.Extensions
                     In = ParameterLocation.Header,
                     Scheme = "Bearer",
                     Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT"
+                    BearerFormat = "JWT",
                 });
                 sgo.OperationFilter<SwaggerAuthOperationFilter>();
 
-                if (assemblies.Count() > 0)
+                var xmls = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.xml");
+                foreach (var xmlFileLocation in xmls)
                 {
-                    var xmlFilePath = $"{assemblies.First().Location}.xml";
-                    xmlFilePath = xmlFilePath.Replace(".dll.xml", ".xml", StringComparison.InvariantCultureIgnoreCase);
-                    sgo.IncludeXmlComments(xmlFilePath);
+                    try
+                    {
+                        sgo.IncludeXmlComments(xmlFileLocation);
+                    }
+                    catch (Exception e)
+                    {
+                    }
                 }
             });
             return services;
@@ -54,13 +55,12 @@ namespace SampleProject.Core.Extensions
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCustomSwagger(this IApplicationBuilder app)
         {
-            var asm = Assembly.GetCallingAssembly();
             app.UseSwagger(c => c.SerializeAsV2 = false);
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", asm.FullName.Split(',')[0]);
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", Assembly.GetEntryAssembly().FullName.Split(',')[0]);
             });
 
             return app;

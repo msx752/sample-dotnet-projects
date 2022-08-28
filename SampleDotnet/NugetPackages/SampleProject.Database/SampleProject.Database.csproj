@@ -7,11 +7,11 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-preview.5.22302.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0-preview.5.22302.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0-preview.5.22303.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-preview.7.22376.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0-preview.7.22376.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0-preview.7.22376.6" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.0-preview3.22168.1" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.0" />
 	</ItemGroup>
 
 </Project>

@@ -20,7 +20,7 @@ namespace SampleProject.Core.Extensions
                 var assemblies = Utility.GetLoadedAssemblies(f =>
                     !f.IsDynamic
                     && f.DefinedTypes.Any(x => x.IsAssignableTo(typeof(AutoMapper.Profile))
-                    && !f.FullName.StartsWith("AutoMapper"))
+                    && f.FullName != typeof(AutoMapper.Profile).Assembly.FullName)
                 );
 
                 cfg.AddMaps(assemblies);

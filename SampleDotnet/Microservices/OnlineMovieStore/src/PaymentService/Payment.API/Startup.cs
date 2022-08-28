@@ -29,7 +29,7 @@ namespace SampleProject.Payment.API
         {
             services.AddGlobalStartupServices<PaymentApplicationSettings>(Configuration);
 
-            var IdentityContext = new DbContextParameter<PaymentDbContext, PaymentDbContextSeed>((provider, opt) =>
+            var IdentityContext = new DbContextParameter<PaymentDbContext>((provider, opt) =>
                     opt.UseInMemoryDatabase(databaseName: nameof(PaymentDbContext)).EnableSensitiveDataLogging());
 
             services.AddCustomDbContext(IdentityContext);

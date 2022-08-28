@@ -14,17 +14,20 @@ namespace SampleProject.Movie.Database
 
         public override void CommitSeed()
         {
-            Repository.Table<CategoryEntity>().Insert(SeedCategories());
-            Repository.Table<DirectorEntity>().Insert(SeedDirectors());
-            Repository.Table<WriterEntity>().Insert(SeedWriters());
-            var seedRating = SeedRatings();
-            Repository.Table<RatingEntity>().Insert(seedRating);
-            var seedMovies = SeedMovies(seedRating);
-            Repository.Table<MovieEntity>().Insert(seedMovies);
-            Repository.Table<MovieWriterEntity>().Insert(SeedMovieWriters());
-            Repository.Table<MovieDirectorEntity>().Insert(SeedmovieDirectors());
-            Repository.Table<MovieCategoryEntity>().Insert(SeedMovieCategories());
-            Repository.SaveChanges(Guid.Empty);
+            if (Repository.Table<CategoryEntity>().All().Count() == 0)
+            {
+                Repository.Table<CategoryEntity>().Insert(SeedCategories());
+                Repository.Table<DirectorEntity>().Insert(SeedDirectors());
+                Repository.Table<WriterEntity>().Insert(SeedWriters());
+                var seedRating = SeedRatings();
+                Repository.Table<RatingEntity>().Insert(seedRating);
+                var seedMovies = SeedMovies(seedRating);
+                Repository.Table<MovieEntity>().Insert(seedMovies);
+                Repository.Table<MovieWriterEntity>().Insert(SeedMovieWriters());
+                Repository.Table<MovieDirectorEntity>().Insert(SeedmovieDirectors());
+                Repository.Table<MovieCategoryEntity>().Insert(SeedMovieCategories());
+                Repository.SaveChanges(Guid.Empty);
+            }
         }
 
         public static CategoryEntity[] SeedCategories()

@@ -19,29 +19,32 @@ namespace SampleProject.Auth.Database
 
         public override void CommitSeed()
         {
-            var user1 = new UserEntity()
+            if (Repository.Table<UserEntity>().All().Count() == 0)
             {
-                Username = "user1",
-                Password = "password1",
-                Email = "user1@test.com",
-                Name = "Falan",
-                Surname = "Filan",
-            };
+                var user1 = new UserEntity()
+                {
+                    Username = "user1",
+                    Password = "password1",
+                    Email = "user1@test.com",
+                    Name = "Falan",
+                    Surname = "Filan",
+                };
 
-            Repository.Table<UserEntity>().Insert(user1);
+                Repository.Table<UserEntity>().Insert(user1);
 
-            var user2 = new UserEntity()
-            {
-                Username = "user2",
-                Password = "password2",
-                Email = "user2@test.com",
-                Name = "Alavere",
-                Surname = "Dalavere",
-            };
+                var user2 = new UserEntity()
+                {
+                    Username = "user2",
+                    Password = "password2",
+                    Email = "user2@test.com",
+                    Name = "Alavere",
+                    Surname = "Dalavere",
+                };
 
-            Repository.Table<UserEntity>().Insert(user2);
+                Repository.Table<UserEntity>().Insert(user2);
 
-            Repository.SaveChanges(Guid.NewGuid());
+                Repository.SaveChanges(Guid.NewGuid());
+            }
         }
     }
 }

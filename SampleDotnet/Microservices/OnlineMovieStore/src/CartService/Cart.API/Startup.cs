@@ -31,7 +31,7 @@ namespace SampleProject.Cart.API
         {
             services.AddGlobalStartupServices<CartApplicationSettings>(Configuration);
 
-            var IdentityContext = new DbContextParameter<CartDbContext, CartDbContextSeed>((provider, opt) =>
+            var IdentityContext = new DbContextParameter<CartDbContext>((provider, opt) =>
                     opt.UseInMemoryDatabase(databaseName: nameof(CartDbContext)).EnableSensitiveDataLogging());
 
             services.AddCustomDbContext(IdentityContext);

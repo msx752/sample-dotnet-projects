@@ -17,7 +17,7 @@ namespace SampleProject.Core.Database
             UpdateSettings();
         }
 
-        public bool IsUseAudit { get; set; }
+        public bool ActivateAuditLogging { get; set; }
 
         public SampBaseContext(DbContextOptions options)
             : base(options)
@@ -27,7 +27,7 @@ namespace SampleProject.Core.Database
 
         public virtual void UpdateSettings()
         {
-            IsUseAudit = true;
+            ActivateAuditLogging = true;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -115,7 +115,7 @@ namespace SampleProject.Core.Database
                         break;
                 }
 
-                if (!IsUseAudit)
+                if (!ActivateAuditLogging)
                     continue;
 
                 var auditEntry = new AuditEntry(entry);

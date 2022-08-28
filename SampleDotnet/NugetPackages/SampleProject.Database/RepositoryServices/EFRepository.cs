@@ -39,10 +39,10 @@ namespace SampleProject.Core.RepositoryServices
             _dbset.AddRange(entities);
         }
 
-        public IQueryable<T> All(bool includesDeletedEntities = false)
+        public IQueryable<T> All(bool includeSoftDelete = false)
         {
             IQueryable<T> queryable = _dbset.AsQueryable<T>();
-            if (includesDeletedEntities)
+            if (includeSoftDelete)
             {
                 return queryable;
             }
@@ -79,31 +79,31 @@ namespace SampleProject.Core.RepositoryServices
             _context?.Dispose();
         }
 
-        public T FirstOrDefault(Expression<Func<T, bool>> predicate, bool includesDeletedEntities = false)
+        public T FirstOrDefault(Expression<Func<T, bool>> predicate, bool includeSoftDelete = false)
         {
-            return All(includesDeletedEntities).FirstOrDefault(predicate);
+            return All(includeSoftDelete).FirstOrDefault(predicate);
         }
 
-        public bool Exists(object id, bool includesDeletedEntities = false)
+        public bool Exists(object id, bool includeSoftDelete = false)
         {
-            return GetById(id, includesDeletedEntities) != null;
+            return GetById(id, includeSoftDelete) != null;
         }
 
-        public bool Any(Expression<Func<T, bool>> predicate, bool includesDeletedEntities = false)
+        public bool Any(Expression<Func<T, bool>> predicate, bool includeSoftDelete = false)
         {
-            return All(includesDeletedEntities).Any(predicate);
+            return All(includeSoftDelete).Any(predicate);
         }
 
-        public T GetById(object id, bool includesDeletedEntities = false)
+        public T GetById(object id, bool includeSoftDelete = false)
         {
-            return Find(includesDeletedEntities, id);
+            return Find(includeSoftDelete, id);
         }
 
-        public T Find(bool includesDeletedEntities = false, params object[] keyValues)
+        public T Find(bool includeSoftDelete = false, params object[] keyValues)
         {
             var entity = _dbset.Find(keyValues);
 
-            if (entity == null || (entity.IsDeleted && !includesDeletedEntities))
+            if (entity == null || (entity.IsDeleted && !includeSoftDelete))
                 return null;
 
             return entity;
@@ -125,9 +125,9 @@ namespace SampleProject.Core.RepositoryServices
                                     Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                                     Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
                                     bool disableTracking = true,
-                                    bool includesDeletedEntities = false)
+                                    bool includeSoftDelete = false)
         {
-            IQueryable<T> query = All(includesDeletedEntities);
+            IQueryable<T> query = All(includeSoftDelete);
             if (disableTracking)
                 query = query.AsNoTracking();
 
@@ -176,9 +176,9 @@ namespace SampleProject.Core.RepositoryServices
             }
         }
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> predicate, bool includesDeletedEntities = false)
+        public IQueryable<T> Where(Expression<Func<T, bool>> predicate, bool includeSoftDelete = false)
         {
-            return All(includesDeletedEntities).Where(predicate);
+            return All(includeSoftDelete).Where(predicate);
         }
     }
 }

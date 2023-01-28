@@ -14,7 +14,7 @@ namespace SampleProject.Movie.Database
 
         public override void CommitSeed()
         {
-            if (Repository.Table<CategoryEntity>().All().Count() == 0)
+            if (Repository.Table<CategoryEntity>().AsQueryable().Count() == 0)
             {
                 Repository.Table<CategoryEntity>().Insert(SeedCategories());
                 Repository.Table<DirectorEntity>().Insert(SeedDirectors());

@@ -3,9 +3,6 @@ using Microsoft.EntityFrameworkCore.Query;
 using SampleProject.Core.Database;
 using SampleProject.Core.Entities;
 using SampleProject.Core.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace SampleProject.Core.RepositoryServices
@@ -39,17 +36,10 @@ namespace SampleProject.Core.RepositoryServices
             _dbset.AddRange(entities);
         }
 
-        public IQueryable<T> All(bool includeSoftDelete = false)
+        public IQueryable<T> AsQueryable()
         {
             IQueryable<T> queryable = _dbset.AsQueryable<T>();
-            if (includeSoftDelete)
-            {
-                return queryable;
-            }
-            else
-            {
-                return queryable.Where(f => !f.IsDeleted);
-            }
+            return queryable;
         }
 
         public void Delete(T entity)
@@ -79,32 +69,34 @@ namespace SampleProject.Core.RepositoryServices
             _context?.Dispose();
         }
 
-        public T FirstOrDefault(Expression<Func<T, bool>> predicate, bool includeSoftDelete = false)
+        public T FirstOrDefault(Expression<Func<T, bool>> predicate)
         {
-            return All(includeSoftDelete).FirstOrDefault(predicate);
+            return AsQueryable().FirstOrDefault(predicate);
         }
 
-        public bool Exists(object id, bool includeSoftDelete = false)
+        public bool Exists(object id)
         {
-            return GetById(id, includeSoftDelete) != null;
+            return GetById(id) != null;
         }
 
-        public bool Any(Expression<Func<T, bool>> predicate, bool includeSoftDelete = false)
+        public bool Any(Expression<Func<T, bool>> predicate)
         {
-            return All(includeSoftDelete).Any(predicate);
+            return AsQueryable().Any(predicate);
         }
 
-        public T GetById(object id, bool includeSoftDelete = false)
+        public T GetById(object id)
         {
-            return Find(includeSoftDelete, id);
+            return Find(id);
         }
 
-        public T Find(bool includeSoftDelete = false, params object[] keyValues)
+        public T Find(params object[] keyValues)
         {
             var entity = _dbset.Find(keyValues);
 
-            if (entity == null || (entity.IsDeleted && !includeSoftDelete))
+            if (entity == null)
+            {
                 return null;
+            }
 
             return entity;
         }
@@ -124,10 +116,9 @@ namespace SampleProject.Core.RepositoryServices
                                     Expression<Func<T, bool>> predicate = null,
                                     Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                                     Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
-                                    bool disableTracking = true,
-                                    bool includeSoftDelete = false)
+                                    bool disableTracking = true)
         {
-            IQueryable<T> query = All(includeSoftDelete);
+            IQueryable<T> query = AsQueryable();
             if (disableTracking)
                 query = query.AsNoTracking();
 
@@ -153,10 +144,15 @@ namespace SampleProject.Core.RepositoryServices
              */
         }
 
+        public IQueryable<T> AsNoTracking()
+        {
+            IQueryable<T> query = _dbset.AsQueryable<T>();
+            return query.AsNoTracking();
+        }
+
         public void Update(T entity)
         {
             var entry = _context.Entry(entity);
-            //_dbset.Attach(entity);
             entry.State = EntityState.Modified;
         }
 
@@ -176,9 +172,9 @@ namespace SampleProject.Core.RepositoryServices
             }
         }
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> predicate, bool includeSoftDelete = false)
+        public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
         {
-            return All(includeSoftDelete).Where(predicate);
+            return AsQueryable().Where(predicate);
         }
     }
 }

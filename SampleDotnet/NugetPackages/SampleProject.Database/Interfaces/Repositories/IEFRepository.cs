@@ -20,9 +20,9 @@ namespace SampleProject.Core.Interfaces.Repositories
 
         void Insert(IEnumerable<T> entities);
 
-        IQueryable<T> All(bool includeSoftDelete = false);
+        IQueryable<T> AsQueryable();
 
-        bool Any(Expression<Func<T, bool>> predicate, bool includeSoftDelete = false);
+        bool Any(Expression<Func<T, bool>> predicate);
 
         void Delete(T entity);
 
@@ -30,15 +30,15 @@ namespace SampleProject.Core.Interfaces.Repositories
 
         void Delete(IEnumerable<T> entities);
 
-        T FirstOrDefault(Expression<Func<T, bool>> predicate, bool includeSoftDelete = false);
+        T FirstOrDefault(Expression<Func<T, bool>> predicate);
 
-        bool Exists(object id, bool includeSoftDelete = false);
+        bool Exists(object id);
 
-        T GetById(object id, bool includeSoftDelete = false);
+        T GetById(object id);
 
-        T Find(bool includeSoftDelete = false, params object[] keyValues);
+        T Find(params object[] keyValues);
 
-        T Single(Expression<Func<T, T>> selector, Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true, bool includeSoftDelete = false);
+        T Single(Expression<Func<T, T>> selector, Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true);
 
         void Update(T entity);
 
@@ -46,6 +46,6 @@ namespace SampleProject.Core.Interfaces.Repositories
 
         void Update(IEnumerable<T> entities);
 
-        IQueryable<T> Where(Expression<Func<T, bool>> predicate, bool includeSoftDelete = false);
+        IQueryable<T> Where(Expression<Func<T, bool>> predicate);
     }
 }

@@ -19,7 +19,7 @@ namespace SampleProject.Auth.Database
 
         public override void CommitSeed()
         {
-            if (Repository.Table<UserEntity>().All().Count() == 0)
+            if (Repository.Table<UserEntity>().AsQueryable().Count() == 0)
             {
                 var user1 = new UserEntity()
                 {

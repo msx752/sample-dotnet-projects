@@ -69,7 +69,7 @@ namespace SampleProject.Identity.API.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return new OkResponse(mapper.Map<List<UserDto>>(repository.Table<UserEntity>().All().ToList()));
+            return new OkResponse(mapper.Map<List<UserDto>>(repository.Table<UserEntity>().AsQueryable().ToList()));
         }
 
         /// <summary>

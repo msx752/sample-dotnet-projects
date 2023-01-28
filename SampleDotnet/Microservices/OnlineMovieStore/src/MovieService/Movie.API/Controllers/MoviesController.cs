@@ -33,7 +33,7 @@ namespace SampleProject.Movie.API.Controllers
             MovieIndexViewModel movieIndexModel = new MovieIndexViewModel();
 
             var hightRatingEntity = repository.Table<MovieEntity>()
-                .All()
+                .AsQueryable()
                 .Include(f => f.Rating)
                 .Where(f => f.Rating.AverageRating >= 70)
                 .Take(5)
@@ -41,13 +41,13 @@ namespace SampleProject.Movie.API.Controllers
             movieIndexModel.HighRatings = mapper.Map<List<MovieDto>>(hightRatingEntity);
 
             var allEntity = repository.Table<MovieEntity>()
-                .All()
+                .AsQueryable()
                 .Include(f => f.Rating)
                 .ToList();
             movieIndexModel.All = mapper.Map<List<MovieDto>>(allEntity);
 
             var recentyAddedEntities = repository.Table<MovieEntity>()
-                .All()
+                .AsQueryable()
                 .Include(f => f.Rating)
                 .Take(4)
                 .ToList();
@@ -60,7 +60,7 @@ namespace SampleProject.Movie.API.Controllers
         public ActionResult HighRatings()
         {
             var hightRatingEntity = repository.Table<MovieEntity>()
-                .All()
+                .AsQueryable()
                 .Include(f => f.Rating)
                 .Where(f => f.Rating.AverageRating >= 70)
                 .Take(5)
@@ -73,7 +73,7 @@ namespace SampleProject.Movie.API.Controllers
         public ActionResult RecentlyAdded()
         {
             var recentyAddedEntities = repository.Table<MovieEntity>()
-                .All()
+                .AsQueryable()
                 .Include(f => f.Rating)
                 .Take(4)
                 .ToList();
@@ -85,7 +85,7 @@ namespace SampleProject.Movie.API.Controllers
         public ActionResult GetById(string Id)
         {
             var entity = repository.Table<MovieEntity>()
-                .All()
+                .AsQueryable()
                 .Include(x => x.Rating)
                 .Include(x => x.MovieWriters)
                 .ThenInclude(x => x.Writer)
@@ -109,7 +109,7 @@ namespace SampleProject.Movie.API.Controllers
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
             var entity = repository.Table<MovieEntity>()
-                .All()
+                .AsQueryable()
                 .Include(f => f.Rating)
                 .Where(f => f.Title.Contains(model.Query, StringComparison.InvariantCultureIgnoreCase))
                 .ToList();
@@ -128,7 +128,7 @@ namespace SampleProject.Movie.API.Controllers
                 return new NotFoundResponse("Category not found: " + Id);
 
             var entity = repository.Table<MovieCategoryEntity>()
-                .All()
+                .AsQueryable()
                 .Include(f => f.Movie)
                 .ThenInclude(f => f.Rating)
                 .Where(f => f.CategoryId == entityCategory.Id)
@@ -142,7 +142,7 @@ namespace SampleProject.Movie.API.Controllers
         public ActionResult GetCategories() //TODO: move to CategoriesController
         {
             var entity = repository.Table<CategoryEntity>()
-                .All()
+                .AsQueryable()
                 .Include(f => f.Categories)
                 .Where(f => f.Categories.Any())
                 .ToList();

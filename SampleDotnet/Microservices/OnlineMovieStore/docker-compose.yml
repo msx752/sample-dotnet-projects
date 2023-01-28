@@ -3,7 +3,7 @@ version: '3.4'
 services:
 
   myrabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:3-management
     container_name: myrabbitmq
     restart: "on-failure"
     ports:

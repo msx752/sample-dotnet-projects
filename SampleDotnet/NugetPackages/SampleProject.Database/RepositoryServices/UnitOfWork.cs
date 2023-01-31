@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SampleProject.Core.Database;
 using SampleProject.Core.Entities;
+using SampleProject.Core.Extensions;
 using SampleProject.Core.Interfaces.Repositories;
 using System;
 using System.Collections.Concurrent;
@@ -21,13 +23,14 @@ namespace SampleProject.Core.RepositoryServices
             _context = context;
         }
 
-        /// <summary>
-        /// MAGIC
-        /// </summary>
-        /// <returns></returns>
-        public int SaveChanges(Guid userId)
+        public int SaveChanges()
         {
-            return _context.SaveChanges(userId);
+            return _context.SaveChanges();
+        }
+
+        public IEnumerable<AuditEntry> DetectChanges()
+        {
+            return _context.DetectChanges();
         }
 
         public IEFRepository<TEntity> Table<TEntity>()
@@ -43,11 +46,6 @@ namespace SampleProject.Core.RepositoryServices
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public int RawQuery(string sql, params object[] parameters)
-        {
-            return _context.Database.ExecuteSqlRaw(sql, parameters);
         }
 
         internal void Dispose(bool disposing)

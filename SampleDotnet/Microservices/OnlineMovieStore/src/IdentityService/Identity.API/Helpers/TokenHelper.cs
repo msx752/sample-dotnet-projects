@@ -38,7 +38,7 @@ namespace SampleProject.Identity.API.Helpers
                 User = user
             };
             user.RefreshTokens.Add(generatedRefreshToken);
-            repository.SaveChanges(user.Id);
+            repository.SaveChanges();
             var accessToken = GenerateAccessToken(claims, out DateTime AccessTokenExpiresAt);
 
             return new TokenDto()

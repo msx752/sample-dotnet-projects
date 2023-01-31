@@ -18,13 +18,13 @@ namespace SampleProject.Movie.API.Controllers
     [Route("api/[controller]")]
     public class MoviesController : BaseController
     {
-        private readonly IUnitOfWork<MovieDbContext> repository;
+        private readonly IUnitOfWork<MovieDbContext> _uow;
 
         public MoviesController(IMapper mapper
             , IUnitOfWork<MovieDbContext> repository)
             : base(mapper)
         {
-            this.repository = repository;
+            this._uow = repository;
         }
 
         [HttpGet]
@@ -32,7 +32,7 @@ namespace SampleProject.Movie.API.Controllers
         {
             MovieIndexViewModel movieIndexModel = new MovieIndexViewModel();
 
-            var hightRatingEntity = repository.Table<MovieEntity>()
+            var hightRatingEntity = _uow.Table<MovieEntity>()
                 .AsQueryable()
                 .Include(f => f.Rating)
                 .Where(f => f.Rating.AverageRating >= 70)
@@ -40,13 +40,13 @@ namespace SampleProject.Movie.API.Controllers
                 .ToList();
             movieIndexModel.HighRatings = mapper.Map<List<MovieDto>>(hightRatingEntity);
 
-            var allEntity = repository.Table<MovieEntity>()
+            var allEntity = _uow.Table<MovieEntity>()
                 .AsQueryable()
                 .Include(f => f.Rating)
                 .ToList();
             movieIndexModel.All = mapper.Map<List<MovieDto>>(allEntity);
 
-            var recentyAddedEntities = repository.Table<MovieEntity>()
+            var recentyAddedEntities = _uow.Table<MovieEntity>()
                 .AsQueryable()
                 .Include(f => f.Rating)
                 .Take(4)
@@ -59,7 +59,7 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("HighRatings")]
         public ActionResult HighRatings()
         {
-            var hightRatingEntity = repository.Table<MovieEntity>()
+            var hightRatingEntity = _uow.Table<MovieEntity>()
                 .AsQueryable()
                 .Include(f => f.Rating)
                 .Where(f => f.Rating.AverageRating >= 70)
@@ -72,7 +72,7 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("RecentlyAdded")]
         public ActionResult RecentlyAdded()
         {
-            var recentyAddedEntities = repository.Table<MovieEntity>()
+            var recentyAddedEntities = _uow.Table<MovieEntity>()
                 .AsQueryable()
                 .Include(f => f.Rating)
                 .Take(4)
@@ -84,7 +84,7 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("{Id}")]
         public ActionResult GetById(string Id)
         {
-            var entity = repository.Table<MovieEntity>()
+            var entity = _uow.Table<MovieEntity>()
                 .AsQueryable()
                 .Include(x => x.Rating)
                 .Include(x => x.MovieWriters)
@@ -108,7 +108,7 @@ namespace SampleProject.Movie.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var entity = repository.Table<MovieEntity>()
+            var entity = _uow.Table<MovieEntity>()
                 .AsQueryable()
                 .Include(f => f.Rating)
                 .Where(f => f.Title.Contains(model.Query, StringComparison.InvariantCultureIgnoreCase))
@@ -123,11 +123,11 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("CategoryBy/{Id}")]
         public ActionResult GetFilteredByCategoryId(int Id)
         {
-            var entityCategory = repository.Table<CategoryEntity>().GetById(Id);
+            var entityCategory = _uow.Table<CategoryEntity>().GetById(Id);
             if (entityCategory == null)
                 return new NotFoundResponse("Category not found: " + Id);
 
-            var entity = repository.Table<MovieCategoryEntity>()
+            var entity = _uow.Table<MovieCategoryEntity>()
                 .AsQueryable()
                 .Include(f => f.Movie)
                 .ThenInclude(f => f.Rating)
@@ -141,7 +141,7 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("Categories")]
         public ActionResult GetCategories() //TODO: move to CategoriesController
         {
-            var entity = repository.Table<CategoryEntity>()
+            var entity = _uow.Table<CategoryEntity>()
                 .AsQueryable()
                 .Include(f => f.Categories)
                 .Where(f => f.Categories.Any())

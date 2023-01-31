@@ -26,7 +26,7 @@ namespace SampleProject.Movie.Database
                 Repository.Table<MovieWriterEntity>().Insert(SeedMovieWriters());
                 Repository.Table<MovieDirectorEntity>().Insert(SeedmovieDirectors());
                 Repository.Table<MovieCategoryEntity>().Insert(SeedMovieCategories());
-                Repository.SaveChanges(Guid.Empty);
+                Repository.SaveChanges();
             }
         }
 

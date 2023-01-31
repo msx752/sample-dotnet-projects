@@ -13,6 +13,6 @@ namespace SampleProject.Core.Interfaces.Repositories
 
     public interface ISharedRepository : IDisposable
     {
-        int SaveChanges(Guid userId);
+        int SaveChanges();
     }
 }

@@ -30,14 +30,14 @@ namespace SampleProject.Cart.API.Consumers
         public async Task Consume(ConsumeContext<CartEntityRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<IUnitOfWork<CartDbContext>>())
+            using (var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork<CartDbContext>>())
             {
-                var entity = repository.Table<CartEntity>()
+                var entity = uow.Table<CartEntity>()
                     .Where(f =>
                         f.UserId == context.Message.ActivityUserId
                         && f.Id == context.Message.CartId
                     )
-                    .Include(f => f.Items.Where(x => !x.IsDeleted))
+                    .Include(f => f.Items)
                     .FirstOrDefault();
 
                 CartEntityResponseMessage cartEntityResponseMessage = null;

@@ -33,13 +33,12 @@ namespace SampleProject.Cart.API.Consumers
         public async Task Consume(ConsumeContext<CartStatusRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<IUnitOfWork<CartDbContext>>())
+            using (var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork<CartDbContext>>())
             {
-                var entity = repository.Table<CartEntity>()
+                var entity = uow.Table<CartEntity>()
                     .Where(f =>
                             f.Id == context.Message.CartId
                             && f.UserId == context.Message.ActivityUserId
-                            && !f.IsDeleted
                     )
                     .FirstOrDefault();
 
@@ -54,8 +53,8 @@ namespace SampleProject.Cart.API.Consumers
                 else if (Enum.TryParse<CartStatus>(context.Message.CartStatus, out CartStatus cartStatus))
                 {
                     entity.Satus = cartStatus;
-                    repository.Table<CartEntity>().Update(entity);
-                    repository.SaveChanges(context.Message.ActivityUserId);
+                    uow.Table<CartEntity>().Update(entity);
+                    uow.SaveChanges();
                 }
                 else
                 {

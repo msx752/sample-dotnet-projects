@@ -19,25 +19,25 @@ namespace SampleProject.ayment.API.Controllers
     [Route("api/[controller]")]
     public class PaymentsController : BaseController
     {
-        private readonly IUnitOfWork<PaymentDbContext> repository;
+        private readonly IUnitOfWork<PaymentDbContext> _uow;
         private readonly IMessageBus messageBus;
 
         public PaymentsController(
             IMapper _mapper
-            , IUnitOfWork<PaymentDbContext> repository
+            , IUnitOfWork<PaymentDbContext> uow
             , IMessageBus messageBus)
             : base(_mapper)
         {
-            this.repository = repository;
+            this._uow = uow;
             this.messageBus = messageBus;
         }
 
         [HttpGet("History")]
         public IActionResult PaymentHistory()
         {
-            var transactionEntities = repository.Table<TransactionEntity>()
+            var transactionEntities = _uow.Table<TransactionEntity>()
                    .Where(f => f.UserId == LoggedUserId)
-                   .Include(f => f.TransactionItems.Where(x => !x.IsDeleted))
+                   .Include(f => f.TransactionItems)
                    .ToList();
 
             return new OkResponse(mapper.Map<List<TransactionDto>>(transactionEntities));
@@ -95,8 +95,8 @@ namespace SampleProject.ayment.API.Controllers
                 }
                 transactionEntity.TotalCalculatedPrice = $"{totalPrice} {transactionEntity.TransactionItems.First().ProductPriceCurrency}";
 
-                repository.Table<TransactionEntity>().Insert(transactionEntity);
-                repository.SaveChanges(LoggedUserId);
+                _uow.Table<TransactionEntity>().Insert(transactionEntity);
+                _uow.SaveChanges();
 
                 var paid_response = await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
                 {

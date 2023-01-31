@@ -43,7 +43,7 @@ namespace SampleProject.Auth.Database
 
                 Repository.Table<UserEntity>().Insert(user2);
 
-                Repository.SaveChanges(Guid.NewGuid());
+                Repository.SaveChanges();
             }
         }
     }

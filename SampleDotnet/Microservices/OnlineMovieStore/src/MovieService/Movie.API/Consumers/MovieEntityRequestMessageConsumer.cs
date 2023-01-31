@@ -30,9 +30,9 @@ namespace SampleProject.Movie.API.Consumers
         public async Task Consume(ConsumeContext<MovieEntityRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<IUnitOfWork<MovieDbContext>>())
+            using (var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork<MovieDbContext>>())
             {
-                var movieEntity = repository
+                var movieEntity = uow
                     .Table<MovieEntity>()
                     .Find(keyValues: context.Message.ProductId);
 

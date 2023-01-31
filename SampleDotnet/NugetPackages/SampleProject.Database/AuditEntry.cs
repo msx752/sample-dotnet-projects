@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 using SampleProject.Core.Entities;
 using SampleProject.Core.Enums;
@@ -11,34 +12,40 @@ namespace SampleProject.Core.Database
 {
     public class AuditEntry
     {
-        public AuditEntry(EntityEntry entry)
+        public AuditEntry(string tableName, EntityState state)
         {
-            Entry = entry;
+            Identifier = System.Diagnostics.Activity.Current?.RootId ?? Guid.Empty.ToString();
+            PrimaryKeys = new Dictionary<string, object>();
+            OldValues = new Dictionary<string, object>();
+            NewValues = new Dictionary<string, object>();
+            AffectedColumns = new List<string>();
+            CreatedAt = DateTimeOffset.UtcNow;
+            State = state;
+            TableName = tableName;
         }
 
-        public EntityEntry Entry { get; }
-        public Guid UserId { get; set; }
-        public string TableName { get; set; }
-        public Dictionary<string, object> KeyValues { get; } = new Dictionary<string, object>();
-        public Dictionary<string, object> OldValues { get; } = new Dictionary<string, object>();
-        public Dictionary<string, object> NewValues { get; } = new Dictionary<string, object>();
-        public AuditType AuditType { get; set; }
-        public List<string> ChangedColumns { get; } = new List<string>();
+        public string TableName { get; }
+        public Dictionary<string, object> PrimaryKeys { get; }
+        public Dictionary<string, object> OldValues { get; }
+        public Dictionary<string, object> NewValues { get; }
+        public EntityState State { get; }
+        public List<string> AffectedColumns { get; }
+        public string Identifier { get; }
+        public DateTimeOffset CreatedAt { get; }
 
-        public AuditEntity ToAudit()
-        {
-            var dtnow = DateTimeOffset.UtcNow;
-            var audit = new AuditEntity();
-            audit.CreatedBy = UserId;
-            audit.CreatedAt = dtnow;
-            audit.Identifier = System.Diagnostics.Activity.Current?.RootId ?? Guid.Empty.ToString();
-            audit.Type = AuditType;
-            audit.TableName = TableName;
-            audit.PrimaryKey = JsonConvert.SerializeObject(KeyValues);
-            audit.OldValues = OldValues.Count == 0 ? "" : JsonConvert.SerializeObject(OldValues);
-            audit.NewValues = NewValues.Count == 0 ? "" : JsonConvert.SerializeObject(NewValues);
-            audit.AffectedColumns = ChangedColumns.Count == 0 ? "" : JsonConvert.SerializeObject(ChangedColumns);
-            return audit;
-        }
+        //public AuditEntity ToAudit()
+        //{
+        //    var dtnow = DateTimeOffset.UtcNow;
+        //    var audit = new AuditEntity();
+        //    audit.CreatedAt = dtnow;
+        //    audit.Identifier = System.Diagnostics.Activity.Current?.RootId ?? Guid.Empty.ToString();
+        //    audit.Type = AuditType;
+        //    audit.TableName = TableName;
+        //    audit.PrimaryKey = JsonConvert.SerializeObject(KeyValues);
+        //    audit.OldValues = OldValues.Count == 0 ? "" : JsonConvert.SerializeObject(OldValues);
+        //    audit.NewValues = NewValues.Count == 0 ? "" : JsonConvert.SerializeObject(NewValues);
+        //    audit.AffectedColumns = ChangedColumns.Count == 0 ? "" : JsonConvert.SerializeObject(ChangedColumns);
+        //    return audit;
+        //}
     }
 }

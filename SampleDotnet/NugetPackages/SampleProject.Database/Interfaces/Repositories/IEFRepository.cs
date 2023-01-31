@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace SampleProject.Core.Interfaces.Repositories
 {
-    public interface IEFRepository : IDisposable
+    public interface IEFRepository
     {
     }
 
@@ -21,6 +21,8 @@ namespace SampleProject.Core.Interfaces.Repositories
         void Insert(IEnumerable<T> entities);
 
         IQueryable<T> AsQueryable();
+
+        IQueryable<T> AsNoTracking();
 
         bool Any(Expression<Func<T, bool>> predicate);
 
@@ -37,8 +39,6 @@ namespace SampleProject.Core.Interfaces.Repositories
         T GetById(object id);
 
         T Find(params object[] keyValues);
-
-        T Single(Expression<Func<T, T>> selector, Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, bool disableTracking = true);
 
         void Update(T entity);
 

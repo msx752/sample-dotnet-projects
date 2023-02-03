@@ -11,12 +11,12 @@ namespace SampleProject.Core.Database
     {
         private bool initiated = false;
 
-        public ContextSeed(IUnitOfWork<TDbContext> connection)
+        public ContextSeed(IRepository<TDbContext> connection)
         {
             Repository = connection;
         }
 
-        public IUnitOfWork<TDbContext> Repository { get; }
+        public IRepository<TDbContext> Repository { get; }
 
         public override sealed void Execute()
         {

@@ -41,8 +41,8 @@ namespace SampleProject.Core.Extensions
 
                 #region DbContext Repository Initializer
 
-                var genericSharedRepository = typeof(UnitOfWork<>).MakeGenericType(dbContextParameter.DbContextType);
-                var iGenericSharedRepository = typeof(IUnitOfWork<>).MakeGenericType(dbContextParameter.DbContextType);
+                var genericSharedRepository = typeof(Repository<>).MakeGenericType(dbContextParameter.DbContextType);
+                var iGenericSharedRepository = typeof(IRepository<>).MakeGenericType(dbContextParameter.DbContextType);
 
                 services.AddScoped(iGenericSharedRepository, genericSharedRepository);
 

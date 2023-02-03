@@ -12,14 +12,14 @@ namespace SampleProject.Auth.Database
 {
     public class IdentityContextSeed : ContextSeed<IdentityDbContext>
     {
-        public IdentityContextSeed(IUnitOfWork<IdentityDbContext> connection)
+        public IdentityContextSeed(IRepository<IdentityDbContext> connection)
             : base(connection)
         {
         }
 
         public override void CommitSeed()
         {
-            if (Repository.Table<UserEntity>().AsQueryable().Count() == 0)
+            if (Repository.AsQueryable<UserEntity>().Count() == 0)
             {
                 var user1 = new UserEntity()
                 {
@@ -30,7 +30,7 @@ namespace SampleProject.Auth.Database
                     Surname = "Filan",
                 };
 
-                Repository.Table<UserEntity>().Insert(user1);
+                Repository.Insert(user1);
 
                 var user2 = new UserEntity()
                 {
@@ -41,7 +41,7 @@ namespace SampleProject.Auth.Database
                     Surname = "Dalavere",
                 };
 
-                Repository.Table<UserEntity>().Insert(user2);
+                Repository.Insert(user2);
 
                 Repository.SaveChanges();
             }

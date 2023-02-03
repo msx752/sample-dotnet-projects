@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using SampleProject.Core.AppSettings;
 using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Core.RepositoryServices;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.Core.Migrations;
 using SampleProject.Identity.Database.Entities;
@@ -16,12 +17,12 @@ namespace SampleProject.Identity.API.Helpers
 {
     public class TokenHelper : ITokenHelper
     {
-        private readonly IUnitOfWork<IdentityDbContext> repository;
+        private readonly IRepository<IdentityDbContext> repository;
         private readonly JWTOptions jwt;
 
         public TokenHelper(
             IOptions<IdentityApplicationSettings> appSettings
-            , IUnitOfWork<IdentityDbContext> repository)
+            , IRepository<IdentityDbContext> repository)
         {
             this.repository = repository;
 
@@ -38,6 +39,7 @@ namespace SampleProject.Identity.API.Helpers
                 User = user
             };
             user.RefreshTokens.Add(generatedRefreshToken);
+            repository.Update(user);
             repository.SaveChanges();
             var accessToken = GenerateAccessToken(claims, out DateTime AccessTokenExpiresAt);
 

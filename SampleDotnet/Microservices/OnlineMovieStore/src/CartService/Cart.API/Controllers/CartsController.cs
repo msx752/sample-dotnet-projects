@@ -24,25 +24,25 @@ namespace SampleProject.Cart.API.Controllers
     [Route("api/[controller]")]
     public class CartsController : BaseController
     {
-        private readonly IUnitOfWork<CartDbContext> _uow;
         private readonly IMessageBus messageBus;
+        private readonly IRepository<CartDbContext> _repository;
 
         public CartsController(
             IMapper mapper
-            , IUnitOfWork<CartDbContext> repository
+            , IRepository<CartDbContext> repository
             , IMessageBus messageBus
             )
             : base(mapper)
         {
-            this._uow = repository;
+            _repository = repository;
             this.messageBus = messageBus;
         }
 
         [HttpGet]
         public IActionResult GetCart()
         {
-            var entity = _uow.Table<CartEntity>()
-                .Where(f => f.UserId == LoggedUserId && f.Satus != CartStatus.Paid)
+            var entity = _repository
+                .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Satus != CartStatus.Paid)
                 .Include(f => f.Items)
                 .FirstOrDefault();
 
@@ -52,8 +52,8 @@ namespace SampleProject.Cart.API.Controllers
                 {
                     UserId = LoggedUserId,
                 };
-                _uow.Table<CartEntity>().Insert(entity);
-                _uow.SaveChanges();
+                _repository.Insert(entity);
+                _repository.SaveChanges();
             }
             return new OkResponse(mapper.Map<CartDto>(entity));
         }
@@ -64,8 +64,8 @@ namespace SampleProject.Cart.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var entity = _uow.Table<CartEntity>()
-                .Where(f => f.UserId == LoggedUserId && f.Id == cartId)
+            var entity = _repository
+                .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Id == cartId)
                 .FirstOrDefault();
 
             if (entity == null)
@@ -100,8 +100,8 @@ namespace SampleProject.Cart.API.Controllers
                 SalesPriceCurrency = "usd",
                 SalesPrice = movieEntityResponse.Message.UsdPrice,
             };
-            _uow.Table<CartItemEntity>().Insert(entityCartItem);
-            _uow.SaveChanges();
+            _repository.Insert(entityCartItem);
+            _repository.SaveChanges();
 
             return new OkResponse(mapper.Map<CartItemDto>(entityCartItem));
         }
@@ -109,8 +109,8 @@ namespace SampleProject.Cart.API.Controllers
         [HttpDelete("{cartId}/Item/{cartItemId}")]
         public ActionResult CartRemove(Guid cartId, Guid cartItemId)
         {
-            var entity = _uow.Table<CartItemEntity>()
-                .Where(f => f.CartId == cartId
+            var entity = _repository
+                .Where<CartItemEntity>(f => f.CartId == cartId
                     && f.Cart.UserId == LoggedUserId
                     && f.Id == cartItemId
                     )
@@ -130,8 +130,8 @@ namespace SampleProject.Cart.API.Controllers
                 return new BadRequestResponse($"selected cart status is PAID, no more items can be removed");
             }
 
-            _uow.Table<CartItemEntity>().Delete(entity);
-            _uow.SaveChanges();
+            _repository.Delete(entity);
+            _repository.SaveChanges();
 
             return new OkResponse();
         }

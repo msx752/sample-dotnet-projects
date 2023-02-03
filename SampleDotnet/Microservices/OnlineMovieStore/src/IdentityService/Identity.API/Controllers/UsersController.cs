@@ -16,15 +16,15 @@ namespace SampleProject.Identity.API.Controllers
     [Route("api/[controller]")]
     public class UsersController : BaseController
     {
-        private readonly IUnitOfWork<IdentityDbContext> _uow;
+        private readonly IRepository<IdentityDbContext> _repository;
 
         public UsersController(
             IMapper mapper
-            , IUnitOfWork<IdentityDbContext> repository
+            , IRepository<IdentityDbContext> repository
             )
             : base(mapper)
         {
-            this._uow = repository;
+            this._repository = repository;
         }
 
         /// <summary>
@@ -35,13 +35,13 @@ namespace SampleProject.Identity.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(Guid id)
         {
-            var personal = _uow.Table<UserEntity>().GetById(id);
+            var personal = _repository.GetById<UserEntity>(id);
 
             if (personal == null)
                 return new NotFoundResponse();
 
-            _uow.Table<UserEntity>().Delete(personal);
-            _uow.SaveChanges();
+            _repository.Delete(personal);
+            _repository.SaveChanges();
 
             return new OkResponse(mapper.Map<UserDto>(personal));
         }
@@ -54,7 +54,7 @@ namespace SampleProject.Identity.API.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(Guid id)
         {
-            var personal = _uow.Table<UserEntity>().GetById(id);
+            var personal = _repository.GetById<UserEntity>(id);
 
             if (personal == null)
                 return new NotFoundResponse();
@@ -69,7 +69,7 @@ namespace SampleProject.Identity.API.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return new OkResponse(mapper.Map<List<UserDto>>(_uow.Table<UserEntity>().AsQueryable().ToList()));
+            return new OkResponse(mapper.Map<List<UserDto>>(_repository.AsQueryable<UserEntity>().ToList()));
         }
 
         /// <summary>
@@ -85,8 +85,8 @@ namespace SampleProject.Identity.API.Controllers
 
             var UserEntity = mapper.Map<UserEntity>(personalViewModel);
 
-            _uow.Table<UserEntity>().Insert(UserEntity);
-            _uow.SaveChanges();
+            _repository.Insert(UserEntity);
+            _repository.SaveChanges();
             /*
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
@@ -106,7 +106,7 @@ namespace SampleProject.Identity.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var userEntity = _uow.Table<UserEntity>().Find(keyValues: id);
+            var userEntity = _repository.Find<UserEntity>(keyValues: id);
             if (userEntity == null)
                 return new BadRequestResponse("entity not found");
 
@@ -118,8 +118,8 @@ namespace SampleProject.Identity.API.Controllers
              To protect from overposting attacks, please enable the specific properties you want to bind to, for
              more details see https://aka.ms/RazorPagesCRUD.
              */
-            _uow.Table<UserEntity>().Update(userEntity);
-            _uow.SaveChanges();
+            _repository.Update(userEntity);
+            _repository.SaveChanges();
 
             return new OkResponse();
         }
@@ -135,8 +135,8 @@ namespace SampleProject.Identity.API.Controllers
         [Route("Name/{name:length(3,50)}")]
         public ActionResult GetByName([FromRoute] string name)
         {
-            var personal = _uow.Table<UserEntity>()
-                .FirstOrDefault(f => f.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            var personal = _repository
+                .FirstOrDefault<UserEntity>(f => f.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 
             if (personal == null)
                 return new NotFoundResponse();
@@ -153,8 +153,8 @@ namespace SampleProject.Identity.API.Controllers
         [Route("Surname/{sname:length(3,50)}")]
         public ActionResult GetBySurname([FromRoute] string sname)
         {
-            var personal = _uow.Table<UserEntity>()
-                .FirstOrDefault(f => f.Surname.Equals(sname, StringComparison.InvariantCultureIgnoreCase));
+            var personal = _repository
+                .FirstOrDefault<UserEntity>(f => f.Surname.Equals(sname, StringComparison.InvariantCultureIgnoreCase));
 
             if (personal == null)
                 return new NotFoundResponse();
@@ -173,8 +173,8 @@ namespace SampleProject.Identity.API.Controllers
             if (string.IsNullOrEmpty(q))
                 return new BadRequestResponse();
 
-            var personals = _uow.Table<UserEntity>()
-                .Where(f => f.Name.IndexOf(q, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+            var personals = _repository
+                .Where<UserEntity>(f => f.Name.IndexOf(q, StringComparison.InvariantCultureIgnoreCase) > -1 ||
                             f.Surname.IndexOf(q, StringComparison.InvariantCultureIgnoreCase) > -1);
 
             if (personals.Count() == 0)

@@ -18,16 +18,16 @@ namespace SampleProject.Identity.API.Controllers
     [Route("api/[controller]")]
     public class TokenController : BaseController
     {
-        private readonly IUnitOfWork<IdentityDbContext> _uow;
         private readonly ITokenHelper _tokenHelper;
+        private readonly IRepository<IdentityDbContext> _repository;
 
         public TokenController(
             IMapper mapper
-            , IUnitOfWork<IdentityDbContext> uow
+            , IRepository<IdentityDbContext> repository
             , ITokenHelper tokenHelper)
             : base(mapper)
         {
-            this._uow = uow;
+            this._repository = repository;
             this._tokenHelper = tokenHelper;
         }
 
@@ -46,8 +46,8 @@ namespace SampleProject.Identity.API.Controllers
                     return new BadRequestResponse("Username and Password fields can not be empty.");
                 }
 
-                var user = _uow.Table<UserEntity>()
-                    .FirstOrDefault(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password));
+                var user = _repository
+                    .FirstOrDefault<UserEntity>(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password));
 
                 if (user == null)
                 {

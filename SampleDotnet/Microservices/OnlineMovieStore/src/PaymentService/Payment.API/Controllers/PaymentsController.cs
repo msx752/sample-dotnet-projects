@@ -19,24 +19,24 @@ namespace SampleProject.ayment.API.Controllers
     [Route("api/[controller]")]
     public class PaymentsController : BaseController
     {
-        private readonly IUnitOfWork<PaymentDbContext> _uow;
+        private readonly IRepository<PaymentDbContext> _repository;
         private readonly IMessageBus messageBus;
 
         public PaymentsController(
             IMapper _mapper
-            , IUnitOfWork<PaymentDbContext> uow
+            , IRepository<PaymentDbContext> repository
             , IMessageBus messageBus)
             : base(_mapper)
         {
-            this._uow = uow;
+            this._repository = repository;
             this.messageBus = messageBus;
         }
 
         [HttpGet("History")]
         public IActionResult PaymentHistory()
         {
-            var transactionEntities = _uow.Table<TransactionEntity>()
-                   .Where(f => f.UserId == LoggedUserId)
+            var transactionEntities = _repository
+                   .Where<TransactionEntity>(f => f.UserId == LoggedUserId)
                    .Include(f => f.TransactionItems)
                    .ToList();
 
@@ -95,8 +95,8 @@ namespace SampleProject.ayment.API.Controllers
                 }
                 transactionEntity.TotalCalculatedPrice = $"{totalPrice} {transactionEntity.TransactionItems.First().ProductPriceCurrency}";
 
-                _uow.Table<TransactionEntity>().Insert(transactionEntity);
-                _uow.SaveChanges();
+                _repository.Insert(transactionEntity);
+                _repository.SaveChanges();
 
                 var paid_response = await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
                 {

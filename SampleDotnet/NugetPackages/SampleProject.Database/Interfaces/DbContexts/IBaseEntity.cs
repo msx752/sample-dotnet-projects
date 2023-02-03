@@ -2,5 +2,8 @@
 {
     public interface IBaseEntity
     {
+        DateTimeOffset CreatedAt { get; set; }
+
+        DateTimeOffset? UpdatedAt { get; set; }
     }
 }

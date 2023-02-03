@@ -177,7 +177,7 @@ namespace SampleProject.Core.Database
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
-        public override DbSet<TEntity> Set<TEntity>()
+        public override DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return base.Set<TEntity>();
         }

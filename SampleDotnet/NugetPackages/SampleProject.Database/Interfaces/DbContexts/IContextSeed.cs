@@ -7,7 +7,7 @@ namespace SampleProject.Core.Interfaces.DbContexts
         : IContextSeed
         where TDbContext : DbContext
     {
-        IUnitOfWork<TDbContext> Repository { get; }
+        IRepository<TDbContext> Repository { get; }
     }
 
     public interface IContextSeed

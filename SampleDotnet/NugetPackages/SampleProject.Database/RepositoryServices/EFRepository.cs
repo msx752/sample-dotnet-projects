@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 namespace SampleProject.Core.RepositoryServices
 {
     internal sealed class EFRepository<T, TDbContext>
-        : IEFRepository<T>
+        : IEFRepository<T>, IDisposable
         where T : BaseEntity
         where TDbContext : SampBaseContext
     {
@@ -120,6 +120,11 @@ namespace SampleProject.Core.RepositoryServices
         public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
         {
             return AsQueryable().Where(predicate);
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

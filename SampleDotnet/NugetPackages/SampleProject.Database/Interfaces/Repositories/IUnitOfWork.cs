@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SampleProject.Core.Database;
 using SampleProject.Core.Entities;
 using System;
 
@@ -14,5 +15,7 @@ namespace SampleProject.Core.Interfaces.Repositories
     public interface ISharedRepository : IDisposable
     {
         int SaveChanges();
+
+        Task<int> SaveChangesAsync();
     }
 }

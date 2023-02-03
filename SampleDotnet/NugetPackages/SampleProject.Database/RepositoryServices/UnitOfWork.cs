@@ -28,13 +28,13 @@ namespace SampleProject.Core.RepositoryServices
             return _context.SaveChanges();
         }
 
-        public IEnumerable<AuditEntry> DetectChanges()
+        public Task<int> SaveChangesAsync()
         {
-            return _context.DetectChanges();
+            return _context.SaveChangesAsync();
         }
 
         public IEFRepository<TEntity> Table<TEntity>()
-                    where TEntity : BaseEntity
+            where TEntity : BaseEntity
         {
             var lazy = _repositories
                 .GetOrAdd(typeof(TEntity), new Lazy<EFRepository<TEntity, TDbContext>>(() => new EFRepository<TEntity, TDbContext>(_context)));

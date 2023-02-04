@@ -25,37 +25,40 @@ namespace SampleProject.Cart.API.Controllers
     public class CartsController : BaseController
     {
         private readonly IMessageBus messageBus;
-        private readonly IRepository<CartDbContext> _repository;
+        private readonly IDbContextFactory<CartDbContext> _contextFactory;
 
         public CartsController(
             IMapper mapper
-            , IRepository<CartDbContext> repository
             , IMessageBus messageBus
-            )
+            , IDbContextFactory<CartDbContext> contextFactory)
             : base(mapper)
         {
-            _repository = repository;
             this.messageBus = messageBus;
+            this._contextFactory = contextFactory;
         }
 
         [HttpGet]
         public IActionResult GetCart()
         {
-            var entity = _repository
-                .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Satus != CartStatus.Paid)
-                .Include(f => f.Items)
-                .FirstOrDefault();
-
-            if (entity == null)
+            using (var repository = _contextFactory.CreateRepository())
             {
-                entity = new CartEntity
+                var entity = repository
+                    .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Satus != CartStatus.Paid)
+                    .Include(f => f.Items)
+                    .FirstOrDefault();
+
+                if (entity == null)
                 {
-                    UserId = LoggedUserId,
-                };
-                _repository.Insert(entity);
-                _repository.SaveChanges();
+                    entity = new CartEntity
+                    {
+                        UserId = LoggedUserId,
+                    };
+                    repository.Insert(entity);
+                    repository.SaveChanges();
+                }
+
+                return new OkResponse(mapper.Map<CartDto>(entity));
             }
-            return new OkResponse(mapper.Map<CartDto>(entity));
         }
 
         [HttpPost("{cartId}/Item")]
@@ -64,76 +67,82 @@ namespace SampleProject.Cart.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var entity = _repository
-                .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Id == cartId)
-                .FirstOrDefault();
-
-            if (entity == null)
-                return new NotFoundResponse($"cart not found: {cartId}");
-
-            if (entity.Satus == CartStatus.LockedOnPayment)
+            using (var repository = _contextFactory.CreateRepository())
             {
-                return new BadRequestResponse($"selected cart status is LOCKED due to payment process, please try again later");
+                var entity = repository
+                    .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Id == cartId)
+                    .FirstOrDefault();
+
+                if (entity == null)
+                    return new NotFoundResponse($"cart not found: {cartId}");
+
+                if (entity.Satus == CartStatus.LockedOnPayment)
+                {
+                    return new BadRequestResponse($"selected cart status is LOCKED due to payment process, please try again later");
+                }
+
+                if (entity.Satus == CartStatus.Paid)
+                {
+                    return new BadRequestResponse($"selected cart status is PAID, no more items can be added");
+                }
+
+                var movieEntityResponse = await messageBus.Call<MovieEntityResponseMessage, MovieEntityRequestMessage>(new()
+                {
+                    ProductId = model.ProductId,
+                    ProductDatabase = model.ProductDatabase,
+                    ActivityUserId = LoggedUserId,
+                });
+
+                if (movieEntityResponse.Message.BusErrorMessage != null)
+                    return new NotFoundResponse(movieEntityResponse.Message.BusErrorMessage);
+
+                var entityCartItem = new CartItemEntity()
+                {
+                    ProductId = model.ProductId,
+                    ProductDatabase = model.ProductDatabase,
+                    Title = movieEntityResponse.Message.Title,
+                    CartId = cartId,
+                    SalesPriceCurrency = "usd",
+                    SalesPrice = movieEntityResponse.Message.UsdPrice,
+                };
+                repository.Insert(entityCartItem);
+                repository.SaveChanges();
+
+                return new OkResponse(mapper.Map<CartItemDto>(entityCartItem));
             }
-
-            if (entity.Satus == CartStatus.Paid)
-            {
-                return new BadRequestResponse($"selected cart status is PAID, no more items can be added");
-            }
-
-            var movieEntityResponse = await messageBus.Call<MovieEntityResponseMessage, MovieEntityRequestMessage>(new()
-            {
-                ProductId = model.ProductId,
-                ProductDatabase = model.ProductDatabase,
-                ActivityUserId = LoggedUserId,
-            });
-
-            if (movieEntityResponse.Message.BusErrorMessage != null)
-                return new NotFoundResponse(movieEntityResponse.Message.BusErrorMessage);
-
-            var entityCartItem = new CartItemEntity()
-            {
-                ProductId = model.ProductId,
-                ProductDatabase = model.ProductDatabase,
-                Title = movieEntityResponse.Message.Title,
-                CartId = cartId,
-                SalesPriceCurrency = "usd",
-                SalesPrice = movieEntityResponse.Message.UsdPrice,
-            };
-            _repository.Insert(entityCartItem);
-            _repository.SaveChanges();
-
-            return new OkResponse(mapper.Map<CartItemDto>(entityCartItem));
         }
 
         [HttpDelete("{cartId}/Item/{cartItemId}")]
         public ActionResult CartRemove(Guid cartId, Guid cartItemId)
         {
-            var entity = _repository
-                .Where<CartItemEntity>(f => f.CartId == cartId
-                    && f.Cart.UserId == LoggedUserId
-                    && f.Id == cartItemId
-                    )
-                .Include(f => f.Cart)
-                .FirstOrDefault();
-
-            if (entity == null)
-                return new NotFoundResponse($"selected item not found: {cartId}");
-
-            if (entity.Cart.Satus == CartStatus.LockedOnPayment)
+            using (var repository = _contextFactory.CreateRepository())
             {
-                return new BadRequestResponse($"selected cart status is LOCKED due to payment process, please try again later");
+                var entity = repository
+                    .Where<CartItemEntity>(f => f.CartId == cartId
+                        && f.Cart.UserId == LoggedUserId
+                        && f.Id == cartItemId
+                        )
+                    .Include(f => f.Cart)
+                    .FirstOrDefault();
+
+                if (entity == null)
+                    return new NotFoundResponse($"selected item not found: {cartId}");
+
+                if (entity.Cart.Satus == CartStatus.LockedOnPayment)
+                {
+                    return new BadRequestResponse($"selected cart status is LOCKED due to payment process, please try again later");
+                }
+
+                if (entity.Cart.Satus == CartStatus.Paid)
+                {
+                    return new BadRequestResponse($"selected cart status is PAID, no more items can be removed");
+                }
+
+                repository.Delete(entity);
+                repository.SaveChanges();
+
+                return new OkResponse();
             }
-
-            if (entity.Cart.Satus == CartStatus.Paid)
-            {
-                return new BadRequestResponse($"selected cart status is PAID, no more items can be removed");
-            }
-
-            _repository.Delete(entity);
-            _repository.SaveChanges();
-
-            return new OkResponse();
         }
     }
 }

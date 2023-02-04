@@ -1,4 +1,5 @@
-﻿using SampleProject.Core.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using SampleProject.Core.Database;
 using SampleProject.Core.Interfaces.Repositories;
 using SampleProject.Identity.Core.Migrations;
 using SampleProject.Identity.Database.Entities;
@@ -12,7 +13,7 @@ namespace SampleProject.Auth.Database
 {
     public class IdentityContextSeed : ContextSeed<IdentityDbContext>
     {
-        public IdentityContextSeed(IRepository<IdentityDbContext> connection)
+        public IdentityContextSeed(IDbContextFactory<IdentityDbContext> connection)
             : base(connection)
         {
         }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SampleProject.Contract;
 using SampleProject.Contract.Extensions;
 using SampleProject.Core.Extensions;
+using SampleProject.Core.Interfaces.DbContexts;
 using SampleProject.Core.Model;
 using SampleProject.Payment.Database;
 using SampleProject.Payment.Database.Migrations;
@@ -29,10 +30,8 @@ namespace SampleProject.Payment.API
         {
             services.AddGlobalStartupServices<PaymentApplicationSettings>(Configuration);
 
-            var IdentityContext = new DbContextParameter<PaymentDbContext>((provider, opt) =>
-                    opt.UseInMemoryDatabase(databaseName: nameof(PaymentDbContext)).EnableSensitiveDataLogging());
-
-            services.AddCustomDbContext(IdentityContext);
+            services.AddDbContextFactory<PaymentDbContext>(opt =>
+                opt.UseInMemoryDatabase(databaseName: nameof(PaymentDbContext)).EnableSensitiveDataLogging());
 
             services.AddCustomMassTransit(Configuration, null, null);
         }

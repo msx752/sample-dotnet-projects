@@ -19,28 +19,31 @@ namespace SampleProject.ayment.API.Controllers
     [Route("api/[controller]")]
     public class PaymentsController : BaseController
     {
-        private readonly IRepository<PaymentDbContext> _repository;
+        private readonly IDbContextFactory<PaymentDbContext> _contextFactory;
         private readonly IMessageBus messageBus;
 
         public PaymentsController(
             IMapper _mapper
-            , IRepository<PaymentDbContext> repository
-            , IMessageBus messageBus)
+            , IMessageBus messageBus
+            , IDbContextFactory<PaymentDbContext> contextFactory)
             : base(_mapper)
         {
-            this._repository = repository;
             this.messageBus = messageBus;
+            _contextFactory = contextFactory;
         }
 
         [HttpGet("History")]
         public IActionResult PaymentHistory()
         {
-            var transactionEntities = _repository
-                   .Where<TransactionEntity>(f => f.UserId == LoggedUserId)
-                   .Include(f => f.TransactionItems)
-                   .ToList();
+            using (var repository = _contextFactory.CreateRepository())
+            {
+                var transactionEntities = repository
+                       .Where<TransactionEntity>(f => f.UserId == LoggedUserId)
+                       .Include(f => f.TransactionItems)
+                       .ToList();
 
-            return new OkResponse(mapper.Map<List<TransactionDto>>(transactionEntities));
+                return new OkResponse(mapper.Map<List<TransactionDto>>(transactionEntities));
+            }
         }
 
         [HttpPost("Create/{cartId}")]
@@ -59,58 +62,61 @@ namespace SampleProject.ayment.API.Controllers
             }
             else
             {
-                var cartEntityResponse = await messageBus.Call<CartEntityResponseMessage, CartEntityRequestMessage>(new()
+                using (var repository = _contextFactory.CreateRepository())
                 {
-                    ActivityUserId = LoggedUserId,
-                    CartId = cartId,
-                });
-
-                if (!string.IsNullOrEmpty(cartEntityResponse.Message.BusErrorMessage))
-                {
-                    return new BadRequestResponse(cartEntityResponse.Message.BusErrorMessage);
-                }
-
-                TransactionEntity transactionEntity = new TransactionEntity();
-                transactionEntity.UserId = LoggedUserId;
-                transactionEntity.CartId = cartId;
-
-                double totalPrice = 0;
-                foreach (var item in cartEntityResponse.Message.Items.GroupBy(f => f.ProductId))
-                {
-                    double calculatedPrice = Math.Round((item.Count() * item.First().SalesPrice), 2);
-                    TransactionItemEntity transactionItemEntity = new TransactionItemEntity()
+                    var cartEntityResponse = await messageBus.Call<CartEntityResponseMessage, CartEntityRequestMessage>(new()
                     {
-                        Transaction = transactionEntity,
-                        ProductTitle = item.First().Title,
-                        ProductId = item.First().ProductId,
-                        ProductPrice = item.First().SalesPrice,
-                        ProductPriceCurrency = item.First().SalesPriceCurrency,
-                        Quantity = item.Count(),
-                        CalculatedPrice = $"{calculatedPrice} {item.First().SalesPriceCurrency}",
-                    };
+                        ActivityUserId = LoggedUserId,
+                        CartId = cartId,
+                    });
 
-                    transactionEntity.TransactionItems.Add(transactionItemEntity);
+                    if (!string.IsNullOrEmpty(cartEntityResponse.Message.BusErrorMessage))
+                    {
+                        return new BadRequestResponse(cartEntityResponse.Message.BusErrorMessage);
+                    }
 
-                    totalPrice += calculatedPrice;
+                    TransactionEntity transactionEntity = new TransactionEntity();
+                    transactionEntity.UserId = LoggedUserId;
+                    transactionEntity.CartId = cartId;
+
+                    double totalPrice = 0;
+                    foreach (var item in cartEntityResponse.Message.Items.GroupBy(f => f.ProductId))
+                    {
+                        double calculatedPrice = Math.Round((item.Count() * item.First().SalesPrice), 2);
+                        TransactionItemEntity transactionItemEntity = new TransactionItemEntity()
+                        {
+                            Transaction = transactionEntity,
+                            ProductTitle = item.First().Title,
+                            ProductId = item.First().ProductId,
+                            ProductPrice = item.First().SalesPrice,
+                            ProductPriceCurrency = item.First().SalesPriceCurrency,
+                            Quantity = item.Count(),
+                            CalculatedPrice = $"{calculatedPrice} {item.First().SalesPriceCurrency}",
+                        };
+
+                        transactionEntity.TransactionItems.Add(transactionItemEntity);
+
+                        totalPrice += calculatedPrice;
+                    }
+                    transactionEntity.TotalCalculatedPrice = $"{totalPrice} {transactionEntity.TransactionItems.First().ProductPriceCurrency}";
+
+                    repository.Insert(transactionEntity);
+                    repository.SaveChanges();
+
+                    var paid_response = await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
+                    {
+                        CartStatus = "Paid",
+                        CartId = cartId,
+                        ActivityUserId = LoggedUserId,
+                    });
+
+                    if (!string.IsNullOrEmpty(paid_response.Message.BusErrorMessage))
+                    {
+                        return new BadRequestResponse(paid_response.Message.BusErrorMessage);
+                    }
+
+                    return new OkResponse($"successfully paid '{transactionEntity.TotalCalculatedPrice}'");
                 }
-                transactionEntity.TotalCalculatedPrice = $"{totalPrice} {transactionEntity.TransactionItems.First().ProductPriceCurrency}";
-
-                _repository.Insert(transactionEntity);
-                _repository.SaveChanges();
-
-                var paid_response = await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
-                {
-                    CartStatus = "Paid",
-                    CartId = cartId,
-                    ActivityUserId = LoggedUserId,
-                });
-
-                if (!string.IsNullOrEmpty(paid_response.Message.BusErrorMessage))
-                {
-                    return new BadRequestResponse(paid_response.Message.BusErrorMessage);
-                }
-
-                return new OkResponse($"successfully paid '{transactionEntity.TotalCalculatedPrice}'");
             }
         }
     }

@@ -7,6 +7,7 @@ using SampleProject.Contract;
 using SampleProject.Contract.Extensions;
 using SampleProject.Contract.Payment;
 using SampleProject.Core.Extensions;
+using SampleProject.Core.Interfaces.DbContexts;
 using SampleProject.Core.Model;
 
 namespace SampleProject.Cart.API
@@ -31,10 +32,10 @@ namespace SampleProject.Cart.API
         {
             services.AddGlobalStartupServices<CartApplicationSettings>(Configuration);
 
-            var IdentityContext = new DbContextParameter<CartDbContext>((provider, opt) =>
-                    opt.UseInMemoryDatabase(databaseName: nameof(CartDbContext)).EnableSensitiveDataLogging());
-
-            services.AddCustomDbContext(IdentityContext);
+            services.AddDbContextFactory<CartDbContext>(opt =>
+            {
+                opt.UseInMemoryDatabase(databaseName: nameof(CartDbContext)).EnableSensitiveDataLogging();
+            });
 
             services.AddCustomMassTransit(Configuration
             , (consumers) =>

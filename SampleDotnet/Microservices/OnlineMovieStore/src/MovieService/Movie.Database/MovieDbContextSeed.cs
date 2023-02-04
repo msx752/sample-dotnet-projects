@@ -1,4 +1,5 @@
-﻿using SampleProject.Core.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using SampleProject.Core.Database;
 using SampleProject.Core.Interfaces.Repositories;
 using SampleProject.Movie.Database.Entities;
 using SampleProject.Movie.Database.Migrations;
@@ -7,7 +8,7 @@ namespace SampleProject.Movie.Database
 {
     public class MovieDbContextSeed : ContextSeed<MovieDbContext>
     {
-        public MovieDbContextSeed(IRepository<MovieDbContext> connection)
+        public MovieDbContextSeed(IDbContextFactory<MovieDbContext> connection)
             : base(connection)
         {
         }

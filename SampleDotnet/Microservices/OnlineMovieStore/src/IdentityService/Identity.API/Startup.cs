@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SampleProject.Auth.Database;
 using SampleProject.Core.Extensions;
+using SampleProject.Core.Interfaces.DbContexts;
 using SampleProject.Core.Model;
 using SampleProject.Identity.API.Helpers;
 using SampleProject.Identity.Core.Migrations;
@@ -27,10 +28,11 @@ namespace SampleProject.Identity.API
         {
             services.AddGlobalStartupServices<IdentityApplicationSettings>(Configuration);
 
-            var IdentityContext = new DbContextParameter<IdentityDbContext, IdentityContextSeed>((provider, opt) =>
-                    opt.UseInMemoryDatabase(databaseName: nameof(IdentityDbContext)).EnableSensitiveDataLogging());
+            services.AddDbContextFactory<IdentityDbContext>(opt =>
+                opt.UseInMemoryDatabase(databaseName: nameof(IdentityDbContext)).EnableSensitiveDataLogging());
 
-            services.AddCustomDbContext(IdentityContext);
+            services.AddScoped<IContextSeed, IdentityContextSeed>();
+
             services.AddScoped<ITokenHelper, TokenHelper>();
         }
     }

@@ -2,6 +2,7 @@
 using Cart.Database.Entities;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using SampleProject.Basket.Database.Migrations;
 using SampleProject.Contract.Payment;
 using SampleProject.Contract.Payment.Cart;
@@ -30,7 +31,7 @@ namespace SampleProject.Cart.API.Consumers
         public async Task Consume(ConsumeContext<CartEntityRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<IRepository<CartDbContext>>())
+            using (var repository = scope.ServiceProvider.GetRequiredService<IDbContextFactory<CartDbContext>>().CreateRepository())
             {
                 var entity = repository
                     .Where<CartEntity>(f =>

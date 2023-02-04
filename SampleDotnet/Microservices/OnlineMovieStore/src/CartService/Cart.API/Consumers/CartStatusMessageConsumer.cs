@@ -33,7 +33,7 @@ namespace SampleProject.Cart.API.Consumers
         public async Task Consume(ConsumeContext<CartStatusRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<IRepository<CartDbContext>>())
+            using (var repository = scope.ServiceProvider.GetRequiredService<IDbContextFactory<CartDbContext>>().CreateRepository())
             {
                 var entity = repository
                     .Where<CartEntity>(f =>

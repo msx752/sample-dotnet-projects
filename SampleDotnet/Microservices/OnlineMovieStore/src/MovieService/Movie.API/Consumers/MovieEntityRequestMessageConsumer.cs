@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using SampleProject.Contract;
 using SampleProject.Contract.Cart.Movie;
 using SampleProject.Contract.Cart.Requests;
@@ -30,7 +31,7 @@ namespace SampleProject.Movie.API.Consumers
         public async Task Consume(ConsumeContext<MovieEntityRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<IRepository<MovieDbContext>>())
+            using (var repository = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MovieDbContext>>().CreateRepository())
             {
                 var movieEntity = repository
                     .Find<MovieEntity>(keyValues: context.Message.ProductId);

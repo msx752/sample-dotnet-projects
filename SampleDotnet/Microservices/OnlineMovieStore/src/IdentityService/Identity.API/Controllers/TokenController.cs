@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SampleProject.Core.Interfaces.Repositories;
 using SampleProject.Core.Model.Base;
 using SampleProject.Identity.API.Helpers;
@@ -19,16 +20,16 @@ namespace SampleProject.Identity.API.Controllers
     public class TokenController : BaseController
     {
         private readonly ITokenHelper _tokenHelper;
-        private readonly IRepository<IdentityDbContext> _repository;
+        private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
 
         public TokenController(
             IMapper mapper
-            , IRepository<IdentityDbContext> repository
-            , ITokenHelper tokenHelper)
+            , ITokenHelper tokenHelper
+            , IDbContextFactory<IdentityDbContext> contextFactory)
             : base(mapper)
         {
-            this._repository = repository;
             this._tokenHelper = tokenHelper;
+            _contextFactory = contextFactory;
         }
 
         [HttpPost]
@@ -46,21 +47,24 @@ namespace SampleProject.Identity.API.Controllers
                     return new BadRequestResponse("Username and Password fields can not be empty.");
                 }
 
-                var user = _repository
-                    .FirstOrDefault<UserEntity>(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password));
-
-                if (user == null)
+                using (var repository = _contextFactory.CreateRepository())
                 {
-                    return new UnauthorizedResponse("invalid credentials.");
-                }
+                    var user = repository
+                        .FirstOrDefault<UserEntity>(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password));
 
-                var claims = new[] {
+                    if (user == null)
+                    {
+                        return new UnauthorizedResponse("invalid credentials.");
+                    }
+
+                    var claims = new[] {
                     new Claim("id", user.Id.ToString()),
                     new Claim("name", user.Id.ToString()),
                 };
-                TokenDto response = _tokenHelper.Authenticate(user, claims);
-                response.User = mapper.Map<UserDto>(user);
-                return new OkResponse(response);
+                    TokenDto response = _tokenHelper.Authenticate(user, claims);
+                    response.User = mapper.Map<UserDto>(user);
+                    return new OkResponse(response);
+                }
             }
             return new BadRequestResponse($"invalid grant_type value:'{model.grant_type}'");
         }

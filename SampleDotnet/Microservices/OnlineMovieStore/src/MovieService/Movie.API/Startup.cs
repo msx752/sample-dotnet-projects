@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SampleProject.Contract.Cart.Requests;
 using SampleProject.Contract.Extensions;
 using SampleProject.Core.Extensions;
+using SampleProject.Core.Interfaces.DbContexts;
 using SampleProject.Core.Model;
 using SampleProject.Movie.API.Consumers;
 using SampleProject.Movie.Database;
@@ -30,10 +31,10 @@ namespace SampleProject.Movie.API
         {
             services.AddGlobalStartupServices<MovieApplicationSettings>(Configuration);
 
-            var IdentityContext = new DbContextParameter<MovieDbContext, MovieDbContextSeed>((provider, opt) =>
-                    opt.UseInMemoryDatabase(databaseName: nameof(MovieDbContext)).EnableSensitiveDataLogging());
+            services.AddDbContextFactory<MovieDbContext>(opt =>
+                opt.UseInMemoryDatabase(databaseName: nameof(MovieDbContext)).EnableSensitiveDataLogging());
 
-            services.AddCustomDbContext(IdentityContext);
+            services.AddScoped<IContextSeed, MovieDbContextSeed>();
 
             services.AddCustomMassTransit(Configuration
             , (consumers) =>

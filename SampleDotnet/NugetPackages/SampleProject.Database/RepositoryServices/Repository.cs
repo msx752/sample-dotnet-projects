@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SampleProject.Core.Database;
 using SampleProject.Core.Interfaces.Repositories;
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
@@ -14,9 +13,9 @@ namespace SampleProject.Core.RepositoryServices
         private readonly ConcurrentDictionary<Type, object> _dbsets = new ConcurrentDictionary<Type, object>();
         private bool disposedValue;
 
-        public Repository(TDbContext context)
+        public Repository(TDbContext dbContext)
         {
-            _context = context;
+            _context = dbContext;
         }
 
         public bool Any<T>(Expression<Func<T, bool>> predicate) where T : class

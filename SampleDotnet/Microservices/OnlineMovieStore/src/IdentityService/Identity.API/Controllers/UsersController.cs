@@ -8,6 +8,7 @@ using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
 using SampleProject.Identity.Core.Migrations;
 using SampleProject.Identity.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace SampleProject.Identity.API.Controllers
 {
@@ -16,15 +17,14 @@ namespace SampleProject.Identity.API.Controllers
     [Route("api/[controller]")]
     public class UsersController : BaseController
     {
-        private readonly IRepository<IdentityDbContext> _repository;
+        private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
 
         public UsersController(
             IMapper mapper
-            , IRepository<IdentityDbContext> repository
-            )
+            , IDbContextFactory<IdentityDbContext> contextFactory)
             : base(mapper)
         {
-            this._repository = repository;
+            _contextFactory = contextFactory;
         }
 
         /// <summary>
@@ -35,15 +35,18 @@ namespace SampleProject.Identity.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(Guid id)
         {
-            var personal = _repository.GetById<UserEntity>(id);
+            using (var repository = _contextFactory.CreateRepository())
+            {
+                var personal = repository.GetById<UserEntity>(id);
 
-            if (personal == null)
-                return new NotFoundResponse();
+                if (personal == null)
+                    return new NotFoundResponse();
 
-            _repository.Delete(personal);
-            _repository.SaveChanges();
+                repository.Delete(personal);
+                repository.SaveChanges();
 
-            return new OkResponse(mapper.Map<UserDto>(personal));
+                return new OkResponse(mapper.Map<UserDto>(personal));
+            }
         }
 
         /// <summary>
@@ -54,12 +57,15 @@ namespace SampleProject.Identity.API.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(Guid id)
         {
-            var personal = _repository.GetById<UserEntity>(id);
+            using (var repository = _contextFactory.CreateRepository())
+            {
+                var personal = repository.GetById<UserEntity>(id);
 
-            if (personal == null)
-                return new NotFoundResponse();
+                if (personal == null)
+                    return new NotFoundResponse();
 
-            return new OkResponse(mapper.Map<UserDto>(personal));
+                return new OkResponse(mapper.Map<UserDto>(personal));
+            }
         }
 
         /// <summary>
@@ -69,7 +75,10 @@ namespace SampleProject.Identity.API.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            return new OkResponse(mapper.Map<List<UserDto>>(_repository.AsQueryable<UserEntity>().ToList()));
+            using (var repository = _contextFactory.CreateRepository())
+            {
+                return new OkResponse(mapper.Map<List<UserDto>>(repository.AsQueryable<UserEntity>().ToList()));
+            }
         }
 
         /// <summary>
@@ -83,15 +92,18 @@ namespace SampleProject.Identity.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var UserEntity = mapper.Map<UserEntity>(personalViewModel);
+            using (var repository = _contextFactory.CreateRepository())
+            {
+                var UserEntity = mapper.Map<UserEntity>(personalViewModel);
 
-            _repository.Insert(UserEntity);
-            _repository.SaveChanges();
-            /*
-             To protect from overposting attacks, please enable the specific properties you want to bind to, for
-             more details see https://aka.ms/RazorPagesCRUD.
-            */
-            return new OkResponse(mapper.Map<UserDto>(UserEntity));
+                repository.Insert(UserEntity);
+                repository.SaveChanges();
+                /*
+                 To protect from overposting attacks, please enable the specific properties you want to bind to, for
+                 more details see https://aka.ms/RazorPagesCRUD.
+                */
+                return new OkResponse(mapper.Map<UserDto>(UserEntity));
+            }
         }
 
         /// <summary>
@@ -106,22 +118,25 @@ namespace SampleProject.Identity.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            var userEntity = _repository.Find<UserEntity>(keyValues: id);
-            if (userEntity == null)
-                return new BadRequestResponse("entity not found");
+            using (var repository = _contextFactory.CreateRepository())
+            {
+                var userEntity = repository.Find<UserEntity>(keyValues: id);
+                if (userEntity == null)
+                    return new BadRequestResponse("entity not found");
 
-            userEntity.Name = personalViewModel.Name;
-            userEntity.Surname = personalViewModel.Surname;
-            userEntity.Email = personalViewModel.Email;
+                userEntity.Name = personalViewModel.Name;
+                userEntity.Surname = personalViewModel.Surname;
+                userEntity.Email = personalViewModel.Email;
 
-            /*
-             To protect from overposting attacks, please enable the specific properties you want to bind to, for
-             more details see https://aka.ms/RazorPagesCRUD.
-             */
-            _repository.Update(userEntity);
-            _repository.SaveChanges();
+                /*
+                 To protect from overposting attacks, please enable the specific properties you want to bind to, for
+                 more details see https://aka.ms/RazorPagesCRUD.
+                 */
+                repository.Update(userEntity);
+                repository.SaveChanges();
 
-            return new OkResponse();
+                return new OkResponse();
+            }
         }
 
         #region Custom Endpoints
@@ -135,13 +150,16 @@ namespace SampleProject.Identity.API.Controllers
         [Route("Name/{name:length(3,50)}")]
         public ActionResult GetByName([FromRoute] string name)
         {
-            var personal = _repository
-                .FirstOrDefault<UserEntity>(f => f.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            using (var repository = _contextFactory.CreateRepository())
+            {
+                var personal = repository
+                    .FirstOrDefault<UserEntity>(f => f.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 
-            if (personal == null)
-                return new NotFoundResponse();
+                if (personal == null)
+                    return new NotFoundResponse();
 
-            return new OkResponse(mapper.Map<UserDto>(personal));
+                return new OkResponse(mapper.Map<UserDto>(personal));
+            }
         }
 
         /// <summary>
@@ -153,13 +171,16 @@ namespace SampleProject.Identity.API.Controllers
         [Route("Surname/{sname:length(3,50)}")]
         public ActionResult GetBySurname([FromRoute] string sname)
         {
-            var personal = _repository
-                .FirstOrDefault<UserEntity>(f => f.Surname.Equals(sname, StringComparison.InvariantCultureIgnoreCase));
+            using (var repository = _contextFactory.CreateRepository())
+            {
+                var personal = repository
+                    .FirstOrDefault<UserEntity>(f => f.Surname.Equals(sname, StringComparison.InvariantCultureIgnoreCase));
 
-            if (personal == null)
-                return new NotFoundResponse();
+                if (personal == null)
+                    return new NotFoundResponse();
 
-            return new OkResponse(mapper.Map<UserDto>(personal));
+                return new OkResponse(mapper.Map<UserDto>(personal));
+            }
         }
 
         /// <summary>
@@ -173,14 +194,17 @@ namespace SampleProject.Identity.API.Controllers
             if (string.IsNullOrEmpty(q))
                 return new BadRequestResponse();
 
-            var personals = _repository
-                .Where<UserEntity>(f => f.Name.IndexOf(q, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                            f.Surname.IndexOf(q, StringComparison.InvariantCultureIgnoreCase) > -1);
+            using (var repository = _contextFactory.CreateRepository())
+            {
+                var personals = repository
+                    .Where<UserEntity>(f => f.Name.IndexOf(q, StringComparison.InvariantCultureIgnoreCase) > -1 ||
+                                f.Surname.IndexOf(q, StringComparison.InvariantCultureIgnoreCase) > -1);
 
-            if (personals.Count() == 0)
-                return new NotFoundResponse();
+                if (personals.Count() == 0)
+                    return new NotFoundResponse();
 
-            return new OkResponse(mapper.Map<List<UserDto>>(personals));
+                return new OkResponse(mapper.Map<List<UserDto>>(personals));
+            }
         }
 
         #endregion Custom Endpoints

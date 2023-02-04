@@ -11,9 +11,9 @@ namespace SampleProject.Core.Database
     {
         private bool initiated = false;
 
-        public ContextSeed(IRepository<TDbContext> connection)
+        public ContextSeed(IDbContextFactory<TDbContext> contextFactory)
         {
-            Repository = connection;
+            Repository = contextFactory.CreateRepository();
         }
 
         public IRepository<TDbContext> Repository { get; }

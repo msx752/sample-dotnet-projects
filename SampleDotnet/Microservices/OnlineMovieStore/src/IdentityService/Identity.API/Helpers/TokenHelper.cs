@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SampleProject.Core.AppSettings;
 using SampleProject.Core.Interfaces.Repositories;
@@ -17,16 +18,15 @@ namespace SampleProject.Identity.API.Helpers
 {
     public class TokenHelper : ITokenHelper
     {
-        private readonly IRepository<IdentityDbContext> repository;
+        private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
         private readonly JWTOptions jwt;
 
         public TokenHelper(
             IOptions<IdentityApplicationSettings> appSettings
-            , IRepository<IdentityDbContext> repository)
+            , IDbContextFactory<IdentityDbContext> contextFactory)
         {
-            this.repository = repository;
-
             jwt = appSettings.Value.JWTOptions;
+            _contextFactory = contextFactory;
         }
 
         public TokenDto Authenticate(UserEntity user, IEnumerable<Claim> claims = null)
@@ -39,8 +39,12 @@ namespace SampleProject.Identity.API.Helpers
                 User = user
             };
             user.RefreshTokens.Add(generatedRefreshToken);
-            repository.Update(user);
-            repository.SaveChanges();
+
+            using (var repository = _contextFactory.CreateRepository())
+            {
+                repository.Update(user);
+                repository.SaveChanges();
+            }
             var accessToken = GenerateAccessToken(claims, out DateTime AccessTokenExpiresAt);
 
             return new TokenDto()

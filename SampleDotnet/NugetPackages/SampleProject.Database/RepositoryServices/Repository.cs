@@ -1,21 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using SampleProject.Core.Database;
-using SampleProject.Core.Entities;
-using SampleProject.Core.Interfaces.DbContexts;
 using SampleProject.Core.Interfaces.Repositories;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace SampleProject.Core.RepositoryServices
 {
     public class Repository<TDbContext>
         : IRepository<TDbContext>, IDisposable
-        where TDbContext : SampBaseContext
+        where TDbContext : DbContext
     {
         private readonly TDbContext _context;
         private readonly ConcurrentDictionary<Type, object> _dbsets = new ConcurrentDictionary<Type, object>();
+        private bool disposedValue;
 
         public Repository(TDbContext context)
         {
@@ -32,11 +29,6 @@ namespace SampleProject.Core.RepositoryServices
         {
             IQueryable<T> query = AsQueryable<T>();
             return query.AsNoTracking();
-        }
-
-        private DbSet<T> DbSet<T>() where T : class
-        {
-            return (DbSet<T>)_dbsets.GetOrAdd(typeof(T), key => _context.Set<T>());
         }
 
         public IQueryable<T> AsQueryable<T>() where T : class
@@ -68,14 +60,7 @@ namespace SampleProject.Core.RepositoryServices
 
         public void Dispose()
         {
-            try
-            {
-                _context?.Dispose();
-            }
-            catch
-            {
-            }
-            _dbsets.Clear();
+            Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
 
@@ -115,6 +100,11 @@ namespace SampleProject.Core.RepositoryServices
             DbSet<T>().AttachRange(entities);
         }
 
+        public int SaveChanges()
+        {
+            return _context.SaveChanges();
+        }
+
         public void Update<T>(T entity) where T : class
         {
             _context.Attach(entity);
@@ -141,9 +131,23 @@ namespace SampleProject.Core.RepositoryServices
             return AsQueryable<T>().Where(predicate);
         }
 
-        public int SaveChanges()
+        protected virtual void Dispose(bool disposing)
         {
-            return _context.SaveChanges();
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                    _dbsets.Clear();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        private DbSet<T> DbSet<T>() where T : class
+        {
+            return (DbSet<T>)_dbsets.GetOrAdd(typeof(T), key => _context.Set<T>());
         }
     }
 }

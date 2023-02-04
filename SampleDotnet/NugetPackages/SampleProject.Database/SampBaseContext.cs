@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using SampleProject.Core.Entities;
 using System.Linq.Expressions;
 
 namespace SampleProject.Core.Database

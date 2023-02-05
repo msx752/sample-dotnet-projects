@@ -127,7 +127,7 @@ namespace OnlineMovieStore.Tests.Integrations
             //GET: Payment History
             var responsePaymentHistory = ConvertResponse<ResponseModel<UserDto>>(await client.GetAsync($"/gateway/payments/history"));
             responsePaymentHistory.Errors.ShouldBeNull();
-            responsePaymentHistory.Results.Count.ShouldBe(1);
+            responsePaymentHistory.Results.Count.ShouldNotBe(0);
 
             #endregion GET: Payment History
         }

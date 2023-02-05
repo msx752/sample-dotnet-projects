@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using SampleProject.Database.Interfaces.Repositories;
 using System.Data;
@@ -14,28 +13,12 @@ namespace SampleProject.Database
         private readonly TDbContext _context;
         private bool disposedValue;
 
-        public DatabaseFacade Database { get => _context?.Database; }
-        public ChangeTracker ChangeTracker { get => _context?.ChangeTracker; }
+        public DatabaseFacade Database { get => _context.Database; }
 
         public Repository(TDbContext dbContext)
         {
             _context = dbContext;
-            _context.SavedChanges += _context_SavedChanges;
-            _context.SaveChangesFailed += _context_SaveChangesFailed;
-        }
-
-        private void _context_SaveChangesFailed(object? sender, SaveChangesFailedEventArgs e)
-        {
-#if DEBUG
-            Console.WriteLine($"Entities SaveChangesFailed: {e.Exception}");
-#endif
-        }
-
-        private void _context_SavedChanges(object? sender, SavedChangesEventArgs e)
-        {
-#if DEBUG
-            Console.WriteLine($"Entities SavedChanges: {e.EntitiesSavedCount}");
-#endif
+            _context.AutoUpdateEntryTimestamps();
         }
 
         public IQueryable<T> AsQueryable<T>() where T : class
@@ -52,17 +35,13 @@ namespace SampleProject.Database
         public void Delete<T>(params T[] entities) where T : class
         {
             foreach (var item in entities)
-            {
                 Delete(item);
-            }
         }
 
         public void Delete<T>(IEnumerable<T> entities) where T : class
         {
             foreach (var item in entities)
-            {
                 Delete(item);
-            }
         }
 
         public void Dispose()
@@ -110,17 +89,20 @@ namespace SampleProject.Database
 
         public void Update<T>(T entity) where T : class
         {
-            _context.Attach(entity);
+            var entry = _context.Entry(entity);
+            entry.State = EntityState.Modified;
         }
 
         public void Update<T>(params T[] entities) where T : class
         {
-            _context.AttachRange(entities);
+            for (int i = 0; i < entities.Length; i++)
+                Update<T>(entities[i]);
         }
 
         public void Update<T>(IEnumerable<T> entities) where T : class
         {
-            _context.AttachRange(entities);
+            for (int i = 0; i < entities.Count(); i++)
+                Update<T>(entities.ElementAt(i));
         }
 
         public IQueryable<T> Where<T>(Expression<Func<T, bool>> predicate) where T : class
@@ -134,6 +116,7 @@ namespace SampleProject.Database
             {
                 if (disposing)
                 {
+                    _context.AutoUpdateEntryTimestamps(disposing);
                     _context.Dispose();
                 }
 

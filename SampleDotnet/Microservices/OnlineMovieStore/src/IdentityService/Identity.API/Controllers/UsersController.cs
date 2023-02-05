@@ -152,7 +152,7 @@ namespace SampleProject.Identity.API.Controllers
             using (var repository = _contextFactory.CreateRepository())
             {
                 var personal = repository
-                    .FirstOrDefault<UserEntity>(f => f.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+                    .FirstOrDefault<UserEntity>(f => f.Name.Equals(name));
 
                 if (personal == null)
                     return new NotFoundResponse();
@@ -173,7 +173,7 @@ namespace SampleProject.Identity.API.Controllers
             using (var repository = _contextFactory.CreateRepository())
             {
                 var personal = repository
-                    .FirstOrDefault<UserEntity>(f => f.Surname.Equals(sname, StringComparison.InvariantCultureIgnoreCase));
+                    .FirstOrDefault<UserEntity>(f => f.Surname.Equals(sname));
 
                 if (personal == null)
                     return new NotFoundResponse();
@@ -195,11 +195,12 @@ namespace SampleProject.Identity.API.Controllers
 
             using (var repository = _contextFactory.CreateRepository())
             {
-                var personals = repository
-                    .Where<UserEntity>(f => f.Name.IndexOf(q, StringComparison.InvariantCultureIgnoreCase) > -1 ||
-                                f.Surname.IndexOf(q, StringComparison.InvariantCultureIgnoreCase) > -1);
+                var personals = repository.Where<UserEntity>(f =>
+                        f.Name.Contains(q)
+                        || f.Surname.Contains(q)
+                    );
 
-                if (personals.Count() == 0)
+                if (!personals.Any())
                     return new NotFoundResponse();
 
                 return new OkResponse(mapper.Map<List<UserDto>>(personals));

@@ -34,7 +34,7 @@ namespace SampleProject.Identity.API
                 conStr = conStr.Replace("127.0.0.1,1433", "mssqldb.container,1433");
 
             services.AddDbContextFactory<IdentityDbContext>(opt =>
-                opt.UseSqlServer(conStr, s => s.EnableRetryOnFailure(5)).EnableSensitiveDataLogging());
+                opt.UseSqlServer(conStr, s => s.EnableRetryOnFailure(5)));
 
             services.AddScoped<ITokenHelper, TokenHelper>();
         }

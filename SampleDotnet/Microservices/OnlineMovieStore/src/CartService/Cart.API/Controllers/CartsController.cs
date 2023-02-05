@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cart.Database;
 using Cart.Database.Entities;
 using Cart.Database.Enums;
 using MassTransit;
@@ -6,10 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SampleProject.Basket.API.Models.Dtos;
-using SampleProject.Basket.Database.Migrations;
 using SampleProject.Cart.API.Models.Dtos;
 using SampleProject.Cart.API.Models.Requests;
-using SampleProject.Cart.Database.Entities;
 using SampleProject.Contract;
 using SampleProject.Contract.Cart.Movie;
 using SampleProject.Contract.Cart.Requests;

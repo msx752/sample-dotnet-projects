@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Identity.Database.Entities;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
-using SampleProject.Identity.Database.Entities;
 
 namespace SampleProject.Identity.API.Profiles
 {

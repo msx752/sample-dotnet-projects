@@ -14,6 +14,18 @@ services:
     networks:
       dps:
         ipv4_address: 172.0.0.10
+
+  mssqldb:
+    environment:
+        - HOSTNAMES=mssqldb.container
+        - ACCEPT_EULA=1
+        - MSSQL_SA_PASSWORD=Admin123!
+    networks:
+      - dps
+    dns:
+      - 172.0.0.10
+    depends_on:
+      - "dps"
         
   myrabbitmq:
     environment:

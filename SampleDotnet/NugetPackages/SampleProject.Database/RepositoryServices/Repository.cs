@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using SampleProject.Core.Interfaces.DbContexts;
 using SampleProject.Core.Interfaces.Repositories;
-using System.Collections.Concurrent;
+using System.Data;
 using System.Linq.Expressions;
 
 namespace SampleProject.Core.RepositoryServices
@@ -10,29 +13,35 @@ namespace SampleProject.Core.RepositoryServices
         where TDbContext : DbContext
     {
         private readonly TDbContext _context;
-        private readonly ConcurrentDictionary<Type, object> _dbsets = new ConcurrentDictionary<Type, object>();
         private bool disposedValue;
+
+        public DatabaseFacade Database { get => _context?.Database; }
+        public ChangeTracker ChangeTracker { get => _context?.ChangeTracker; }
 
         public Repository(TDbContext dbContext)
         {
             _context = dbContext;
+            _context.SavedChanges += _context_SavedChanges;
+            _context.SaveChangesFailed += _context_SaveChangesFailed;
         }
 
-        public bool Any<T>(Expression<Func<T, bool>> predicate) where T : class
+        private void _context_SaveChangesFailed(object? sender, SaveChangesFailedEventArgs e)
         {
-            IQueryable<T> query = AsQueryable<T>();
-            return query.Any(predicate);
+#if DEBUG
+            Console.WriteLine($"Entities SaveChangesFailed: {e.Exception}");
+#endif
         }
 
-        public IQueryable<T> AsNoTracking<T>() where T : class
+        private void _context_SavedChanges(object? sender, SavedChangesEventArgs e)
         {
-            IQueryable<T> query = AsQueryable<T>();
-            return query.AsNoTracking();
+#if DEBUG
+            Console.WriteLine($"Entities SavedChanges: {e.EntitiesSavedCount}");
+#endif
         }
 
         public IQueryable<T> AsQueryable<T>() where T : class
         {
-            return DbSet<T>().AsQueryable<T>();
+            return _context.Set<T>().AsQueryable<T>();
         }
 
         public void Delete<T>(T entity) where T : class
@@ -63,14 +72,9 @@ namespace SampleProject.Core.RepositoryServices
             GC.SuppressFinalize(this);
         }
 
-        public bool Exists<T>(object id) where T : class
-        {
-            return GetById<T>(id) != null;
-        }
-
         public T? Find<T>(params object[] keyValues) where T : class
         {
-            return DbSet<T>().Find(keyValues);
+            return _context.Set<T>().Find(keyValues);
         }
 
         public T? FirstOrDefault<T>(Expression<Func<T, bool>> predicate) where T : class
@@ -86,43 +90,47 @@ namespace SampleProject.Core.RepositoryServices
 
         public void Insert<T>(T entity) where T : class
         {
-            DbSet<T>().Attach(entity);
+            _context.Set<T>().Add(entity);
         }
 
         public void Insert<T>(params T[] entities) where T : class
         {
-            DbSet<T>().AttachRange(entities);
+            _context.Set<T>().AddRange(entities);
         }
 
         public void Insert<T>(IEnumerable<T> entities) where T : class
         {
-            DbSet<T>().AttachRange(entities);
+            _context.Set<T>().AddRange(entities);
         }
 
         public int SaveChanges()
         {
-            return _context.SaveChanges();
+            var result = _context.SaveChanges();
+            return result;
         }
 
-        public void Update<T>(T entity) where T : class
+        public void Update<T>(T entity) where T : class, IBaseEntity
         {
+            entity.UpdatedAt = DateTimeOffset.Now;
             _context.Attach(entity);
         }
 
-        public void Update<T>(params T[] entities) where T : class
+        public void Update<T>(params T[] entities) where T : class, IBaseEntity
         {
-            foreach (var item in entities)
-            {
-                Update(item);
-            }
+            var updateAt = DateTimeOffset.Now;
+            for (int i = 0; i < entities.Length; i++)
+                entities[i].UpdatedAt = updateAt;
+
+            _context.AttachRange(entities);
         }
 
-        public void Update<T>(IEnumerable<T> entities) where T : class
+        public void Update<T>(IEnumerable<T> entities) where T : class, IBaseEntity
         {
+            var updateAt = DateTimeOffset.Now;
             foreach (var item in entities)
-            {
-                Update(item);
-            }
+                item.UpdatedAt = updateAt;
+
+            _context.AttachRange(entities);
         }
 
         public IQueryable<T> Where<T>(Expression<Func<T, bool>> predicate) where T : class
@@ -137,16 +145,10 @@ namespace SampleProject.Core.RepositoryServices
                 if (disposing)
                 {
                     _context.Dispose();
-                    _dbsets.Clear();
                 }
 
                 disposedValue = true;
             }
-        }
-
-        private DbSet<T> DbSet<T>() where T : class
-        {
-            return (DbSet<T>)_dbsets.GetOrAdd(typeof(T), key => _context.Set<T>());
         }
     }
 }

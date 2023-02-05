@@ -1,4 +1,4 @@
-﻿namespace SampleProject.Movie.Database.Enums
+﻿namespace Movie.Database.Enums
 {
     public enum MovieType : int
     {

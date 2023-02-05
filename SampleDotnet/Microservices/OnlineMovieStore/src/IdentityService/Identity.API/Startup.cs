@@ -1,10 +1,7 @@
+using Identity.Database;
 using Microsoft.EntityFrameworkCore;
-using SampleProject.Auth.Database;
 using SampleProject.Core.Extensions;
-using SampleProject.Core.Interfaces.DbContexts;
-using SampleProject.Core.Model;
 using SampleProject.Identity.API.Helpers;
-using SampleProject.Identity.Core.Migrations;
 
 namespace SampleProject.Identity.API
 {
@@ -21,6 +18,9 @@ namespace SampleProject.Identity.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider isp)
         {
             app.UseGlobalStartupConfigures(env);
+
+            using (var scope = isp.CreateScope())
+                DbInitializer.Initialize(scope.ServiceProvider.GetRequiredService<IDbContextFactory<IdentityDbContext>>());
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -28,10 +28,13 @@ namespace SampleProject.Identity.API
         {
             services.AddGlobalStartupServices<IdentityApplicationSettings>(Configuration);
 
-            services.AddDbContextFactory<IdentityDbContext>(opt =>
-                opt.UseInMemoryDatabase(databaseName: nameof(IdentityDbContext)).EnableSensitiveDataLogging());
+            var conStr = Configuration.GetConnectionString("DefaultConnection");
+            var isUseDockerOcelot = Environment.GetEnvironmentVariable("USEDOCKEROCELOT"); //for the debugging purposes
+            if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
+                conStr = conStr.Replace("127.0.0.1,1433", "mssqldb.container,1433");
 
-            services.AddScoped<IContextSeed, IdentityContextSeed>();
+            services.AddDbContextFactory<IdentityDbContext>(opt =>
+                opt.UseSqlServer(conStr, s => s.EnableRetryOnFailure(5)).EnableSensitiveDataLogging());
 
             services.AddScoped<ITokenHelper, TokenHelper>();
         }

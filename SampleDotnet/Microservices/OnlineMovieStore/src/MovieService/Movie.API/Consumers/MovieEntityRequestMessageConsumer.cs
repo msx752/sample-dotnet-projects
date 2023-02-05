@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Movie.Database;
+using Movie.Database.Entities;
 using SampleProject.Contract;
 using SampleProject.Contract.Cart.Movie;
 using SampleProject.Contract.Cart.Requests;
 using SampleProject.Core.Interfaces.Repositories;
-using SampleProject.Movie.Database.Entities;
-using SampleProject.Movie.Database.Migrations;
 
 namespace SampleProject.Movie.API.Consumers
 {
@@ -34,7 +34,7 @@ namespace SampleProject.Movie.API.Consumers
             using (var repository = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MovieDbContext>>().CreateRepository())
             {
                 var movieEntity = repository
-                    .Find<MovieEntity>(keyValues: context.Message.ProductId);
+                    .FirstOrDefault<MovieEntity>(p => p.Id == context.Message.ProductId);
 
                 MovieEntityResponseMessage responseMessage;
                 if (movieEntity == null)

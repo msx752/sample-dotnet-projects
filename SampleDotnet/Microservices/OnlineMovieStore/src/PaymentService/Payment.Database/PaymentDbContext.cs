@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SampleProject.Core.Database;
-using SampleProject.Payment.Database.Entities;
+using Payment.Database.Entities;
 
-namespace SampleProject.Payment.Database.Migrations
+namespace Payment.Database
 {
-    public class PaymentDbContext : SampBaseContext
+    public class PaymentDbContext : DbContext
     {
         public DbSet<TransactionEntity> Transactions { get; set; }
         public DbSet<TransactionItemEntity> TransactionItems { get; set; }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SampleProject.Core.Entities
 {
-    public abstract class BaseEntity : IBaseEntity
+    public class BaseEntity : IBaseEntity
     {
         public BaseEntity()
         {

@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Identity.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 using SampleProject.Core.Database;
-using SampleProject.Identity.Database.Entities;
 
-namespace SampleProject.Identity.Core.Migrations
+namespace Identity.Database
 {
-    public class IdentityDbContext : SampBaseContext
+    public class IdentityDbContext : DbContext
     {
         public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
             : base(options)

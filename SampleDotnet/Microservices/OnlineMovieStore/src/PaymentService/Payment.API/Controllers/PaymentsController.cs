@@ -8,9 +8,9 @@ using SampleProject.Core.Interfaces.Repositories;
 using SampleProject.Core.Model.Base;
 using SampleProject.Result;
 using SampleProject.Payment.API.Models.Dtos;
-using SampleProject.Payment.Database.Entities;
-using SampleProject.Payment.Database.Migrations;
 using Microsoft.AspNetCore.Authorization;
+using Payment.Database;
+using Payment.Database.Entities;
 
 namespace SampleProject.ayment.API.Controllers
 {

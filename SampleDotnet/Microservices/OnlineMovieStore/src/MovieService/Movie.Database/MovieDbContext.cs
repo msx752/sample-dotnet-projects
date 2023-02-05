@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SampleProject.Core.Database;
-using SampleProject.Movie.Database.Entities;
+using Movie.Database.Entities;
 
-namespace SampleProject.Movie.Database.Migrations
+namespace Movie.Database
 {
-    public class MovieDbContext : SampBaseContext
+    public class MovieDbContext : DbContext
     {
         public DbSet<RatingEntity> Ratings { get; set; }
         public DbSet<MovieEntity> Movies { get; set; }

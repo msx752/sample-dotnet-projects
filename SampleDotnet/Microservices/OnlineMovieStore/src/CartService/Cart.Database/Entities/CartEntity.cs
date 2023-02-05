@@ -1,5 +1,4 @@
 ﻿using Cart.Database.Enums;
-using SampleProject.Cart.Database.Entities;
 using SampleProject.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

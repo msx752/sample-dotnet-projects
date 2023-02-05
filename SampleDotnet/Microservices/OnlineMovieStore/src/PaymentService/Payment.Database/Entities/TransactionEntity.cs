@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SampleProject.Payment.Database.Entities
+namespace Payment.Database.Entities
 {
-    [Table("TransactionItemEntity")]
+    [Table("TransactionEntity")]
     public class TransactionEntity : BaseEntity
     {
         public TransactionEntity()

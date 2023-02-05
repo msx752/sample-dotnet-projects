@@ -1,11 +1,10 @@
 ﻿using Cart.Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using SampleProject.Cart.Database.Entities;
 using SampleProject.Core.Database;
 
-namespace SampleProject.Basket.Database.Migrations
+namespace Cart.Database
 {
-    public class CartDbContext : SampBaseContext
+    public class CartDbContext : DbContext
     {
         public DbSet<CartEntity> Baskets { get; set; }
         public DbSet<CartItemEntity> BasketItems { get; set; }

@@ -1,13 +1,8 @@
 ﻿using SampleProject.Core.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SampleProject.Payment.Database.Entities
+namespace Payment.Database.Entities
 {
     [Table("TransactionItemEntity")]
     public class TransactionItemEntity : BaseEntity

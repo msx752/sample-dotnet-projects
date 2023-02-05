@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Identity.Database;
+using Identity.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SampleProject.Core.AppSettings;
 using SampleProject.Core.Interfaces.Repositories;
 using SampleProject.Core.RepositoryServices;
 using SampleProject.Identity.API.Models.Dto;
-using SampleProject.Identity.Core.Migrations;
-using SampleProject.Identity.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

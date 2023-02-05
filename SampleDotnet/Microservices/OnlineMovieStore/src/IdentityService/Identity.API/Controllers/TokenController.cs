@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Identity.Database;
+using Identity.Database.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +9,6 @@ using SampleProject.Core.Model.Base;
 using SampleProject.Identity.API.Helpers;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
-using SampleProject.Identity.Core.Migrations;
-using SampleProject.Identity.Database.Entities;
 using SampleProject.Result;
 using System.Security.Claims;
 

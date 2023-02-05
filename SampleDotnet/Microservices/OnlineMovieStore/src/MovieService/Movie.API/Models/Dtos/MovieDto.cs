@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using SampleProject.Movie.Database.Enums;
+﻿using Movie.Database.Enums;
+using Newtonsoft.Json;
 
 namespace SampleProject.Movie.API.Models.Dtos
 {

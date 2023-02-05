@@ -2,6 +2,13 @@ version: '3.4'
 
 services:
 
+  mssqldb:
+    image: mcr.microsoft.com/azure-sql-edge:1.0.6
+    container_name: mssqldb
+    restart: "on-failure"
+    ports:
+        - "1433:1433"
+
   myrabbitmq:
     image: rabbitmq:3-management
     container_name: myrabbitmq

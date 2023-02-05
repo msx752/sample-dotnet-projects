@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Cart.Database;
 using Cart.Database.Entities;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using SampleProject.Basket.Database.Migrations;
 using SampleProject.Contract.Payment;
 using SampleProject.Contract.Payment.Cart;
 using SampleProject.Core.Interfaces.Repositories;

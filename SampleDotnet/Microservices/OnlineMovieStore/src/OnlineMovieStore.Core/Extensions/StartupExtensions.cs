@@ -33,7 +33,6 @@ namespace SampleProject.Core.Extensions
             }
 
             app.UseElapsedTimeMeasurement();
-            app.UseContextSeed();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();

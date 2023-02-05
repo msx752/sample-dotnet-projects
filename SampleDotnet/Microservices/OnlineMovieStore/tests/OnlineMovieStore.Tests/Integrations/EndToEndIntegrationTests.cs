@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using OnlineMovieStore.Tests.OcelotRedirections;
 using SampleProject.Basket.API.Models.Dtos;
 using SampleProject.Cart.API.Models.Dtos;
@@ -18,6 +19,18 @@ namespace OnlineMovieStore.Tests.Integrations
 {
     public class EndToEndIntegrationTests : MainControllerTests
     {
+        public EndToEndIntegrationTests()
+        {
+            var strCon = new SqlConnectionStringBuilder();
+            strCon.DataSource = "127.0.0.1:1433\\MovieDbContext";
+            strCon.UserID = "su";
+            strCon.Password = "Admin123";
+            strCon.TrustServerCertificate = true;
+            strCon.MultipleActiveResultSets = true;
+            strCon.Authentication = SqlAuthenticationMethod.SqlPassword;
+            strCon.PersistSecurityInfo = false;
+            var str = strCon.ToString();
+        }
         [Fact]
         public async Task IntegrationTest_via_OcelotGateway_1()
         {

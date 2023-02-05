@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Cart.Database.Entities;
 using SampleProject.Basket.API.Models.Dtos;
-using SampleProject.Cart.Database.Entities;
 using SampleProject.Contract.Payment.Cart;
 
 namespace SampleProject.Cart.API.Profiles

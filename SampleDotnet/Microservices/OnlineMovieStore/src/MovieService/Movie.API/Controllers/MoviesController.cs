@@ -8,9 +8,9 @@ using SampleProject.Result;
 using SampleProject.Movie.API.Models.Dtos;
 using SampleProject.Movie.API.Models.Requests;
 using SampleProject.Movie.API.Models.Responses;
-using SampleProject.Movie.Database.Entities;
-using SampleProject.Movie.Database.Migrations;
 using SampleProject.Core.RepositoryServices;
+using Movie.Database;
+using Movie.Database.Entities;
 
 namespace SampleProject.Movie.API.Controllers
 {

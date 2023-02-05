@@ -1,7 +1,7 @@
 ﻿using SampleProject.Core.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SampleProject.Movie.Database.Entities
+namespace Movie.Database.Entities
 {
     [Table("MovieDirectorEntity")]
     public class MovieDirectorEntity : BaseEntity

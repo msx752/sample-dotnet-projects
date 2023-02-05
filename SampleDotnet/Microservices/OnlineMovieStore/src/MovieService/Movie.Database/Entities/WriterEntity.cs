@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SampleProject.Movie.Database.Entities
+namespace Movie.Database.Entities
 {
     [Table("WriterEntity")]
     public class WriterEntity : BaseEntity

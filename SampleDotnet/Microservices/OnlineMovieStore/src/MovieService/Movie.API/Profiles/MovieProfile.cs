@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Movie.Database.Entities;
 using SampleProject.Contract.Cart.Movie;
 using SampleProject.Movie.API.Models.Dtos;
-using SampleProject.Movie.Database.Entities;
 
 namespace SampleProject.Movie.API.Profiles
 {

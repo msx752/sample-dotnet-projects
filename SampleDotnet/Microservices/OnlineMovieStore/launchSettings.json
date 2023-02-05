@@ -1,0 +1,23 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "websiteapp",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
+      "serviceActions": {
+        "cartservice": "StartDebugging",
+        "dps": "StartWithoutDebugging",
+        "getewayservice": "StartDebugging",
+        "identityservice": "StartDebugging",
+        "movieservice": "StartDebugging",
+        "mssqldb": "StartWithoutDebugging",
+        "mymongodb": "StartWithoutDebugging",
+        "myrabbitmq": "StartWithoutDebugging",
+        "paymentservice": "StartDebugging",
+        "websiteapp": "StartDebugging"
+      }
+    }
+  }
+}

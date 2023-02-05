@@ -1,7 +1,6 @@
 using Cart.Database;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using SampleProject.Basket.Database.Migrations;
 using SampleProject.Cart.API.Consumers;
 using SampleProject.Contract;
 using SampleProject.Contract.Extensions;
@@ -25,6 +24,9 @@ namespace SampleProject.Cart.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider isp)
         {
             app.UseGlobalStartupConfigures(env);
+
+            using (var scope = isp.CreateScope())
+                DbInitializer.Initialize(scope.ServiceProvider.GetRequiredService<IDbContextFactory<CartDbContext>>());
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -32,10 +34,13 @@ namespace SampleProject.Cart.API
         {
             services.AddGlobalStartupServices<CartApplicationSettings>(Configuration);
 
+            var conStr = Configuration.GetConnectionString("DefaultConnection");
+            var isUseDockerOcelot = Environment.GetEnvironmentVariable("USEDOCKEROCELOT"); //for the debugging purposes
+            if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
+                conStr = conStr.Replace("127.0.0.1,1433", "mssqldb.container,1433");
+
             services.AddDbContextFactory<CartDbContext>(opt =>
-            {
-                opt.UseInMemoryDatabase(databaseName: nameof(CartDbContext)).EnableSensitiveDataLogging();
-            });
+                opt.UseSqlServer(conStr, s => s.EnableRetryOnFailure(5)).EnableSensitiveDataLogging());
 
             services.AddCustomMassTransit(Configuration
             , (consumers) =>

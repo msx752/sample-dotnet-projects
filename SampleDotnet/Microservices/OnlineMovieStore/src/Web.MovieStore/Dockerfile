@@ -1,17 +1,16 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mustafasalih/dotnetcore-runtime:7.0.0-preview.5-bullseye-slim-amd64 AS base
-
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM mustafasalih/dotnetcore-sdk:7.0.0-preview.5-bullseye-slim-amd64 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 # Install NodeJs
 RUN apt-get update && \
 apt-get install -y wget && \
 apt-get install -y gnupg2 && \
 wget -qO- https://deb.nodesource.com/setup_16.x | bash - && \
-apt-get install -y build-essential nodejs
+apt-get install -y --allow-unauthenticated build-essential nodejs
 # End Install
 WORKDIR /src
 COPY ["Microservices/OnlineMovieStore/src/Web.MovieStore/Web.MovieStore.csproj", "Microservices/OnlineMovieStore/src/Web.MovieStore/"]
@@ -21,7 +20,7 @@ WORKDIR "/src/Microservices/OnlineMovieStore/src/Web.MovieStore"
 RUN dotnet build "Web.MovieStore.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Web.MovieStore.csproj" -c Release -o /app/publish
+RUN dotnet publish "Web.MovieStore.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

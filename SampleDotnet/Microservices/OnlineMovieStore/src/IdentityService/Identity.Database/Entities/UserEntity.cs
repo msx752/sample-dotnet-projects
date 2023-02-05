@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SampleProject.Identity.Database.Entities
+namespace Identity.Database.Entities
 {
     [Table("UserEntity")]
     public class UserEntity : BaseEntity
@@ -12,27 +12,27 @@ namespace SampleProject.Identity.Database.Entities
             RefreshTokens = new HashSet<RefreshTokenEntity>();
         }
 
+        [StringLength(250)]
+        public string Email { get; set; }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [Required]
         [StringLength(250)]
-        public string Username { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [StringLength(250)]
         public string Password { get; set; }
 
-        [StringLength(250)]
-        public string Email { get; set; }
+        public virtual ICollection<RefreshTokenEntity> RefreshTokens { get; set; }
 
         [StringLength(250)]
         public string Surname { get; set; }
 
+        [Required]
         [StringLength(250)]
-        public string Name { get; set; }
-
-        public virtual ICollection<RefreshTokenEntity> RefreshTokens { get; set; }
+        public string Username { get; set; }
     }
 }

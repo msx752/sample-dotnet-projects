@@ -6,9 +6,9 @@ using SampleProject.Core.Model.Base;
 using SampleProject.Result;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
-using SampleProject.Identity.Core.Migrations;
-using SampleProject.Identity.Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using Identity.Database;
+using Identity.Database.Entities;
 
 namespace SampleProject.Identity.API.Controllers
 {
@@ -37,7 +37,7 @@ namespace SampleProject.Identity.API.Controllers
         {
             using (var repository = _contextFactory.CreateRepository())
             {
-                var personal = repository.GetById<UserEntity>(id);
+                var personal = repository.FirstOrDefault<UserEntity>(f => f.Id == id);
 
                 if (personal == null)
                     return new NotFoundResponse();
@@ -59,7 +59,7 @@ namespace SampleProject.Identity.API.Controllers
         {
             using (var repository = _contextFactory.CreateRepository())
             {
-                var personal = repository.GetById<UserEntity>(id);
+                var personal = repository.FirstOrDefault<UserEntity>(f => f.Id == id);
 
                 if (personal == null)
                     return new NotFoundResponse();
@@ -120,7 +120,7 @@ namespace SampleProject.Identity.API.Controllers
 
             using (var repository = _contextFactory.CreateRepository())
             {
-                var userEntity = repository.Find<UserEntity>(keyValues: id);
+                var userEntity = repository.FirstOrDefault<UserEntity>(f => f.Id == id);
                 if (userEntity == null)
                     return new BadRequestResponse("entity not found");
 

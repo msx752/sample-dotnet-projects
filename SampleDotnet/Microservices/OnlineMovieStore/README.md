@@ -7,11 +7,17 @@ cd SampleDotnet/Microservices/OnlineMovieStore
 docker-compose down
 docker-compose build --no-cache
 docker-compose up
+```
 
-Website Endpoint: http//:localhost:2000
+## How to access
+```
+Website Endpoint: http//localhost:2000 (requires nodejs v14+)
   - username: user1
   - password: password1
-Gateway API Endpoint: http//:localhost:1010
+Gateway API Endpoint: http//localhost:1010
+MSSQL Server: localhost,1433
+  - username: sa
+  - password: Admin123!
 ```
 
 ```
@@ -21,6 +27,7 @@ Other services reachable over gateway service, checkout 'DockerUp.ps1' and 'dock
 ``` css
 MongoDB : ports 27017-27019 (not used in the project yet)
 RabbitMQ: ports 5672, 15672
+MSSQL Server: port 1433
 ```
 
 
@@ -67,14 +74,12 @@ RabbitMQ: ports 5672, 15672
   - EntityModel
 - EntityFrameworkCore
   - BaseEntity
-  - Auditlog to SqlTable
-- CustomizedDbContext
-  - DbContextSeed ( **REQUIRE IMPROVEMENT / NOT COMPLETED** )
+  - ~~Auditlog to SqlTable~~
+  - DbInitializer Seed
 - Repository Pattern
-  - UnitOfWork
 - Dependency Injections
 - Swagger
 - RabbitMQ
-- In Memory Database
+- SqlServer Database
 
 **will continue to include the rest**

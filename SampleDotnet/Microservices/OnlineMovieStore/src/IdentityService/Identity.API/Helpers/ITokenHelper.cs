@@ -1,5 +1,5 @@
-﻿using SampleProject.Identity.API.Models.Dto;
-using SampleProject.Identity.Database.Entities;
+﻿using Identity.Database.Entities;
+using SampleProject.Identity.API.Models.Dto;
 using System.Security.Claims;
 
 namespace SampleProject.Identity.API.Helpers

@@ -1,12 +1,7 @@
-using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using SampleProject.Contract;
+using Payment.Database;
 using SampleProject.Contract.Extensions;
 using SampleProject.Core.Extensions;
-using SampleProject.Core.Interfaces.DbContexts;
-using SampleProject.Core.Model;
-using SampleProject.Payment.Database;
-using SampleProject.Payment.Database.Migrations;
 
 namespace SampleProject.Payment.API
 {
@@ -23,6 +18,9 @@ namespace SampleProject.Payment.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider isp)
         {
             app.UseGlobalStartupConfigures(env);
+
+            using (var scope = isp.CreateScope())
+                DbInitializer.Initialize(scope.ServiceProvider.GetRequiredService<IDbContextFactory<PaymentDbContext>>());
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -30,8 +28,13 @@ namespace SampleProject.Payment.API
         {
             services.AddGlobalStartupServices<PaymentApplicationSettings>(Configuration);
 
+            var conStr = Configuration.GetConnectionString("DefaultConnection");
+            var isUseDockerOcelot = Environment.GetEnvironmentVariable("USEDOCKEROCELOT"); //for the debugging purposes
+            if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
+                conStr = conStr.Replace("127.0.0.1,1433", "mssqldb.container,1433");
+
             services.AddDbContextFactory<PaymentDbContext>(opt =>
-                opt.UseInMemoryDatabase(databaseName: nameof(PaymentDbContext)).EnableSensitiveDataLogging());
+                opt.UseSqlServer(conStr, s => s.EnableRetryOnFailure(5)).EnableSensitiveDataLogging());
 
             services.AddCustomMassTransit(Configuration, null, null);
         }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Movie.Database.Entities;
 using SampleProject.Movie.API.Models.Dtos;
-using SampleProject.Movie.Database.Entities;
 
 namespace SampleProject.Movie.API.Models
 {

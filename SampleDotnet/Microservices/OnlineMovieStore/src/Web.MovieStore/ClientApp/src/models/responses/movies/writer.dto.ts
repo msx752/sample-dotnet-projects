@@ -1,4 +1,4 @@
 export interface WriterDto {
-    id: string;
-    fullname: string;
+  id: string;
+  fullname: string;
 }

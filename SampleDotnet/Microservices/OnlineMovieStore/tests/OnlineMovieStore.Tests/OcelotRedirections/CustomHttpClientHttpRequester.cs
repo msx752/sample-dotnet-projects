@@ -1,13 +1,13 @@
 namespace OnlineMovieStore.Tests.OcelotRedirections;
 
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Ocelot.Logging;
 using Ocelot.Middleware;
 using Ocelot.Requester;
 using Ocelot.Responses;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 public class CustomHttpClientHttpRequester : IHttpRequester
 {

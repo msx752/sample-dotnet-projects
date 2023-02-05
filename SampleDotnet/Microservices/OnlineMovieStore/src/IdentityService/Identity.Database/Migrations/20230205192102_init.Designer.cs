@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity.Database.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20230204194641_initial")]
-    partial class initial
+    [Migration("20230205192102_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,10 @@ namespace Identity.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("RefreshToken")
@@ -51,13 +54,16 @@ namespace Identity.Database.Migrations
                     b.ToTable("RefreshTokenEntity");
                 });
 
-            modelBuilder.Entity("SampleProject.Identity.Database.Entities.UserEntity", b =>
+            modelBuilder.Entity("Identity.Database.Entities.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
@@ -95,7 +101,7 @@ namespace Identity.Database.Migrations
 
             modelBuilder.Entity("Identity.Database.Entities.RefreshTokenEntity", b =>
                 {
-                    b.HasOne("SampleProject.Identity.Database.Entities.UserEntity", "User")
+                    b.HasOne("Identity.Database.Entities.UserEntity", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -104,7 +110,7 @@ namespace Identity.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SampleProject.Identity.Database.Entities.UserEntity", b =>
+            modelBuilder.Entity("Identity.Database.Entities.UserEntity", b =>
                 {
                     b.Navigation("RefreshTokens");
                 });

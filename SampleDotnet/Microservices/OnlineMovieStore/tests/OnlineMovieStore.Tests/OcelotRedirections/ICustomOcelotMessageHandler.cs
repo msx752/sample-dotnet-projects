@@ -1,7 +1,7 @@
 namespace OnlineMovieStore.Tests.OcelotRedirections;
 
-using System.Net.Http;
 using Ocelot.Configuration;
+using System.Net.Http;
 
 public interface ICustomOcelotMessageHandler
 {

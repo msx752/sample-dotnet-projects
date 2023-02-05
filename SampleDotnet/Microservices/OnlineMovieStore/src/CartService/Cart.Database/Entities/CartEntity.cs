@@ -1,12 +1,12 @@
 ﻿using Cart.Database.Enums;
-using SampleProject.Core.Entities;
+using SampleProject.Database.Interfaces.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cart.Database.Entities
 {
     [Table("CartEntity")]
-    public class CartEntity : BaseEntity
+    public class CartEntity : IHasTimestamps
     {
         public CartEntity()
         {
@@ -21,5 +21,8 @@ namespace Cart.Database.Entities
         public CartStatus Satus { get; set; }
         public Guid UserId { get; set; }
         public virtual ICollection<CartItemEntity> Items { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

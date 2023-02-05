@@ -4,8 +4,6 @@ using Movie.Database;
 using SampleProject.Contract.Cart.Requests;
 using SampleProject.Contract.Extensions;
 using SampleProject.Core.Extensions;
-using SampleProject.Core.Interfaces.DbContexts;
-using SampleProject.Core.Model;
 using SampleProject.Movie.API.Consumers;
 
 namespace SampleProject.Movie.API

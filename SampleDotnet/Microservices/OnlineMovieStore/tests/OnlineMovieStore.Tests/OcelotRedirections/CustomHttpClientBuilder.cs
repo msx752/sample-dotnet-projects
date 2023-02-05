@@ -1,12 +1,12 @@
 namespace OnlineMovieStore.Tests.OcelotRedirections;
 
+using Ocelot.Configuration;
+using Ocelot.Logging;
+using Ocelot.Requester;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using Ocelot.Configuration;
-using Ocelot.Logging;
-using Ocelot.Requester;
 
 public class CustomHttpClientBuilder : IHttpClientBuilder
 {

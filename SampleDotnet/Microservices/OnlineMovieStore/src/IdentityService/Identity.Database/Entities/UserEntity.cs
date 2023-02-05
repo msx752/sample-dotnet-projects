@@ -1,11 +1,11 @@
-﻿using SampleProject.Core.Entities;
+﻿using SampleProject.Database.Interfaces.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Identity.Database.Entities
 {
     [Table("UserEntity")]
-    public class UserEntity : BaseEntity
+    public class UserEntity : IHasTimestamps
     {
         public UserEntity()
         {
@@ -34,5 +34,9 @@ namespace Identity.Database.Entities
         [Required]
         [StringLength(250)]
         public string Username { get; set; }
+
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

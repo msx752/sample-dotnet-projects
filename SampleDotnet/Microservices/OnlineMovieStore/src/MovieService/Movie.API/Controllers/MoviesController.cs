@@ -2,15 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SampleProject.Core.Interfaces.Repositories;
+using Movie.Database;
+using Movie.Database.Entities;
 using SampleProject.Core.Model.Base;
-using SampleProject.Result;
 using SampleProject.Movie.API.Models.Dtos;
 using SampleProject.Movie.API.Models.Requests;
 using SampleProject.Movie.API.Models.Responses;
-using SampleProject.Core.RepositoryServices;
-using Movie.Database;
-using Movie.Database.Entities;
+using SampleProject.Result;
 
 namespace SampleProject.Movie.API.Controllers
 {

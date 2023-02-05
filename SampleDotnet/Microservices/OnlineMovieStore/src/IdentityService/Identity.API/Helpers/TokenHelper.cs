@@ -4,13 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SampleProject.Core.AppSettings;
-using SampleProject.Core.Interfaces.Repositories;
-using SampleProject.Core.RepositoryServices;
 using SampleProject.Identity.API.Models.Dto;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 

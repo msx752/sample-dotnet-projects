@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SampleProject.Core.Interfaces.Repositories;
-using SampleProject.Core.RepositoryServices;
+using SampleProject.Database;
+using SampleProject.Database.Interfaces.Repositories;
 
 public static class RepositoryExtensions
 {

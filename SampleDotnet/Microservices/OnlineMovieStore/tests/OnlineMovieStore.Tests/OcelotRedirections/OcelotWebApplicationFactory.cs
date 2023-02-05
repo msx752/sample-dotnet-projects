@@ -1,10 +1,10 @@
 namespace OnlineMovieStore.Tests.OcelotRedirections;
 
-using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System.Net.Http;
 
 public class OcelotWebApplicationFactory<TStartup>
          : WebApplicationFactory<TStartup> where TStartup : class

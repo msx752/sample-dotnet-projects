@@ -1,12 +1,12 @@
 ﻿using Movie.Database.Enums;
-using SampleProject.Core.Entities;
+using SampleProject.Database.Interfaces.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("MovieEntity")]
-    public class MovieEntity : BaseEntity
+    public class MovieEntity : IHasTimestamps
     {
         public MovieEntity()
         {
@@ -44,5 +44,8 @@ namespace Movie.Database.Entities
         public string ProductDatabase { get; set; }
 
         public double UsdPrice { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

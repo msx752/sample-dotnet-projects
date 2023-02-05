@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using SampleProject.Core.Interfaces.DbContexts;
 using System.Linq.Expressions;
 
-namespace SampleProject.Core.Interfaces.Repositories
+namespace SampleProject.Database.Interfaces.Repositories
 {
     public interface IRepository<TDbContext> : IDisposable
         where TDbContext : DbContext
@@ -32,11 +31,11 @@ namespace SampleProject.Core.Interfaces.Repositories
 
         int SaveChanges();
 
-        void Update<T>(T entity) where T : class, IBaseEntity;
+        void Update<T>(T entity) where T : class;
 
-        void Update<T>(params T[] entities) where T : class, IBaseEntity;
+        void Update<T>(params T[] entities) where T : class;
 
-        void Update<T>(IEnumerable<T> entities) where T : class, IBaseEntity;
+        void Update<T>(IEnumerable<T> entities) where T : class;
 
         IQueryable<T> Where<T>(Expression<Func<T, bool>> predicate) where T : class;
     }

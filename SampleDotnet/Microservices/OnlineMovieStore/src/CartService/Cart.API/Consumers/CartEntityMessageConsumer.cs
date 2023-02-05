@@ -3,10 +3,8 @@ using Cart.Database;
 using Cart.Database.Entities;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using SampleProject.Contract.Payment;
 using SampleProject.Contract.Payment.Cart;
-using SampleProject.Core.Interfaces.Repositories;
 
 namespace SampleProject.Cart.API.Consumers
 {

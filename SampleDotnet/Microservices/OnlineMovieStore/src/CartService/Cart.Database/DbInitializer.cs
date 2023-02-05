@@ -9,7 +9,6 @@ namespace Cart.Database
             using (var context = contextFactory.CreateRepository())
             {
                 context.Database.EnsureCreated();
-
                 context.SaveChanges();
             }
         }

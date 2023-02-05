@@ -1,15 +1,18 @@
-﻿using SampleProject.Core.Entities;
+﻿using SampleProject.Database.Interfaces.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("RatingEntity")]
-    public class RatingEntity : BaseEntity
+    public class RatingEntity : IHasTimestamps
     {
         public Guid Id { get; set; }
         public double AverageRating { get; set; }
-        public int NumVotes { get; set; }
+        public long NumVotes { get; set; }
         public string MovieId { get; set; }
         public virtual ICollection<MovieEntity> Movies { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

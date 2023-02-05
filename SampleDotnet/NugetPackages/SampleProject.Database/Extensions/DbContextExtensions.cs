@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SampleProject.Core.Database;
+using SampleProject.Database.Audits;
 
 public static class DbContextExtensions
 {
@@ -40,6 +40,10 @@ public static class DbContextExtensions
                             auditEntry.AffectedColumns.Add(propertyName);
                             auditEntry.OldValues[propertyName] = property.OriginalValue;
                             auditEntry.NewValues[propertyName] = property.CurrentValue;
+                        }
+                        else
+                        {
+                            continue;
                         }
                         break;
                 }

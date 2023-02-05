@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SampleProject.Core.AppSettings
+﻿namespace SampleProject.Core.AppSettings
 {
     public class RabbitMqOptions
     {

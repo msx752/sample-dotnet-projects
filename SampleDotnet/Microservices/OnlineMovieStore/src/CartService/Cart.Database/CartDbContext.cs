@@ -1,6 +1,5 @@
 ﻿using Cart.Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using SampleProject.Core.Database;
 
 namespace Cart.Database
 {

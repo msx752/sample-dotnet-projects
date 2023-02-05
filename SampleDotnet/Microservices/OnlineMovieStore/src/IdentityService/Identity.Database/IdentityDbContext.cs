@@ -1,6 +1,5 @@
 ﻿using Identity.Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using SampleProject.Core.Database;
 
 namespace Identity.Database
 {

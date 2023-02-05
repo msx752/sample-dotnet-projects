@@ -2,12 +2,9 @@ using Cart.Database;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using SampleProject.Cart.API.Consumers;
-using SampleProject.Contract;
 using SampleProject.Contract.Extensions;
 using SampleProject.Contract.Payment;
 using SampleProject.Core.Extensions;
-using SampleProject.Core.Interfaces.DbContexts;
-using SampleProject.Core.Model;
 
 namespace SampleProject.Cart.API
 {

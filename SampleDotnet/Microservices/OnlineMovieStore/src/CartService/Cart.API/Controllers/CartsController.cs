@@ -2,7 +2,6 @@
 using Cart.Database;
 using Cart.Database.Entities;
 using Cart.Database.Enums;
-using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,6 @@ using SampleProject.Cart.API.Models.Requests;
 using SampleProject.Contract;
 using SampleProject.Contract.Cart.Movie;
 using SampleProject.Contract.Cart.Requests;
-using SampleProject.Core.Interfaces.Repositories;
 using SampleProject.Core.Model.Base;
 using SampleProject.Result;
 

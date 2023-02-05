@@ -31,6 +31,7 @@ namespace OnlineMovieStore.Tests.Integrations
             strCon.PersistSecurityInfo = false;
             var str = strCon.ToString();
         }
+
         [Fact]
         public async Task IntegrationTest_via_OcelotGateway_1()
         {

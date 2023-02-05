@@ -1,11 +1,11 @@
-﻿using SampleProject.Core.Entities;
+﻿using SampleProject.Database.Interfaces.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("WriterEntity")]
-    public class WriterEntity : BaseEntity
+    public class WriterEntity : IHasTimestamps
     {
         public WriterEntity()
         {
@@ -18,5 +18,8 @@ namespace Movie.Database.Entities
 
         public string FullName { get; set; }
         public virtual ICollection<MovieWriterEntity> MovieWriters { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

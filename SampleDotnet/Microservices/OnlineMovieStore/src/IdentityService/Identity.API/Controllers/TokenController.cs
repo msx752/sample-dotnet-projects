@@ -4,7 +4,6 @@ using Identity.Database.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SampleProject.Core.Interfaces.Repositories;
 using SampleProject.Core.Model.Base;
 using SampleProject.Identity.API.Helpers;
 using SampleProject.Identity.API.Models.Dto;

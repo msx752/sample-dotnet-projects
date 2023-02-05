@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SampleProject.Core.AppSettings;
-using SampleProject.Core.Middlewares;
-using SampleProject.Result.Extensions;
-using SampleProject.Result.Executors;
-using SampleProject.Result.Interfaces;
 using SampleProject.Authentication.Extensions;
 using SampleProject.Authentication.Middlewares;
+using SampleProject.Core.AppSettings;
+using SampleProject.Core.Middlewares;
 using SampleProject.Result;
+using SampleProject.Result.Executors;
+using SampleProject.Result.Extensions;
+using SampleProject.Result.Interfaces;
 
 namespace SampleProject.Core.Extensions
 {

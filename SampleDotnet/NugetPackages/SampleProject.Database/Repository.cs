@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using SampleProject.Core.Interfaces.DbContexts;
-using SampleProject.Core.Interfaces.Repositories;
+using SampleProject.Database.Interfaces.Repositories;
 using System.Data;
 using System.Linq.Expressions;
 
-namespace SampleProject.Core.RepositoryServices
+namespace SampleProject.Database
 {
     public class Repository<TDbContext>
         : IRepository<TDbContext>, IDisposable
@@ -109,27 +108,18 @@ namespace SampleProject.Core.RepositoryServices
             return result;
         }
 
-        public void Update<T>(T entity) where T : class, IBaseEntity
+        public void Update<T>(T entity) where T : class
         {
-            entity.UpdatedAt = DateTimeOffset.Now;
             _context.Attach(entity);
         }
 
-        public void Update<T>(params T[] entities) where T : class, IBaseEntity
+        public void Update<T>(params T[] entities) where T : class
         {
-            var updateAt = DateTimeOffset.Now;
-            for (int i = 0; i < entities.Length; i++)
-                entities[i].UpdatedAt = updateAt;
-
             _context.AttachRange(entities);
         }
 
-        public void Update<T>(IEnumerable<T> entities) where T : class, IBaseEntity
+        public void Update<T>(IEnumerable<T> entities) where T : class
         {
-            var updateAt = DateTimeOffset.Now;
-            foreach (var item in entities)
-                item.UpdatedAt = updateAt;
-
             _context.AttachRange(entities);
         }
 

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using OnlineMovieStore.Tests;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
 using SampleProject.Result.Abstractions;

@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using SampleProject.Core.Extensions;
 using SampleProject.Core.Filters;
-using SampleProject.Core.Model.Base;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace SampleProject.Core.Extensions

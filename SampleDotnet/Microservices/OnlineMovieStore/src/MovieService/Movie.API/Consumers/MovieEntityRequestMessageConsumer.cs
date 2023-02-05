@@ -3,10 +3,8 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Movie.Database;
 using Movie.Database.Entities;
-using SampleProject.Contract;
 using SampleProject.Contract.Cart.Movie;
 using SampleProject.Contract.Cart.Requests;
-using SampleProject.Core.Interfaces.Repositories;
 
 namespace SampleProject.Movie.API.Consumers
 {

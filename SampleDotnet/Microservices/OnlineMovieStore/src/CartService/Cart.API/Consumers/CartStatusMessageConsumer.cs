@@ -4,11 +4,8 @@ using Cart.Database.Entities;
 using Cart.Database.Enums;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using SampleProject.Contract.Cart.Movie;
-using SampleProject.Contract.Cart.Requests;
 using SampleProject.Contract.Payment;
 using SampleProject.Contract.Payment.Cart;
-using SampleProject.Core.Interfaces.Repositories;
 
 namespace SampleProject.Cart.API.Consumers
 {

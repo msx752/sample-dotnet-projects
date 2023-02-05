@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using SampleProject.Result;
 using SampleProject.Result.Abstractions;
 
 namespace SampleProject.Result.Extensions

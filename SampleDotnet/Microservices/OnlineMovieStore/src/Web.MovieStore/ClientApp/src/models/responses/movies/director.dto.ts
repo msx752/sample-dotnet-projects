@@ -1,4 +1,4 @@
 export interface DirectorDto {
-    id: string;
-    fullname: string;
+  id: string;
+  fullname: string;
 }

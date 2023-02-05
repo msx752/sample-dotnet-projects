@@ -1,10 +1,10 @@
 namespace OnlineMovieStore.Tests.OcelotRedirections;
 
+using Ocelot.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
-using Ocelot.Configuration;
 
 public class CustomOcelotMessageHandler : ICustomOcelotMessageHandler
 {

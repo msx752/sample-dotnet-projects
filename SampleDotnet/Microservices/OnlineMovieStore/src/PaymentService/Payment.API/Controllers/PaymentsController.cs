@@ -1,16 +1,15 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Payment.Database;
+using Payment.Database.Entities;
 using SampleProject.Contract;
 using SampleProject.Contract.Payment;
 using SampleProject.Contract.Payment.Cart;
-using SampleProject.Core.Interfaces.Repositories;
 using SampleProject.Core.Model.Base;
-using SampleProject.Result;
 using SampleProject.Payment.API.Models.Dtos;
-using Microsoft.AspNetCore.Authorization;
-using Payment.Database;
-using Payment.Database.Entities;
+using SampleProject.Result;
 
 namespace SampleProject.ayment.API.Controllers
 {

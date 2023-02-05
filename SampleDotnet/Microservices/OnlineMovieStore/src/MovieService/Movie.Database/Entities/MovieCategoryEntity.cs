@@ -1,14 +1,17 @@
-﻿using SampleProject.Core.Entities;
+﻿using SampleProject.Database.Interfaces.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("MovieCategoryEntity")]
-    public class MovieCategoryEntity : BaseEntity
+    public class MovieCategoryEntity : IHasTimestamps
     {
         public string MovieId { get; set; }
         public virtual MovieEntity Movie { get; set; }
-        public int CategoryId { get; set; }
+        public long CategoryId { get; set; }
         public virtual CategoryEntity Category { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

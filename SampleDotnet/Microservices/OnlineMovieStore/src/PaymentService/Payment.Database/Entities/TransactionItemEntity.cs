@@ -1,11 +1,11 @@
-﻿using SampleProject.Core.Entities;
+﻿using SampleProject.Database.Interfaces.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Payment.Database.Entities
 {
     [Table("TransactionItemEntity")]
-    public class TransactionItemEntity : BaseEntity
+    public class TransactionItemEntity : IHasTimestamps
     {
         public TransactionItemEntity()
         {
@@ -24,5 +24,8 @@ namespace Payment.Database.Entities
         public string CalculatedPrice { get; set; }
         public Guid TransactionId { get; set; }
         public virtual TransactionEntity Transaction { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SampleProject.Result.Abstractions;
-using System.Collections.Generic;
 
 namespace SampleProject.Result
 {

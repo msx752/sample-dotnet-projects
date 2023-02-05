@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SampleProject.Contract.Cart.Movie
+﻿namespace SampleProject.Contract.Cart.Movie
 {
     public class MovieEntityResponseMessage : IResponseMessage
     {

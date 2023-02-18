@@ -21,8 +21,6 @@ namespace SampleProject.Core.Middlewares
 
                 List<string> messages = new List<string>() { exception.Message };
 
-                messages.Add(exception.ToString()); //debugging
-
                 var result = new InternalServerErrorResponse(messages);
                 await result.ExecuteResultAsync(actionContext);
             }));

@@ -81,6 +81,6 @@ namespace SampleProject.Result.Abstractions
 
         [NotMapped]
         [JsonIgnore]
-        internal IResponseModel Model => (IResponseModel)Value;
+        public IResponseModel Model => (IResponseModel)Value;
     }
 }

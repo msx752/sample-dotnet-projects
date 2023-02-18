@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineMovieStore.Core;
+using OnlineMovieStore.Core.Executors;
 using SampleProject.Authentication.Extensions;
 using SampleProject.Authentication.Middlewares;
 using SampleProject.Core.AppSettings;
@@ -58,6 +59,7 @@ namespace SampleProject.Core.Extensions
         {
             services.AddSingleton<IBaseResultExecutor, ExecuteRequestTrackingId>();
             services.AddSingleton<IBaseResultExecutor, ExecuteMeasuredResponsTime>();
+            services.AddSingleton<IBaseResultExecutor, ExecuteInternalServerErrorLog>();
 
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
             services.Configure<TApplicationSettings>(configuration);

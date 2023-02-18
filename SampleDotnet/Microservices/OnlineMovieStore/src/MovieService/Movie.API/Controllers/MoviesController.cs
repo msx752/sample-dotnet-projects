@@ -109,7 +109,7 @@ namespace SampleProject.Movie.API.Controllers
                     .Where(f => !string.IsNullOrWhiteSpace(f.Id) && f.Id == Id)
                     .ToList();
 
-                if (entity == null)
+                if (!entity.Any())
                     return new NotFoundResponse();
 
                 return new OkResponse(mapper.Map<List<MovieDto>>(entity));
@@ -130,7 +130,7 @@ namespace SampleProject.Movie.API.Controllers
                     .Where(f => f.Title != null && f.Title.Contains(model.Query))
                     .ToList();
 
-                if (entity == null)
+                if (!entity.Any())
                     return new NotFoundResponse();
 
                 return new OkResponse(mapper.Map<List<MovieDto>>(entity));

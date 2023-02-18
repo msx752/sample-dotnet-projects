@@ -14,24 +14,28 @@ namespace SampleProject.Result.Abstractions
             : base(new ResponseModel())
 
         {
+            ContentType = "application/json";
             StatusCode = statusCode;
         }
 
         public BaseResult(int statusCode, IEnumerable<string> messages)
             : base(new ResponseModel(messages))
         {
+            ContentType = "application/json";
             StatusCode = statusCode;
         }
 
         public BaseResult(int statusCode, string message)
             : base(new ResponseModel(message))
         {
+            ContentType = "application/json";
             StatusCode = statusCode;
         }
 
         public BaseResult(int statusCode, object body)
             : base(new ResponseModel<object>(body))
         {
+            ContentType = "application/json";
             StatusCode = statusCode;
 
             SerializerSettings = DefaultJsonSerializerSettings();
@@ -40,6 +44,7 @@ namespace SampleProject.Result.Abstractions
         public BaseResult(int statusCode, IEnumerable<object> body)
             : base(new ResponseModel<object>(body), null)
         {
+            ContentType = "application/json";
             StatusCode = statusCode;
 
             SerializerSettings = DefaultJsonSerializerSettings();
@@ -48,6 +53,7 @@ namespace SampleProject.Result.Abstractions
         protected BaseResult(object body, JsonSerializerSettings serializerSettings)
             : base(new ResponseModel<object>(body), serializerSettings)
         {
+            ContentType = "application/json";
         }
 
         public virtual JsonSerializerSettings DefaultJsonSerializerSettings()
@@ -70,7 +76,7 @@ namespace SampleProject.Result.Abstractions
             httpContext.Response.StatusCode = StatusCode.Value;
 
             var services = httpContext.RequestServices;
-            IEnumerable<IBaseResultExecutor> resultExecutors = services.GetServices<IBaseResultExecutor>();
+            var resultExecutors = services.GetServices<IBaseResultExecutor>();
 
             foreach (var execute in resultExecutors)
                 await execute.ExecuteAsync(httpContext, this);

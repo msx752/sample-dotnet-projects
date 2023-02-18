@@ -36,7 +36,7 @@ namespace SampleProject.Movie.API.Controllers
                 var hightRatingEntity = repository
                     .AsQueryable<MovieEntity>()
                     .Include(f => f.Rating)
-                    .Where(f => f.Rating.AverageRating >= 70)
+                    .Where(f => f.Rating != null && f.Rating.AverageRating >= 70)
                     .Take(5)
                     .ToList();
                 movieIndexModel.HighRatings = mapper.Map<List<MovieDto>>(hightRatingEntity);
@@ -66,7 +66,7 @@ namespace SampleProject.Movie.API.Controllers
                 var hightRatingEntity = repository
                     .AsQueryable<MovieEntity>()
                     .Include(f => f.Rating)
-                    .Where(f => f.Rating.AverageRating >= 70)
+                    .Where(f => f.Rating != null && f.Rating.AverageRating >= 70)
                     .Take(5)
                     .ToList();
 
@@ -92,6 +92,9 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("{Id}")]
         public ActionResult GetById(string Id)
         {
+            if (string.IsNullOrWhiteSpace(Id))
+                return new BadRequestResponse();
+
             using (var repository = _contextFactory.CreateRepository())
             {
                 var entity = repository
@@ -103,7 +106,7 @@ namespace SampleProject.Movie.API.Controllers
                     .ThenInclude(x => x.Director)
                     .Include(x => x.Categories)
                     .ThenInclude(x => x.Category)
-                    .Where(f => f.Id == Id)
+                    .Where(f => !string.IsNullOrWhiteSpace(f.Id) && f.Id == Id)
                     .ToList();
 
                 if (entity == null)
@@ -124,7 +127,7 @@ namespace SampleProject.Movie.API.Controllers
                 var entity = repository
                     .AsQueryable<MovieEntity>()
                     .Include(f => f.Rating)
-                    .Where(f => f.Title.Contains(model.Query, StringComparison.InvariantCultureIgnoreCase))
+                    .Where(f => f.Title != null && f.Title.Contains(model.Query))
                     .ToList();
 
                 if (entity == null)
@@ -135,8 +138,11 @@ namespace SampleProject.Movie.API.Controllers
         }
 
         [HttpGet("CategoryBy/{Id}")]
-        public ActionResult GetFilteredByCategoryId(int Id)
+        public ActionResult GetFilteredByCategoryId(long Id)
         {
+            if (Id == 0)
+                return new BadRequestResponse();
+
             using (var repository = _contextFactory.CreateRepository())
             {
                 var entityCategory = repository.GetById<CategoryEntity>(Id);
@@ -147,7 +153,7 @@ namespace SampleProject.Movie.API.Controllers
                     .AsQueryable<MovieCategoryEntity>()
                     .Include(f => f.Movie)
                     .ThenInclude(f => f.Rating)
-                    .Where(f => f.CategoryId == entityCategory.Id)
+                    .Where(f => f.CategoryId != 0 && f.CategoryId == entityCategory.Id)
                     .Select(f => f.Movie)
                     .ToList();
 

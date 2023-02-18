@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OnlineMovieStore.Core;
 using SampleProject.Authentication.Extensions;
 using SampleProject.Authentication.Middlewares;
 using SampleProject.Core.AppSettings;
@@ -37,7 +38,7 @@ namespace SampleProject.Core.Extensions
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseMiddleware<JwtMiddleware>();
+            app.UseMiddleware<MyJwtMiddleware>();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 

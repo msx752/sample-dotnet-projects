@@ -14,13 +14,13 @@ namespace SampleProject.Identity.API.Helpers
     public class TokenHelper : ITokenHelper
     {
         private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
-        private readonly JWTOptions jwt;
+        private readonly JwtBearerOptions jwt;
 
         public TokenHelper(
             IOptions<IdentityApplicationSettings> appSettings
             , IDbContextFactory<IdentityDbContext> contextFactory)
         {
-            jwt = appSettings.Value.JWTOptions;
+            jwt = appSettings.Value.JwtBearerOptions;
             _contextFactory = contextFactory;
         }
 
@@ -53,7 +53,7 @@ namespace SampleProject.Identity.API.Helpers
 
         public string GenerateRefreshToken(out DateTime expiresAt)
         {
-            var symmetricSecurityKeyRefreshToken = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwt.RefreshTokenSecret));
+            var symmetricSecurityKeyRefreshToken = new SymmetricSecurityKey(Encoding.Unicode.GetBytes(jwt.Secret));
             var signingCredentialsRefreshToken = new SigningCredentials(symmetricSecurityKeyRefreshToken, SecurityAlgorithms.HmacSha256);
             return GenerateJwtSecurityToken(signingCredentialsRefreshToken, jwt.RefreshTokenExpiresIn, out expiresAt, null);
         }
@@ -66,7 +66,7 @@ namespace SampleProject.Identity.API.Helpers
                 var tokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwt.RefreshTokenSecret)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.Unicode.GetBytes(jwt.Secret)),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ClockSkew = TimeSpan.Zero
@@ -83,7 +83,7 @@ namespace SampleProject.Identity.API.Helpers
         public string GenerateAccessToken(IEnumerable<Claim> userClaims, out DateTime expiresAt)
         {
             var datetimeNow = DateTime.UtcNow;
-            var symmetricSecurityKeyAccessToken = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwt.AccessTokenSecret));
+            var symmetricSecurityKeyAccessToken = new SymmetricSecurityKey(Encoding.Unicode.GetBytes(jwt.Secret));
             var signingCredentialsAccessToken = new SigningCredentials(symmetricSecurityKeyAccessToken, SecurityAlgorithms.HmacSha256);
             return GenerateJwtSecurityToken(signingCredentialsAccessToken, jwt.AccessTokenExpiresIn, out expiresAt, userClaims);
         }

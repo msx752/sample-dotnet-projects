@@ -2,9 +2,9 @@
 
 namespace SampleProject.Core.AppSettings
 {
-    public class JWTOptions
+    public class JwtBearerOptions
     {
-        public JWTOptions()
+        public JwtBearerOptions()
         {
             AccessTokenExpiresIn = 1;
             RefreshTokenExpiresIn = 8350;
@@ -12,8 +12,7 @@ namespace SampleProject.Core.AppSettings
 
         public string ValidAudience { get; set; }
         public Uri ValidIssuer { get; set; }
-        public string AccessTokenSecret { get; set; }
-        public string RefreshTokenSecret { get; set; }
+        public string Secret { get; set; }
 
         /// <summary>
         /// hours

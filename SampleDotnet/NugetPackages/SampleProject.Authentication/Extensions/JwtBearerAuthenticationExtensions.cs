@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SampleProject.Authentication.Extensions
 {
-    public static class AuthenticationExtensions
+    public static class JwtBearerAuthenticationExtensions
     {
         /// <summary>
         ///
@@ -26,7 +26,7 @@ namespace SampleProject.Authentication.Extensions
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
                             ValidateIssuerSigningKey = true,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JWTOptions:AccessTokenSecret"])),
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.Unicode.GetBytes(configuration["JwtBearerOptions:Secret"])),
                             ValidateIssuer = false,
                             ValidateAudience = false,
                             ClockSkew = TimeSpan.Zero,

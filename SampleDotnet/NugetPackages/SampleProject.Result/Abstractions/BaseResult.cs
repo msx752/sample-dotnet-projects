@@ -62,7 +62,7 @@ namespace SampleProject.Result.Abstractions
             };
         }
 
-        public override Task ExecuteResultAsync(ActionContext context)
+        public override async Task ExecuteResultAsync(ActionContext context)
         {
             ArgumentNullException.ThrowIfNull(context, nameof(context));
 
@@ -71,18 +71,12 @@ namespace SampleProject.Result.Abstractions
 
             var services = httpContext.RequestServices;
             IEnumerable<IBaseResultExecutor> resultExecutors = services.GetServices<IBaseResultExecutor>();
+
             foreach (var execute in resultExecutors)
-            {
-                execute
-                    .ExecuteAsync(httpContext, this)
-                    .ConfigureAwait(false)
-                    .GetAwaiter()
-                    .GetResult();
-            }
+                await execute.ExecuteAsync(httpContext, this);
 
             var executor = services.GetRequiredService<IActionResultExecutor<JsonResult>>();
-            var executedTask = executor.ExecuteAsync(context, this);
-            return executedTask;
+            await executor.ExecuteAsync(context, this);
         }
 
         [NotMapped]

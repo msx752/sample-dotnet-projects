@@ -47,7 +47,7 @@ namespace SampleProject.Cart.API.Consumers
                 {
                     cartStatusResponseMessage.BusErrorMessage = $"cart not found: {context.Message.CartId}";
                 }
-                else if (Enum.TryParse<CartStatus>(context.Message.CartStatus, out CartStatus cartStatus))
+                else if (Enum.TryParse<CartStatus>(context.Message.CartStatus, true, out CartStatus cartStatus))
                 {
                     entity.Satus = cartStatus;
                     repository.Update(entity);

@@ -3,6 +3,7 @@ using Cart.Database;
 using Cart.Database.Entities;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using SampleProject.Contract;
 using SampleProject.Contract.Payment;
 using SampleProject.Contract.Payment.Cart;
 
@@ -18,8 +19,7 @@ namespace SampleProject.Cart.API.Consumers
         public CartEntityMessageConsumer(
             ILogger<CartEntityMessageConsumer> logger
             , IMapper mapper
-            , IServiceProvider provider
-            )
+            , IServiceProvider provider)
         {
             _logger = logger;
             this.mapper = mapper;
@@ -44,11 +44,29 @@ namespace SampleProject.Cart.API.Consumers
                 {
                     cartEntityResponseMessage = new();
                     cartEntityResponseMessage.BusErrorMessage = $"cart not found for selected user.";
+
+                    var messageBus = scope.ServiceProvider.GetRequiredService<IMessageBus>();
+                    await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
+                    {
+                        CartStatus = "Open",
+                        CartId = context.Message.CartId,
+                        ActivityUserId = context.Message.ActivityUserId,
+                        ActivityId = context.Message.ActivityId,
+                    });
                 }
                 else if (entity.Items.Count == 0)
                 {
                     cartEntityResponseMessage = new();
                     cartEntityResponseMessage.BusErrorMessage = $"cart is empty.";
+
+                    var messageBus = scope.ServiceProvider.GetRequiredService<IMessageBus>();
+                    await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
+                    {
+                        CartStatus = "Open",
+                        CartId = context.Message.CartId,
+                        ActivityUserId = context.Message.ActivityUserId,
+                        ActivityId = context.Message.ActivityId,
+                    });
                 }
                 else
                 {

@@ -6,6 +6,7 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Newtonsoft.Json;
 global using Newtonsoft.Json.Serialization;
 global using SampleProject.Result.Abstractions;
+global using SampleProject.Result.Extensions;
 global using SampleProject.Result.Interfaces;
 global using System.ComponentModel.DataAnnotations.Schema;
 global using System.Dynamic;

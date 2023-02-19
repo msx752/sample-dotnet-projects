@@ -7,40 +7,35 @@ public class BaseJsonResult : JsonResult
 
     {
         StatusCode = statusCode;
-        ContentType = _Constants.ContentType_ApplicationJson;
-        SerializerSettings = ConfigureJsonSerializerSettings();
+        this.DefaultCtorValues();
     }
 
     public BaseJsonResult(int statusCode, IEnumerable<string> errorMessages)
         : base(new ResponseModel(errorMessages))
     {
         StatusCode = statusCode;
-        ContentType = _Constants.ContentType_ApplicationJson;
-        SerializerSettings = ConfigureJsonSerializerSettings();
+        this.DefaultCtorValues();
     }
 
     public BaseJsonResult(int statusCode, string errorMessages)
         : base(new ResponseModel(errorMessages))
     {
         StatusCode = statusCode;
-        ContentType = _Constants.ContentType_ApplicationJson;
-        SerializerSettings = ConfigureJsonSerializerSettings();
+        this.DefaultCtorValues();
     }
 
     public BaseJsonResult(int statusCode, object body)
         : base(new ResponseModel<object>(body))
     {
         StatusCode = statusCode;
-        ContentType = _Constants.ContentType_ApplicationJson;
-        SerializerSettings = ConfigureJsonSerializerSettings();
+        this.DefaultCtorValues();
     }
 
     public BaseJsonResult(int statusCode, IEnumerable<object> body)
         : base(new ResponseModel<object>(body), null)
     {
         StatusCode = statusCode;
-        ContentType = _Constants.ContentType_ApplicationJson;
-        SerializerSettings = ConfigureJsonSerializerSettings();
+        this.DefaultCtorValues();
     }
 
     [NotMapped]
@@ -57,7 +52,7 @@ public class BaseJsonResult : JsonResult
 
     public virtual JsonSerializerSettings ConfigureJsonSerializerSettings()
     {
-        return JsonConvert.DefaultSettings != null ? JsonConvert.DefaultSettings() : new JsonSerializerSettings();
+        return JsonConvert.DefaultSettings?.Invoke() ?? new JsonSerializerSettings();
     }
 
     public override async Task ExecuteResultAsync(ActionContext context)

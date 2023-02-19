@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-
-namespace SampleProject.Result.Abstractions;
+﻿namespace SampleProject.Result.Abstractions;
 
 public class BaseResponseModel
 {

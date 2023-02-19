@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-
-namespace SampleProject.Result.Interfaces;
+﻿namespace SampleProject.Result.Interfaces;
 
 public interface IResponseModel
 {

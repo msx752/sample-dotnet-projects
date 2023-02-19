@@ -10,7 +10,7 @@ public class ExecuteMeasuredResponsTime : IBaseResultExecutor
             var dtNow = DateTimeOffset.UtcNow;
             jsonResult.Model.Stats.offset = dtNow.ToUnixTimeSeconds();
             var elapsedResponseTime = dtNow - requestStartDateTime;
-            jsonResult.Model.Stats.elapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
+            jsonResult.Model.Stats.elapsedmilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
         });
     }
 }

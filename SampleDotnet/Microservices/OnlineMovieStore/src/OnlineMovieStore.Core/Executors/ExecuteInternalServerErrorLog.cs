@@ -10,7 +10,7 @@ namespace OnlineMovieStore.Core.Executors
 {
     public class ExecuteInternalServerErrorLog : IBaseResultExecutor
     {
-        public Task ExecuteAsync(HttpContext httpContext, BaseResult baseResult)
+        public Task ExecuteAsync(HttpContext httpContext, BaseJsonResult baseResult)
         {
             if (baseResult.GetType() != typeof(InternalServerErrorResponse))
                 return Task.CompletedTask;

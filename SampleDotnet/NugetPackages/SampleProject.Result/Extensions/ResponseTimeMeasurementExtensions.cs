@@ -6,7 +6,7 @@ namespace SampleProject.Result.Extensions
     public static class ResponseTimeMeasurementExtensions
     {
         /// <summary>
-        /// sets RequestStartTime for the <see cref="BaseResult"/>'s ExecuteResultAsync method
+        /// sets RequestStartTime for the <see cref="BaseJsonResult"/>'s ExecuteResultAsync method
         /// </summary>
         /// <param name="application"></param>
         /// <returns></returns>

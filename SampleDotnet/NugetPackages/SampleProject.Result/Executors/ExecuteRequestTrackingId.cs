@@ -6,7 +6,7 @@ namespace SampleProject.Result.Executors
 {
     public class ExecuteRequestTrackingId : IBaseResultExecutor
     {
-        public Task ExecuteAsync(HttpContext context, BaseResult baseResult)
+        public Task ExecuteAsync(HttpContext context, BaseJsonResult baseResult)
         {
             return Task.Run(() =>
             {

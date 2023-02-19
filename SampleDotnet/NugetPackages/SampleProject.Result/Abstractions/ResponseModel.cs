@@ -3,25 +3,25 @@ using SampleProject.Result.Interfaces;
 
 namespace SampleProject.Result.Abstractions
 {
-    public abstract class BaseResponseModel
+    public class BaseResponseModel
     {
         public BaseResponseModel()
         {
             Stats = new();
         }
 
-        public BaseResponseModel(IEnumerable<string> messages)
+        public BaseResponseModel(IEnumerable<string> errorMessages)
             : this()
         {
             Errors = new();
-            Errors.AddRange(messages);
+            Errors.AddRange(errorMessages);
         }
 
-        public BaseResponseModel(string message)
+        public BaseResponseModel(string errorMessages)
             : this()
         {
             Errors = new();
-            Errors.Add(message);
+            Errors.Add(errorMessages);
         }
 
         [JsonProperty("errors")]
@@ -43,7 +43,7 @@ namespace SampleProject.Result.Abstractions
         public long Offset { get; set; }
     }
 
-    public sealed class ResponseModel<T>
+    public class ResponseModel<T>
             : BaseResponseModel
         , IResponseModel<T>
         where T : class
@@ -64,13 +64,13 @@ namespace SampleProject.Result.Abstractions
             Results.Add(body);
         }
 
-        public ResponseModel(IEnumerable<string> messages)
-            : base(messages)
+        public ResponseModel(IEnumerable<string> errorMessages)
+            : base(errorMessages)
         {
         }
 
-        public ResponseModel(string message)
-            : base(message)
+        public ResponseModel(string errorMessages)
+            : base(errorMessages)
         {
         }
 
@@ -78,7 +78,7 @@ namespace SampleProject.Result.Abstractions
         public List<T> Results { get; set; }
     }
 
-    public sealed class ResponseModel
+    public class ResponseModel
         : BaseResponseModel
         , IResponseModel
     {
@@ -87,13 +87,13 @@ namespace SampleProject.Result.Abstractions
         {
         }
 
-        public ResponseModel(IEnumerable<string> messages)
-            : base(messages)
+        public ResponseModel(IEnumerable<string> errorMessages)
+            : base(errorMessages)
         {
         }
 
-        public ResponseModel(string message)
-            : base(message)
+        public ResponseModel(string errorMessages)
+            : base(errorMessages)
         {
         }
     }

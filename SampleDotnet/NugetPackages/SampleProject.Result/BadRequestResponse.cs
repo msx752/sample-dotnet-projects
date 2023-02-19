@@ -4,7 +4,7 @@ using SampleProject.Result.Abstractions;
 namespace SampleProject.Result
 {
     public sealed class BadRequestResponse
-        : BaseResult
+        : BaseJsonResult
     {
         public BadRequestResponse()
             : base(StatusCodes.Status400BadRequest)

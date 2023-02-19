@@ -4,7 +4,7 @@ using SampleProject.Result.Abstractions;
 namespace SampleProject.Result
 {
     public sealed class OkResponse
-        : BaseResult
+        : BaseJsonResult
     {
         public OkResponse()
             : base(StatusCodes.Status200OK)

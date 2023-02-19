@@ -4,7 +4,7 @@ using SampleProject.Result.Abstractions;
 namespace SampleProject.Result
 {
     public sealed class UnauthorizedResponse
-        : BaseResult
+        : BaseJsonResult
     {
         public UnauthorizedResponse()
             : base(StatusCodes.Status401Unauthorized, "Unauthorized")

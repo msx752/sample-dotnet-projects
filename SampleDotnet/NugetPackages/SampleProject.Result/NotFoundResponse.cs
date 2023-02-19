@@ -4,7 +4,7 @@ using SampleProject.Result.Abstractions;
 namespace SampleProject.Result
 {
     public sealed class NotFoundResponse
-        : BaseResult
+        : BaseJsonResult
     {
         public NotFoundResponse()
             : base(StatusCodes.Status404NotFound)

@@ -4,7 +4,7 @@ using SampleProject.Result.Abstractions;
 namespace SampleProject.Result
 {
     public sealed class InternalServerErrorResponse
-        : BaseResult
+        : BaseJsonResult
     {
         public InternalServerErrorResponse()
             : base(StatusCodes.Status500InternalServerError)

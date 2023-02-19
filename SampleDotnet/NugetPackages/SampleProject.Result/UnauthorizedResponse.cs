@@ -1,24 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
-using SampleProject.Result.Abstractions;
+﻿namespace SampleProject.Result;
 
-namespace SampleProject.Result
+public sealed class UnauthorizedResponse
+    : BaseJsonResult
 {
-    public sealed class UnauthorizedResponse
-        : BaseJsonResult
+    public UnauthorizedResponse()
+        : base(StatusCodes.Status401Unauthorized, "Unauthorized")
     {
-        public UnauthorizedResponse()
-            : base(StatusCodes.Status401Unauthorized, "Unauthorized")
-        {
-        }
+    }
 
-        public UnauthorizedResponse(string message)
-            : base(StatusCodes.Status401Unauthorized, message)
-        {
-        }
+    public UnauthorizedResponse(string message)
+        : base(StatusCodes.Status401Unauthorized, message)
+    {
+    }
 
-        public UnauthorizedResponse(IEnumerable<string> messages)
-            : base(StatusCodes.Status401Unauthorized, messages)
-        {
-        }
+    public UnauthorizedResponse(IEnumerable<string> messages)
+        : base(StatusCodes.Status401Unauthorized, messages)
+    {
     }
 }

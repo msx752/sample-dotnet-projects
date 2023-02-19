@@ -1,17 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using SampleProject.Result.Abstractions;
-using SampleProject.Result.Interfaces;
+﻿namespace SampleProject.Result.Executors;
 
-namespace SampleProject.Result.Executors
+public class ExecuteRequestTrackingId : IBaseResultExecutor
 {
-    public class ExecuteRequestTrackingId : IBaseResultExecutor
+    public Task OnBeforeActionResultExecutorAsync(HttpContext context, IServiceProvider serviceProvider, BaseJsonResult jsonResult)
     {
-        public Task OnBeforeActionResultExecutorAsync(HttpContext context, IServiceProvider serviceProvider, BaseJsonResult jsonResult)
+        return Task.Run(() =>
         {
-            return Task.Run(() =>
-            {
-                jsonResult.Model.Stats.RId = System.Diagnostics.Activity.Current?.RootId;
-            });
-        }
+            jsonResult.Model.Stats.RId = System.Diagnostics.Activity.Current?.RootId;
+        });
     }
 }

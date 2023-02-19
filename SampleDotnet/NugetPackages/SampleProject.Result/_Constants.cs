@@ -1,7 +1,6 @@
-﻿namespace SampleProject.Result
+﻿namespace SampleProject.Result;
+
+internal class _Constants
 {
-    internal class _Constants
-    {
-        internal const string RequestStartTime = "_RequestStartTime";
-    }
+    internal const string RequestStartTime = "_RequestStartTime";
 }

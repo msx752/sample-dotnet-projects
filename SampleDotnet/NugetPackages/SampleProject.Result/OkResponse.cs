@@ -1,24 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
-using SampleProject.Result.Abstractions;
+﻿namespace SampleProject.Result;
 
-namespace SampleProject.Result
+public sealed class OkResponse
+    : BaseJsonResult
 {
-    public sealed class OkResponse
-        : BaseJsonResult
+    public OkResponse()
+        : base(StatusCodes.Status200OK)
     {
-        public OkResponse()
-            : base(StatusCodes.Status200OK)
-        {
-        }
+    }
 
-        public OkResponse(IEnumerable<object> body)
-            : base(StatusCodes.Status200OK, body)
-        {
-        }
+    public OkResponse(IEnumerable<object> body)
+        : base(StatusCodes.Status200OK, body)
+    {
+    }
 
-        public OkResponse(object body)
-            : base(StatusCodes.Status200OK, body)
-        {
-        }
+    public OkResponse(object body)
+        : base(StatusCodes.Status200OK, body)
+    {
     }
 }

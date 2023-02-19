@@ -1,19 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using SampleProject.Result.Abstractions;
+﻿namespace SampleProject.Result;
 
-namespace SampleProject.Result
+public sealed class NotFoundResponse
+    : BaseJsonResult
 {
-    public sealed class NotFoundResponse
-        : BaseJsonResult
+    public NotFoundResponse()
+        : base(StatusCodes.Status404NotFound)
     {
-        public NotFoundResponse()
-            : base(StatusCodes.Status404NotFound)
-        {
-        }
+    }
 
-        public NotFoundResponse(string message)
-            : base(StatusCodes.Status400BadRequest, message)
-        {
-        }
+    public NotFoundResponse(string message)
+        : base(StatusCodes.Status400BadRequest, message)
+    {
     }
 }

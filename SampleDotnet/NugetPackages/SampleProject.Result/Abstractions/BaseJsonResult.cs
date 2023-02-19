@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SampleProject.Result.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace SampleProject.Result.Abstractions
 {
@@ -69,14 +70,14 @@ namespace SampleProject.Result.Abstractions
 
             var httpContext = context.HttpContext;
             httpContext.Response.StatusCode = StatusCode.Value;
-            var services = httpContext.RequestServices;
 
-            var resultExecutors = services.GetServices<IBaseResultExecutor>();
+            var serviceProvider = httpContext.RequestServices;
+            var resultExecutors = serviceProvider.GetServices<IBaseResultExecutor>();
 
             foreach (var execute in resultExecutors)
-                await execute.ExecuteAsync(httpContext, this);
+                await execute.OnBeforeActionResultExecutorAsync(httpContext, serviceProvider, this);
 
-            var executor = services.GetService<IActionResultExecutor<JsonResult>>();
+            var executor = serviceProvider.GetService<IActionResultExecutor<JsonResult>>();
             ArgumentNullException.ThrowIfNull(executor, nameof(IActionResultExecutor<JsonResult>));
 
             await executor.ExecuteAsync(context, this);
@@ -84,6 +85,7 @@ namespace SampleProject.Result.Abstractions
 
         [NotMapped]
         [JsonIgnore]
+        [IgnoreDataMember]
         public IResponseModel Model
         {
             get

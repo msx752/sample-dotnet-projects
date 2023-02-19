@@ -5,6 +5,6 @@ namespace SampleProject.Result.Interfaces
 {
     public interface IBaseResultExecutor
     {
-        Task ExecuteAsync(HttpContext context, BaseJsonResult baseResult);
+        Task OnBeforeActionResultExecutorAsync(HttpContext context, IServiceProvider serviceProvider, BaseJsonResult baseResult);
     }
 }

@@ -7,7 +7,7 @@ namespace SampleProject.Result.Executors
 {
     public class ExecuteMeasuredResponsTime : IBaseResultExecutor
     {
-        public Task ExecuteAsync(HttpContext context, BaseJsonResult jsonResult)
+        public Task OnBeforeActionResultExecutorAsync(HttpContext context, IServiceProvider serviceProvider, BaseJsonResult jsonResult)
         {
             return Task.Run(() =>
             {

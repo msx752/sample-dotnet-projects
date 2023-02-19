@@ -10,9 +10,9 @@ namespace OnlineMovieStore.Core.Executors
 {
     public class ExecuteInternalServerErrorLog : IBaseResultExecutor
     {
-        public Task ExecuteAsync(HttpContext httpContext, BaseJsonResult baseResult)
+        public Task ExecuteAsync(HttpContext httpContext, BaseJsonResult jsonResult)
         {
-            if (baseResult.GetType() != typeof(InternalServerErrorResponse))
+            if (jsonResult.GetType() != typeof(InternalServerErrorResponse))
                 return Task.CompletedTask;
 
             return Task.Run(() =>
@@ -20,7 +20,7 @@ namespace OnlineMovieStore.Core.Executors
                 Exception exception = httpContext.Features.Get<IExceptionHandlerPathFeature>()?.Error;
                 if (exception != null)
                 {
-                    baseResult.Model.Errors.Add(exception.ToString()); //debugging purpsose
+                    jsonResult.Model.Errors.Add(exception.ToString()); //debugging purpsose
                 }
             });
         }

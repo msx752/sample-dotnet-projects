@@ -7,15 +7,15 @@ namespace SampleProject.Result.Executors
 {
     public class ExecuteMeasuredResponsTime : IBaseResultExecutor
     {
-        public Task ExecuteAsync(HttpContext context, BaseJsonResult baseResult)
+        public Task ExecuteAsync(HttpContext context, BaseJsonResult jsonResult)
         {
             return Task.Run(() =>
             {
                 var requestStartDateTime = DateTimeOffset.Parse(context.Items[_Constants.RequestStartTime].ToString());
                 var dtNow = DateTimeOffset.UtcNow;
-                baseResult.Model.Stats.Offset = dtNow.ToUnixTimeSeconds();
+                jsonResult.Model.Stats.Offset = dtNow.ToUnixTimeSeconds();
                 var elapsedResponseTime = dtNow - requestStartDateTime;
-                baseResult.Model.Stats.ElapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
+                jsonResult.Model.Stats.ElapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
             });
         }
     }

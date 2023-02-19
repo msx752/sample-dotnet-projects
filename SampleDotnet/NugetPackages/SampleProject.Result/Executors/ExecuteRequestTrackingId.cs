@@ -6,11 +6,11 @@ namespace SampleProject.Result.Executors
 {
     public class ExecuteRequestTrackingId : IBaseResultExecutor
     {
-        public Task ExecuteAsync(HttpContext context, BaseJsonResult baseResult)
+        public Task ExecuteAsync(HttpContext context, BaseJsonResult jsonResult)
         {
             return Task.Run(() =>
             {
-                baseResult.Model.Stats.RId = System.Diagnostics.Activity.Current?.RootId;
+                jsonResult.Model.Stats.RId = System.Diagnostics.Activity.Current?.RootId;
             });
         }
     }

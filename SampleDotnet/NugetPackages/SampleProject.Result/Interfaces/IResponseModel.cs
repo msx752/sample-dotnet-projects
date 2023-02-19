@@ -1,9 +1,11 @@
-﻿namespace SampleProject.Result.Interfaces;
+﻿using System.Dynamic;
+
+namespace SampleProject.Result.Interfaces;
 
 public interface IResponseModel
 {
     List<string> Errors { get; set; }
-    ResponseStatModel Stats { get; set; }
+    dynamic Stats { get; set; }
 }
 
 public interface IResponseModel<T>

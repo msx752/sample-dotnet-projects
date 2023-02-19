@@ -8,9 +8,9 @@ public class ExecuteMeasuredResponsTime : IBaseResultExecutor
         {
             var requestStartDateTime = DateTimeOffset.Parse(context.Items[_Constants.RequestStartTime].ToString());
             var dtNow = DateTimeOffset.UtcNow;
-            jsonResult.Model.Stats.Offset = dtNow.ToUnixTimeSeconds();
+            jsonResult.Model.Stats.offset = dtNow.ToUnixTimeSeconds();
             var elapsedResponseTime = dtNow - requestStartDateTime;
-            jsonResult.Model.Stats.ElapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
+            jsonResult.Model.Stats.elapsedMilliseconds = elapsedResponseTime.TotalMilliseconds.ToString("####0.0", CultureInfo.InvariantCulture);
         });
     }
 }

@@ -71,6 +71,9 @@ public class BaseJsonResult : JsonResult
         var executor = serviceProvider.GetService<IActionResultExecutor<JsonResult>>();
         ArgumentNullException.ThrowIfNull(executor, nameof(IActionResultExecutor<JsonResult>));
 
+        if (this.Model.Stats is ExpandoObject eobj && !eobj.Any())
+            this.Model.Stats = null;
+
         await executor.ExecuteAsync(context, this);
     }
 

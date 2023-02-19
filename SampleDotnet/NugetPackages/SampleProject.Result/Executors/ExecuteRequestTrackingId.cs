@@ -6,7 +6,7 @@ public class ExecuteRequestTrackingId : IBaseResultExecutor
     {
         return Task.Run(() =>
         {
-            jsonResult.Model.Stats.RId = System.Diagnostics.Activity.Current?.RootId;
+            jsonResult.Model.Stats.rid = System.Diagnostics.Activity.Current?.RootId;
         });
     }
 }

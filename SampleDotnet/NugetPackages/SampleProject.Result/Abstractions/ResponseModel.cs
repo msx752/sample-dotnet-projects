@@ -1,10 +1,12 @@
-﻿namespace SampleProject.Result.Abstractions;
+﻿using System.Dynamic;
+
+namespace SampleProject.Result.Abstractions;
 
 public class BaseResponseModel
 {
     public BaseResponseModel()
     {
-        Stats = new();
+        Stats = new ExpandoObject();
     }
 
     public BaseResponseModel(IEnumerable<string> errorMessages)
@@ -21,24 +23,24 @@ public class BaseResponseModel
         Errors.Add(errorMessages);
     }
 
-    [JsonProperty("errors")]
+    [JsonProperty("errors", NullValueHandling = NullValueHandling.Include)]
     public List<string> Errors { get; set; }
 
-    [JsonProperty("stats")]
-    public ResponseStatModel Stats { get; set; }
+    [JsonProperty("stats", NullValueHandling = NullValueHandling.Ignore)]
+    public dynamic Stats { get; set; }
 }
 
-public class ResponseStatModel
-{
-    [JsonProperty("rid")]
-    public string RId { get; set; }
+//public class ResponseStatModel
+//{
+//    [JsonProperty("rid")]
+//    public string RId { get; set; }
 
-    [JsonProperty("elapsedmilliseconds")]
-    public string ElapsedMilliseconds { get; set; }
+//    [JsonProperty("elapsedmilliseconds")]
+//    public string ElapsedMilliseconds { get; set; }
 
-    [JsonProperty("offset")]
-    public long Offset { get; set; }
-}
+//    [JsonProperty("offset")]
+//    public long Offset { get; set; }
+//}
 
 public class ResponseModel<T>
         : BaseResponseModel
@@ -71,7 +73,7 @@ public class ResponseModel<T>
     {
     }
 
-    [JsonProperty("results")]
+    [JsonProperty("results", NullValueHandling = NullValueHandling.Include)]
     public List<T> Results { get; set; }
 }
 

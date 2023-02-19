@@ -8,5 +8,6 @@ global using Newtonsoft.Json.Serialization;
 global using SampleProject.Result.Abstractions;
 global using SampleProject.Result.Interfaces;
 global using System.ComponentModel.DataAnnotations.Schema;
+global using System.Dynamic;
 global using System.Globalization;
 global using System.Runtime.Serialization;

@@ -50,12 +50,6 @@ namespace SampleProject.Result.Abstractions
             SerializerSettings = DefaultJsonSerializerSettings();
         }
 
-        protected BaseJsonResult(object body, JsonSerializerSettings serializerSettings)
-            : base(new ResponseModel<object>(body), serializerSettings)
-        {
-            ContentType = "application/json";
-        }
-
         public virtual JsonSerializerSettings DefaultJsonSerializerSettings()
         {
             return new JsonSerializerSettings()

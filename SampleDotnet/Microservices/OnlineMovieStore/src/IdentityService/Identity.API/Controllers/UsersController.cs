@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using SampleProject.Core.Model.Base;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
-using SampleProject.Result;
+using SampleDotnet.Result;
 
 namespace SampleProject.Identity.API.Controllers
 {

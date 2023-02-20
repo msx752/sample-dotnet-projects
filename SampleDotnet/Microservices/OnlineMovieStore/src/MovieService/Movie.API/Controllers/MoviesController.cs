@@ -8,7 +8,7 @@ using SampleProject.Core.Model.Base;
 using SampleProject.Movie.API.Models.Dtos;
 using SampleProject.Movie.API.Models.Requests;
 using SampleProject.Movie.API.Models.Responses;
-using SampleProject.Result;
+using SampleDotnet.Result;
 
 namespace SampleProject.Movie.API.Controllers
 {

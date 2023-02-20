@@ -11,7 +11,6 @@ COPY ["Microservices/OnlineMovieStore/src/IdentityService/Identity.Database/Iden
 COPY ["Microservices/OnlineMovieStore/src/OnlineMovieStore.Core/OnlineMovieStore.Core.csproj", "Microservices/OnlineMovieStore/src/OnlineMovieStore.Core/"]
 COPY ["NugetPackages/SampleProject.Authentication/SampleProject.Authentication.csproj", "NugetPackages/SampleProject.Authentication/"]
 COPY ["NugetPackages/SampleProject.Database/SampleProject.Database.csproj", "NugetPackages/SampleProject.Database/"]
-COPY ["NugetPackages/SampleProject.Result/SampleProject.Result.csproj", "NugetPackages/SampleProject.Result/"]
 RUN dotnet restore "Microservices/OnlineMovieStore/src/IdentityService/Identity.API/Identity.API.csproj"
 COPY . .
 WORKDIR "/src/Microservices/OnlineMovieStore/src/IdentityService/Identity.API"

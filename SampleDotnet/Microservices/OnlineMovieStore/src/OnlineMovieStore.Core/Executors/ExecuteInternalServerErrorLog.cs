@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using SampleProject.Result;
-using SampleProject.Result.Abstractions;
-using SampleProject.Result.Interfaces;
+using SampleDotnet.Result;
+using SampleDotnet.Result.Abstractions;
+using SampleDotnet.Result.Interfaces;
 using System;
 using System.Threading.Tasks;
 

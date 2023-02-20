@@ -8,7 +8,7 @@ using SampleProject.Core.Model.Base;
 using SampleProject.Identity.API.Helpers;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
-using SampleProject.Result;
+using SampleDotnet.Result;
 using System.Security.Claims;
 
 namespace SampleProject.Identity.API.Controllers

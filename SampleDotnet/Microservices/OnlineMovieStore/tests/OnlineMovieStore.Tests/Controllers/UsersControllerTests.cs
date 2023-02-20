@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
-using SampleProject.Result.Abstractions;
+using SampleDotnet.Result.Abstractions;
 using Shouldly;
 using System;
 using System.Collections.Generic;

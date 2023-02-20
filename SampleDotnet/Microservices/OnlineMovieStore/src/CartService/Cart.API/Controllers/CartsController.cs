@@ -12,7 +12,7 @@ using SampleProject.Contract;
 using SampleProject.Contract.Cart.Movie;
 using SampleProject.Contract.Cart.Requests;
 using SampleProject.Core.Model.Base;
-using SampleProject.Result;
+using SampleDotnet.Result;
 
 namespace SampleProject.Cart.API.Controllers
 {

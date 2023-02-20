@@ -9,7 +9,7 @@ using SampleProject.Contract.Payment;
 using SampleProject.Contract.Payment.Cart;
 using SampleProject.Core.Model.Base;
 using SampleProject.Payment.API.Models.Dtos;
-using SampleProject.Result;
+using SampleDotnet.Result;
 
 namespace SampleProject.ayment.API.Controllers
 {

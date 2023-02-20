@@ -10,10 +10,10 @@ using SampleProject.Authentication.Extensions;
 using SampleProject.Authentication.Middlewares;
 using SampleProject.Core.AppSettings;
 using SampleProject.Core.Middlewares;
-using SampleProject.Result;
-using SampleProject.Result.Executors;
-using SampleProject.Result.Extensions;
-using SampleProject.Result.Interfaces;
+using SampleDotnet.Result;
+using SampleDotnet.Result.Executors;
+using SampleDotnet.Result.Extensions;
+using SampleDotnet.Result.Interfaces;
 
 namespace SampleProject.Core.Extensions
 {

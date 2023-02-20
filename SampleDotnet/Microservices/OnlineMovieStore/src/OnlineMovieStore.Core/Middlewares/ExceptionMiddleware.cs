@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Routing;
-using SampleProject.Result;
+using SampleDotnet.Result;
 using System.Collections.Generic;
 
 namespace SampleProject.Core.Middlewares

@@ -6,7 +6,7 @@ using SampleProject.Cart.API.Models.Dtos;
 using SampleProject.Cart.API.Models.Requests;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Movie.API.Models.Responses;
-using SampleProject.Result.Abstractions;
+using SampleDotnet.Result.Abstractions;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;

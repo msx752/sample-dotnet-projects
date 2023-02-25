@@ -1,10 +1,10 @@
-﻿using SampleProject.Database.Interfaces.Entities;
+﻿
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("RatingEntity")]
-    public class RatingEntity : IHasTimestamps
+    public class RatingEntity 
     {
         public Guid Id { get; set; }
         public double AverageRating { get; set; }

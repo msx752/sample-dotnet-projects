@@ -1,11 +1,11 @@
-﻿using SampleProject.Database.Interfaces.Entities;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("DirectorEntity")]
-    public class DirectorEntity : IHasTimestamps
+    public class DirectorEntity 
     {
         public DirectorEntity()
         {

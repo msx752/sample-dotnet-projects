@@ -1,11 +1,11 @@
-﻿using SampleProject.Database.Interfaces.Entities;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("WriterEntity")]
-    public class WriterEntity : IHasTimestamps
+    public class WriterEntity 
     {
         public WriterEntity()
         {

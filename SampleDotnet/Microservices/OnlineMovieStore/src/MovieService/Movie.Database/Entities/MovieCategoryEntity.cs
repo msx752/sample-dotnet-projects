@@ -1,10 +1,9 @@
-﻿using SampleProject.Database.Interfaces.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("MovieCategoryEntity")]
-    public class MovieCategoryEntity : IHasTimestamps
+    public class MovieCategoryEntity
     {
         public string MovieId { get; set; }
         public virtual MovieEntity Movie { get; set; }

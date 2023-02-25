@@ -1,10 +1,10 @@
-﻿using SampleProject.Database.Interfaces.Entities;
+﻿
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("MovieDirectorEntity")]
-    public class MovieDirectorEntity : IHasTimestamps
+    public class MovieDirectorEntity 
     {
         public string MovieId { get; set; }
         public virtual MovieEntity Movie { get; set; }

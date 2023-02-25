@@ -1,12 +1,11 @@
 ﻿using Cart.Database.Enums;
-using SampleProject.Database.Interfaces.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cart.Database.Entities
 {
     [Table("CartEntity")]
-    public class CartEntity : IHasTimestamps
+    public class CartEntity
     {
         public CartEntity()
         {

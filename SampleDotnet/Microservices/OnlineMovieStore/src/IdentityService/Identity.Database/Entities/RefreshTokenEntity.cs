@@ -1,11 +1,11 @@
-﻿using SampleProject.Database.Interfaces.Entities;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Identity.Database.Entities
 {
     [Table("RefreshTokenEntity")]
-    public class RefreshTokenEntity : IHasTimestamps
+    public class RefreshTokenEntity 
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

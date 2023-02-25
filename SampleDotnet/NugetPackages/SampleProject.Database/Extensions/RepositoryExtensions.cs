@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SampleProject.Database;
-using SampleProject.Database.Interfaces.Repositories;
-
-public static class RepositoryExtensions
+﻿public static class RepositoryExtensions
 {
     public static IRepository<TDbContext> CreateRepository<TDbContext>(this IDbContextFactory<TDbContext> contextFactory)
         where TDbContext : DbContext

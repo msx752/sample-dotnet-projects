@@ -1,12 +1,12 @@
 ﻿using Movie.Database.Enums;
-using SampleProject.Database.Interfaces.Entities;
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("MovieEntity")]
-    public class MovieEntity : IHasTimestamps
+    public class MovieEntity 
     {
         public MovieEntity()
         {

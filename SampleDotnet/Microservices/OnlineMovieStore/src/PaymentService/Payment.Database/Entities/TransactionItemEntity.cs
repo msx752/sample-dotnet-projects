@@ -1,11 +1,11 @@
-﻿using SampleProject.Database.Interfaces.Entities;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Payment.Database.Entities
 {
     [Table("TransactionItemEntity")]
-    public class TransactionItemEntity : IHasTimestamps
+    public class TransactionItemEntity 
     {
         public TransactionItemEntity()
         {

@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SampleProject.Database.Audits;
-
-public static class DbContextExtensions
+﻿public static class DbContextExtensions
 {
-    public static IEnumerable<AuditEntry> DetectChanges(this DbContext dbContext)
+    public static IEnumerable<AuditEntry> DetectEntryChanges(this DbContext dbContext)
     {
         if (!dbContext.ChangeTracker.AutoDetectChangesEnabled)
             dbContext.ChangeTracker.DetectChanges();

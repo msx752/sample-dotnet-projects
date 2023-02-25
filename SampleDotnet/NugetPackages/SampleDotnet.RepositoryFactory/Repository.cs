@@ -1,4 +1,4 @@
-﻿namespace SampleProject.Database;
+﻿namespace SampleDotnet.RepositoryFactory;
 
 public class Repository<TDbContext>
     : IRepository<TDbContext>, IDisposable

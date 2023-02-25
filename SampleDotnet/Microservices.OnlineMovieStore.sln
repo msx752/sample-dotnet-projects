@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.MovieStore", "Microserv
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "Microservices\OnlineMovieStore\docker-compose.dcproj", "{C0557B6B-262E-4745-AC9A-C002DF6DEC20}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleProject.Database", "NugetPackages\SampleProject.Database\SampleProject.Database.csproj", "{998D4F5A-DCF1-427D-B90E-DFCB189B6FE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleDotnet.RepositoryFactory", "NugetPackages\SampleDotnet.RepositoryFactory\SampleDotnet.RepositoryFactory.csproj", "{998D4F5A-DCF1-427D-B90E-DFCB189B6FE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleProject.Authentication", "NugetPackages\SampleProject.Authentication\SampleProject.Authentication.csproj", "{6B746C9C-999E-4A83-87EB-C089345058EC}"
 EndProject

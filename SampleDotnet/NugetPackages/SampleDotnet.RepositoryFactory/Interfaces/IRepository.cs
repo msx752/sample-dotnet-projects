@@ -1,4 +1,4 @@
-﻿namespace SampleProject.Database.Interfaces;
+﻿namespace SampleDotnet.RepositoryFactory.Interfaces;
 
 public interface IRepository<TDbContext> : IDisposable
     where TDbContext : DbContext

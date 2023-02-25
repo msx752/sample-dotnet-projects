@@ -31,7 +31,7 @@
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\..\NugetPackages\SampleProject.Authentication\SampleProject.Authentication.csproj" />
-	  <ProjectReference Include="..\..\..\..\NugetPackages\SampleProject.Database\SampleProject.Database.csproj" />
+	  <ProjectReference Include="..\..\..\..\NugetPackages\SampleDotnet.RepositoryFactory\SampleDotnet.RepositoryFactory.csproj" />
 	</ItemGroup>
 	
 	

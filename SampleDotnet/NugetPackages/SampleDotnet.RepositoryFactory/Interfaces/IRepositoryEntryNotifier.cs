@@ -1,4 +1,4 @@
-﻿namespace SampleProject.Database.Interfaces;
+﻿namespace SampleDotnet.RepositoryFactory.Interfaces;
 
 public interface IRepositoryEntryNotifier
 {

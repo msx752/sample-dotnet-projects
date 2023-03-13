@@ -9,7 +9,6 @@ WORKDIR /src
 COPY ["Microservices/OnlineMovieStore/src/GatewayService/Gateway.API/Gateway.API.csproj", "Microservices/OnlineMovieStore/src/GatewayService/Gateway.API/"]
 COPY ["Microservices/OnlineMovieStore/src/OnlineMovieStore.Core/OnlineMovieStore.Core.csproj", "Microservices/OnlineMovieStore/src/OnlineMovieStore.Core/"]
 COPY ["NugetPackages/SampleProject.Authentication/SampleProject.Authentication.csproj", "NugetPackages/SampleProject.Authentication/"]
-COPY ["NugetPackages/SampleDotnet.RepositoryFactory/SampleDotnet.RepositoryFactory.csproj", "NugetPackages/SampleDotnet.RepositoryFactory/"]
 RUN dotnet restore "Microservices/OnlineMovieStore/src/GatewayService/Gateway.API/Gateway.API.csproj"
 COPY . .
 WORKDIR "/src/Microservices/OnlineMovieStore/src/GatewayService/Gateway.API"

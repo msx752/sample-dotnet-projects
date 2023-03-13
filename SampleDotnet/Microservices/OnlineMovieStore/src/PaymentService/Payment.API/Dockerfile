@@ -11,7 +11,6 @@ COPY ["NugetPackages/SampleProject.Contract/SampleProject.Contract.csproj", "Nug
 COPY ["Microservices/OnlineMovieStore/src/PaymentService/Payment.Database/Payment.Database.csproj", "Microservices/OnlineMovieStore/src/PaymentService/Payment.Database/"]
 COPY ["Microservices/OnlineMovieStore/src/OnlineMovieStore.Core/OnlineMovieStore.Core.csproj", "Microservices/OnlineMovieStore/src/OnlineMovieStore.Core/"]
 COPY ["NugetPackages/SampleProject.Authentication/SampleProject.Authentication.csproj", "NugetPackages/SampleProject.Authentication/"]
-COPY ["NugetPackages/SampleDotnet.RepositoryFactory/SampleDotnet.RepositoryFactory.csproj", "NugetPackages/SampleDotnet.RepositoryFactory/"]
 RUN dotnet restore "Microservices/OnlineMovieStore/src/PaymentService/Payment.API/Payment.API.csproj"
 COPY . .
 WORKDIR "/src/Microservices/OnlineMovieStore/src/PaymentService/Payment.API"

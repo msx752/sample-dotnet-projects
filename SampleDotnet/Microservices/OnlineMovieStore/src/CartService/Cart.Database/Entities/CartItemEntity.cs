@@ -1,11 +1,11 @@
-﻿
+﻿using SampleDotnet.RepositoryFactory.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cart.Database.Entities
 {
     [Table("CartItemEntity")]
-    public class CartItemEntity 
+    public class CartItemEntity : IHasDateTimeOffset
     {
         public CartItemEntity()
         {
@@ -26,6 +26,5 @@ namespace Cart.Database.Entities
         public virtual CartEntity Cart { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

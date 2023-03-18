@@ -1,11 +1,11 @@
-﻿
+﻿using SampleDotnet.RepositoryFactory.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Identity.Database.Entities
 {
     [Table("UserEntity")]
-    public class UserEntity 
+    public class UserEntity : IHasDateTimeOffset
     {
         public UserEntity()
         {
@@ -37,6 +37,5 @@ namespace Identity.Database.Entities
 
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

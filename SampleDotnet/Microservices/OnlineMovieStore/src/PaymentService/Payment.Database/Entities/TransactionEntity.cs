@@ -1,11 +1,11 @@
-﻿
+﻿using SampleDotnet.RepositoryFactory.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Payment.Database.Entities
 {
     [Table("TransactionEntity")]
-    public class TransactionEntity 
+    public class TransactionEntity : IHasDateTimeOffset
     {
         public TransactionEntity()
         {
@@ -30,6 +30,5 @@ namespace Payment.Database.Entities
         public virtual ICollection<TransactionItemEntity> TransactionItems { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

@@ -39,11 +39,6 @@ namespace OnlineMovieStore.Tests.DbContexts
                 repository.Update(user1);
                 repository.SaveChanges();
                 user1.UpdatedAt.ShouldNotBeNull();
-
-                user1.DeletedAt.ShouldBeNull();
-                repository.Delete(user1);
-                repository.SaveChanges();
-                user1.DeletedAt.ShouldNotBeNull();
             }
         }
     }

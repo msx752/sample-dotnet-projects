@@ -1,10 +1,10 @@
-﻿
+﻿using SampleDotnet.RepositoryFactory.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("MovieWriterEntity")]
-    public class MovieWriterEntity 
+    public class MovieWriterEntity : IHasDateTimeOffset
     {
         public string MovieId { get; set; }
         public virtual MovieEntity Movie { get; set; }
@@ -12,6 +12,5 @@ namespace Movie.Database.Entities
         public virtual WriterEntity Writer { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

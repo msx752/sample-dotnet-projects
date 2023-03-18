@@ -32,7 +32,7 @@ namespace SampleProject.Identity.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromForm] TokenRequest model)
+        public async Task<ActionResult> Post([FromForm] TokenRequest model)
         {
             if (!ModelState.IsValid)
             {
@@ -48,8 +48,8 @@ namespace SampleProject.Identity.API.Controllers
 
                 using (var repository = _contextFactory.CreateRepository())
                 {
-                    var user = repository
-                        .FirstOrDefault<UserEntity>(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password));
+                    var user = await repository
+                        .FirstOrDefaultAsync<UserEntity>(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password));
 
                     if (user == null)
                     {

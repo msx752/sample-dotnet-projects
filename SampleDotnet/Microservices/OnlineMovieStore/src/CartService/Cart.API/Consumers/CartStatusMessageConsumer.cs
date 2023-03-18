@@ -32,12 +32,12 @@ namespace SampleProject.Cart.API.Consumers
             using (var scope = provider.CreateScope())
             using (var repository = scope.ServiceProvider.GetRequiredService<IDbContextFactory<CartDbContext>>().CreateRepository())
             {
-                var entity = repository
+                var entity = await repository
                     .Where<CartEntity>(f =>
                             f.Id == context.Message.CartId
                             && f.UserId == context.Message.ActivityUserId
                     )
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
                 CartStatusResponseMessage cartStatusResponseMessage = new CartStatusResponseMessage();
                 cartStatusResponseMessage.ActivityId = context.Message.ActivityId;
@@ -51,7 +51,7 @@ namespace SampleProject.Cart.API.Consumers
                 {
                     entity.Satus = cartStatus;
                     repository.Update(entity);
-                    repository.SaveChanges();
+                    await repository.SaveChangesAsync();
                 }
                 else
                 {

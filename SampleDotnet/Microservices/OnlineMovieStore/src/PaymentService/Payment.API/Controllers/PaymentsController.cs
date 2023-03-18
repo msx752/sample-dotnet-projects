@@ -32,14 +32,14 @@ namespace SampleProject.ayment.API.Controllers
         }
 
         [HttpGet("History")]
-        public IActionResult PaymentHistory()
+        public async Task<IActionResult> PaymentHistory()
         {
             using (var repository = _contextFactory.CreateRepository())
             {
-                var transactionEntities = repository
+                var transactionEntities = await repository
                        .Where<TransactionEntity>(f => f.UserId == LoggedUserId)
                        .Include(f => f.TransactionItems)
-                       .ToList();
+                       .ToListAsync();
 
                 return new OkResponse(mapper.Map<List<TransactionDto>>(transactionEntities));
             }
@@ -99,8 +99,8 @@ namespace SampleProject.ayment.API.Controllers
                     }
                     transactionEntity.TotalCalculatedPrice = $"{totalPrice} {transactionEntity.TransactionItems.First().ProductPriceCurrency}";
 
-                    repository.Insert(transactionEntity);
-                    repository.SaveChanges();
+                    await repository.InsertAsync(transactionEntity);
+                    await repository.SaveChangesAsync();
 
                     var paid_response = await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
                     {

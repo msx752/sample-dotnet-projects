@@ -32,17 +32,17 @@ namespace SampleProject.Identity.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             using (var repository = _contextFactory.CreateRepository())
             {
-                var personal = repository.FirstOrDefault<UserEntity>(f => f.Id == id);
+                var personal = await repository.FirstOrDefaultAsync<UserEntity>(f => f.Id == id);
 
                 if (personal == null)
                     return new NotFoundResponse();
 
                 repository.Delete(personal);
-                repository.SaveChanges();
+                await repository.SaveChangesAsync();
 
                 return new OkResponse(mapper.Map<UserDto>(personal));
             }
@@ -54,11 +54,11 @@ namespace SampleProject.Identity.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public ActionResult Get(Guid id)
+        public async Task<ActionResult> Get(Guid id)
         {
             using (var repository = _contextFactory.CreateRepository())
             {
-                var personal = repository.FirstOrDefault<UserEntity>(f => f.Id == id);
+                var personal = await repository.FirstOrDefaultAsync<UserEntity>(f => f.Id == id);
 
                 if (personal == null)
                     return new NotFoundResponse();
@@ -72,11 +72,11 @@ namespace SampleProject.Identity.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Get()
+        public async Task<ActionResult> Get()
         {
             using (var repository = _contextFactory.CreateRepository())
             {
-                return new OkResponse(mapper.Map<List<UserDto>>(repository.AsQueryable<UserEntity>().ToList()));
+                return new OkResponse(mapper.Map<List<UserDto>>(await repository.AsQueryable<UserEntity>().ToListAsync()));
             }
         }
 
@@ -86,7 +86,7 @@ namespace SampleProject.Identity.API.Controllers
         /// <param name="personalViewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Post([FromBody] UserCreateModel personalViewModel)
+        public async Task<ActionResult> Post([FromBody] UserCreateModel personalViewModel)
         {
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
@@ -95,8 +95,8 @@ namespace SampleProject.Identity.API.Controllers
             {
                 var UserEntity = mapper.Map<UserEntity>(personalViewModel);
 
-                repository.Insert(UserEntity);
-                repository.SaveChanges();
+                await repository.InsertAsync(UserEntity);
+                await repository.SaveChangesAsync();
                 /*
                  To protect from overposting attacks, please enable the specific properties you want to bind to, for
                  more details see https://aka.ms/RazorPagesCRUD.
@@ -112,14 +112,14 @@ namespace SampleProject.Identity.API.Controllers
         /// <param name="personalViewModel"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public ActionResult Put(Guid id, [FromBody] UserUpdateModel personalViewModel)
+        public async Task<ActionResult> Put(Guid id, [FromBody] UserUpdateModel personalViewModel)
         {
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
             using (var repository = _contextFactory.CreateRepository())
             {
-                var userEntity = repository.FirstOrDefault<UserEntity>(f => f.Id == id);
+                var userEntity = await repository.FirstOrDefaultAsync<UserEntity>(f => f.Id == id);
                 if (userEntity == null)
                     return new BadRequestResponse("entity not found");
 
@@ -132,7 +132,7 @@ namespace SampleProject.Identity.API.Controllers
                  more details see https://aka.ms/RazorPagesCRUD.
                  */
                 repository.Update(userEntity);
-                repository.SaveChanges();
+                await repository.SaveChangesAsync();
 
                 return new OkResponse();
             }
@@ -147,12 +147,12 @@ namespace SampleProject.Identity.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("Name/{name:length(3,50)}")]
-        public ActionResult GetByName([FromRoute] string name)
+        public async Task<ActionResult> GetByName([FromRoute] string name)
         {
             using (var repository = _contextFactory.CreateRepository())
             {
-                var personal = repository
-                    .FirstOrDefault<UserEntity>(f => f.Name.Equals(name));
+                var personal = await repository
+                    .FirstOrDefaultAsync<UserEntity>(f => f.Name.Equals(name));
 
                 if (personal == null)
                     return new NotFoundResponse();
@@ -168,12 +168,12 @@ namespace SampleProject.Identity.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("Surname/{sname:length(3,50)}")]
-        public ActionResult GetBySurname([FromRoute] string sname)
+        public async Task<ActionResult> GetBySurname([FromRoute] string sname)
         {
             using (var repository = _contextFactory.CreateRepository())
             {
                 var personal = repository
-                    .FirstOrDefault<UserEntity>(f => f.Surname.Equals(sname));
+                    .FirstOrDefaultAsync<UserEntity>(f => f.Surname.Equals(sname));
 
                 if (personal == null)
                     return new NotFoundResponse();
@@ -188,7 +188,7 @@ namespace SampleProject.Identity.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("Search")]
-        public ActionResult Search([FromQuery] string q)
+        public async Task<ActionResult> Search([FromQuery] string q)
         {
             if (string.IsNullOrEmpty(q))
                 return new BadRequestResponse();
@@ -200,10 +200,10 @@ namespace SampleProject.Identity.API.Controllers
                         || f.Surname.Contains(q)
                     );
 
-                if (!personals.Any())
+                if (!await personals.AnyAsync())
                     return new NotFoundResponse();
 
-                return new OkResponse(mapper.Map<List<UserDto>>(personals));
+                return new OkResponse(mapper.Map<List<UserDto>>(await personals.ToListAsync()));
             }
         }
 

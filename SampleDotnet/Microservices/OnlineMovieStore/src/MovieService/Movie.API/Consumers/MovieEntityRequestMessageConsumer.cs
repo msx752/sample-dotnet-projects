@@ -31,8 +31,8 @@ namespace SampleProject.Movie.API.Consumers
             using (var scope = provider.CreateScope())
             using (var repository = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MovieDbContext>>().CreateRepository())
             {
-                var movieEntity = repository
-                    .FirstOrDefault<MovieEntity>(p => p.Id == context.Message.ProductId);
+                var movieEntity = await repository
+                    .FirstOrDefaultAsync<MovieEntity>(p => p.Id == context.Message.ProductId);
 
                 MovieEntityResponseMessage responseMessage;
                 if (movieEntity == null)

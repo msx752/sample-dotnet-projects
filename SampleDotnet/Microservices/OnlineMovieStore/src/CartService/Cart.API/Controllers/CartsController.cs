@@ -35,7 +35,7 @@ namespace SampleProject.Cart.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCart()
+        public async Task<IActionResult> GetCart()
         {
             using (var repository = _contextFactory.CreateRepository())
             {
@@ -50,8 +50,8 @@ namespace SampleProject.Cart.API.Controllers
                     {
                         UserId = LoggedUserId,
                     };
-                    repository.Insert(entity);
-                    repository.SaveChanges();
+                    await repository.InsertAsync(entity);
+                    await repository.SaveChangesAsync();
                 }
 
                 return new OkResponse(mapper.Map<CartDto>(entity));
@@ -66,9 +66,9 @@ namespace SampleProject.Cart.API.Controllers
 
             using (var repository = _contextFactory.CreateRepository())
             {
-                var entity = repository
+                var entity = await repository
                     .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Id == cartId)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
                 if (entity == null)
                     return new NotFoundResponse($"cart not found: {cartId}");
@@ -102,25 +102,25 @@ namespace SampleProject.Cart.API.Controllers
                     SalesPriceCurrency = "usd",
                     SalesPrice = movieEntityResponse.Message.UsdPrice,
                 };
-                repository.Insert(entityCartItem);
-                repository.SaveChanges();
+                await repository.InsertAsync(entityCartItem);
+                await repository.SaveChangesAsync();
 
                 return new OkResponse(mapper.Map<CartItemDto>(entityCartItem));
             }
         }
 
         [HttpDelete("{cartId}/Item/{cartItemId}")]
-        public ActionResult CartRemove(Guid cartId, Guid cartItemId)
+        public async Task<ActionResult> CartRemove(Guid cartId, Guid cartItemId)
         {
             using (var repository = _contextFactory.CreateRepository())
             {
-                var entity = repository
+                var entity = await repository
                     .Where<CartItemEntity>(f => f.CartId == cartId
                         && f.Cart.UserId == LoggedUserId
                         && f.Id == cartItemId
                         )
                     .Include(f => f.Cart)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
                 if (entity == null)
                     return new NotFoundResponse($"selected item not found: {cartId}");
@@ -136,7 +136,7 @@ namespace SampleProject.Cart.API.Controllers
                 }
 
                 repository.Delete(entity);
-                repository.SaveChanges();
+                await repository.SaveChangesAsync();
 
                 return new OkResponse();
             }

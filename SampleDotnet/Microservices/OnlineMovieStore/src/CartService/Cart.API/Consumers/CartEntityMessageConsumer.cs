@@ -31,13 +31,13 @@ namespace SampleProject.Cart.API.Consumers
             using (var scope = provider.CreateScope())
             using (var repository = scope.ServiceProvider.GetRequiredService<IDbContextFactory<CartDbContext>>().CreateRepository())
             {
-                var entity = repository
+                var entity = await repository
                     .Where<CartEntity>(f =>
                         f.UserId == context.Message.ActivityUserId
                         && f.Id == context.Message.CartId
                     )
                     .Include(f => f.Items)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
                 CartEntityResponseMessage cartEntityResponseMessage = null;
                 if (entity == null)

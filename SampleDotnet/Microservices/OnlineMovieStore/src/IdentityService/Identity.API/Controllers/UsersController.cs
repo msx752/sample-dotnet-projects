@@ -172,7 +172,7 @@ namespace SampleProject.Identity.API.Controllers
         {
             using (var repository = _contextFactory.CreateRepository())
             {
-                var personal = repository
+                var personal = await repository
                     .FirstOrDefaultAsync<UserEntity>(f => f.Surname.Equals(sname));
 
                 if (personal == null)

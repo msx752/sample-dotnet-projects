@@ -3,6 +3,7 @@ using Identity.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace OnlineMovieStore.Tests.DbContexts
@@ -13,7 +14,7 @@ namespace OnlineMovieStore.Tests.DbContexts
     public class TimestampTests
     {
         [Fact]
-        public void CreatedUpdatedDeletedTimestamps_Tests()
+        public async Task CreatedUpdatedDeletedTimestamps_Tests()
         {
             CustomWebApplicationFactory<SampleProject.Identity.API.Startup> _factory = new CustomWebApplicationFactory<SampleProject.Identity.API.Startup>();
             _factory.CreateClient();
@@ -31,13 +32,13 @@ namespace OnlineMovieStore.Tests.DbContexts
                 };
 
                 user1.CreatedAt.ShouldBeNull();
-                repository.Insert(user1);
-                repository.SaveChanges();
+                await repository.InsertAsync(user1);
+                await repository.SaveChangesAsync();
                 user1.CreatedAt.ShouldNotBeNull();
 
                 user1.UpdatedAt.ShouldBeNull();
                 repository.Update(user1);
-                repository.SaveChanges();
+                await repository.SaveChangesAsync();
                 user1.UpdatedAt.ShouldNotBeNull();
             }
         }

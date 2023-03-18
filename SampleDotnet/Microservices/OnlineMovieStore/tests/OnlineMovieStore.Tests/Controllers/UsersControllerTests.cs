@@ -46,7 +46,7 @@ namespace OnlineMovieStore.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<UserDto>>(response);
 
-            data.Stats.RId.ShouldNotBeNull();
+            ((string)data.Stats.rid).ShouldNotBeNull();
             data.Errors.ShouldBeNull();
             data.Results.ShouldNotBeNull();
             data.Results.First().Name.ShouldBe(obj.Results.First().Name);
@@ -65,7 +65,7 @@ namespace OnlineMovieStore.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<UserDto>>(response);
 
-            data.Stats.RId.ShouldNotBeNull();
+            ((string)data.Stats.rid).ShouldNotBeNull();
             data.Results.ShouldBeNull();
             data.Errors.ShouldBeNull();
         }
@@ -78,7 +78,7 @@ namespace OnlineMovieStore.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<UserDto>>(response);
 
-            data.Stats.RId.ShouldNotBeNull();
+            ((string)data.Stats.rid).ShouldNotBeNull();
             data.Errors.ShouldBeNull();
             data.Results.ShouldNotBeNull();
             data.Results.Count.ShouldBeGreaterThan(0);
@@ -99,7 +99,7 @@ namespace OnlineMovieStore.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<UserDto>>(response);
 
-            data.Stats.RId.ShouldNotBeNull();
+            ((string)data.Stats.rid).ShouldNotBeNull();
             data.Results.ShouldNotBeEmpty();
 
             return data;
@@ -115,7 +115,7 @@ namespace OnlineMovieStore.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<UserDto>>(response);
 
-            data.Stats.RId.ShouldNotBeNull();
+            ((string)data.Stats.rid).ShouldNotBeNull();
             data.Results.ShouldNotBeEmpty();
         }
 
@@ -129,7 +129,7 @@ namespace OnlineMovieStore.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<UserDto>>(response);
 
-            data.Stats.RId.ShouldNotBeNull();
+            ((string)data.Stats.rid).ShouldNotBeNull();
             data.Results.ShouldNotBeEmpty();
         }
 
@@ -152,7 +152,7 @@ namespace OnlineMovieStore.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<UserDto>>(response);
 
-            data.Stats.RId.ShouldNotBeNull();
+            ((string)data.Stats.rid).ShouldNotBeNull();
             data.Results.First().Name.ShouldBe(obj.Name);
             data.Results.First().Surname.ShouldBe(obj.Surname);
 
@@ -176,10 +176,10 @@ namespace OnlineMovieStore.Tests.Controllers
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
             var data = ConvertResponse<ResponseModel<UserDto>>(response);
-            data.Stats.RId.ShouldNotBeNull();
+            ((string)data.Stats.rid).ShouldNotBeNull();
 
             var userData = await GetById(obj.Results.First().Id);
-            userData.Stats.RId.ShouldNotBeNull();
+            ((string)userData.Stats.rid).ShouldNotBeNull();
             userData.Results.Count.ShouldBe(1);
             userData.Results.First().Name.ShouldBe(userUpdateModel.Name);
             userData.Results.First().Surname.ShouldBe(userUpdateModel.Surname);
@@ -195,7 +195,7 @@ namespace OnlineMovieStore.Tests.Controllers
 
             var data = ConvertResponse<ResponseModel<UserDto>>(response);
 
-            data.Stats.RId.ShouldNotBeNull();
+            ((string)data.Stats.rid).ShouldNotBeNull();
             data.Results.ShouldNotBeEmpty();
 
             return data;

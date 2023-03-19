@@ -14,7 +14,7 @@
 		<PackageReference Include="MassTransit" Version="8.0.14" />
 		<PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.3.1" />
 		<PackageReference Include="SampleDotnet.RepositoryFactory" Version="2.1.0" />
-		<PackageReference Include="SampleDotnet.Result" Version="1.0.2" />
+		<PackageReference Include="SampleDotnet.Result" Version="1.0.5" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />

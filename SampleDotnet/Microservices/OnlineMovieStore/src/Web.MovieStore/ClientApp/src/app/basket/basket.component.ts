@@ -66,8 +66,9 @@ export class BasketComponent implements OnInit {
           , "success"
           , "Continue to Shopping"
           , "Go to Payment History"
-          , null
           , function () {
+            document.location.href = "/";
+          }, function () {
             document.location.href = "/payment-history";
           });
         this.sessionState.refreshUserCart();

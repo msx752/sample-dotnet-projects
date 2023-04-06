@@ -9,6 +9,7 @@ using SampleProject.Movie.API.Models.Dtos;
 using SampleProject.Movie.API.Models.Requests;
 using SampleProject.Movie.API.Models.Responses;
 using SampleDotnet.Result;
+using SampleDotnet.RepositoryFactory.Interfaces;
 
 namespace SampleProject.Movie.API.Controllers
 {
@@ -17,13 +18,13 @@ namespace SampleProject.Movie.API.Controllers
     [Route("api/[controller]")]
     public class MoviesController : BaseController
     {
-        private readonly IDbContextFactory<MovieDbContext> _contextFactory;
+        private readonly IUnitOfWork _unitOfWork;
 
         public MoviesController(IMapper mapper
-            , IDbContextFactory<MovieDbContext> contextFactory)
+            , IUnitOfWork unitOfWork)
             : base(mapper)
         {
-            _contextFactory = contextFactory;
+            this._unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -31,7 +32,7 @@ namespace SampleProject.Movie.API.Controllers
         {
             MovieIndexViewModel movieIndexModel = new MovieIndexViewModel();
 
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
             {
                 var hightRatingEntity = await repository
                     .AsQueryable<MovieEntity>()
@@ -61,7 +62,7 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("HighRatings")]
         public async Task<ActionResult> HighRatings()
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
             {
                 var hightRatingEntity = await repository
                     .AsQueryable<MovieEntity>()
@@ -77,7 +78,7 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("RecentlyAdded")]
         public async Task<ActionResult> RecentlyAdded()
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
             {
                 var recentyAddedEntities = await repository
                     .AsQueryable<MovieEntity>()
@@ -95,7 +96,7 @@ namespace SampleProject.Movie.API.Controllers
             if (string.IsNullOrWhiteSpace(Id))
                 return new BadRequestResponse();
 
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
             {
                 var entity = await repository
                     .AsQueryable<MovieEntity>()
@@ -122,7 +123,7 @@ namespace SampleProject.Movie.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
             {
                 var entity = repository
                     .AsQueryable<MovieEntity>()
@@ -142,7 +143,7 @@ namespace SampleProject.Movie.API.Controllers
             if (Id == 0)
                 return new BadRequestResponse();
 
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
             {
                 var entityCategory = repository.GetById<CategoryEntity>(Id);
                 if (entityCategory == null)
@@ -163,7 +164,7 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("Categories")]
         public async Task<ActionResult> GetCategories() //TODO: move to CategoriesController
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
             {
                 var entity = await repository
                     .AsQueryable<CategoryEntity>()

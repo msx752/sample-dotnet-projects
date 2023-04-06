@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Database.Entities;
+using SampleDotnet.RepositoryFactory.Interfaces;
 
 namespace Movie.Database
 {
     public static class DbInitializer
     {
-        public static void Initialize(IDbContextFactory<MovieDbContext> contextFactory)
+        public static void Initialize(IUnitOfWork unitOfWork)
         {
-            using (var context = contextFactory.CreateRepository())
+            using (var context = unitOfWork.CreateRepository<MovieDbContext>())
             {
                 context.Database.EnsureCreated();
 
@@ -38,9 +39,9 @@ namespace Movie.Database
 
                 if (!context.AsQueryable<MovieCategoryEntity>().Any())
                     context.Insert(SeedMovieCategories());
-
-                context.SaveChanges();
             }
+
+            unitOfWork.SaveChanges();
         }
 
         public static CategoryEntity[] SeedCategories()

@@ -1,13 +1,14 @@
 ﻿using Identity.Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using SampleDotnet.RepositoryFactory.Interfaces;
 
 namespace Identity.Database
 {
     public static class DbInitializer
     {
-        public static void Initialize(IDbContextFactory<IdentityDbContext> contextFactory)
+        public static void Initialize(IUnitOfWork unitOfWork)
         {
-            using (var context = contextFactory.CreateRepository())
+            using (var context = unitOfWork.CreateRepository<IdentityDbContext>())
             {
                 context.Database.EnsureCreated();
 
@@ -32,9 +33,9 @@ namespace Identity.Database
                         Surname = "Dalavere",
                     };
                     context.Insert(user2);
-
-                    context.SaveChanges();
                 }
+
+                unitOfWork.SaveChanges();
             }
         }
     }

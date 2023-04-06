@@ -2,6 +2,7 @@
 using Identity.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SampleDotnet.RepositoryFactory.Interfaces;
 using Shouldly;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,7 +21,8 @@ namespace OnlineMovieStore.Tests.DbContexts
             _factory.CreateClient();
 
             using (var scope = _factory.Services.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<IDbContextFactory<IdentityDbContext>>().CreateRepository())
+            using (var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>())
+            using (var repository = unitOfWork.CreateRepository<IdentityDbContext>())
             {
                 var user1 = new UserEntity()
                 {
@@ -33,12 +35,15 @@ namespace OnlineMovieStore.Tests.DbContexts
 
                 user1.CreatedAt.ShouldBeNull();
                 await repository.InsertAsync(user1);
-                await repository.SaveChangesAsync();
-                user1.CreatedAt.ShouldNotBeNull();
 
+                await unitOfWork.SaveChangesAsync();
+
+                user1.CreatedAt.ShouldNotBeNull();
                 user1.UpdatedAt.ShouldBeNull();
                 repository.Update(user1);
-                await repository.SaveChangesAsync();
+
+                await unitOfWork.SaveChangesAsync();
+
                 user1.UpdatedAt.ShouldNotBeNull();
             }
         }

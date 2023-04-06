@@ -3,6 +3,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Movie.Database;
 using Movie.Database.Entities;
+using SampleDotnet.RepositoryFactory.Interfaces;
 using SampleProject.Contract.Cart.Movie;
 using SampleProject.Contract.Cart.Requests;
 
@@ -29,7 +30,8 @@ namespace SampleProject.Movie.API.Consumers
         public async Task Consume(ConsumeContext<MovieEntityRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MovieDbContext>>().CreateRepository())
+            using (var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>())
+            using (var repository = unitOfWork.CreateRepository<MovieDbContext>())
             {
                 var movieEntity = await repository
                     .FirstOrDefaultAsync<MovieEntity>(p => p.Id == context.Message.ProductId);

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Payment.Database;
+using SampleDotnet.RepositoryFactory.Interfaces;
 using SampleProject.Contract.Extensions;
 using SampleProject.Core.Extensions;
 
@@ -20,7 +21,7 @@ namespace SampleProject.Payment.API
             app.UseGlobalStartupConfigures(env);
 
             using (var scope = isp.CreateScope())
-                DbInitializer.Initialize(scope.ServiceProvider.GetRequiredService<IDbContextFactory<PaymentDbContext>>());
+                DbInitializer.Initialize(scope.ServiceProvider.GetRequiredService<IUnitOfWork>());
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -33,8 +34,8 @@ namespace SampleProject.Payment.API
             if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
                 conStr = conStr.Replace("127.0.0.1,1433", "mssqldb.container,1433");
 
-            services.AddDbContextFactory<PaymentDbContext>(opt =>
-                opt.UseSqlServer(conStr, s => s.EnableRetryOnFailure(5)).EnableSensitiveDataLogging());
+            services.AddDbContextFactoryWithUnitOfWork<PaymentDbContext>(opt =>
+                opt.UseSqlServer(conStr));
 
             services.AddCustomMassTransit(Configuration, null, null);
         }

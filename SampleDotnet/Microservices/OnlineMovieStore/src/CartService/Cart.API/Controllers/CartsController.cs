@@ -13,6 +13,7 @@ using SampleProject.Contract.Cart.Movie;
 using SampleProject.Contract.Cart.Requests;
 using SampleProject.Core.Model.Base;
 using SampleDotnet.Result;
+using SampleDotnet.RepositoryFactory.Interfaces;
 
 namespace SampleProject.Cart.API.Controllers
 {
@@ -21,23 +22,23 @@ namespace SampleProject.Cart.API.Controllers
     [Route("api/[controller]")]
     public class CartsController : BaseController
     {
-        private readonly IMessageBus messageBus;
-        private readonly IDbContextFactory<CartDbContext> _contextFactory;
+        private readonly IMessageBus _messageBus;
+        private readonly IUnitOfWork _unitOfWork;
 
         public CartsController(
             IMapper mapper
             , IMessageBus messageBus
-            , IDbContextFactory<CartDbContext> contextFactory)
+            , IUnitOfWork unitOfWork)
             : base(mapper)
         {
-            this.messageBus = messageBus;
-            this._contextFactory = contextFactory;
+            this._messageBus = messageBus;
+            this._unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetCart()
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<CartDbContext>())
             {
                 var entity = repository
                     .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Satus != CartStatus.Paid)
@@ -51,8 +52,9 @@ namespace SampleProject.Cart.API.Controllers
                         UserId = LoggedUserId,
                     };
                     await repository.InsertAsync(entity);
-                    await repository.SaveChangesAsync();
                 }
+
+                await _unitOfWork.SaveChangesAsync();
 
                 return new OkResponse(mapper.Map<CartDto>(entity));
             }
@@ -64,7 +66,7 @@ namespace SampleProject.Cart.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<CartDbContext>())
             {
                 var entity = await repository
                     .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Id == cartId)
@@ -83,7 +85,7 @@ namespace SampleProject.Cart.API.Controllers
                     return new BadRequestResponse($"selected cart status is PAID, no more items can be added");
                 }
 
-                var movieEntityResponse = await messageBus.Call<MovieEntityResponseMessage, MovieEntityRequestMessage>(new()
+                var movieEntityResponse = await _messageBus.Call<MovieEntityResponseMessage, MovieEntityRequestMessage>(new()
                 {
                     ProductId = model.ProductId,
                     ProductDatabase = model.ProductDatabase,
@@ -103,7 +105,8 @@ namespace SampleProject.Cart.API.Controllers
                     SalesPrice = movieEntityResponse.Message.UsdPrice,
                 };
                 await repository.InsertAsync(entityCartItem);
-                await repository.SaveChangesAsync();
+
+                await _unitOfWork.SaveChangesAsync();
 
                 return new OkResponse(mapper.Map<CartItemDto>(entityCartItem));
             }
@@ -112,7 +115,7 @@ namespace SampleProject.Cart.API.Controllers
         [HttpDelete("{cartId}/Item/{cartItemId}")]
         public async Task<ActionResult> CartRemove(Guid cartId, Guid cartItemId)
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<CartDbContext>())
             {
                 var entity = await repository
                     .Where<CartItemEntity>(f => f.CartId == cartId
@@ -136,7 +139,8 @@ namespace SampleProject.Cart.API.Controllers
                 }
 
                 repository.Delete(entity);
-                await repository.SaveChangesAsync();
+
+                await _unitOfWork.SaveChangesAsync();
 
                 return new OkResponse();
             }

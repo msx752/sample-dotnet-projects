@@ -10,6 +10,7 @@ using SampleProject.Contract.Payment.Cart;
 using SampleProject.Core.Model.Base;
 using SampleProject.Payment.API.Models.Dtos;
 using SampleDotnet.Result;
+using SampleDotnet.RepositoryFactory.Interfaces;
 
 namespace SampleProject.ayment.API.Controllers
 {
@@ -18,23 +19,23 @@ namespace SampleProject.ayment.API.Controllers
     [Route("api/[controller]")]
     public class PaymentsController : BaseController
     {
-        private readonly IDbContextFactory<PaymentDbContext> _contextFactory;
-        private readonly IMessageBus messageBus;
+        private readonly IMessageBus _messageBus;
+        private readonly IUnitOfWork _unitOfWork;
 
         public PaymentsController(
             IMapper _mapper
             , IMessageBus messageBus
-            , IDbContextFactory<PaymentDbContext> contextFactory)
+            , IUnitOfWork unitOfWork)
             : base(_mapper)
         {
-            this.messageBus = messageBus;
-            _contextFactory = contextFactory;
+            this._messageBus = messageBus;
+            this._unitOfWork = unitOfWork;
         }
 
         [HttpGet("History")]
         public async Task<IActionResult> PaymentHistory()
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<PaymentDbContext>())
             {
                 var transactionEntities = await repository
                        .Where<TransactionEntity>(f => f.UserId == LoggedUserId)
@@ -48,7 +49,7 @@ namespace SampleProject.ayment.API.Controllers
         [HttpPost("Create/{cartId}")]
         public async Task<IActionResult> CreatePayment(Guid cartId)
         {
-            var lock_response = await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
+            var lock_response = await _messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
             {
                 CartStatus = "LockedOnPayment",
                 CartId = cartId,
@@ -61,9 +62,9 @@ namespace SampleProject.ayment.API.Controllers
             }
             else
             {
-                using (var repository = _contextFactory.CreateRepository())
+                using (var repository = _unitOfWork.CreateRepository<PaymentDbContext>())
                 {
-                    var cartEntityResponse = await messageBus.Call<CartEntityResponseMessage, CartEntityRequestMessage>(new()
+                    var cartEntityResponse = await _messageBus.Call<CartEntityResponseMessage, CartEntityRequestMessage>(new()
                     {
                         ActivityUserId = LoggedUserId,
                         CartId = cartId,
@@ -100,9 +101,10 @@ namespace SampleProject.ayment.API.Controllers
                     transactionEntity.TotalCalculatedPrice = $"{totalPrice} {transactionEntity.TransactionItems.First().ProductPriceCurrency}";
 
                     await repository.InsertAsync(transactionEntity);
-                    await repository.SaveChangesAsync();
 
-                    var paid_response = await messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
+                    await _unitOfWork.SaveChangesAsync();
+
+                    var paid_response = await _messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
                     {
                         CartStatus = "Paid",
                         CartId = cartId,

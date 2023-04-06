@@ -4,6 +4,7 @@ using Cart.Database.Entities;
 using Cart.Database.Enums;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using SampleDotnet.RepositoryFactory.Interfaces;
 using SampleProject.Contract.Payment;
 using SampleProject.Contract.Payment.Cart;
 
@@ -30,7 +31,8 @@ namespace SampleProject.Cart.API.Consumers
         public async Task Consume(ConsumeContext<CartStatusRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var repository = scope.ServiceProvider.GetRequiredService<IDbContextFactory<CartDbContext>>().CreateRepository())
+            using (var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>())
+            using (var repository = unitOfWork.CreateRepository<CartDbContext>())
             {
                 var entity = await repository
                     .Where<CartEntity>(f =>
@@ -51,7 +53,8 @@ namespace SampleProject.Cart.API.Consumers
                 {
                     entity.Satus = cartStatus;
                     repository.Update(entity);
-                    await repository.SaveChangesAsync();
+
+                    await unitOfWork.SaveChangesAsync();
                 }
                 else
                 {

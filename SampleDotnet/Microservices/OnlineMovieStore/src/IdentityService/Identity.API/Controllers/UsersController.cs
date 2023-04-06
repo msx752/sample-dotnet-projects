@@ -8,6 +8,7 @@ using SampleProject.Core.Model.Base;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
 using SampleDotnet.Result;
+using SampleDotnet.RepositoryFactory.Interfaces;
 
 namespace SampleProject.Identity.API.Controllers
 {
@@ -16,14 +17,14 @@ namespace SampleProject.Identity.API.Controllers
     [Route("api/[controller]")]
     public class UsersController : BaseController
     {
-        private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UsersController(
             IMapper mapper
-            , IDbContextFactory<IdentityDbContext> contextFactory)
+            , IUnitOfWork unitOfWork)
             : base(mapper)
         {
-            _contextFactory = contextFactory;
+            this._unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace SampleProject.Identity.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
             {
                 var personal = await repository.FirstOrDefaultAsync<UserEntity>(f => f.Id == id);
 
@@ -42,7 +43,8 @@ namespace SampleProject.Identity.API.Controllers
                     return new NotFoundResponse();
 
                 repository.Delete(personal);
-                await repository.SaveChangesAsync();
+
+                await _unitOfWork.SaveChangesAsync();
 
                 return new OkResponse(mapper.Map<UserDto>(personal));
             }
@@ -56,7 +58,7 @@ namespace SampleProject.Identity.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(Guid id)
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
             {
                 var personal = await repository.FirstOrDefaultAsync<UserEntity>(f => f.Id == id);
 
@@ -74,7 +76,7 @@ namespace SampleProject.Identity.API.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
             {
                 return new OkResponse(mapper.Map<List<UserDto>>(await repository.AsQueryable<UserEntity>().ToListAsync()));
             }
@@ -91,12 +93,13 @@ namespace SampleProject.Identity.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
             {
                 var UserEntity = mapper.Map<UserEntity>(personalViewModel);
 
                 await repository.InsertAsync(UserEntity);
-                await repository.SaveChangesAsync();
+
+                await _unitOfWork.SaveChangesAsync();
                 /*
                  To protect from overposting attacks, please enable the specific properties you want to bind to, for
                  more details see https://aka.ms/RazorPagesCRUD.
@@ -117,7 +120,7 @@ namespace SampleProject.Identity.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
             {
                 var userEntity = await repository.FirstOrDefaultAsync<UserEntity>(f => f.Id == id);
                 if (userEntity == null)
@@ -132,7 +135,8 @@ namespace SampleProject.Identity.API.Controllers
                  more details see https://aka.ms/RazorPagesCRUD.
                  */
                 repository.Update(userEntity);
-                await repository.SaveChangesAsync();
+
+                await _unitOfWork.SaveChangesAsync();
 
                 return new OkResponse();
             }
@@ -149,7 +153,7 @@ namespace SampleProject.Identity.API.Controllers
         [Route("Name/{name:length(3,50)}")]
         public async Task<ActionResult> GetByName([FromRoute] string name)
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
             {
                 var personal = await repository
                     .FirstOrDefaultAsync<UserEntity>(f => f.Name.Equals(name));
@@ -170,7 +174,7 @@ namespace SampleProject.Identity.API.Controllers
         [Route("Surname/{sname:length(3,50)}")]
         public async Task<ActionResult> GetBySurname([FromRoute] string sname)
         {
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
             {
                 var personal = await repository
                     .FirstOrDefaultAsync<UserEntity>(f => f.Surname.Equals(sname));
@@ -193,7 +197,7 @@ namespace SampleProject.Identity.API.Controllers
             if (string.IsNullOrEmpty(q))
                 return new BadRequestResponse();
 
-            using (var repository = _contextFactory.CreateRepository())
+            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
             {
                 var personals = repository.Where<UserEntity>(f =>
                         f.Name.Contains(q)

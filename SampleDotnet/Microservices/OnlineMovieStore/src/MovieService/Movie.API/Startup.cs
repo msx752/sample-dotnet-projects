@@ -1,6 +1,7 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Movie.Database;
+using SampleDotnet.RepositoryFactory.Interfaces;
 using SampleProject.Contract.Cart.Requests;
 using SampleProject.Contract.Extensions;
 using SampleProject.Core.Extensions;
@@ -23,7 +24,7 @@ namespace SampleProject.Movie.API
             app.UseGlobalStartupConfigures(env);
 
             using (var scope = isp.CreateScope())
-                DbInitializer.Initialize(scope.ServiceProvider.GetRequiredService<IDbContextFactory<MovieDbContext>>());
+                DbInitializer.Initialize(scope.ServiceProvider.GetRequiredService<IUnitOfWork>());
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -36,8 +37,8 @@ namespace SampleProject.Movie.API
             if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
                 conStr = conStr.Replace("127.0.0.1,1433", "mssqldb.container,1433");
 
-            services.AddDbContextFactory<MovieDbContext>(opt =>
-                opt.UseSqlServer(conStr, s => s.EnableRetryOnFailure(5)).EnableSensitiveDataLogging());
+            services.AddDbContextFactoryWithUnitOfWork<MovieDbContext>(opt =>
+                opt.UseSqlServer(conStr));
 
             services.AddCustomMassTransit(Configuration
             , (consumers) =>

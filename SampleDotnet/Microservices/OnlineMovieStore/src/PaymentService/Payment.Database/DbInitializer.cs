@@ -1,17 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SampleDotnet.RepositoryFactory.Interfaces;
 
 namespace Payment.Database
 {
     public static class DbInitializer
     {
-        public static void Initialize(IDbContextFactory<PaymentDbContext> contextFactory)
+        public static void Initialize(IUnitOfWork unitOfWork)
         {
-            using (var context = contextFactory.CreateRepository())
+            using (var context = unitOfWork.CreateRepository<PaymentDbContext>())
             {
                 context.Database.EnsureCreated();
-
-                context.SaveChanges();
             }
+
+            unitOfWork.SaveChanges();
         }
     }
 }

@@ -38,6 +38,7 @@ namespace SampleProject.Cart.API.Consumers
                     .Where<CartEntity>(f =>
                             f.Id == context.Message.CartId
                             && f.UserId == context.Message.ActivityUserId
+                            && f.Satus != CartStatus.Paid
                     )
                     .FirstOrDefaultAsync();
 

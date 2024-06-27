@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 SampleDotnet/Microservices/OnlineMovieStore/volumes/
 SampleDotnet/Microservices/OnlineMovieStore/src/Web.MovieStore/ClientApp/.angular/
+SampleDotnet/Microservices/OnlineMovieStore/src/Web.MovieStore/ClientApp/package-lock.json

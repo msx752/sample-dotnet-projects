@@ -10,7 +10,7 @@ using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
 using SampleDotnet.Result;
 using System.Security.Claims;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 
 namespace SampleProject.Identity.API.Controllers
 {
@@ -20,16 +20,16 @@ namespace SampleProject.Identity.API.Controllers
     public class TokenController : BaseController
     {
         private readonly ITokenHelper _tokenHelper;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDbContextFactory<IdentityDbContext> _dbContextFactory;
 
         public TokenController(
             IMapper mapper
             , ITokenHelper tokenHelper
-            , IUnitOfWork unitOfWork)
+            , IDbContextFactory<IdentityDbContext> factoryIdentityDbContext)
             : base(mapper)
         {
             this._tokenHelper = tokenHelper;
-            this._unitOfWork = unitOfWork;
+            _dbContextFactory = factoryIdentityDbContext;
         }
 
         [HttpPost]
@@ -47,10 +47,9 @@ namespace SampleProject.Identity.API.Controllers
                     return new BadRequestResponse("Username and Password fields can not be empty.");
                 }
 
-                using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
+                using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
                 {
-                    var user = await repository
-                        .FirstOrDefaultAsync<UserEntity>(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password));
+                    var user = await dbcontext.Users.FirstOrDefaultAsync(f => f.Username.Equals(model.Username) && f.Password.Equals(model.Password));
 
                     if (user == null)
                     {
@@ -63,7 +62,7 @@ namespace SampleProject.Identity.API.Controllers
                     };
                     TokenDto response = _tokenHelper.Authenticate(user, claims);
 
-                    _unitOfWork.SaveChanges();
+                    await dbcontext.SaveChangesAsync();
 
                     response.User = mapper.Map<UserDto>(user);
                     return new OkResponse(response);

@@ -1,11 +1,11 @@
-﻿using SampleDotnet.RepositoryFactory.Interfaces;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("DirectorEntity")]
-    public class DirectorEntity : IHasDateTimeOffset
+    public class DirectorEntity 
     {
         public DirectorEntity()
         {

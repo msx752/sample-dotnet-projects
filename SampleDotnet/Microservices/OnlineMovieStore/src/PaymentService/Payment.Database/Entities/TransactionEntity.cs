@@ -1,11 +1,11 @@
-﻿using SampleDotnet.RepositoryFactory.Interfaces;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Payment.Database.Entities
 {
     [Table("TransactionEntity")]
-    public class TransactionEntity : IHasDateTimeOffset
+    public class TransactionEntity 
     {
         public TransactionEntity()
         {

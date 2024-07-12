@@ -1,11 +1,11 @@
-﻿using SampleDotnet.RepositoryFactory.Interfaces;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cart.Database.Entities
 {
     [Table("CartItemEntity")]
-    public class CartItemEntity : IHasDateTimeOffset
+    public class CartItemEntity 
     {
         public CartItemEntity()
         {

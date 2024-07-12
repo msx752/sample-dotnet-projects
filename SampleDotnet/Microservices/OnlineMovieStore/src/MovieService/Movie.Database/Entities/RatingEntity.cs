@@ -1,10 +1,10 @@
-﻿using SampleDotnet.RepositoryFactory.Interfaces;
+﻿
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("RatingEntity")]
-    public class RatingEntity : IHasDateTimeOffset
+    public class RatingEntity 
     {
         public Guid Id { get; set; }
         public double AverageRating { get; set; }

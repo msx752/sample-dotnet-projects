@@ -1,7 +1,6 @@
 using Cart.Database;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using SampleDotnet.RepositoryFactory.Interfaces;
 using SampleProject.Cart.API.Consumers;
 using SampleProject.Contract.Extensions;
 using SampleProject.Contract.Payment;
@@ -23,8 +22,7 @@ namespace SampleProject.Cart.API
         {
             app.UseGlobalStartupConfigures(env);
 
-            using (var scope = isp.CreateScope())
-                DbInitializer.Initialize(scope.ServiceProvider.GetRequiredService<IUnitOfWork>());
+            DbInitializer.Initialize(isp.GetRequiredService<IDbContextFactory<CartDbContext>>().CreateDbContext());
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -37,7 +35,7 @@ namespace SampleProject.Cart.API
             if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
                 conStr = conStr.Replace("127.0.0.1,1433", "mssqldb.container,1433");
 
-            services.AddDbContextFactoryWithUnitOfWork<CartDbContext>(opt =>
+            services.AddDbContextFactory<CartDbContext>(opt =>
                 opt.UseSqlServer(conStr));
 
             services.AddCustomMassTransit(Configuration

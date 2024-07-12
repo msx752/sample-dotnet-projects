@@ -1,18 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 
 namespace Cart.Database
 {
     public static class DbInitializer
     {
-        public static void Initialize(IUnitOfWork unitOfWork)
+        public static void Initialize(CartDbContext context)
         {
-            using (var context = unitOfWork.CreateRepository<CartDbContext>())
+            using (context)
             {
                 context.Database.EnsureCreated();
+                context.SaveChanges();
             }
-
-            unitOfWork.SaveChanges();
         }
     }
 }

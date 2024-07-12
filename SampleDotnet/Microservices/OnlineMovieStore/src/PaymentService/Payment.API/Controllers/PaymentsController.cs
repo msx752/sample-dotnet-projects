@@ -10,7 +10,7 @@ using SampleProject.Contract.Payment.Cart;
 using SampleProject.Core.Model.Base;
 using SampleProject.Payment.API.Models.Dtos;
 using SampleDotnet.Result;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 
 namespace SampleProject.ayment.API.Controllers
 {
@@ -20,25 +20,22 @@ namespace SampleProject.ayment.API.Controllers
     public class PaymentsController : BaseController
     {
         private readonly IMessageBus _messageBus;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDbContextFactory<PaymentDbContext> _dbContextFactory;
 
         public PaymentsController(
             IMapper _mapper
-            , IMessageBus messageBus
-            , IUnitOfWork unitOfWork)
+            , IMessageBus messageBus)
             : base(_mapper)
         {
             this._messageBus = messageBus;
-            this._unitOfWork = unitOfWork;
         }
 
         [HttpGet("History")]
         public async Task<IActionResult> PaymentHistory()
         {
-            using (var repository = _unitOfWork.CreateRepository<PaymentDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var transactionEntities = await repository
-                       .Where<TransactionEntity>(f => f.UserId == LoggedUserId)
+                var transactionEntities = await dbcontext.Transactions.Where(f => f.UserId == LoggedUserId)
                        .Include(f => f.TransactionItems)
                        .ToListAsync();
 
@@ -62,7 +59,7 @@ namespace SampleProject.ayment.API.Controllers
             }
             else
             {
-                using (var repository = _unitOfWork.CreateRepository<PaymentDbContext>())
+                using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
                 {
                     var cartEntityResponse = await _messageBus.Call<CartEntityResponseMessage, CartEntityRequestMessage>(new()
                     {
@@ -100,9 +97,9 @@ namespace SampleProject.ayment.API.Controllers
                     }
                     transactionEntity.TotalCalculatedPrice = $"{totalPrice} {transactionEntity.TransactionItems.First().ProductPriceCurrency}";
 
-                    await repository.InsertAsync(transactionEntity);
+                    await dbcontext.AddAsync(transactionEntity);
 
-                    await _unitOfWork.SaveChangesAsync();
+                    await dbcontext.SaveChangesAsync();
 
                     var paid_response = await _messageBus.Call<CartStatusResponseMessage, CartStatusRequestMessage>(new()
                     {

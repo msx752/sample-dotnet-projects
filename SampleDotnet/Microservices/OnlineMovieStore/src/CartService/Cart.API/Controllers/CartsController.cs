@@ -13,7 +13,7 @@ using SampleProject.Contract.Cart.Movie;
 using SampleProject.Contract.Cart.Requests;
 using SampleProject.Core.Model.Base;
 using SampleDotnet.Result;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 
 namespace SampleProject.Cart.API.Controllers
 {
@@ -23,25 +23,24 @@ namespace SampleProject.Cart.API.Controllers
     public class CartsController : BaseController
     {
         private readonly IMessageBus _messageBus;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDbContextFactory<CartDbContext> _dbContextFactory;
 
         public CartsController(
             IMapper mapper
             , IMessageBus messageBus
-            , IUnitOfWork unitOfWork)
+            , IDbContextFactory<CartDbContext> factoryCartDbContext)
             : base(mapper)
         {
             this._messageBus = messageBus;
-            this._unitOfWork = unitOfWork;
+            _dbContextFactory = factoryCartDbContext;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetCart()
         {
-            using (var repository = _unitOfWork.CreateRepository<CartDbContext>())
+            using (var dbContext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var entity = repository
-                    .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Satus != CartStatus.Paid)
+                var entity = dbContext.Baskets.Where(f => f.UserId == LoggedUserId && f.Satus != CartStatus.Paid)
                     .Include(f => f.Items)
                     .FirstOrDefault();
 
@@ -51,10 +50,10 @@ namespace SampleProject.Cart.API.Controllers
                     {
                         UserId = LoggedUserId,
                     };
-                    await repository.InsertAsync(entity);
+                    await dbContext.Baskets.AddAsync(entity);
                 }
 
-                await _unitOfWork.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
 
                 return new OkResponse(mapper.Map<CartDto>(entity));
             }
@@ -66,10 +65,9 @@ namespace SampleProject.Cart.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            using (var repository = _unitOfWork.CreateRepository<CartDbContext>())
+            using (var dbContext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var entity = await repository
-                    .Where<CartEntity>(f => f.UserId == LoggedUserId && f.Id == cartId)
+                var entity = await dbContext.Baskets.Where(f => f.UserId == LoggedUserId && f.Id == cartId)
                     .FirstOrDefaultAsync();
 
                 if (entity == null)
@@ -104,9 +102,9 @@ namespace SampleProject.Cart.API.Controllers
                     SalesPriceCurrency = "usd",
                     SalesPrice = movieEntityResponse.Message.UsdPrice,
                 };
-                await repository.InsertAsync(entityCartItem);
+                await dbContext.BasketItems.AddAsync(entityCartItem);
 
-                await _unitOfWork.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
 
                 return new OkResponse(mapper.Map<CartItemDto>(entityCartItem));
             }
@@ -115,10 +113,9 @@ namespace SampleProject.Cart.API.Controllers
         [HttpDelete("{cartId}/Item/{cartItemId}")]
         public async Task<ActionResult> CartRemove(Guid cartId, Guid cartItemId)
         {
-            using (var repository = _unitOfWork.CreateRepository<CartDbContext>())
+            using (var dbContext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var entity = await repository
-                    .Where<CartItemEntity>(f => f.CartId == cartId
+                var entity = await dbContext.BasketItems.Where(f => f.CartId == cartId
                         && f.Cart.UserId == LoggedUserId
                         && f.Id == cartItemId
                         )
@@ -138,9 +135,9 @@ namespace SampleProject.Cart.API.Controllers
                     return new BadRequestResponse($"selected cart status is PAID, no more items can be removed");
                 }
 
-                repository.Delete(entity);
+                dbContext.BasketItems.Remove(entity);
 
-                await _unitOfWork.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
 
                 return new OkResponse();
             }

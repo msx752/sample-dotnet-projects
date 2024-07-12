@@ -1,8 +1,9 @@
-﻿using Identity.Database;
+﻿using Cart.Database;
+using Identity.Database;
 using Identity.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 using Shouldly;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,9 +21,7 @@ namespace OnlineMovieStore.Tests.DbContexts
             CustomWebApplicationFactory<SampleProject.Identity.API.Startup> _factory = new CustomWebApplicationFactory<SampleProject.Identity.API.Startup>();
             _factory.CreateClient();
 
-            using (var scope = _factory.Services.CreateScope())
-            using (var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>())
-            using (var repository = unitOfWork.CreateRepository<IdentityDbContext>())
+            using (var dbContext = await _factory.Services.GetRequiredService<IDbContextFactory<IdentityDbContext>>().CreateDbContextAsync())
             {
                 var user1 = new UserEntity()
                 {
@@ -34,15 +33,15 @@ namespace OnlineMovieStore.Tests.DbContexts
                 };
 
                 user1.CreatedAt.ShouldBeNull();
-                await repository.InsertAsync(user1);
+                await dbContext.AddAsync(user1);
 
-                await unitOfWork.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
 
                 user1.CreatedAt.ShouldNotBeNull();
                 user1.UpdatedAt.ShouldBeNull();
-                repository.Update(user1);
+                dbContext.Update(user1);
 
-                await unitOfWork.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
 
                 user1.UpdatedAt.ShouldNotBeNull();
             }

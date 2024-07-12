@@ -1,10 +1,10 @@
-﻿using SampleDotnet.RepositoryFactory.Interfaces;
+﻿
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("MovieCategoryEntity")]
-    public class MovieCategoryEntity : IHasDateTimeOffset
+    public class MovieCategoryEntity 
     {
         public string MovieId { get; set; }
         public virtual MovieEntity Movie { get; set; }

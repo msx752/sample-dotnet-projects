@@ -1,47 +1,46 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Database.Entities;
-using SampleDotnet.RepositoryFactory.Interfaces;
 
 namespace Movie.Database
 {
     public static class DbInitializer
     {
-        public static void Initialize(IUnitOfWork unitOfWork)
+        public static void Initialize(MovieDbContext context)
         {
-            using (var context = unitOfWork.CreateRepository<MovieDbContext>())
+            using (context)
             {
                 context.Database.EnsureCreated();
 
-                if (!context.AsQueryable<CategoryEntity>().Any())
-                    context.Insert(SeedCategories());
+                if (!context.Categories.Any())
+                    context.Add(SeedCategories());
 
-                if (!context.AsQueryable<DirectorEntity>().Any())
-                    context.Insert(SeedDirectors());
+                if (!context.Directors.Any())
+                    context.Add(SeedDirectors());
 
-                if (!context.AsQueryable<WriterEntity>().Any())
-                    context.Insert(SeedWriters());
+                if (!context.Writers.Any())
+                    context.Add(SeedWriters());
 
                 var seedRating = SeedRatings();
-                if (!context.AsQueryable<RatingEntity>().Any())
-                    context.Insert(seedRating);
+                if (!context.Ratings.Any())
+                    context.Add(seedRating);
 
-                if (!context.AsQueryable<MovieEntity>().Any())
+                if (!context.Movies.Any())
                 {
                     var seedMovies = SeedMovies(seedRating);
-                    context.Insert(seedMovies);
+                    context.Add(seedMovies);
                 }
 
-                if (!context.AsQueryable<MovieWriterEntity>().Any())
-                    context.Insert(SeedMovieWriters());
+                if (!context.MovieWriters.Any())
+                    context.Add(SeedMovieWriters());
 
-                if (!context.AsQueryable<MovieDirectorEntity>().Any())
-                    context.Insert(SeedmovieDirectors());
+                if (!context.MovieDirectors.Any())
+                    context.Add(SeedmovieDirectors());
 
-                if (!context.AsQueryable<MovieCategoryEntity>().Any())
-                    context.Insert(SeedMovieCategories());
+                if (!context.MovieCategories.Any())
+                    context.Add(SeedMovieCategories());
             }
 
-            unitOfWork.SaveChanges();
+            context.SaveChanges();
         }
 
         public static CategoryEntity[] SeedCategories()

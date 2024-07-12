@@ -8,7 +8,7 @@ using SampleProject.Core.Model.Base;
 using SampleProject.Identity.API.Models.Dto;
 using SampleProject.Identity.API.Models.Requests;
 using SampleDotnet.Result;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 
 namespace SampleProject.Identity.API.Controllers
 {
@@ -17,14 +17,14 @@ namespace SampleProject.Identity.API.Controllers
     [Route("api/[controller]")]
     public class UsersController : BaseController
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDbContextFactory<IdentityDbContext> _dbContextFactory;
 
         public UsersController(
             IMapper mapper
-            , IUnitOfWork unitOfWork)
+            , IDbContextFactory<IdentityDbContext> factoryIdentityDbContext)
             : base(mapper)
         {
-            this._unitOfWork = unitOfWork;
+            _dbContextFactory = factoryIdentityDbContext;
         }
 
         /// <summary>
@@ -35,16 +35,16 @@ namespace SampleProject.Identity.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var personal = await repository.FirstOrDefaultAsync<UserEntity>(f => f.Id == id);
+                var personal = await dbcontext.Users.FirstOrDefaultAsync(f => f.Id == id);
 
                 if (personal == null)
                     return new NotFoundResponse();
 
-                repository.Delete(personal);
+                dbcontext.Remove(personal);
 
-                await _unitOfWork.SaveChangesAsync();
+                await dbcontext.SaveChangesAsync();
 
                 return new OkResponse(mapper.Map<UserDto>(personal));
             }
@@ -58,9 +58,9 @@ namespace SampleProject.Identity.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(Guid id)
         {
-            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var personal = await repository.FirstOrDefaultAsync<UserEntity>(f => f.Id == id);
+                var personal = await dbcontext.Users.AsNoTracking().FirstOrDefaultAsync(f => f.Id == id);
 
                 if (personal == null)
                     return new NotFoundResponse();
@@ -76,9 +76,9 @@ namespace SampleProject.Identity.API.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                return new OkResponse(mapper.Map<List<UserDto>>(await repository.AsQueryable<UserEntity>().ToListAsync()));
+                return new OkResponse(mapper.Map<List<UserDto>>(await dbcontext.Users.ToListAsync()));
             }
         }
 
@@ -93,13 +93,13 @@ namespace SampleProject.Identity.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
                 var UserEntity = mapper.Map<UserEntity>(personalViewModel);
 
-                await repository.InsertAsync(UserEntity);
+                await dbcontext.AddAsync(UserEntity);
 
-                await _unitOfWork.SaveChangesAsync();
+                await dbcontext.SaveChangesAsync();
                 /*
                  To protect from overposting attacks, please enable the specific properties you want to bind to, for
                  more details see https://aka.ms/RazorPagesCRUD.
@@ -120,9 +120,9 @@ namespace SampleProject.Identity.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var userEntity = await repository.FirstOrDefaultAsync<UserEntity>(f => f.Id == id);
+                var userEntity = await dbcontext.Users.FirstOrDefaultAsync(f => f.Id == id);
                 if (userEntity == null)
                     return new BadRequestResponse("entity not found");
 
@@ -134,9 +134,9 @@ namespace SampleProject.Identity.API.Controllers
                  To protect from overposting attacks, please enable the specific properties you want to bind to, for
                  more details see https://aka.ms/RazorPagesCRUD.
                  */
-                repository.Update(userEntity);
+                dbcontext.Update(userEntity);
 
-                await _unitOfWork.SaveChangesAsync();
+                await dbcontext.SaveChangesAsync();
 
                 return new OkResponse();
             }
@@ -153,10 +153,9 @@ namespace SampleProject.Identity.API.Controllers
         [Route("Name/{name:length(3,50)}")]
         public async Task<ActionResult> GetByName([FromRoute] string name)
         {
-            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var personal = await repository
-                    .FirstOrDefaultAsync<UserEntity>(f => f.Name.Equals(name));
+                var personal = await dbcontext.Users.AsNoTracking().FirstOrDefaultAsync(f => f.Name.Equals(name));
 
                 if (personal == null)
                     return new NotFoundResponse();
@@ -174,10 +173,9 @@ namespace SampleProject.Identity.API.Controllers
         [Route("Surname/{sname:length(3,50)}")]
         public async Task<ActionResult> GetBySurname([FromRoute] string sname)
         {
-            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var personal = await repository
-                    .FirstOrDefaultAsync<UserEntity>(f => f.Surname.Equals(sname));
+                var personal = await dbcontext.Users.AsNoTracking().FirstOrDefaultAsync(f => f.Surname.Equals(sname));
 
                 if (personal == null)
                     return new NotFoundResponse();
@@ -197,9 +195,9 @@ namespace SampleProject.Identity.API.Controllers
             if (string.IsNullOrEmpty(q))
                 return new BadRequestResponse();
 
-            using (var repository = _unitOfWork.CreateRepository<IdentityDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var personals = repository.Where<UserEntity>(f =>
+                var personals = dbcontext.Users.AsNoTracking().Where(f =>
                         f.Name.Contains(q)
                         || f.Surname.Contains(q)
                     );

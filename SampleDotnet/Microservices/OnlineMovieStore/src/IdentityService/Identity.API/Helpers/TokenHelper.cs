@@ -3,7 +3,7 @@ using Identity.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 using SampleProject.Core.AppSettings;
 using SampleProject.Identity.API.Models.Dto;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,16 +14,13 @@ namespace SampleProject.Identity.API.Helpers
 {
     public class TokenHelper : ITokenHelper
     {
-        private readonly IDbContextFactory<IdentityDbContext> _contextFactory;
+        private readonly IDbContextFactory<IdentityDbContext> _dbContextFactory;
         private readonly JwtBearerOptions jwt;
-        private readonly IUnitOfWork unitOfWork;
 
         public TokenHelper(
-            IOptions<IdentityApplicationSettings> appSettings
-            , IUnitOfWork unitOfWork)
+            IOptions<IdentityApplicationSettings> appSettings)
         {
             jwt = appSettings.Value.JwtBearerOptions;
-            this.unitOfWork = unitOfWork;
         }
 
         public TokenDto Authenticate(UserEntity user, IEnumerable<Claim> claims = null)

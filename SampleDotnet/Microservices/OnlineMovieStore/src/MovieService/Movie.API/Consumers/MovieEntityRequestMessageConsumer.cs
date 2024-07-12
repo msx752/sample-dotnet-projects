@@ -3,7 +3,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Movie.Database;
 using Movie.Database.Entities;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 using SampleProject.Contract.Cart.Movie;
 using SampleProject.Contract.Cart.Requests;
 
@@ -14,27 +14,26 @@ namespace SampleProject.Movie.API.Consumers
     {
         private readonly ILogger<MovieEntityRequestMessageConsumer> _logger;
         private readonly IMapper mapper;
-        private readonly IServiceProvider provider;
+        private readonly IDbContextFactory<MovieDbContext> _dbContextFactory;
 
         public MovieEntityRequestMessageConsumer(
             ILogger<MovieEntityRequestMessageConsumer> logger
             , IMapper mapper
-            , IServiceProvider provider
-            )
+            , IDbContextFactory<MovieDbContext> dbContextFactory)
         {
             _logger = logger;
             this.mapper = mapper;
-            this.provider = provider;
+            _dbContextFactory = dbContextFactory;
         }
 
         public async Task Consume(ConsumeContext<MovieEntityRequestMessage> context)
         {
-            using (var scope = provider.CreateScope())
-            using (var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>())
-            using (var repository = unitOfWork.CreateRepository<MovieDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
+
             {
-                var movieEntity = await repository
-                    .FirstOrDefaultAsync<MovieEntity>(p => p.Id == context.Message.ProductId);
+                var movieEntity = await dbcontext.Movies
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.Id == context.Message.ProductId);
 
                 MovieEntityResponseMessage responseMessage;
                 if (movieEntity == null)

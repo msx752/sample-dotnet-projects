@@ -9,7 +9,7 @@ using SampleProject.Movie.API.Models.Dtos;
 using SampleProject.Movie.API.Models.Requests;
 using SampleProject.Movie.API.Models.Responses;
 using SampleDotnet.Result;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 
 namespace SampleProject.Movie.API.Controllers
 {
@@ -18,13 +18,13 @@ namespace SampleProject.Movie.API.Controllers
     [Route("api/[controller]")]
     public class MoviesController : BaseController
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDbContextFactory<MovieDbContext> _dbContextFactory;
 
         public MoviesController(IMapper mapper
-            , IUnitOfWork unitOfWork)
+            , IDbContextFactory<MovieDbContext> dbContextFactory)
             : base(mapper)
         {
-            this._unitOfWork = unitOfWork;
+            _dbContextFactory = dbContextFactory;
         }
 
         [HttpGet]
@@ -32,24 +32,24 @@ namespace SampleProject.Movie.API.Controllers
         {
             MovieIndexViewModel movieIndexModel = new MovieIndexViewModel();
 
-            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var hightRatingEntity = await repository
-                    .AsQueryable<MovieEntity>()
+                var hightRatingEntity = await dbcontext.Movies
+                    .AsNoTracking()
                     .Include(f => f.Rating)
                     .Where(f => f.Rating != null && f.Rating.AverageRating >= 70)
                     .Take(5)
                     .ToListAsync();
                 movieIndexModel.HighRatings = mapper.Map<List<MovieDto>>(hightRatingEntity);
 
-                var allEntity = await repository
-                    .AsQueryable<MovieEntity>()
+                var allEntity = await dbcontext.Movies
+                    .AsNoTracking()
                     .Include(f => f.Rating)
                     .ToListAsync();
                 movieIndexModel.All = mapper.Map<List<MovieDto>>(allEntity);
 
-                var recentyAddedEntities = await repository
-                    .AsQueryable<MovieEntity>()
+                var recentyAddedEntities = await dbcontext.Movies
+                    .AsNoTracking()
                     .Include(f => f.Rating)
                     .Take(4)
                     .ToListAsync();
@@ -62,10 +62,10 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("HighRatings")]
         public async Task<ActionResult> HighRatings()
         {
-            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var hightRatingEntity = await repository
-                    .AsQueryable<MovieEntity>()
+                var hightRatingEntity = await dbcontext.Movies
+                    .AsNoTracking()
                     .Include(f => f.Rating)
                     .Where(f => f.Rating != null && f.Rating.AverageRating >= 70)
                     .Take(5)
@@ -78,10 +78,10 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("RecentlyAdded")]
         public async Task<ActionResult> RecentlyAdded()
         {
-            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var recentyAddedEntities = await repository
-                    .AsQueryable<MovieEntity>()
+                var recentyAddedEntities = await dbcontext.Movies
+                    .AsNoTracking()
                     .Include(f => f.Rating)
                     .Take(4)
                     .ToListAsync();
@@ -96,10 +96,10 @@ namespace SampleProject.Movie.API.Controllers
             if (string.IsNullOrWhiteSpace(Id))
                 return new BadRequestResponse();
 
-            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var entity = await repository
-                    .AsQueryable<MovieEntity>()
+                var entity = await dbcontext.Movies
+                    .AsNoTracking()
                     .Include(x => x.Rating)
                     .Include(x => x.MovieWriters)
                     .ThenInclude(x => x.Writer)
@@ -123,10 +123,10 @@ namespace SampleProject.Movie.API.Controllers
             if (!ModelState.IsValid)
                 return new BadRequestResponse(ModelState.Values.SelectMany(f => f.Errors).Select(f => f.ErrorMessage));
 
-            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var entity = repository
-                    .AsQueryable<MovieEntity>()
+                var entity = dbcontext.Movies
+                    .AsNoTracking()
                     .Include(f => f.Rating)
                     .Where(f => f.Title != null && f.Title.Contains(model.Query));
 
@@ -143,14 +143,14 @@ namespace SampleProject.Movie.API.Controllers
             if (Id == 0)
                 return new BadRequestResponse();
 
-            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var entityCategory = repository.GetById<CategoryEntity>(Id);
+                var entityCategory = await dbcontext.Categories.FindAsync(Id);
                 if (entityCategory == null)
                     return new NotFoundResponse("Category not found: " + Id);
 
-                var entity = await repository
-                    .AsQueryable<MovieCategoryEntity>()
+                var entity = await dbcontext.MovieCategories
+                    .AsNoTracking()
                     .Include(f => f.Movie)
                     .ThenInclude(f => f.Rating)
                     .Where(f => f.CategoryId != 0 && f.CategoryId == entityCategory.Id)
@@ -164,10 +164,10 @@ namespace SampleProject.Movie.API.Controllers
         [HttpGet("Categories")]
         public async Task<ActionResult> GetCategories() //TODO: move to CategoriesController
         {
-            using (var repository = _unitOfWork.CreateRepository<MovieDbContext>())
+            using (var dbcontext = await _dbContextFactory.CreateDbContextAsync())
             {
-                var entity = await repository
-                    .AsQueryable<CategoryEntity>()
+                var entity = await dbcontext.Categories
+                    .AsNoTracking()
                     .Include(f => f.Categories)
                     .Where(f => f.Categories.Any())
                     .ToListAsync();

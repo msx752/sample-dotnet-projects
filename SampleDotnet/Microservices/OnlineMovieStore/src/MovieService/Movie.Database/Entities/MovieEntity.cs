@@ -1,12 +1,12 @@
 ﻿using Movie.Database.Enums;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movie.Database.Entities
 {
     [Table("MovieEntity")]
-    public class MovieEntity : IHasDateTimeOffset
+    public class MovieEntity 
     {
         public MovieEntity()
         {

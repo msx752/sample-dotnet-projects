@@ -3,7 +3,7 @@ using Cart.Database;
 using Cart.Database.Entities;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 using SampleProject.Contract;
 using SampleProject.Contract.Payment;
 using SampleProject.Contract.Payment.Cart;
@@ -30,15 +30,14 @@ namespace SampleProject.Cart.API.Consumers
         public async Task Consume(ConsumeContext<CartEntityRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>())
-            using (var repository = unitOfWork.CreateRepository<CartDbContext>())
+            using (var dbContext = await scope.ServiceProvider.GetRequiredService<IDbContextFactory<CartDbContext>>().CreateDbContextAsync())
             {
-                var entity = await repository
-                    .Where<CartEntity>(f =>
+                var entity = await dbContext.Baskets.Where(f =>
                         f.UserId == context.Message.ActivityUserId
                         && f.Id == context.Message.CartId
                     )
                     .Include(f => f.Items)
+                    .AsNoTracking()
                     .FirstOrDefaultAsync();
 
                 CartEntityResponseMessage cartEntityResponseMessage = null;

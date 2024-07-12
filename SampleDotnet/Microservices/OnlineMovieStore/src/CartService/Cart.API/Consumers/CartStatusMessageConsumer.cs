@@ -4,7 +4,7 @@ using Cart.Database.Entities;
 using Cart.Database.Enums;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using SampleDotnet.RepositoryFactory.Interfaces;
+
 using SampleProject.Contract.Payment;
 using SampleProject.Contract.Payment.Cart;
 
@@ -31,15 +31,14 @@ namespace SampleProject.Cart.API.Consumers
         public async Task Consume(ConsumeContext<CartStatusRequestMessage> context)
         {
             using (var scope = provider.CreateScope())
-            using (var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>())
-            using (var repository = unitOfWork.CreateRepository<CartDbContext>())
+            using (var dbContext = await scope.ServiceProvider.GetRequiredService<IDbContextFactory<CartDbContext>>().CreateDbContextAsync())
             {
-                var entity = await repository
-                    .Where<CartEntity>(f =>
+                var entity = await dbContext.Baskets.Where(f =>
                             f.Id == context.Message.CartId
                             && f.UserId == context.Message.ActivityUserId
                             && f.Satus != CartStatus.Paid
                     )
+                    .AsNoTracking()
                     .FirstOrDefaultAsync();
 
                 CartStatusResponseMessage cartStatusResponseMessage = new CartStatusResponseMessage();
@@ -53,9 +52,9 @@ namespace SampleProject.Cart.API.Consumers
                 else if (Enum.TryParse<CartStatus>(context.Message.CartStatus, true, out CartStatus cartStatus))
                 {
                     entity.Satus = cartStatus;
-                    repository.Update(entity);
+                    dbContext.Update(entity);
 
-                    await unitOfWork.SaveChangesAsync();
+                    await dbContext.SaveChangesAsync();
                 }
                 else
                 {

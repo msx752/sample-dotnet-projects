@@ -1,18 +1,17 @@
 ﻿using Identity.Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using SampleDotnet.RepositoryFactory.Interfaces;
 
 namespace Identity.Database
 {
     public static class DbInitializer
     {
-        public static void Initialize(IUnitOfWork unitOfWork)
+        public static void Initialize(IdentityDbContext context)
         {
-            using (var context = unitOfWork.CreateRepository<IdentityDbContext>())
+            using (context)
             {
                 context.Database.EnsureCreated();
 
-                if (!context.AsQueryable<UserEntity>().Any())
+                if (!context.Users.Any())
                 {
                     var user1 = new UserEntity()
                     {
@@ -22,7 +21,7 @@ namespace Identity.Database
                         Name = "Falan",
                         Surname = "Filan",
                     };
-                    context.Insert(user1);
+                    context.Add(user1);
 
                     var user2 = new UserEntity()
                     {
@@ -32,10 +31,10 @@ namespace Identity.Database
                         Name = "Alavere",
                         Surname = "Dalavere",
                     };
-                    context.Insert(user2);
+                    context.Add(user2);
                 }
 
-                unitOfWork.SaveChanges();
+                context.SaveChanges();
             }
         }
     }

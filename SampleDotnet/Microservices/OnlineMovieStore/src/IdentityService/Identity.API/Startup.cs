@@ -1,6 +1,5 @@
 using Identity.Database;
 using Microsoft.EntityFrameworkCore;
-using SampleDotnet.RepositoryFactory.Interfaces;
 using SampleProject.Core.Extensions;
 using SampleProject.Identity.API.Helpers;
 
@@ -20,8 +19,8 @@ namespace SampleProject.Identity.API
         {
             app.UseGlobalStartupConfigures(env);
 
-            using (var scope = isp.CreateScope())
-                DbInitializer.Initialize(scope.ServiceProvider.GetRequiredService<IUnitOfWork>());
+
+            DbInitializer.Initialize(isp.GetRequiredService<IDbContextFactory<IdentityDbContext>>().CreateDbContext());
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -34,7 +33,7 @@ namespace SampleProject.Identity.API
             if (isUseDockerOcelot != null && isUseDockerOcelot == "true")
                 conStr = conStr.Replace("127.0.0.1,1433", "mssqldb.container,1433");
 
-            services.AddDbContextFactoryWithUnitOfWork<IdentityDbContext>(opt =>
+            services.AddDbContextFactory<IdentityDbContext>(opt =>
                 opt.UseSqlServer(conStr));
 
             services.AddScoped<ITokenHelper, TokenHelper>();

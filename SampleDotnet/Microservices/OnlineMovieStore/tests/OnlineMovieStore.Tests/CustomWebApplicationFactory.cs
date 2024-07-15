@@ -9,9 +9,9 @@ namespace OnlineMovieStore.Tests
     public class CustomWebApplicationFactory<TStartup>
          : WebApplicationFactory<TStartup> where TStartup : class
     {
-        public CustomWebApplicationFactory()
+        public CustomWebApplicationFactory(string environmentName = "Development")
         {
-            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", environmentName);
         }
 
         protected override IHostBuilder CreateHostBuilder()

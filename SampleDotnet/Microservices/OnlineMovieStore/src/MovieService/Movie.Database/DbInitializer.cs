@@ -12,35 +12,36 @@ namespace Movie.Database
                 context.Database.EnsureCreated();
 
                 if (!context.Categories.Any())
-                    context.Add(SeedCategories());
+                    context.AddRange(SeedCategories());
 
                 if (!context.Directors.Any())
-                    context.Add(SeedDirectors());
+                    context.AddRange(SeedDirectors());
 
                 if (!context.Writers.Any())
-                    context.Add(SeedWriters());
+                    context.AddRange(SeedWriters());
 
                 var seedRating = SeedRatings();
                 if (!context.Ratings.Any())
-                    context.Add(seedRating);
+                    context.AddRange(seedRating);
 
                 if (!context.Movies.Any())
                 {
                     var seedMovies = SeedMovies(seedRating);
-                    context.Add(seedMovies);
+                    context.AddRange(seedMovies);
                 }
 
                 if (!context.MovieWriters.Any())
-                    context.Add(SeedMovieWriters());
+                    context.AddRange(SeedMovieWriters());
 
                 if (!context.MovieDirectors.Any())
-                    context.Add(SeedmovieDirectors());
+                    context.AddRange(SeedmovieDirectors());
 
                 if (!context.MovieCategories.Any())
-                    context.Add(SeedMovieCategories());
+                    context.AddRange(SeedMovieCategories());
+
+                context.SaveChanges();
             }
 
-            context.SaveChanges();
         }
 
         public static CategoryEntity[] SeedCategories()

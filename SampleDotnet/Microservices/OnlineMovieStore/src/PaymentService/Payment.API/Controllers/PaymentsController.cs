@@ -24,10 +24,12 @@ namespace SampleProject.ayment.API.Controllers
 
         public PaymentsController(
             IMapper _mapper
-            , IMessageBus messageBus)
+            , IMessageBus messageBus
+            , IDbContextFactory<PaymentDbContext> dbContextFactory)
             : base(_mapper)
         {
             this._messageBus = messageBus;
+            this._dbContextFactory = dbContextFactory;
         }
 
         [HttpGet("History")]

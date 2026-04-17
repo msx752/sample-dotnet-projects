@@ -1,15 +1,14 @@
-version: '3.4'
-
 services:
   dps:
     image: defreitas/dns-proxy-server:3.0.1-beta
     container_name: mycontainerdnsresolver
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/resolv.conf:/etc/resolv.conf
+      # /etc/resolv.conf mount kaldırıldı - sistem DNS'ini eziyordu
     restart: "on-failure"
     environment:
       - MG_LOG_LEVEL=ERROR
+      - MG_RESOLVCONF=false
     hostname: dns.mageddo
     networks:
       dps:

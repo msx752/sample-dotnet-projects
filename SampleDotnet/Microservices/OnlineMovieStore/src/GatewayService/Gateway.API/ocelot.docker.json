@@ -5,7 +5,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "identityservice.container",
+          "Host": "identityservice",
           "Port": 1020
         }
       ],
@@ -17,7 +17,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "identityservice.container",
+          "Host": "identityservice",
           "Port": 1020
         }
       ],
@@ -29,7 +29,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "identityservice.container",
+          "Host": "identityservice",
           "Port": 1020
         }
       ],
@@ -41,7 +41,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "movieservice.container",
+          "Host": "movieservice",
           "Port": 1030
         }
       ],
@@ -53,7 +53,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "movieservice.container",
+          "Host": "movieservice",
           "Port": 1030
         }
       ],
@@ -65,7 +65,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "cartservice.container",
+          "Host": "cartservice",
           "Port": 1050
         }
       ],
@@ -77,7 +77,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "cartservice.container",
+          "Host": "cartservice",
           "Port": 1050
         }
       ],
@@ -89,7 +89,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "paymentservice.container",
+          "Host": "paymentservice",
           "Port": 1040
         }
       ],
@@ -98,6 +98,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://gatewayservice.container:1010"
+    "BaseUrl": "http://getewayservice:1010"
   }
 }

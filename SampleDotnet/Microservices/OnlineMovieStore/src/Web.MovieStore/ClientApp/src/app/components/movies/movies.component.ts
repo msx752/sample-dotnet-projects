@@ -28,33 +28,27 @@ export class MoviesComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public cardBlockMouseover(event) {
-    //console.log("show");
-    var element = this.renderer.parentNode(event);
-    var viewDetail = element.getElementsByClassName("view-detail")[0];
+  public cardBlockMouseover(event: EventTarget | null): void {
+    if (!event) return;
+    const element = this.renderer.parentNode(event);
+    const viewDetail = element?.getElementsByClassName("view-detail")[0] as HTMLElement;
     if (viewDetail) {
       viewDetail.style.display = "block";
     }
   }
-  public cardBlockMouseout(event) {
-    //console.log("hide");
-    var element = this.renderer.parentNode(event);
-    var viewDetail = element.getElementsByClassName("view-detail")[0];
+
+  public cardBlockMouseout(event: EventTarget | null): void {
+    if (!event) return;
+    const element = this.renderer.parentNode(event);
+    const viewDetail = element?.getElementsByClassName("view-detail")[0] as HTMLElement;
     if (viewDetail) {
       viewDetail.style.display = "none";
     }
   }
 
   drawStars(starIndex: number, averagerating: number): string {
-    var n1 = (averagerating / 100);
-    var n2 = (n1 / 2);
-    var n3 = (n2 * 10);
-    var stars = Math.round(n3);
-    if (starIndex <= stars) {
-      return 'fa fa-star star-checked';
-    } else {
-      return 'fa fa-star ';
-    }
+    const stars = Math.round(averagerating / 20); // 0-100 → 0-5 stars
+    return starIndex <= stars ? 'fa fa-star star-checked' : 'fa fa-star';
   }
   public movieById(url: string) {
     if (url) {

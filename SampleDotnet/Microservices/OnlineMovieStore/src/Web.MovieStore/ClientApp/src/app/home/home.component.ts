@@ -10,16 +10,17 @@ import { MoviesApiService } from '../../services/api/movies-api.service';
 export class HomeComponent implements OnInit, OnDestroy {
   title = 'Home';
   public movieIndexModel: MovieIndexViewModel = { all: [], highratings: [], recentlyadded: [] };
+  public isLoading = true;
   private subscriptions: Subscription[] = [];
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  constructor(private apiMovies: MoviesApiService
-  ) { }
+  constructor(private apiMovies: MoviesApiService) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.apiMovies.getIndex()
       .then((data) => {
         if (data.results.length > 0) {
@@ -27,6 +28,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       })
       .catch((error) => {
+        console.error('Failed to load movies:', error);
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
   }
 }

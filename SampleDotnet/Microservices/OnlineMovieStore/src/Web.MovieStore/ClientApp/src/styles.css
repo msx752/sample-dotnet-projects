@@ -1,33 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles - Movie Store */
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+/* ========================================
+   CSS Variables
+   ======================================== */
+:root {
+  --primary-color: #1b6ec2;
+  --primary-border: #1861ac;
+  --link-color: #0366d6;
+  --code-color: #e01a76;
+  --shadow-light: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 3px 19px 7px rgba(0, 0, 0, 0.35);
+  --shadow-rating: 0 3px 32px -3px rgba(0, 0, 0, 0.75);
+  --star-color: orange;
+  --border-color: #e5e5e5;
+  --bg-light: #f5f5f5;
 }
 
-code {
-  color: #e01a76;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
+/* ========================================
+   Base Styles
+   ======================================== */
 html {
   font-size: 14px;
+  position: relative;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -36,16 +31,25 @@ html {
   }
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
+body {
+  margin-bottom: 60px;
 }
 
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+a {
+  color: var(--link-color);
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+code {
+  color: var(--code-color);
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+.btn-primary {
+  color: #fff;
+  background-color: var(--primary-color);
+  border-color: var(--primary-border);
 }
 
 button.accept-policy {
@@ -53,138 +57,187 @@ button.accept-policy {
   line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+/* ========================================
+   Navbar
+   ======================================== */
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+/* ========================================
+   Borders & Shadows
+   ======================================== */
+.border-top {
+  border-top: 1px solid var(--border-color);
 }
 
+.border-bottom {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.box-shadow {
+  box-shadow: var(--shadow-light);
+}
+
+/* ========================================
+   Footer
+   ======================================== */
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  white-space: nowrap;
-  /* Set the fixed height of the footer here */
   height: 60px;
-  line-height: 60px; /* Vertically center the text there */
-}
-
-.title-header {
-  padding: 0.75rem 0.25rem !important;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid transparent;
-}
-
-  .title-header h3 {
-    font-size: 0.80rem;
-    margin: 0;
-  }
-
-.movies {
-  margin-top: 2rem;
-}
-
-.img-card {
-  width: 100%;
-  margin-bottom: .40rem;
-}
-
-.movies {
-  margin-bottom: .60rem;
-}
-
-.series {
-  margin-bottom: .60rem;
-}
-
-.footer {
+  line-height: 60px;
   padding: 1rem 0;
-  margin-top: 2rem;
   font-size: 80%;
   text-align: left;
 }
 
-  .footer p {
-    margin: 0;
-  }
-
-.footer-links {
-  padding-left: 0;
-  margin-bottom: 1rem;
+.footer p {
+  margin: 0;
 }
-
-  .footer-links li {
-    display: inline-block;
-  }
 
 .footer a {
   font-weight: 500;
   color: inherit;
 }
 
+.footer-links {
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+.footer-links li {
+  display: inline-block;
+}
+
 .footer-links li + li {
   margin-left: 1rem;
 }
-/* Bug Bootstrap V4.0.6 - Mobile - SCSS _navbar*/
-.navbar {
-  display: block;
+
+/* ========================================
+   Movie Cards
+   ======================================== */
+.movies,
+.series {
+  margin-top: 2rem;
+  margin-bottom: 0.6rem;
 }
 
+.title-header {
+  padding: 0.75rem 0.25rem !important;
+  background-color: var(--bg-light);
+  border-bottom: 1px solid transparent;
+}
 
+.title-header h3 {
+  font-size: 0.8rem;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-
-.card-block .view-detail {
-  position: absolute;
-  top: 56%;
-  left: 45%;
-  transform: translate(-35%, -50%);
-  -ms-transform: translate(-35%, -50%);
-  border: none;
-  cursor: pointer !important;
+.img-card {
+  width: 100%;
+  margin-bottom: 0.4rem;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .img-card:hover {
   opacity: 0.9;
-  cursor: pointer !important;
+  box-shadow: var(--shadow-card);
 }
 
-.img-card:hover {
-  -webkit-box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75);
-  -moz-box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75);
-  box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75);
-}
-
-.average-rating {
-  left: 23% !important;
-  top: 91%;
+.card-block .view-detail {
   position: absolute;
-  -webkit-box-shadow: -1px 3px 32px -3px rgba(0,0,0,0.75);
-  -moz-box-shadow: -1px 3px 32px -3px rgba(0,0,0,0.75);
-  box-shadow: -1px 3px 32px -3px rgba(0,0,0,0.75);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  cursor: pointer;
   color: white;
-  background-color: black;
-  opacity: 0.6;
-  padding: 1px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+/* ========================================
+   Ratings
+   ======================================== */
+.average-rating {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 5%;
+  box-shadow: var(--shadow-rating);
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 
 .star-checked {
-  color: orange;
+  color: var(--star-color);
 }
 
+/* ========================================
+   Movie Detail
+   ======================================== */
 .detail-shadow {
-  -webkit-box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75) !important;
-  -moz-box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75) !important;
-  box-shadow: -1px 3px 19px 7px rgba(0,0,0,0.75) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 .detail-img {
   padding: 5px;
-  /*position: absolute !important;*/
 }
 
+.movie-detail,
+.movie-card {
+  height: 100%;
+}
+
+/* ========================================
+   Empty States
+   ======================================== */
+.empty-state {
+  padding: 3rem 1rem;
+}
+
+.empty-state i {
+  opacity: 0.5;
+}
+
+.empty-state h4 {
+  margin-top: 1rem;
+}
+
+.empty-state p {
+  margin-bottom: 0;
+}
+
+/* ========================================
+   Loading States
+   ======================================== */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+/* ========================================
+   Utilities
+   ======================================== */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

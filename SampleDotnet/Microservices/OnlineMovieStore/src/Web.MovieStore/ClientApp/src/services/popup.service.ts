@@ -20,7 +20,7 @@ export class PopupService {
     return Swal.fire(title, htmlMessage, 'warning');
   }
 
-  public showDailog(title: string
+  public showDialog(title: string
     , text: string
     , icon: SweetAlertIcon = 'warning'
     , confirmButtonText: string = 'Okay'

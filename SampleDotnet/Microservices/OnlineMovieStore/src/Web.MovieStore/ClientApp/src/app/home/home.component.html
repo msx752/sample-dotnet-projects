@@ -1,5 +1,13 @@
-<high-ratings-movies [movies]="movieIndexModel.highratings"></high-ratings-movies>
+<!-- Loading State -->
+<div class="loading-spinner" *ngIf="isLoading">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
 
-<all-movies [movies]="movieIndexModel.all"></all-movies>
-
-<recently-added-movies [movies]="movieIndexModel.recentlyadded"></recently-added-movies>
+<!-- Content -->
+<div *ngIf="!isLoading">
+  <high-ratings-movies [movies]="movieIndexModel.highratings"></high-ratings-movies>
+  <all-movies [movies]="movieIndexModel.all"></all-movies>
+  <recently-added-movies [movies]="movieIndexModel.recentlyadded"></recently-added-movies>
+</div>

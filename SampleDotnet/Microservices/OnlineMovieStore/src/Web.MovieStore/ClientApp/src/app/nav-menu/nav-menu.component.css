@@ -1,18 +1,19 @@
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+/* Nav Menu Component Styles */
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.link-active {
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary-color, #1b6ec2);
 }
 
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.navbar-nav .badge {
+  position: relative;
+  top: -8px;
+  left: -5px;
+  font-size: 0.7rem;
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+.dropdown-menu {
+  max-height: 300px;
+  overflow-y: auto;
 }

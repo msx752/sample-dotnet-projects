@@ -11,15 +11,18 @@ import { SessionStateService } from '../../services/session-state.service';
 export class PaymentHistoryComponent implements OnInit {
   title = 'Payment History';
   public transactions: TransactionDto[] = [];
-  constructor(
-    private paymentApi: PaymentService
-    , private sessionState: SessionStateService
-    , private router: Router
+  public isLoading = true;
 
-  ) {
-  }
+  constructor(
+    private paymentApi: PaymentService,
+    private sessionState: SessionStateService,
+    private router: Router
+  ) { }
+
   ngOnInit(): void {
     this.transactions = [];
+    this.isLoading = true;
+
     if (this.sessionState.isLoggedIn()) {
       this.paymentApi.getPaymentHistory()
         .then((data) => {
@@ -30,7 +33,11 @@ export class PaymentHistoryComponent implements OnInit {
           }
         })
         .catch((error) => {
+          console.error('Failed to load payment history:', error);
           this.transactions = [];
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     } else {
       this.router.navigate(['/']);

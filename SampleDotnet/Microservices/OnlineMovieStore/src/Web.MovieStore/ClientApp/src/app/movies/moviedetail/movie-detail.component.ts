@@ -53,7 +53,7 @@ export class MovieDetailComponent implements OnInit, OnDestroy {
 
   public addToCart(cartItemId: string, productDatabase: string = 'movie'): void {
     this.cartApi.postCartItem(this.sessionState.getCartId(), cartItemId, productDatabase).then(() => {
-      this.popupService.showDailog(
+      this.popupService.showDialog(
         "Movie added to cart"
         , ""
         , "success"

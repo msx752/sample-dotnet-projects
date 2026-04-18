@@ -28,10 +28,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  constructor(private identityService: IdentityService
-    , private tokenStorage: TokenStorageService
-    , private sessionStateService: SessionStateService
-    , private tokenStorageService: TokenStorageService
+  constructor(
+    private identityService: IdentityService,
+    private tokenStorage: TokenStorageService,
+    private sessionStateService: SessionStateService
   ) { }
 
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.reloadPage();
       });
     }).catch((error) => {
-      this.tokenStorageService.removeCartId();
+      this.tokenStorage.removeCartId();
       this.isLoginFailed = true;
       this.errorMessage = error;
 

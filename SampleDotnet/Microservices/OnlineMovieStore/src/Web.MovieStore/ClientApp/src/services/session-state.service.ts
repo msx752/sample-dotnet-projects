@@ -40,7 +40,7 @@ export class SessionStateService {
           this.tokenStorageService.removeCartId();
         });
     }
-    return new Promise((resolve, reject) => { });
+    return Promise.resolve();
   }
 
   public clearSession(): void {

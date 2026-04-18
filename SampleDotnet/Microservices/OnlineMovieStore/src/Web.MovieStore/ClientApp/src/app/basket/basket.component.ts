@@ -60,7 +60,7 @@ export class BasketComponent implements OnInit {
   public purchase(cartid: string) {
     this.paymentApi.postPayment(cartid)
       .then(() => {
-        this.popupService.showDailog(
+        this.popupService.showDialog(
           "Payment Completed"
           , "Paid " + this.calculatedTotalPrice + "$ successfully"
           , "success"

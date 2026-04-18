@@ -1,9 +1,19 @@
 <div class="panel-body">
   <h5>{{title}}</h5>
-  <ul class="list-group">
+
+  <!-- Empty State -->
+  <div class="empty-state text-center py-5" *ngIf="!basket || !basket.items || basket.items.length === 0">
+    <i class="fas fa-shopping-cart fa-4x text-muted mb-3 d-block"></i>
+    <h4 class="text-muted">Sepetiniz boş</h4>
+    <p class="text-secondary">Beğendiğiniz filmleri sepete ekleyin</p>
+    <a routerLink="/" class="btn btn-primary mt-3">Alışverişe Başla</a>
+  </div>
+
+  <!-- Basket Items -->
+  <ul class="list-group" *ngIf="basket?.items?.length > 0">
     <li class="list-group-item list-group-item-secondary" style="margin-bottom:20px;" *ngFor="let item of basket.items">
       <div class="container">
-        <div class="row">
+        <div class="row align-items-center">
           <div class="col-1">
             <img src="assets/images/{{item.productid}}.png" alt="{{item.title}}" style="width:100%;" />
           </div>
@@ -13,10 +23,12 @@
             </a>
           </div>
           <div class="col-1">
-            <span> <b style="font-size:18px;">{{item.salesprice}}$</b></span>
+            <span><b style="font-size:18px;">{{item.salesprice}}$</b></span>
           </div>
           <div class="col-1">
-            <a class="trash" (click)="removeFromBasket(item.id)" style="cursor: pointer;"><i class="fas fa-trash-alt fa-2x"></i></a>
+            <a class="trash text-danger" (click)="removeFromBasket(item.id)" style="cursor: pointer;" title="Sepetten Kaldır">
+              <i class="fas fa-trash-alt fa-2x"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -24,15 +36,15 @@
 
     <li class="list-group-item list-group-item-warning">
       <div class="container">
-        <div class="row">
+        <div class="row align-items-center">
           <div class="col-8">
-            <span> <b>Total Price</b></span>
+            <span><b>Total Price</b></span>
           </div>
           <div class="col-2">
-            <span> <b>{{calculatedTotalPrice | number : '.2-2'}}$</b></span>
+            <span><b>{{calculatedTotalPrice | number : '.2-2'}}$</b></span>
           </div>
           <div class="col-2">
-            <a class="btn btn-success" style="cursor: pointer;" (click)="purchase(basket.id)">Purchase</a>
+            <button class="btn btn-success" (click)="purchase(basket.id)">Purchase</button>
           </div>
         </div>
       </div>

@@ -87,7 +87,7 @@ export class ApiClientService {
     } else if (contentType == Constants.xwwwfromurlencoded) {
       return new HttpParams({ fromObject: body }).toString();
     } else {
-      throw "not implemented " + contentType;
+      throw new Error(`Content type not implemented: ${contentType}`);
     }
   }
 
@@ -110,54 +110,22 @@ export class ApiClientService {
 
   private handleError(error: any): string {
     const responseModel = error.error as ResponseModel<any>;
-    var errorStrList = "";
-    if (responseModel.errors) {
-      errorStrList = responseModel.errors.join(",\n");
-    } else {
-      errorStrList = 'given url not found.';
-    }
-    const title = error.statusText;
-    const traceIdStringFormat = 'TraceId:&nbsp;<b>' + responseModel.stats.rid + '</b>';
-    if (error.status >= 500) {
-      this.popupService.show({
-        icon: 'error',
-        title: 'Something went wrong!',
-        text: errorStrList,
-        footer: 'please contact with supports, ' + traceIdStringFormat,
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        }
-      });
-    } else if (error.status >= 400) {
-      this.popupService.show({
-        icon: 'error',
-        title: title,
-        text: errorStrList,
-        footer: traceIdStringFormat,
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        }
-      });
-    } else {
-      this.popupService.show({
-        icon: 'error',
-        title: title,
-        text: errorStrList,
-        footer: traceIdStringFormat,
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        }
-      });
-    }
+    const errorStrList = responseModel?.errors?.join(",\n") || 'Given URL not found.';
+    const traceId = responseModel?.stats?.rid || 'unknown';
+    const traceIdFormat = `TraceId:&nbsp;<b>${traceId}</b>`;
+
+    const isServerError = error.status >= 500;
+    const title = isServerError ? 'Something went wrong!' : error.statusText;
+    const footer = isServerError ? `Please contact support, ${traceIdFormat}` : traceIdFormat;
+
+    this.popupService.show({
+      icon: 'error',
+      title: title,
+      text: errorStrList,
+      footer: footer,
+      showClass: { popup: 'animate__animated animate__fadeInDown' },
+      hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+    });
 
     return errorStrList;
   }

@@ -46,9 +46,14 @@ export class MoviesComponent implements OnInit {
     }
   }
 
-  drawStars(starIndex: number, averagerating: number): string {
-    const stars = Math.round(averagerating / 20); // 0-100 → 0-5 stars
-    return starIndex <= stars ? 'fa fa-star star-checked' : 'fa fa-star';
+  getRatingStars(averagerating: number | undefined): number {
+    if (!averagerating) return 0;
+    return Math.round(averagerating / 20); // 0-100 → 0-5 stars
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = 'assets/images/placeholder.png';
   }
   public movieById(url: string) {
     if (url) {

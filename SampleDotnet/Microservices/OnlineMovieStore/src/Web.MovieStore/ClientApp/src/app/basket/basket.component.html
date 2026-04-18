@@ -1,53 +1,79 @@
-<div class="panel-body">
-  <h5>{{title}}</h5>
+<div class="basket-container">
+  <div class="basket-header">
+    <h2><i class="pi pi-shopping-cart"></i> {{title}}</h2>
+    <p-divider></p-divider>
+  </div>
 
   <!-- Empty State -->
-  <div class="empty-state text-center py-5" *ngIf="!basket || !basket.items || basket.items.length === 0">
-    <i class="fas fa-shopping-cart fa-4x text-muted mb-3 d-block"></i>
-    <h4 class="text-muted">Sepetiniz boş</h4>
-    <p class="text-secondary">Beğendiğiniz filmleri sepete ekleyin</p>
-    <a routerLink="/" class="btn btn-primary mt-3">Alışverişe Başla</a>
+  <div class="empty-state" *ngIf="!basket || !basket.items || basket.items.length === 0">
+    <i class="pi pi-shopping-cart"></i>
+    <h3>Your cart is empty</h3>
+    <p>Add movies you like to your cart</p>
+    <p-button icon="pi pi-play"
+              label="Start Shopping"
+              [routerLink]="['/']">
+    </p-button>
   </div>
 
   <!-- Basket Items -->
-  <ul class="list-group" *ngIf="basket?.items?.length > 0">
-    <li class="list-group-item list-group-item-secondary" style="margin-bottom:20px;" *ngFor="let item of basket.items">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-1">
-            <img src="assets/images/{{item.productid}}.png" alt="{{item.title}}" style="width:100%;" />
-          </div>
-          <div class="col-9">
-            <a style="color: black; cursor: pointer;" (click)="movieById('/movie/' + item.productid)">
-              <span style="font-size:20px;margin-left:15px;"><b>{{item.title}}</b></span>
+  <div class="basket-content" *ngIf="basket?.items?.length > 0">
+    <p-table [value]="basket.items" styleClass="p-datatable-striped">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 80px">Image</th>
+          <th>Title</th>
+          <th style="width: 120px">Price</th>
+          <th style="width: 80px">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>
+            <img [src]="'assets/images/' + item.productid + '.png'"
+                 [alt]="item.title"
+                 class="basket-item-image">
+          </td>
+          <td>
+            <a class="item-title" (click)="movieById('/movie/' + item.productid)">
+              {{item.title}}
             </a>
-          </div>
-          <div class="col-1">
-            <span><b style="font-size:18px;">{{item.salesprice}}$</b></span>
-          </div>
-          <div class="col-1">
-            <a class="trash text-danger" (click)="removeFromBasket(item.id)" style="cursor: pointer;" title="Sepetten Kaldır">
-              <i class="fas fa-trash-alt fa-2x"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </li>
+          </td>
+          <td>
+            <p-tag [value]="item.salesprice + '$'"
+                   severity="success"
+                   styleClass="price-tag">
+            </p-tag>
+          </td>
+          <td>
+            <p-button icon="pi pi-trash"
+                      styleClass="p-button-danger p-button-text p-button-rounded"
+                      pTooltip="Remove from cart"
+                      (click)="removeFromBasket(item.id)">
+            </p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
 
-    <li class="list-group-item list-group-item-warning">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-8">
-            <span><b>Total Price</b></span>
+    <div class="basket-summary">
+      <p-card styleClass="summary-card">
+        <div class="summary-content">
+          <div class="summary-row">
+            <span class="summary-label">Items:</span>
+            <span class="summary-value">{{basket.items.length}}</span>
           </div>
-          <div class="col-2">
-            <span><b>{{calculatedTotalPrice | number : '.2-2'}}$</b></span>
+          <p-divider></p-divider>
+          <div class="summary-row total">
+            <span class="summary-label">Total:</span>
+            <span class="summary-value">{{calculatedTotalPrice | number : '.2-2'}}$</span>
           </div>
-          <div class="col-2">
-            <button class="btn btn-success" (click)="purchase(basket.id)">Purchase</button>
-          </div>
+          <p-button icon="pi pi-credit-card"
+                    label="Complete Purchase"
+                    styleClass="p-button-success purchase-btn"
+                    (click)="purchase(basket.id)">
+          </p-button>
         </div>
-      </div>
-    </li>
-  </ul>
+      </p-card>
+    </div>
+  </div>
 </div>

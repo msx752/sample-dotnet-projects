@@ -7,6 +7,7 @@ import { SessionStateService } from '../../services/session-state.service';
 @Component({
   selector: 'payment-history',
   templateUrl: './payment-history.component.html',
+  styleUrls: ['./payment-history.component.css']
 })
 export class PaymentHistoryComponent implements OnInit {
   title = 'Payment History';

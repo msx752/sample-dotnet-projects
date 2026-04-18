@@ -1,31 +1,43 @@
-<section class="{{class}}" id="{{id}}">
-  <h5>{{header}}({{movies ? movies.length : 0}})</h5>
-  <div class="row">
-    <div class="col-sm-2 hvr-shadow-radial" *ngFor="let movie of movies">
-      <div class="movie-card">
-        <article class="card rounded">
-          <header class="title-header">
-            <h3 class="text-center">{{movie.title}}</h3>
-          </header>
-          <a style="color:white;" id="{{movie.id}}" (click)="movieById('/movie/' + movie.id)">
-            <div class="card-block" (mouseover)="cardBlockMouseover($event.target)" (mouseout)="cardBlockMouseout($event.target)">
-              <div class="img-card">
-                <img src="assets/images/{{movie.id}}.png" alt="{{movie.title}}" class="w-100" />
-                <div class="average-rating rounded">
-                  <span [class]="drawStars(1, movie.rating.averagerating)"></span>
-                  <span [class]="drawStars(2, movie.rating.averagerating)"></span>
-                  <span [class]="drawStars(3, movie.rating.averagerating)"></span>
-                  <span [class]="drawStars(4, movie.rating.averagerating)"></span>
-                  <span [class]="drawStars(5, movie.rating.averagerating)"></span>
-                </div>
-                <div class="view-detail" style="display:none;">
-                  <i class="fa fa-search fa-3x"></i>
-                </div>
-              </div>
-            </div>
-          </a>
-        </article>
+<section class="movies-section" [attr.id]="id">
+  <div class="section-header">
+    <h3><i class="pi pi-film"></i> {{header}} <span class="movie-count">({{movies?.length || 0}})</span></h3>
+    <p-divider></p-divider>
+  </div>
+
+  <div class="movies-grid">
+    <p-card *ngFor="let movie of movies"
+            styleClass="movie-card"
+            (click)="movieById('/movie/' + movie.id)">
+      <ng-template pTemplate="header">
+        <div class="movie-image-container">
+          <img [src]="'assets/images/' + movie.id + '.png'"
+               [alt]="movie.title"
+               class="movie-image"
+               (error)="onImageError($event)">
+          <div class="movie-overlay">
+            <i class="pi pi-search-plus"></i>
+          </div>
+        </div>
+      </ng-template>
+
+      <div class="movie-content">
+        <h4 class="movie-title">{{movie.title}}</h4>
+        <div class="movie-rating">
+          <p-rating [ngModel]="getRatingStars(movie.rating?.averagerating)"
+                    [readonly]="true"
+                    [cancel]="false"
+                    [stars]="5">
+          </p-rating>
+          <span class="rating-value">{{movie.rating?.averagerating || 0}}%</span>
+        </div>
       </div>
-    </div>
+
+      <ng-template pTemplate="footer">
+        <p-button icon="pi pi-eye"
+                  label="View Details"
+                  styleClass="p-button-text p-button-sm">
+        </p-button>
+      </ng-template>
+    </p-card>
   </div>
 </section>

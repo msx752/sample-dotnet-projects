@@ -1,68 +1,66 @@
-<header>
-  <nav class="navbar navbar-fixed-top navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 ">
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Movie Store</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]="{ show: isExpanded }">
+<header class="app-header">
+  <p-menubar [model]="menuItems" styleClass="custom-menubar">
+    <ng-template pTemplate="start">
+      <a class="brand-logo" [routerLink]="['/']">
+        <i class="pi pi-video"></i>
+        <span>Movie Store</span>
+      </a>
+    </ng-template>
 
-        <ul class="navbar-nav" *ngIf="!tokenStorage.isLoggedIn()">
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark">Register</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav" *ngIf="tokenStorage.isLoggedIn()">
-          <li class="nav-item">
-            <a class="nav-link text-dark" title="Recent Payments" [routerLink]="['/payment-history']"><i class="fas fa-2x fa-history"></i></a>
-          </li>
-          <li class="nav-item">
-            <a style="" class="nav-link text-dark" title="Shopping Basket" [routerLink]="['/basket']"><i class="fas fa-2x fa-shopping-cart"></i><span class="badge badge-primary">0</span></a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/']" (click)="tokenStorage.logout(false)">hello <b>{{tokenStorage.getUser().username}}</b></a>
-          </li>
-        </ul>
+    <ng-template pTemplate="end">
+      <div class="header-actions">
+        <!-- Search -->
+        <div class="search-box">
+          <span class="p-input-icon-right">
+            <i class="pi pi-search" (click)="search()"></i>
+            <input type="text"
+                   pInputText
+                   placeholder="Search movies..."
+                   [(ngModel)]="searchInput"
+                   (keyup.enter)="search()">
+          </span>
+        </div>
 
-        <ul class="navbar-nav flex-grow-1">
-          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="dropdown-toggle btn" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Categories
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-              <li *ngFor="let category of categories">
-                <a class="nav-link text-dark dropdown-item btn"
-                   (click)="moviesByCategory('/category/' + category.id)">{{category.name}}</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/highratings']">High Ratings</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/recentlyadded']">Recently Added</a>
-          </li>
-          <form class="navbar-form navbar-left" action="Search">
-            <div class="input-group">
-              <input id="searchText"
-                     name="searchText"
-                     type="text"
-                     class="form-control"
-                     placeholder="Search Movie..."
-                     [(ngModel)]="searchInput">
-              <span class="input-group-btn">
-                <button class="btn btn-outline-secondary" type="submit" (click)="search()">Search</button>
-              </span>
-            </div>
-          </form>
-        </ul>
+        <!-- Not Logged In -->
+        <ng-container *ngIf="!tokenStorage.isLoggedIn()">
+          <p-button icon="pi pi-user-plus"
+                    label="Register"
+                    styleClass="p-button-text p-button-secondary">
+          </p-button>
+          <p-button icon="pi pi-sign-in"
+                    label="Login"
+                    styleClass="p-button-outlined"
+                    [routerLink]="['/login']">
+          </p-button>
+        </ng-container>
+
+        <!-- Logged In -->
+        <ng-container *ngIf="tokenStorage.isLoggedIn()">
+          <p-button icon="pi pi-history"
+                    pTooltip="Payment History"
+                    styleClass="p-button-text p-button-rounded"
+                    [routerLink]="['/payment-history']">
+          </p-button>
+          <p-button icon="pi pi-shopping-cart"
+                    pTooltip="Shopping Cart"
+                    styleClass="p-button-text p-button-rounded"
+                    [routerLink]="['/basket']"
+                    pBadge
+                    [value]="cartCount">
+          </p-button>
+          <div class="user-menu">
+            <span class="user-greeting">
+              <i class="pi pi-user"></i>
+              {{tokenStorage.getUser().username}}
+            </span>
+            <p-button icon="pi pi-sign-out"
+                      label="Logout"
+                      styleClass="p-button-text p-button-danger p-button-sm"
+                      (click)="tokenStorage.logout(false)">
+            </p-button>
+          </div>
+        </ng-container>
       </div>
-    </div>
-  </nav>
+    </ng-template>
+  </p-menubar>
 </header>

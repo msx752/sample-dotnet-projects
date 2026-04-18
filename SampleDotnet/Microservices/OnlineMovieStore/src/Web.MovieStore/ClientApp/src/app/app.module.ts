@@ -1,8 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+
+// PrimeNG Modules
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { RatingModule } from 'primeng/rating';
+import { DataViewModule } from 'primeng/dataview';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { BadgeModule } from 'primeng/badge';
+import { MenubarModule } from 'primeng/menubar';
+import { ToastModule } from 'primeng/toast';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
+import { DividerModule } from 'primeng/divider';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+import { PasswordModule } from 'primeng/password';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { MessageService } from 'primeng/api';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -40,8 +61,27 @@ import { PaymentHistoryComponent } from './paymenthistory/payment-history.compon
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    // PrimeNG Modules
+    CardModule,
+    ButtonModule,
+    RatingModule,
+    DataViewModule,
+    DropdownModule,
+    InputTextModule,
+    BadgeModule,
+    MenubarModule,
+    ToastModule,
+    ProgressSpinnerModule,
+    TableModule,
+    DividerModule,
+    TagModule,
+    TooltipModule,
+    PasswordModule,
+    MessagesModule,
+    MessageModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'highratings', component: HighRatingsComponent },
@@ -54,7 +94,7 @@ import { PaymentHistoryComponent } from './paymenthistory/payment-history.compon
       { path: 'payment-history', component: PaymentHistoryComponent },
     ])
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

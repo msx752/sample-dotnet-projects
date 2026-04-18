@@ -11,6 +11,7 @@ import { TokenStorageService } from '../../../services/token-storage.service';
 @Component({
   selector: 'movie-detail',
   templateUrl: './movie-detail.component.html',
+  styleUrls: ['./movie-detail.component.css']
 })
 export class MovieDetailComponent implements OnInit, OnDestroy {
   title = '';
@@ -49,6 +50,16 @@ export class MovieDetailComponent implements OnInit, OnDestroy {
         .catch((error) => {
         });
     }));
+  }
+
+  getRatingStars(averagerating: number | undefined): number {
+    if (!averagerating) return 0;
+    return Math.round(averagerating / 20);
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = 'assets/images/placeholder.png';
   }
 
   public addToCart(cartItemId: string, productDatabase: string = 'movie'): void {

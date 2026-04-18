@@ -1,0 +1,204 @@
+.movie-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+:host ::ng-deep .movie-detail-card {
+  overflow: hidden;
+}
+
+:host ::ng-deep .movie-detail-card .p-card-body {
+  padding: 0;
+}
+
+:host ::ng-deep .movie-detail-card .p-card-content {
+  padding: 0;
+}
+
+.movie-detail-content {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+}
+
+.movie-poster {
+  position: relative;
+}
+
+.movie-poster img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px 0 0 12px;
+  object-fit: cover;
+}
+
+.price-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--green-500);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.movie-info {
+  padding: 2rem;
+}
+
+.movie-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 1rem 0;
+}
+
+.movie-rating {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+:host ::ng-deep .movie-rating .p-rating .p-rating-icon {
+  font-size: 1.25rem;
+  color: var(--yellow-500);
+}
+
+.rating-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.votes {
+  color: var(--text-color-secondary);
+}
+
+.movie-meta {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.meta-item i {
+  color: var(--primary-color);
+}
+
+.meta-item .label {
+  color: var(--text-color-secondary);
+}
+
+.meta-item .value {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.movie-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+:host ::ng-deep .category-tag {
+  font-size: 0.875rem;
+}
+
+.movie-crew {
+  margin-bottom: 1rem;
+}
+
+.crew-item {
+  margin-bottom: 0.5rem;
+}
+
+.crew-label {
+  color: var(--text-color-secondary);
+  margin-right: 0.5rem;
+}
+
+.crew-value {
+  color: var(--text-color);
+}
+
+.movie-description h4 {
+  color: var(--text-color);
+  margin: 0 0 0.5rem 0;
+}
+
+.movie-description p {
+  color: var(--text-color-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.movie-actions {
+  margin-top: 1rem;
+}
+
+:host ::ng-deep .add-to-cart-btn {
+  font-size: 1.125rem;
+  padding: 1rem 2rem;
+}
+
+.login-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--surface-ground);
+  border-radius: 8px;
+  color: var(--text-color-secondary);
+}
+
+.login-prompt i {
+  color: var(--primary-color);
+}
+
+.login-prompt a {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 1rem;
+}
+
+.loading-container p {
+  color: var(--text-color-secondary);
+}
+
+@media (max-width: 768px) {
+  .movie-detail-content {
+    grid-template-columns: 1fr;
+  }
+
+  .movie-poster img {
+    border-radius: 12px 12px 0 0;
+  }
+
+  .movie-title {
+    font-size: 1.75rem;
+  }
+
+  .movie-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

@@ -1,27 +1,97 @@
-<div class="movie-detail">
-  <div class="card detail-shadow" style="">
-    <div class="row">
-      <div class="col-2 left">
-        <img src="assets/images/{{movie.id}}.png" alt="{{movie.title}}" class="card-img-top detail-img" style="width: 100%;" />
-      </div>
-      <div class="card-body col-10 right">
-        <h2 class="card-title">{{movie.title}}</h2>
-        <span><b>IMDB Rating: </b>{{(movie.rating.averagerating / 10)}}</span><br />
-        <span><b>Number of Votes: </b>{{movie.rating.numvotes}}</span><br />
-        <span><b>Year: </b>{{movie.startyear}}</span><br />
-        <span><b>Minutes: </b>{{movie.runtimeminutes}}</span><br />
-        <span><b>Categories: </b>{{categories}}</span><br />
-        <span><b>Directors: </b>{{directors}}</span><br />
-        <span><b>Writers: </b>{{writers}}</span><br /><br />
-        <p class="card-text"><span><b>Short Description: </b>{{movie.description}}</span></p><br />
-        <p><b>Price: </b><span>{{movie.usdprice}}<b>$</b></span></p>
-        <div *ngIf="sessionState.isLoggedIn()">
-          <button class="btn {{true ? 'btn-primary': 'btn-secondary'}}" [disabled]="false" (click)="addToCart(movie.id)">Add to Cart</button>
+<div class="movie-detail-container" *ngIf="movie">
+  <p-card styleClass="movie-detail-card">
+    <div class="movie-detail-content">
+      <!-- Movie Poster -->
+      <div class="movie-poster">
+        <img [src]="'assets/images/' + movie.id + '.png'"
+             [alt]="movie.title"
+             (error)="onImageError($event)">
+        <div class="price-badge">
+          <span class="price">{{movie.usdprice}}$</span>
         </div>
-        <div *ngIf="!sessionState.isLoggedIn()">
-          <p>you must be <a [routerLink]="['/login']"><b>logged in</b></a>.</p>
+      </div>
+
+      <!-- Movie Info -->
+      <div class="movie-info">
+        <h1 class="movie-title">{{movie.title}}</h1>
+
+        <div class="movie-rating">
+          <p-rating [ngModel]="getRatingStars(movie.rating?.averagerating)"
+                    [readonly]="true"
+                    [cancel]="false"
+                    [stars]="5">
+          </p-rating>
+          <span class="rating-text">
+            {{(movie.rating?.averagerating / 10).toFixed(1)}} / 10
+          </span>
+          <span class="votes">({{movie.rating?.numvotes | number}} votes)</span>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="movie-meta">
+          <div class="meta-item">
+            <i class="pi pi-calendar"></i>
+            <span class="label">Year:</span>
+            <span class="value">{{movie.startyear}}</span>
+          </div>
+          <div class="meta-item">
+            <i class="pi pi-clock"></i>
+            <span class="label">Duration:</span>
+            <span class="value">{{movie.runtimeminutes}} min</span>
+          </div>
+        </div>
+
+        <div class="movie-tags">
+          <p-tag *ngFor="let cat of movie.categories"
+                 [value]="cat.category.name"
+                 severity="info"
+                 styleClass="category-tag">
+          </p-tag>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="movie-crew">
+          <div class="crew-item" *ngIf="directors">
+            <span class="crew-label">Directors:</span>
+            <span class="crew-value">{{directors}}</span>
+          </div>
+          <div class="crew-item" *ngIf="writers">
+            <span class="crew-label">Writers:</span>
+            <span class="crew-value">{{writers}}</span>
+          </div>
+        </div>
+
+        <div class="movie-description" *ngIf="movie.description">
+          <h4>Synopsis</h4>
+          <p>{{movie.description}}</p>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="movie-actions">
+          <ng-container *ngIf="sessionState.isLoggedIn()">
+            <p-button icon="pi pi-shopping-cart"
+                      label="Add to Cart - {{movie.usdprice}}$"
+                      styleClass="p-button-lg add-to-cart-btn"
+                      (click)="addToCart(movie.id)">
+            </p-button>
+          </ng-container>
+          <ng-container *ngIf="!sessionState.isLoggedIn()">
+            <div class="login-prompt">
+              <i class="pi pi-info-circle"></i>
+              <span>Please <a [routerLink]="['/login']">login</a> to purchase this movie</span>
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>
-  </div>
+  </p-card>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="!movie">
+  <p-progressSpinner strokeWidth="4" animationDuration="1s"></p-progressSpinner>
+  <p>Loading movie details...</p>
 </div>

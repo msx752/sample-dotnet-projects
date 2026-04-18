@@ -1,12 +1,11 @@
 <!-- Loading State -->
-<div class="loading-spinner" *ngIf="isLoading">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
+<div class="loading-container" *ngIf="isLoading">
+  <p-progressSpinner strokeWidth="4" animationDuration="1s"></p-progressSpinner>
+  <p class="loading-text">Loading movies...</p>
 </div>
 
 <!-- Content -->
-<div *ngIf="!isLoading">
+<div class="home-content" *ngIf="!isLoading">
   <high-ratings-movies [movies]="movieIndexModel.highratings"></high-ratings-movies>
   <all-movies [movies]="movieIndexModel.all"></all-movies>
   <recently-added-movies [movies]="movieIndexModel.recentlyadded"></recently-added-movies>

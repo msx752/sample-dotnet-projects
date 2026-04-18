@@ -9,6 +9,7 @@ import { SessionStateService } from '../../services/session-state.service';
 @Component({
   selector: 'basket',
   templateUrl: './basket.component.html',
+  styleUrls: ['./basket.component.css']
 })
 export class BasketComponent implements OnInit {
   title = 'Basket';

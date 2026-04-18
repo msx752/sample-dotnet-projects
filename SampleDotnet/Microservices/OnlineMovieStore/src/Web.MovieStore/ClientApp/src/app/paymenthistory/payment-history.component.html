@@ -1,56 +1,72 @@
-<div class="panel-body">
-  <h5>{{title}}</h5>
+<div class="payment-history-container">
+  <div class="page-header">
+    <h2><i class="pi pi-history"></i> {{title}}</h2>
+    <p-divider></p-divider>
+  </div>
 
   <!-- Loading State -->
-  <div class="loading-spinner" *ngIf="isLoading">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+  <div class="loading-container" *ngIf="isLoading">
+    <p-progressSpinner strokeWidth="4" animationDuration="1s"></p-progressSpinner>
+    <p>Loading payment history...</p>
   </div>
 
   <!-- Empty State -->
-  <div class="empty-state text-center py-5" *ngIf="!isLoading && transactions.length === 0">
-    <i class="fas fa-receipt fa-4x text-muted mb-3 d-block"></i>
-    <h4 class="text-muted">Henüz ödeme geçmişiniz yok</h4>
-    <p class="text-secondary">Film satın aldığınızda burada görünecek</p>
-    <a routerLink="/" class="btn btn-primary mt-3">Filmlere Göz At</a>
+  <div class="empty-state" *ngIf="!isLoading && transactions.length === 0">
+    <i class="pi pi-receipt"></i>
+    <h3>No payment history yet</h3>
+    <p>Your purchases will appear here</p>
+    <p-button icon="pi pi-play"
+              label="Browse Movies"
+              [routerLink]="['/']">
+    </p-button>
   </div>
 
   <!-- Transaction List -->
-  <ul class="list-group mt-2 mb-3 list-group-item-dark" *ngFor="let transaction of transactions">
-    <h5 class="text-success">Order Id: <b>{{transaction.id}}</b></h5>
-    <li class="list-group-item list-group-item-secondary" style="margin-bottom:20px;" *ngFor="let transactionitem of transaction.transactionitems">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-1">
-            <img src="assets/images/{{transactionitem.productid}}.png" alt="{{transactionitem.title}}" style="width:100%;" />
+  <div class="transactions-list" *ngIf="!isLoading && transactions.length > 0">
+    <p-card *ngFor="let transaction of transactions" styleClass="transaction-card">
+      <ng-template pTemplate="header">
+        <div class="transaction-header">
+          <div class="order-info">
+            <span class="order-label">Order ID:</span>
+            <span class="order-id">{{transaction.id}}</span>
           </div>
-          <div class="col-9">
-            <a style="color: black; cursor: pointer;" (click)="movieById('/movie/' + transactionitem.productid)">
-              <span style="font-size:20px;margin-left:15px;"><b>{{transactionitem.title}}</b></span>
-            </a>
-          </div>
-          <div class="col-1">
-            <span><b style="font-size:18px;">{{transactionitem.quantity}} qty.</b></span>
-          </div>
-          <div class="col-1">
-            <span><b style="font-size:18px;">{{transactionitem.calculatedprice}}</b></span>
-          </div>
+          <p-tag [value]="transaction.totalcalculatedprice + '$'"
+                 severity="success"
+                 styleClass="total-tag">
+          </p-tag>
         </div>
-      </div>
-    </li>
+      </ng-template>
 
-    <li class="list-group-item list-group-item-warning">
-      <div class="container">
-        <div class="row">
-          <div class="col-8">
-            <span><b>Total Price</b></span>
-          </div>
-          <div class="col-2">
-            <span><b>{{transaction.totalcalculatedprice}}</b></span>
-          </div>
-        </div>
-      </div>
-    </li>
-  </ul>
+      <p-table [value]="transaction.transactionitems" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 60px"></th>
+            <th>Movie</th>
+            <th style="width: 80px">Qty</th>
+            <th style="width: 100px">Price</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>
+              <img [src]="'assets/images/' + item.productid + '.png'"
+                   [alt]="item.title"
+                   class="transaction-item-image">
+            </td>
+            <td>
+              <a class="item-title" (click)="movieById('/movie/' + item.productid)">
+                {{item.title}}
+              </a>
+            </td>
+            <td>
+              <p-tag [value]="item.quantity + ' qty'" severity="info"></p-tag>
+            </td>
+            <td>
+              <span class="item-price">{{item.calculatedprice}}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
 </div>

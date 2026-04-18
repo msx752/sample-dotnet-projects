@@ -1,32 +1,115 @@
-label {
-  display: block;
-  margin-top: 10px;
+.login-container {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 
-.card-container.card {
-  max-width: 400px !important;
-  padding: 40px 40px;
+:host ::ng-deep .login-card {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 16px;
 }
 
-.card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+:host ::ng-deep .login-card .p-card-header {
+  padding: 0;
 }
 
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
+.login-header {
+  text-align: center;
+  padding: 2rem 2rem 1rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-700) 100%);
+  border-radius: 16px 16px 0 0;
+}
+
+.avatar-container {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-container i {
+  font-size: 2.5rem;
+  color: white;
+}
+
+.login-header h2 {
+  color: white;
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+}
+
+.login-header p {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+.form-field label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.form-field label i {
+  color: var(--primary-color);
+}
+
+:host ::ng-deep .form-field input,
+:host ::ng-deep .form-field .p-password {
+  width: 100%;
+}
+
+:host ::ng-deep .form-field .p-inputtext {
+  width: 100%;
+  padding: 0.75rem 1rem;
+}
+
+:host ::ng-deep .form-field .p-password-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+}
+
+:host ::ng-deep .login-btn {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  justify-content: center;
+}
+
+:host ::ng-deep .p-message {
+  margin-top: 0.5rem;
+}
+
+.success-message {
+  text-align: center;
+  padding: 2rem;
+}
+
+.success-message i {
+  font-size: 4rem;
+  color: var(--green-500);
+  margin-bottom: 1rem;
+}
+
+.success-message h3 {
+  color: var(--text-color);
+  margin: 0 0 0.5rem;
+}
+
+.success-message p {
+  color: var(--text-color-secondary);
+  margin: 0;
 }

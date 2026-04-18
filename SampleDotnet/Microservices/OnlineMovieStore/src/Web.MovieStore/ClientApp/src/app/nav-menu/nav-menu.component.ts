@@ -1,5 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { CategoryDto } from '../../models/responses/movies/category-dto';
 import { MovieCatagoriesApiService } from '../../services/api/movie-category-api';
@@ -17,8 +18,10 @@ export class NavMenuComponent implements OnInit, OnDestroy {
     , private router: Router
   ) { }
 
-  public searchInput: string;
+  public searchInput: string = '';
   public categories: CategoryDto[] = [];
+  public menuItems: MenuItem[] = [];
+  public cartCount: string = '0';
   private subscriptions: Subscription[] = [];
 
   ngOnDestroy(): void {
@@ -26,14 +29,48 @@ export class NavMenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.buildMenuItems();
     this.apiMovieCategories.getCategories()
       .then((data) => {
         if (data.results.length > 0) {
           this.categories = data.results;
+          this.buildMenuItems();
         }
       })
       .catch((error) => {
+        console.error('Failed to load categories:', error);
       });
+  }
+
+  private buildMenuItems(): void {
+    const categoryItems: MenuItem[] = this.categories.map(cat => ({
+      label: cat.name,
+      icon: 'pi pi-tag',
+      command: () => this.moviesByCategory('/category/' + cat.id)
+    }));
+
+    this.menuItems = [
+      {
+        label: 'Home',
+        icon: 'pi pi-home',
+        routerLink: ['/']
+      },
+      {
+        label: 'Categories',
+        icon: 'pi pi-list',
+        items: categoryItems.length > 0 ? categoryItems : [{ label: 'Loading...', disabled: true }]
+      },
+      {
+        label: 'High Ratings',
+        icon: 'pi pi-star',
+        routerLink: ['/highratings']
+      },
+      {
+        label: 'Recently Added',
+        icon: 'pi pi-clock',
+        routerLink: ['/recentlyadded']
+      }
+    ];
   }
 
   isExpanded = false;

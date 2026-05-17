@@ -29,7 +29,7 @@ export class MoviesApiService {
   }
 
   search(search: string): Promise<ResponseModel<MovieDto>> {
-    return this.api.get<MovieDto>('/Movies/Search?query=' + search);
+    return this.api.get<MovieDto>('/Movies/Search?Query=' + encodeURIComponent(search));
   }
 
   getFilteredByCategoryId(id: number): Promise<ResponseModel<MovieDto>> {

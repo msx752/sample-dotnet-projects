@@ -30,13 +30,17 @@ export class SearchMoviesComponent implements OnInit, OnDestroy {
       if (params.q) {
         this.apiMovies.search(params.q)
           .then((data) => {
-            if (data.results.length > 0) {
+            if (data.results && data.results.length > 0) {
               this.movies = data.results;
+              this.message = '';
             } else {
-              this.message = 'no result..';
+              this.movies = [];
+              this.message = 'No results found for "' + params.q + '"';
             }
           })
           .catch((error) => {
+            this.movies = [];
+            this.message = 'Search failed. Please try again.';
           });
       }
     }));

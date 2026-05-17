@@ -5,8 +5,10 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 export function getBaseUrl() {
-  return 'http://localhost:1010/gateway';
-  //return document.getElementsByTagName('base')[0].href;
+  // Relative path: the browser calls the same origin that served the page.
+  // websiteapp reverse-proxies /gateway/* to the API gateway, so no host/port
+  // is hardcoded and it works from any host, container or network.
+  return '/gateway';
 }
 
 const providers = [

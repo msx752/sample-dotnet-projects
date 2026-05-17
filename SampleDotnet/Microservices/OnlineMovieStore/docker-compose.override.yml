@@ -122,6 +122,7 @@ services:
       - ASPNETCORE_URLS=http://+:2000
       - USEDOCKEROCELOT=true
       - HOSTNAMES=websiteapp.container
+      - ReverseProxy__Clusters__gatewayCluster__Destinations__gateway__Address=http://getewayservice:1010
     ports: 
       - "2000:2000"
     networks:

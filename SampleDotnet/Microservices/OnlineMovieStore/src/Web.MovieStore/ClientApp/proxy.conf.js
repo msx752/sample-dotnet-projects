@@ -13,6 +13,18 @@ const PROXY_CONFIG = [
     headers: {
       Connection: 'Keep-Alive'
     }
+  },
+  {
+    // ng serve (standalone dev) forwards /gateway/* straight to the API gateway.
+    context: [
+      "/gateway",
+    ],
+    target: "http://localhost:1010",
+    secure: false,
+    changeOrigin: true,
+    headers: {
+      Connection: 'Keep-Alive'
+    }
   }
 ]
 

@@ -114,6 +114,20 @@ export class ApiClientService {
     const traceId = responseModel?.stats?.rid || 'unknown';
     const traceIdFormat = `TraceId:&nbsp;<b>${traceId}</b>`;
 
+    // Handle 401 Unauthorized - clear token and redirect to login
+    if (error.status === 401) {
+      this.tokenStorageService.logout();
+      this.popupService.showDialog(
+        'Session Expired',
+        'Your session has expired. Please login again.',
+        'warning',
+        'Login',
+        undefined,
+        () => { window.location.href = '/login'; }
+      );
+      return errorStrList;
+    }
+
     const isServerError = error.status >= 500;
     const title = isServerError ? 'Something went wrong!' : error.statusText;
     const footer = isServerError ? `Please contact support, ${traceIdFormat}` : traceIdFormat;

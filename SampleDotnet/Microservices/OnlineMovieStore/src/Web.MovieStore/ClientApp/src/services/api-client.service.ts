@@ -128,6 +128,11 @@ export class ApiClientService {
       return errorStrList;
     }
 
+    // Handle 404 Not Found - don't show popup, let component handle it
+    if (error.status === 404) {
+      return errorStrList;
+    }
+
     const isServerError = error.status >= 500;
     const title = isServerError ? 'Something went wrong!' : error.statusText;
     const footer = isServerError ? `Please contact support, ${traceIdFormat}` : traceIdFormat;

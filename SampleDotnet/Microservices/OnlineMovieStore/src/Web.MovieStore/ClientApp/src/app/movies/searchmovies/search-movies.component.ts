@@ -40,7 +40,7 @@ export class SearchMoviesComponent implements OnInit, OnDestroy {
           })
           .catch((error) => {
             this.movies = [];
-            this.message = 'Search failed. Please try again.';
+            this.message = 'No results found for "' + params.q + '"';
           });
       }
     }));
